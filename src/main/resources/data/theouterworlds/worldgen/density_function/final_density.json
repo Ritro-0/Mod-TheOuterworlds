@@ -21,8 +21,12 @@
 						"type": "minecraft:add",
 						"argument1": -0.1171875,
 						"argument2": {
-							"type": "minecraft:cache_once",
-							"argument": "theouterworlds:terrain"
+							"type": "minecraft:min",
+							"argument1": {
+								"type": "minecraft:cache_once",
+								"argument": "theouterworlds:terrain"
+							},
+							"argument2": "theouterworlds:caves"
 						}
 					}
 				}

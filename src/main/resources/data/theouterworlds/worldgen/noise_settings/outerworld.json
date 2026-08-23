@@ -17,7 +17,28 @@
 	"noise_router": {
 		"barrier": 0,
 		"continents": "theouterworlds:climate/continents",
-		"depth": "theouterworlds:climate/depth",
+		"depth": {
+			"type": "minecraft:mul",
+			"argument1": 0.0078125,
+			"argument2": {
+				"type": "minecraft:add",
+				"argument1": {
+					"type": "minecraft:flat_cache",
+					"argument": "theouterworlds:surface_height"
+				},
+				"argument2": {
+					"type": "minecraft:mul",
+					"argument1": -1.0,
+					"argument2": {
+						"type": "minecraft:y_clamped_gradient",
+						"from_value": -64.0,
+						"from_y": -64,
+						"to_value": 320.0,
+						"to_y": 320
+					}
+				}
+			}
+		},
 		"erosion": "theouterworlds:climate/erosion",
 		"preliminary_surface_level": "theouterworlds:surface_height",
 		"final_density": "theouterworlds:final_density",

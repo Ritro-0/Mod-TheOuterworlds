@@ -3,7 +3,10 @@
 	"argument1": 0.0078125,
 	"argument2": {
 		"type": "minecraft:add",
-		"argument1": 64.0,
+		"argument1": {
+			"type": "minecraft:flat_cache",
+			"argument": "theouterworlds:surface_height"
+		},
 		"argument2": {
 			"type": "minecraft:mul",
 			"argument1": -1.0,
