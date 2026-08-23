@@ -40,6 +40,8 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 		state.shadowRadius = 0.65F;
 		state.warning = entity.isWarning();
 		state.ageInTicks = entity.tickCount + tickProgress;
+		state.airborne = !entity.onGround();
+		state.verticalVelocity = (float) entity.getDeltaMovement().y;
 	}
 
 	@Override
@@ -50,8 +52,12 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 		float speed = state.walkAnimationSpeed;
 		float cycle = state.walkAnimationPos * 0.7F;
 		float hopWave = Mth.sin(cycle);
-		float hop = Math.max(0.0F, hopWave) * speed;
-		float plant = Math.max(0.0F, -hopWave) * speed;
+		// While airborne the arc itself drives the pose: legs extend on the way up, tuck on the way down.
+		float launch = state.airborne ? Mth.clamp(state.verticalVelocity * 2.5F, -1.0F, 1.0F) : 0.0F;
+		float extend = Math.max(0.0F, launch);
+		float tuck = Math.max(0.0F, -launch);
+		float hop = state.airborne ? extend : Math.max(0.0F, hopWave) * speed;
+		float plant = state.airborne ? 0.0F : Math.max(0.0F, -hopWave) * speed;
 		float idle = Mth.sin(state.ageInTicks * 0.12F) * 0.02F * (1.0F - speed);
 
 		float warn = state.warning ? 1.0F : 0.0F;
@@ -59,10 +65,12 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 		float headShake = state.warning ? Mth.sin(state.ageInTicks * 2.6F) * 22.0F : 0.0F;
 
 		poseStack.translate(0.0F, hop * 0.18F + idle + warn * 0.22F, 0.0F);
-		poseStack.mulPose(Axis.XP.rotationDegrees(hop * 14.0F - plant * 8.0F - warn * 18.0F));
+		poseStack.mulPose(Axis.XP.rotationDegrees(
+			hop * 14.0F - plant * 8.0F - warn * 18.0F + launch * 16.0F
+		));
 
 		int light = state.lightCoords;
-		int overlay = state.hasRedOverlay ? OverlayTexture.pack(0, 10) : OverlayTexture.NO_OVERLAY;
+		int overlay = OverlayTexture.pack(0.0F, state.hasRedOverlay);
 
 		submitMesh(poseStack, queue, KharaxModelData.BODY, light, overlay);
 
@@ -78,8 +86,8 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 		submitMesh(poseStack, queue, KharaxModelData.HEAD, light, overlay);
 		poseStack.popPose();
 
-		float hindThigh = hop * -58.0F + plant * 18.0F + warn * -35.0F;
-		float hindShin = hop * 38.0F - plant * 12.0F + warn * 28.0F;
+		float hindThigh = hop * -58.0F + plant * 18.0F + warn * -35.0F + tuck * -46.0F;
+		float hindShin = hop * 38.0F - plant * 12.0F + warn * 28.0F + tuck * 62.0F;
 		submitLimb(
 			poseStack,
 			queue,
@@ -113,8 +121,8 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 			overlay
 		);
 
-		float frontTricep = plant * 42.0F - hop * 22.0F + warn * (55.0F + rub * 18.0F);
-		float frontArm = plant * 28.0F + hop * 8.0F + warn * (-40.0F + rub * -25.0F);
+		float frontTricep = plant * 42.0F - hop * 22.0F + warn * (55.0F + rub * 18.0F) + tuck * 34.0F;
+		float frontArm = plant * 28.0F + hop * 8.0F + warn * (-40.0F + rub * -25.0F) + tuck * -30.0F;
 		float leftRubZ = warn * (rub * 28.0F);
 		float rightRubZ = warn * (-rub * 28.0F);
 		submitLimb(
@@ -236,5 +244,7 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 		public float walkAnimationSpeed;
 		public boolean hasRedOverlay;
 		public boolean warning;
+		public boolean airborne;
+		public float verticalVelocity;
 	}
 }

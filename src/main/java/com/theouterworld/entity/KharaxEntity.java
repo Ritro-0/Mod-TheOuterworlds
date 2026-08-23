@@ -1,6 +1,7 @@
 package com.theouterworld.entity;
 
 import com.theouterworld.entity.ai.KharaxHopAttackGoal;
+import com.theouterworld.entity.ai.KharaxHopMoveControl;
 import com.theouterworld.entity.ai.KharaxRetreatGoal;
 import com.theouterworld.entity.ai.KharaxReturnHomeGoal;
 import com.theouterworld.entity.ai.KharaxSpookGoal;
@@ -13,6 +14,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,9 +39,24 @@ import org.jspecify.annotations.Nullable;
  */
 public class KharaxEntity extends PathfinderMob {
 	public static final float WARN_RANGE = 15.0F;
+	/** Inside this range the warning is abandoned and the kharax commits immediately. */
+	public static final float PROXIMITY_AGGRO_RANGE = 5.0F;
 	public static final int WARN_DURATION_TICKS = 160;
+	/** A kharax that has already been struck only postures briefly before attacking. */
+	public static final int PROVOKED_WARN_TICKS = 40;
 	public static final int RETREAT_MIN = 15;
 	public static final int RETREAT_MAX = 30;
+
+	/** Horizontal velocity retained per airborne tick. */
+	private static final double AIR_DRAG = 0.91;
+	/** Friction of the block underfoot, still applied on the tick the leap starts. */
+	private static final double GROUND_FRICTION = 0.6;
+	private static final double HOP_APEX = 1.15;
+	private static final double MAX_HOP_APEX = 3.0;
+	private static final double HOP_REACH = 2.4;
+	private static final double LUNGE_REACH = 4.0;
+	private static final double MAX_LAUNCH_PUSH = 1.2;
+	private static final int HOP_RECOVERY_TICKS = 2;
 
 	private static final EntityDataAccessor<Boolean> DATA_WARNING = SynchedEntityData.defineId(
 		KharaxEntity.class,
@@ -53,11 +70,13 @@ public class KharaxEntity extends PathfinderMob {
 	private @Nullable BlockPos homePos;
 	private boolean aggressive;
 	private boolean retreating;
+	private boolean provoked;
 	private @Nullable LivingEntity lastThreat;
 
 	public KharaxEntity(EntityType<? extends KharaxEntity> type, Level level) {
 		super(type, level);
 		this.xpReward = 10;
+		this.moveControl = new KharaxHopMoveControl(this);
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
@@ -133,6 +152,62 @@ public class KharaxEntity extends PathfinderMob {
 		return this.lastThreat;
 	}
 
+	public boolean isProvoked() {
+		return this.provoked;
+	}
+
+	/**
+	 * Launches a single leap toward a direction, solving for the world's actual gravity so the
+	 * arc reads the same in Outerworld gravity as it would on Earth-normal. Weaker gravity means
+	 * a longer airtime, and airtime is what carries the hop - so the push gets softer, not harder.
+	 *
+	 * @return ticks to wait before the next hop may be launched
+	 */
+	public int launchHop(double dirX, double dirZ, double distance, double rise, double speedModifier) {
+		double gravity = Math.max(0.005, this.getGravity());
+		double effort = Mth.clamp(speedModifier, 0.7, 1.6);
+		double apex = Mth.clamp(Math.max(HOP_APEX * effort, rise + 0.5), HOP_APEX, MAX_HOP_APEX);
+		double launchSpeed = Math.sqrt(2.0 * gravity * apex);
+		double airTicks = 2.0 * launchSpeed / gravity;
+
+		// Distance covered per unit of launch speed: the opening tick is still slowed by the
+		// block underfoot, every tick after that only by air drag.
+		double glideTicks = Math.max(0.0, airTicks - 1.0);
+		double glide = (1.0 - Math.pow(AIR_DRAG, glideTicks)) / (1.0 - AIR_DRAG);
+		double carry = 1.0 + GROUND_FRICTION * AIR_DRAG * glide;
+
+		double reach = Math.min(distance, HOP_REACH * effort);
+		double push = Math.min(MAX_LAUNCH_PUSH, reach / Math.max(1.0, carry));
+
+		// Deliberately not setJumping: vanilla's jump would overwrite the solved launch speed
+		// with a fixed 0.42, which is exactly the gravity-blind behaviour this replaces.
+		this.setDeltaMovement(dirX * push, launchSpeed, dirZ * push);
+		this.hurtMarked = true;
+		return Mth.ceil(airTicks) + HOP_RECOVERY_TICKS;
+	}
+
+	/** A committed pounce: same solver, but allowed to cover the full gap to a target. */
+	public int launchLunge(double dirX, double dirZ, double distance) {
+		return launchHop(dirX, dirZ, Math.min(distance, LUNGE_REACH), 0.0, LUNGE_REACH / HOP_REACH);
+	}
+
+	@Override
+	public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+		boolean hurt = super.hurtServer(level, source, amount);
+		if (!hurt || !this.isAlive()) {
+			return hurt;
+		}
+		if (source.getEntity() instanceof LivingEntity attacker && attacker != this) {
+			// Once struck it stops bluffing for good: the posture stays, the retreat stays,
+			// but walking away no longer calls it off.
+			this.provoked = true;
+			if (!this.aggressive) {
+				this.beginAggression(attacker);
+			}
+		}
+		return hurt;
+	}
+
 	public void beginAggression(LivingEntity target) {
 		this.aggressive = true;
 		this.retreating = false;
@@ -178,6 +253,7 @@ public class KharaxEntity extends PathfinderMob {
 		}
 		output.putBoolean("Aggressive", this.aggressive);
 		output.putBoolean("Retreating", this.retreating);
+		output.putBoolean("Provoked", this.provoked);
 	}
 
 	@Override
@@ -192,6 +268,7 @@ public class KharaxEntity extends PathfinderMob {
 		}
 		this.aggressive = input.getBooleanOr("Aggressive", false);
 		this.retreating = input.getBooleanOr("Retreating", false);
+		this.provoked = input.getBooleanOr("Provoked", false);
 	}
 
 	@Override

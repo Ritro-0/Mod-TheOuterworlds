@@ -88,11 +88,6 @@ public class KharaxSpookGoal extends Goal {
 					kharax.getNavigation().moveTo(next.x, next.y, next.z, 1.05);
 				}
 			}
-			if (kharax.onGround() && kharax.getRandom().nextInt(18) == 0) {
-				Vec3 motion = kharax.getDeltaMovement();
-				kharax.setDeltaMovement(motion.x * 1.1, 0.48, motion.z * 1.1);
-				kharax.hurtMarked = true;
-			}
 			if (phaseTicks > 100 + kharax.getRandom().nextInt(80)) {
 				phase = Phase.RETURN;
 				phaseTicks = 0;

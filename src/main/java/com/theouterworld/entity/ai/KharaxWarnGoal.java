@@ -8,8 +8,9 @@ import net.minecraft.world.phys.Vec3;
 import java.util.EnumSet;
 
 /**
- * Stand still and perform the fly-rub / head-shake warning for ~8 seconds when a
- * survival player is within 15 blocks. Becomes aggressive if they do not leave.
+ * Stand still and perform the fly-rub / head-shake warning when a survival player is within
+ * 15 blocks. Crossing into 5 blocks cuts the display short and commits to the attack. Once the
+ * kharax has been struck the display becomes a brief show of power rather than a real deterrent.
  */
 public class KharaxWarnGoal extends Goal {
 	private final KharaxEntity kharax;
@@ -39,10 +40,14 @@ public class KharaxWarnGoal extends Goal {
 		if (target == null || !target.isAlive() || target.isCreative() || target.isSpectator()) {
 			return false;
 		}
-		if (kharax.distanceToSqr(target) > KharaxEntity.WARN_RANGE * KharaxEntity.WARN_RANGE) {
+		if (kharax.isAggressive()) {
 			return false;
 		}
-		return warnTicks < KharaxEntity.WARN_DURATION_TICKS && !kharax.isAggressive();
+		// A provoked kharax finishes the display and attacks even if the player backs off.
+		if (!kharax.isProvoked() && kharax.distanceToSqr(target) > sqr(KharaxEntity.WARN_RANGE)) {
+			return false;
+		}
+		return warnTicks < warnDuration();
 	}
 
 	@Override
@@ -56,15 +61,7 @@ public class KharaxWarnGoal extends Goal {
 
 	@Override
 	public void stop() {
-		boolean stillClose = target != null
-			&& target.isAlive()
-			&& !target.isCreative()
-			&& !target.isSpectator()
-			&& kharax.distanceToSqr(target) <= KharaxEntity.WARN_RANGE * KharaxEntity.WARN_RANGE;
 		kharax.setWarning(false);
-		if (stillClose && warnTicks >= KharaxEntity.WARN_DURATION_TICKS) {
-			kharax.beginAggression(target);
-		}
 		target = null;
 		warnTicks = 0;
 	}
@@ -77,10 +74,26 @@ public class KharaxWarnGoal extends Goal {
 	@Override
 	public void tick() {
 		warnTicks++;
-		if (target != null) {
-			kharax.getLookControl().setLookAt(target, 40.0F, 40.0F);
-			kharax.getNavigation().stop();
-			kharax.setDeltaMovement(Vec3.ZERO);
+		if (target == null) {
+			return;
 		}
+		kharax.getLookControl().setLookAt(target, 40.0F, 40.0F);
+		kharax.getNavigation().stop();
+		// Plant it in place without cancelling gravity, in case the display began mid-hop.
+		Vec3 motion = kharax.getDeltaMovement();
+		kharax.setDeltaMovement(0.0, motion.y, 0.0);
+
+		boolean withinPouncingRange = kharax.distanceToSqr(target) <= sqr(KharaxEntity.PROXIMITY_AGGRO_RANGE);
+		if (withinPouncingRange || warnTicks >= warnDuration()) {
+			kharax.beginAggression(target);
+		}
+	}
+
+	private int warnDuration() {
+		return kharax.isProvoked() ? KharaxEntity.PROVOKED_WARN_TICKS : KharaxEntity.WARN_DURATION_TICKS;
+	}
+
+	private static double sqr(float value) {
+		return (double) value * value;
 	}
 }

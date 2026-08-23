@@ -69,11 +69,6 @@ public class KharaxRetreatGoal extends Goal {
 		if (kharax.getNavigation().isDone()) {
 			kharax.getNavigation().moveTo(retreatPos.x, retreatPos.y, retreatPos.z, 1.6);
 		}
-		if (kharax.onGround() && kharax.getRandom().nextInt(8) == 0) {
-			Vec3 motion = kharax.getDeltaMovement();
-			kharax.setDeltaMovement(motion.x, 0.42, motion.z);
-			kharax.hurtMarked = true;
-		}
 	}
 
 	private Vec3 pickRetreatPos() {

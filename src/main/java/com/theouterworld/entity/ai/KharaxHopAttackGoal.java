@@ -1,6 +1,7 @@
 package com.theouterworld.entity.ai;
 
 import com.theouterworld.entity.KharaxEntity;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
@@ -8,9 +9,12 @@ import net.minecraft.world.phys.Vec3;
 import java.util.EnumSet;
 
 /**
- * Swift hop toward the current target, then hand off to retreat.
+ * Closes on the target in leaps, pouncing outright once within range, then hands off to retreat.
  */
 public class KharaxHopAttackGoal extends Goal {
+	private static final double POUNCE_RANGE_SQR = 36.0;
+	private static final double STRIKE_RANGE_SQR = 4.0;
+
 	private final KharaxEntity kharax;
 	private int hopCooldown;
 	private boolean hasStruck;
@@ -57,26 +61,22 @@ public class KharaxHopAttackGoal extends Goal {
 		double distSq = kharax.distanceToSqr(target);
 		hopCooldown--;
 
-		if (distSq <= 4.0) {
-			if (kharax.level() instanceof net.minecraft.server.level.ServerLevel serverLevel
-				&& kharax.doHurtTarget(serverLevel, target)) {
+		if (distSq <= STRIKE_RANGE_SQR) {
+			if (kharax.level() instanceof ServerLevel serverLevel && kharax.doHurtTarget(serverLevel, target)) {
 				hasStruck = true;
 				kharax.beginRetreat(target);
 			}
 			return;
 		}
 
-		if (hopCooldown <= 0 && kharax.onGround()) {
+		if (hopCooldown <= 0 && kharax.onGround() && distSq <= POUNCE_RANGE_SQR) {
 			Vec3 toTarget = target.position().subtract(kharax.position());
-			Vec3 horizontal = new Vec3(toTarget.x, 0.0, toTarget.z);
-			if (horizontal.lengthSqr() > 1.0E-4) {
-				horizontal = horizontal.normalize().scale(1.15);
+			double horizontal = Math.sqrt(toTarget.x * toTarget.x + toTarget.z * toTarget.z);
+			if (horizontal > 1.0E-4) {
+				hopCooldown = kharax.launchLunge(toTarget.x / horizontal, toTarget.z / horizontal, horizontal);
+				return;
 			}
-			kharax.setDeltaMovement(horizontal.x, 0.55, horizontal.z);
-			kharax.hurtMarked = true;
-			hopCooldown = 12;
-		} else {
-			kharax.getNavigation().moveTo(target, 1.55);
 		}
+		kharax.getNavigation().moveTo(target, 1.55);
 	}
 }
