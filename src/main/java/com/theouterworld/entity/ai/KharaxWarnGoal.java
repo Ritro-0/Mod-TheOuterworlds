@@ -62,6 +62,10 @@ public class KharaxWarnGoal extends Goal {
 	@Override
 	public void stop() {
 		kharax.setWarning(false);
+		// The clicks sample runs the length of a full warning, so anything shorter has to be cut.
+		if (warnTicks < KharaxEntity.WARN_DURATION_TICKS) {
+			kharax.stopWarningSound();
+		}
 		target = null;
 		warnTicks = 0;
 	}

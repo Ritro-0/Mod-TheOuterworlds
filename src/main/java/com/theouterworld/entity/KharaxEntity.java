@@ -11,7 +11,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -46,6 +48,7 @@ public class KharaxEntity extends PathfinderMob {
 	public static final int PROVOKED_WARN_TICKS = 40;
 	public static final int RETREAT_MIN = 15;
 	public static final int RETREAT_MAX = 30;
+	public static final float WARNING_SOUND_VOLUME = 1.0F;
 
 	/** Horizontal velocity retained per airborne tick. */
 	private static final double AIR_DRAG = 0.91;
@@ -71,6 +74,7 @@ public class KharaxEntity extends PathfinderMob {
 	private boolean aggressive;
 	private boolean retreating;
 	private boolean provoked;
+	private boolean warningSoundPlaying;
 	private @Nullable LivingEntity lastThreat;
 
 	public KharaxEntity(EntityType<? extends KharaxEntity> type, Level level) {
@@ -292,6 +296,43 @@ public class KharaxEntity extends PathfinderMob {
 	}
 
 	public void playWarningSound() {
-		this.playSound(ModSounds.KHARAX_CLICKS, 1.0F, 0.95F + this.random.nextFloat() * 0.1F);
+		this.playSound(ModSounds.KHARAX_CLICKS, WARNING_SOUND_VOLUME, 0.95F + this.random.nextFloat() * 0.1F);
+		this.warningSoundPlaying = true;
+	}
+
+	/**
+	 * The clicks track is cut to the length of an uninterrupted warning, so any early exit has to
+	 * silence it deliberately - a stop-sound packet is the only way to cut a sample already playing.
+	 * Reaches twice the audible radius so listeners who have since backed away are still covered.
+	 */
+	public void stopWarningSound() {
+		if (!this.warningSoundPlaying) {
+			return;
+		}
+		this.warningSoundPlaying = false;
+		if (!(this.level() instanceof ServerLevel serverLevel)) {
+			return;
+		}
+		ClientboundStopSoundPacket packet = new ClientboundStopSoundPacket(
+			ModSounds.KHARAX_CLICKS.location(),
+			this.getSoundSource()
+		);
+		double reach = ModSounds.KHARAX_CLICKS.getRange(WARNING_SOUND_VOLUME) * 2.0;
+		double reachSq = reach * reach;
+		for (ServerPlayer listener : serverLevel.getPlayers(player -> player.distanceToSqr(this) <= reachSq)) {
+			listener.connection.send(packet);
+		}
+	}
+
+	@Override
+	public void die(DamageSource source) {
+		stopWarningSound();
+		super.die(source);
+	}
+
+	@Override
+	public void remove(RemovalReason reason) {
+		stopWarningSound();
+		super.remove(reason);
 	}
 }
