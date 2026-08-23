@@ -7,8 +7,15 @@
 			"type": "minecraft:mul",
 			"argument1": -0.042,
 			"argument2": {
-				"type": "minecraft:cache_once",
-				"argument": "theouterworlds:terrain"
+				"type": "minecraft:add",
+				"argument1": {
+					"type": "minecraft:y_clamped_gradient",
+					"from_value": 64,
+					"from_y": -64,
+					"to_value": -320,
+					"to_y": 320
+				},
+				"argument2": "theouterworlds:surface_height"
 			}
 		}
 	},
