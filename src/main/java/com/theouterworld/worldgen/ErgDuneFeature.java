@@ -3,13 +3,13 @@ package com.theouterworld.worldgen;
 import com.theouterworld.OuterWorldMod;
 import com.theouterworld.block.ModBlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.QuartPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -39,25 +39,19 @@ public class ErgDuneFeature extends Feature<NoneFeatureConfiguration> {
 		int minY = world.getMinY() + 1;
 		boolean placed = false;
 
-		// Sample neighborhood once per chunk — per-column scans freeze Outerworld entry.
-		double chunkFactor = interiorFactor(world, minX + 8, minZ + 8);
-		if (chunkFactor < 0.08) {
-			return false;
-		}
-
 		for (int lx = 0; lx < 16; lx++) {
 			for (int lz = 0; lz < 16; lz++) {
 				int x = minX + lx;
 				int z = minZ + lz;
-				if (!isErgs(world, x, z)) {
+				if (!isErgs(world, cursor, x, z)) {
 					continue;
 				}
 
-				double factor = chunkFactor;
+				double factor = interiorFactor(world, cursor, x, z);
 				int existingTop = surfaceTop(world, x, z, minY);
-				int duneFloor = rollingFloor(seed, x, z);
+				int rollingFloor = rollingFloor(seed, x, z);
 				int dune = duneHeight(seed, x, z);
-				int floorY = (int) Math.round(WorldgenNoise.lerp(factor, existingTop, duneFloor));
+				int floorY = (int) Math.round(WorldgenNoise.lerp(factor, existingTop, rollingFloor));
 				int scaledDune = (int) Math.round(dune * factor);
 				int topY = floorY + scaledDune;
 				if (topY < minY) {
@@ -88,18 +82,23 @@ public class ErgDuneFeature extends Feature<NoneFeatureConfiguration> {
 	}
 
 	private static int surfaceTop(WorldGenLevel world, int x, int z, int minY) {
-		return Math.max(minY, world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z) - 1);
+		int top = world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z) - 1;
+		if (top >= minY) {
+			return top;
+		}
+		ChunkAccess chunk = world.getChunk(x >> 4, z >> 4);
+		int fallback = chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z) - 1;
+		return Math.max(minY, fallback);
 	}
 
-	private static boolean isErgs(WorldGenLevel world, int x, int z) {
-		return world.getUncachedNoiseBiome(
-			QuartPos.fromBlock(x),
-			QuartPos.fromBlock(64),
-			QuartPos.fromBlock(z)
-		).is(ERGS);
+	private static boolean isErgs(WorldGenLevel world, BlockPos.MutableBlockPos cursor, int x, int z) {
+		if (!world.hasChunk(x >> 4, z >> 4)) {
+			return false;
+		}
+		return world.getBiome(cursor.set(x, 64, z)).is(ERGS);
 	}
 
-	private static double interiorFactor(WorldGenLevel world, int x, int z) {
+	private static double interiorFactor(WorldGenLevel world, BlockPos.MutableBlockPos cursor, int x, int z) {
 		int radius = 24;
 		int step = 8;
 		int ergs = 0;
@@ -110,7 +109,7 @@ public class ErgDuneFeature extends Feature<NoneFeatureConfiguration> {
 					continue;
 				}
 				total++;
-				if (isErgs(world, x + dx, z + dz)) {
+				if (isErgs(world, cursor, x + dx, z + dz)) {
 					ergs++;
 				}
 			}
