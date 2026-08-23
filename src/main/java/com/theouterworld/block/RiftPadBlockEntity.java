@@ -357,6 +357,7 @@ public class RiftPadBlockEntity extends BlockEntity {
 		return null;
 	}
 
+	@Nullable
 	private static BlockPos findRiftAbove(ServerLevel world, BlockPos padPos) {
 		int maxY = Math.min(padPos.getY() + 10, world.getMaxY());
 		for (int y = padPos.getY() + 1; y <= maxY; y++) {

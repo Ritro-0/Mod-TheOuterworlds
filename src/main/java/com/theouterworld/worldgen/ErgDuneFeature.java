@@ -3,6 +3,7 @@ package com.theouterworld.worldgen;
 import com.theouterworld.OuterWorldMod;
 import com.theouterworld.block.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.QuartPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.WorldGenLevel;
@@ -17,6 +18,8 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 
 public class ErgDuneFeature extends Feature<NoneFeatureConfiguration> {
 	private static final double WIND = Math.toRadians(18.0);
+	/** Probed above the terrain so the lookup always lands in the surface biome layer. */
+	private static final int BIOME_PROBE_Y = 96;
 	private static final ResourceKey<Biome> ERGS = ResourceKey.create(
 		Registries.BIOME,
 		OuterWorldMod.id("outerworld_ergs")
@@ -39,15 +42,34 @@ public class ErgDuneFeature extends Feature<NoneFeatureConfiguration> {
 		int minY = world.getMinY() + 1;
 		boolean placed = false;
 
+		// Sampled at the chunk corners and interpolated across it. Neighbouring chunks share those
+		// corners, so the dune field stays continuous without scanning per column.
+		double cornerNegNeg = interiorFactor(world, minX, minZ);
+		double cornerPosNeg = interiorFactor(world, minX + 16, minZ);
+		double cornerNegPos = interiorFactor(world, minX, minZ + 16);
+		double cornerPosPos = interiorFactor(world, minX + 16, minZ + 16);
+		if (cornerNegNeg <= 0.0 && cornerPosNeg <= 0.0 && cornerNegPos <= 0.0 && cornerPosPos <= 0.0) {
+			return false;
+		}
+
 		for (int lx = 0; lx < 16; lx++) {
 			for (int lz = 0; lz < 16; lz++) {
 				int x = minX + lx;
 				int z = minZ + lz;
-				if (!isErgs(world, cursor, x, z)) {
+				if (!isErgs(world, x, z)) {
 					continue;
 				}
 
-				double factor = interiorFactor(world, cursor, x, z);
+				double tx = lx / 16.0;
+				double tz = lz / 16.0;
+				double factor = WorldgenNoise.lerp(
+					tz,
+					WorldgenNoise.lerp(tx, cornerNegNeg, cornerPosNeg),
+					WorldgenNoise.lerp(tx, cornerNegPos, cornerPosPos)
+				);
+				if (factor <= 0.0) {
+					continue;
+				}
 				int existingTop = surfaceTop(world, x, z, minY);
 				int rollingFloor = rollingFloor(seed, x, z);
 				int dune = duneHeight(seed, x, z);
@@ -91,14 +113,20 @@ public class ErgDuneFeature extends Feature<NoneFeatureConfiguration> {
 		return Math.max(minY, fallback);
 	}
 
-	private static boolean isErgs(WorldGenLevel world, BlockPos.MutableBlockPos cursor, int x, int z) {
-		if (!world.hasChunk(x >> 4, z >> 4)) {
-			return false;
-		}
-		return world.getBiome(cursor.set(x, 64, z)).is(ERGS);
+	/**
+	 * Asks the biome source directly rather than reading placed chunk data. The neighbourhood scan
+	 * reaches two chunks out, which is outside the writable region, so a chunk-backed lookup would
+	 * report those samples as "not ergs" and flatten the dune field to nothing.
+	 */
+	private static boolean isErgs(WorldGenLevel world, int x, int z) {
+		return world.getUncachedNoiseBiome(
+			QuartPos.fromBlock(x),
+			QuartPos.fromBlock(BIOME_PROBE_Y),
+			QuartPos.fromBlock(z)
+		).is(ERGS);
 	}
 
-	private static double interiorFactor(WorldGenLevel world, BlockPos.MutableBlockPos cursor, int x, int z) {
+	private static double interiorFactor(WorldGenLevel world, int x, int z) {
 		int radius = 24;
 		int step = 8;
 		int ergs = 0;
@@ -109,7 +137,7 @@ public class ErgDuneFeature extends Feature<NoneFeatureConfiguration> {
 					continue;
 				}
 				total++;
-				if (isErgs(world, cursor, x + dx, z + dz)) {
+				if (isErgs(world, x + dx, z + dz)) {
 					ergs++;
 				}
 			}

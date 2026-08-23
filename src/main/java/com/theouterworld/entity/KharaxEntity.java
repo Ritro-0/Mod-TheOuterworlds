@@ -54,12 +54,18 @@ public class KharaxEntity extends PathfinderMob {
 	private static final double AIR_DRAG = 0.91;
 	/** Friction of the block underfoot, still applied on the tick the leap starts. */
 	private static final double GROUND_FRICTION = 0.6;
-	private static final double HOP_APEX = 1.15;
+	private static final double HOP_APEX = 1.0;
 	private static final double MAX_HOP_APEX = 3.0;
-	private static final double HOP_REACH = 2.4;
-	private static final double LUNGE_REACH = 4.0;
+	private static final double HOP_REACH = 2.9;
+	private static final double LUNGE_REACH = 5.0;
 	private static final double MAX_LAUNCH_PUSH = 1.2;
-	private static final int HOP_RECOVERY_TICKS = 2;
+	private static final double MIN_EFFORT = 0.6;
+	private static final double MAX_EFFORT = 1.7;
+	/** Ground time between leaps. Airtime is bounded separately by having to land first. */
+	private static final int HOP_RECOVERY_TICKS = 3;
+
+	private static final float HOP_POSE_SMOOTHING = 0.35F;
+	private static final float AIRBORNE_SMOOTHING = 0.3F;
 
 	private static final EntityDataAccessor<Boolean> DATA_WARNING = SynchedEntityData.defineId(
 		KharaxEntity.class,
@@ -76,6 +82,11 @@ public class KharaxEntity extends PathfinderMob {
 	private boolean provoked;
 	private boolean warningSoundPlaying;
 	private @Nullable LivingEntity lastThreat;
+
+	private float hopPose;
+	private float hopPoseO;
+	private float airborneAmount;
+	private float airborneAmountO;
 
 	public KharaxEntity(EntityType<? extends KharaxEntity> type, Level level) {
 		super(type, level);
@@ -118,6 +129,32 @@ public class KharaxEntity extends PathfinderMob {
 		if (!this.level().isClientSide() && this.homePos == null && this.tickCount == 1) {
 			this.homePos = this.blockPosition();
 		}
+		updateHopPose();
+	}
+
+	/**
+	 * Eases the leap pose toward where the arc currently is. Reading vertical velocity straight
+	 * off the entity only changes twenty times a second, which renders as a visible stutter, so
+	 * the pose is smoothed here and interpolated again per frame.
+	 */
+	private void updateHopPose() {
+		this.hopPoseO = this.hopPose;
+		this.airborneAmountO = this.airborneAmount;
+		boolean grounded = this.onGround();
+		float airTarget = grounded ? 0.0F : 1.0F;
+		float poseTarget = grounded ? 0.0F : Mth.clamp((float) this.getDeltaMovement().y * 2.5F, -1.0F, 1.0F);
+		this.airborneAmount += (airTarget - this.airborneAmount) * AIRBORNE_SMOOTHING;
+		this.hopPose += (poseTarget - this.hopPose) * HOP_POSE_SMOOTHING;
+	}
+
+	/** Signed leap phase: positive while rising, negative while falling, zero on the ground. */
+	public float getHopPose(float tickProgress) {
+		return Mth.lerp(tickProgress, this.hopPoseO, this.hopPose);
+	}
+
+	/** Eased 0-1 blend between the grounded walk cycle and the airborne pose. */
+	public float getAirborneAmount(float tickProgress) {
+		return Mth.lerp(tickProgress, this.airborneAmountO, this.airborneAmount);
 	}
 
 	public @Nullable BlockPos getHomePos() {
@@ -169,8 +206,14 @@ public class KharaxEntity extends PathfinderMob {
 	 */
 	public int launchHop(double dirX, double dirZ, double distance, double rise, double speedModifier) {
 		double gravity = Math.max(0.005, this.getGravity());
-		double effort = Mth.clamp(speedModifier, 0.7, 1.6);
-		double apex = Mth.clamp(Math.max(HOP_APEX * effort, rise + 0.5), HOP_APEX, MAX_HOP_APEX);
+		double effort = Mth.clamp(speedModifier, MIN_EFFORT, MAX_EFFORT);
+		// Apex barely scales with urgency: a flatter, faster arc closes distance, where a taller
+		// one only buys airtime. Reach does the scaling instead.
+		double apex = Mth.clamp(
+			Math.max(HOP_APEX * Mth.clamp(effort, 0.8, 1.25), rise + 0.5),
+			HOP_APEX,
+			MAX_HOP_APEX
+		);
 		double launchSpeed = Math.sqrt(2.0 * gravity * apex);
 		double airTicks = 2.0 * launchSpeed / gravity;
 
@@ -187,12 +230,14 @@ public class KharaxEntity extends PathfinderMob {
 		// with a fixed 0.42, which is exactly the gravity-blind behaviour this replaces.
 		this.setDeltaMovement(dirX * push, launchSpeed, dirZ * push);
 		this.hurtMarked = true;
-		return Mth.ceil(airTicks) + HOP_RECOVERY_TICKS;
+		// Only the ground recovery is returned: the next leap also waits on landing, so a hop cut
+		// short by a wall or a rise chains straight into the next one instead of idling.
+		return HOP_RECOVERY_TICKS;
 	}
 
 	/** A committed pounce: same solver, but allowed to cover the full gap to a target. */
 	public int launchLunge(double dirX, double dirZ, double distance) {
-		return launchHop(dirX, dirZ, Math.min(distance, LUNGE_REACH), 0.0, LUNGE_REACH / HOP_REACH);
+		return launchHop(dirX, dirZ, Math.min(distance, LUNGE_REACH), 0.0, MAX_EFFORT);
 	}
 
 	@Override

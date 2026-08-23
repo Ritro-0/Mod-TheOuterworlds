@@ -40,8 +40,8 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 		state.shadowRadius = 0.65F;
 		state.warning = entity.isWarning();
 		state.ageInTicks = entity.tickCount + tickProgress;
-		state.airborne = !entity.onGround();
-		state.verticalVelocity = (float) entity.getDeltaMovement().y;
+		state.hopPose = entity.getHopPose(tickProgress);
+		state.airborneAmount = entity.getAirborneAmount(tickProgress);
 	}
 
 	@Override
@@ -52,12 +52,14 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 		float speed = state.walkAnimationSpeed;
 		float cycle = state.walkAnimationPos * 0.7F;
 		float hopWave = Mth.sin(cycle);
-		// While airborne the arc itself drives the pose: legs extend on the way up, tuck on the way down.
-		float launch = state.airborne ? Mth.clamp(state.verticalVelocity * 2.5F, -1.0F, 1.0F) : 0.0F;
+		// While airborne the arc itself drives the pose: legs extend on the way up, tuck on the way
+		// down. Both inputs arrive pre-eased, and the two poses cross-fade rather than switching.
+		float air = state.airborneAmount;
+		float launch = state.hopPose;
 		float extend = Math.max(0.0F, launch);
 		float tuck = Math.max(0.0F, -launch);
-		float hop = state.airborne ? extend : Math.max(0.0F, hopWave) * speed;
-		float plant = state.airborne ? 0.0F : Math.max(0.0F, -hopWave) * speed;
+		float hop = Mth.lerp(air, Math.max(0.0F, hopWave) * speed, extend);
+		float plant = Math.max(0.0F, -hopWave) * speed * (1.0F - air);
 		float idle = Mth.sin(state.ageInTicks * 0.12F) * 0.02F * (1.0F - speed);
 
 		float warn = state.warning ? 1.0F : 0.0F;
@@ -244,7 +246,7 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 		public float walkAnimationSpeed;
 		public boolean hasRedOverlay;
 		public boolean warning;
-		public boolean airborne;
-		public float verticalVelocity;
+		public float hopPose;
+		public float airborneAmount;
 	}
 }
