@@ -5,7 +5,6 @@ import com.theouterworld.entity.KharaxEntity;
 import com.theouterworld.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -253,46 +252,49 @@ public class KharaxPillarFeature extends Feature<NoneFeatureConfiguration> {
 		int minZ,
 		int maxZ
 	) {
-		if (!(world.getLevel() instanceof ServerLevel serverLevel)) {
-			return;
-		}
 		BlockPos stand = findSpawnStand(world, cx, cz, searchY, minX, maxX, minZ, maxZ, random);
 		if (stand == null) {
 			return;
 		}
-		KharaxEntity kharax = ModEntities.KHARAX.create(serverLevel, EntitySpawnReason.STRUCTURE);
+		KharaxEntity kharax = ModEntities.KHARAX.create(world.getLevel(), EntitySpawnReason.STRUCTURE);
 		if (kharax == null) {
 			return;
 		}
 		kharax.snapTo(stand.getX() + 0.5, stand.getY(), stand.getZ() + 0.5, random.nextFloat() * 360.0F, 0.0F);
-		if (!serverLevel.noCollision(kharax) || !kharax.checkSpawnObstruction(serverLevel)) {
-			// Try a few nearby offsets before giving up.
-			boolean fitted = false;
-			for (int attempt = 0; attempt < 12; attempt++) {
-				int ox = stand.getX() + random.nextInt(5) - 2;
-				int oz = stand.getZ() + random.nextInt(5) - 2;
-				if (ox < minX + 1 || ox > maxX - 1 || oz < minZ + 1 || oz > maxZ - 1) {
-					continue;
-				}
-				BlockPos alt = findColumnStand(world, ox, oz, stand.getY());
-				if (alt == null) {
-					continue;
-				}
-				kharax.snapTo(alt.getX() + 0.5, alt.getY(), alt.getZ() + 0.5, random.nextFloat() * 360.0F, 0.0F);
-				if (serverLevel.noCollision(kharax) && kharax.checkSpawnObstruction(serverLevel)) {
-					stand = alt;
-					fitted = true;
-					break;
-				}
-			}
-			if (!fitted) {
-				kharax.discard();
-				return;
-			}
-		}
 		kharax.setHomePos(stand.immutable());
 		kharax.setPersistenceRequired();
-		serverLevel.addFreshEntityWithPassengers(kharax);
+		world.addFreshEntity(kharax);
+	}
+
+	/**
+	 * Clearance for the 1.2-wide body, checked against the chunk under generation only.
+	 * Entity-level collision queries would pull in neighbouring chunks that do not exist yet.
+	 */
+	private static boolean hasBodyClearance(
+		WorldGenLevel world,
+		BlockPos stand,
+		int minX,
+		int maxX,
+		int minZ,
+		int maxZ
+	) {
+		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
+		for (int dx = -1; dx <= 1; dx++) {
+			for (int dz = -1; dz <= 1; dz++) {
+				int x = stand.getX() + dx;
+				int z = stand.getZ() + dz;
+				if (x < minX || x > maxX || z < minZ || z > maxZ) {
+					return false;
+				}
+				for (int dy = 0; dy <= 1; dy++) {
+					cursor.set(x, stand.getY() + dy, z);
+					if (!isReplaceableAir(world.getBlockState(cursor))) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -310,6 +312,7 @@ public class KharaxPillarFeature extends Feature<NoneFeatureConfiguration> {
 		RandomSource random
 	) {
 		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
+		BlockPos tight = null;
 		// Prefer spots a bit away from the densest center.
 		for (int attempt = 0; attempt < 24; attempt++) {
 			double angle = random.nextDouble() * Math.PI * 2.0;
@@ -321,11 +324,17 @@ public class KharaxPillarFeature extends Feature<NoneFeatureConfiguration> {
 				continue;
 			}
 			BlockPos stand = findColumnStand(world, x, z, spot.floorY());
-			if (stand != null) {
+			if (stand == null) {
+				continue;
+			}
+			if (hasBodyClearance(world, stand, minX, maxX, minZ, maxZ)) {
 				return stand;
 			}
+			if (tight == null) {
+				tight = stand;
+			}
 		}
-		return findColumnStand(world, cx, cz, searchY);
+		return tight != null ? tight : findColumnStand(world, cx, cz, searchY);
 	}
 
 	private static @Nullable BlockPos findColumnStand(WorldGenLevel world, int x, int z, int nearY) {

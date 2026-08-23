@@ -17,7 +17,7 @@
 	"noise_router": {
 		"barrier": 0,
 		"continents": "theouterworlds:climate/continents",
-		"depth": 0,
+		"depth": "theouterworlds:climate/depth",
 		"erosion": "theouterworlds:climate/erosion",
 		"preliminary_surface_level": "theouterworlds:surface_height",
 		"final_density": "theouterworlds:final_density",
