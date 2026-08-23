@@ -1,0 +1,8 @@
+{
+	"feature": "theouterworlds:innerworld_crater",
+	"placement": [
+		{
+			"type": "minecraft:biome"
+		}
+	]
+}

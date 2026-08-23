@@ -1,0 +1,7 @@
+{
+  "parent": "theouterworlds:block/iron_golem_statue_bottom",
+  "textures": {
+    "0": "theouterworlds:block/exposed_iron_golem_statue",
+    "particle": "theouterworlds:block/exposed_iron"
+  }
+}

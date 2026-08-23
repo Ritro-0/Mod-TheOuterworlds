@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "theouterworlds:block/unaffected_iron_chain",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "theouterworlds:block/unaffected_iron_chain"
+    },
+    "axis=z": {
+      "model": "theouterworlds:block/unaffected_iron_chain",
+      "x": 90
+    }
+  }
+}
+

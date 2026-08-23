@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"type=bottom": {
+			"model": "theouterworlds:block/norite_slab"
+		},
+		"type=top": {
+			"model": "theouterworlds:block/norite_slab_top"
+		},
+		"type=double": {
+			"model": "theouterworlds:block/norite"
+		}
+	}
+}

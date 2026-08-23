@@ -1,0 +1,52 @@
+{
+	"feature": "theouterworlds:olivine_geode",
+	"placement": [
+		{
+			"type": "minecraft:rarity_filter",
+			"chance": 24
+		},
+		{
+			"type": "minecraft:in_square"
+		},
+		{
+			"type": "minecraft:height_range",
+			"height": {
+				"type": "minecraft:uniform",
+				"min_inclusive": {
+					"above_bottom": 6
+				},
+				"max_inclusive": {
+					"absolute": 16
+				}
+			}
+		},
+		{
+			"type": "minecraft:surface_relative_threshold_filter",
+			"heightmap": "WORLD_SURFACE_WG",
+			"max_inclusive": -12
+		},
+		{
+			"type": "minecraft:block_predicate_filter",
+			"predicate": {
+				"type": "minecraft:matching_blocks",
+				"blocks": [
+					"theouterworlds:oxidized_basalt",
+					"theouterworlds:anorthosite",
+					"theouterworlds:regolith",
+					"theouterworlds:anorthositic_regolith",
+					"theouterworlds:pyroxenite",
+					"theouterworlds:gabbro",
+					"theouterworlds:norite",
+					"theouterworlds:dry_ice",
+					"theouterworlds:carbonic_ice",
+					"theouterworlds:gypsum_block",
+					"minecraft:sulfur",
+					"minecraft:cinnabar"
+				]
+			}
+		},
+		{
+			"type": "minecraft:biome"
+		}
+	]
+}

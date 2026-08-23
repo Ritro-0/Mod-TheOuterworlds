@@ -1,0 +1,30 @@
+{
+	"variants": {
+		"facing=down": {
+			"model": "theouterworlds:block/olivine_crystal_0",
+			"x": 180
+		},
+		"facing=east": {
+			"model": "theouterworlds:block/olivine_crystal_0",
+			"x": 90,
+			"y": 90
+		},
+		"facing=north": {
+			"model": "theouterworlds:block/olivine_crystal_0",
+			"x": 90
+		},
+		"facing=south": {
+			"model": "theouterworlds:block/olivine_crystal_0",
+			"x": 90,
+			"y": 180
+		},
+		"facing=up": {
+			"model": "theouterworlds:block/olivine_crystal_0"
+		},
+		"facing=west": {
+			"model": "theouterworlds:block/olivine_crystal_0",
+			"x": 90,
+			"y": 270
+		}
+	}
+}

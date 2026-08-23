@@ -1,0 +1,10 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:corroded_iron_door",
+		"theouterworlds:corroded_exposed_iron_door",
+		"theouterworlds:corroded_weathered_iron_door",
+		"theouterworlds:corroded_oxidized_iron_door",
+		"theouterworlds:nickel_door"
+	]
+}

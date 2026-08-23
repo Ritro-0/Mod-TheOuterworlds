@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"###",
+		"###"
+	],
+	"key": {
+		"#": "theouterworlds:nickel_ingot"
+	},
+	"result": {
+		"id": "theouterworlds:nickel_bars",
+		"count": 16
+	}
+}

@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/iron_bars_post_ends",
+	"render_type": "cutout",
+	"textures": {
+		"edge": "theouterworlds:block/nickel_bar",
+		"particle": "theouterworlds:block/nickel_bar"
+	}
+}

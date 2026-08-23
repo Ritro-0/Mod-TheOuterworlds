@@ -1,0 +1,10 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:regolith",
+		"theouterworlds:suspicious_regolith",
+		"theouterworlds:anorthositic_regolith",
+		"theouterworlds:kharax_shed",
+		"theouterworlds:kharax_spore"
+	]
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "theouterworlds:exposed_iron_bulb",
+    "minecraft:honeycomb"
+  ],
+  "result": {
+    "id": "theouterworlds:waxed_exposed_iron_bulb",
+    "count": 1
+  }
+}
+

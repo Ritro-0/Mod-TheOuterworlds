@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		"theouterworlds:nickel_ingot",
+		"theouterworlds:nickel_ingot",
+		"theouterworlds:nickel_ingot",
+		"theouterworlds:nickel_ingot",
+		"theouterworlds:opal",
+		"theouterworlds:opal",
+		"theouterworlds:opal",
+		"theouterworlds:opal"
+	],
+	"result": {
+		"id": "theouterworlds:opaline_nickel",
+		"count": 1
+	}
+}

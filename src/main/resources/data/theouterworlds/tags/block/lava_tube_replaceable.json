@@ -1,0 +1,29 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:oxidized_basalt",
+		"theouterworlds:anorthosite",
+		"theouterworlds:regolith",
+		"theouterworlds:anorthositic_regolith",
+		"theouterworlds:gypsum_block",
+		"theouterworlds:pyroxenite",
+		"theouterworlds:gabbro",
+		"theouterworlds:norite",
+		"theouterworlds:dry_ice",
+		"theouterworlds:carbonic_ice",
+		"theouterworlds:kharax_shed",
+		"theouterworlds:kharax_spore",
+		"minecraft:sulfur",
+		"minecraft:cinnabar",
+		"theouterworlds:anorthosite_copper_ore",
+		"theouterworlds:anorthosite_gold_ore",
+		"theouterworlds:anorthosite_oxidized_iron_ore",
+		"theouterworlds:anorthosite_redstone_ore",
+		"theouterworlds:anorthosite_opal_ore",
+		"theouterworlds:oxidized_basalt_opal_ore",
+		"theouterworlds:raw_hematite",
+		"theouterworlds:raw_perchlorate",
+		"theouterworlds:raw_jarosite",
+		"theouterworlds:pyroxenite_nickel_ore"
+	]
+}

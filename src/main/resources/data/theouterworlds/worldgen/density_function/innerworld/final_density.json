@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:interpolated",
+	"argument": {
+		"type": "minecraft:add",
+		"argument1": {
+			"type": "minecraft:y_clamped_gradient",
+			"from_value": 64,
+			"from_y": -64,
+			"to_value": -320,
+			"to_y": 320
+		},
+		"argument2": "theouterworlds:innerworld/surface_height"
+	}
+}

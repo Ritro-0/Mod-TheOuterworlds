@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"G G",
+		"OGO",
+		"G G"
+	],
+	"key": {
+		"G": "minecraft:gold_ingot",
+		"O": "theouterworlds:opal"
+	},
+	"result": {
+		"id": "theouterworlds:opal_lens",
+		"count": 1
+	}
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "II",
+    "II"
+  ],
+  "key": {
+    "I": "theouterworlds:weathered_iron"
+  },
+  "result": {
+    "id": "theouterworlds:weathered_cut_iron",
+    "count": 4
+  }
+}
+

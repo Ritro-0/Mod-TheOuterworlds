@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "theouterworlds:oxidized_iron",
+    "minecraft:honeycomb"
+  ],
+  "result": {
+    "id": "theouterworlds:waxed_oxidized_iron",
+    "count": 1
+  }
+}
+

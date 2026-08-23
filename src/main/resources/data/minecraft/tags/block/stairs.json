@@ -1,0 +1,10 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:cut_nickel_stairs",
+		"theouterworlds:pyroxenite_stairs",
+		"theouterworlds:polished_pyroxenite_stairs",
+		"theouterworlds:norite_stairs",
+		"theouterworlds:gabbro_stairs"
+	]
+}

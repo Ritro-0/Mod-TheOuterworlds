@@ -1,0 +1,8 @@
+{
+	"feature": "theouterworlds:crater",
+	"placement": [
+		{
+			"type": "minecraft:biome"
+		}
+	]
+}

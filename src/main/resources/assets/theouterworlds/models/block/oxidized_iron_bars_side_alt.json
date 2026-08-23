@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/iron_bars_side_alt",
+  "render_type": "cutout",
+  "textures": {
+    "edge": "theouterworlds:block/oxidized_iron_bar",
+    "bars": "theouterworlds:block/oxidized_iron_bar"
+  }
+}
+

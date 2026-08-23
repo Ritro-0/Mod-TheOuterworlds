@@ -1,0 +1,14 @@
+{
+	"layers": {
+		"humanoid": [
+			{
+				"texture": "theouterworlds:redsteel"
+			}
+		],
+		"humanoid_leggings": [
+			{
+				"texture": "theouterworlds:redsteel"
+			}
+		]
+	}
+}

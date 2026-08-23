@@ -1,0 +1,20 @@
+{
+	"credit": "Made with Blockbench",
+	"ambientocclusion": false,
+	"render_type": "cutout",
+	"textures": {
+		"0": "theouterworlds:block/rift",
+		"particle": "theouterworlds:block/rift"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 7.5],
+			"to": [16, 16, 8.5],
+			"shade": false,
+			"faces": {
+				"north": {"uv": [0, 0, 16, 8], "texture": "#0"},
+				"south": {"uv": [0, 0, 16, 8], "texture": "#0"}
+			}
+		}
+	]
+}

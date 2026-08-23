@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "theouterworlds",
+	"version": "${version}",
+	"name": "The Outerworlds",
+	"description": "The Outerworld and its moon, the Innerworld — oxidized basalt deserts and anorthositic highlands.",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://example.com/TheOuterworlds"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/theouterworlds/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.theouterworld.OuterWorldMod"
+		],
+		"client": [
+			"com.theouterworld.OuterWorldClient"
+		]
+	},
+	"mixins": [
+		"theouterworlds.mixins.json",
+		{
+			"config": "theouterworlds.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

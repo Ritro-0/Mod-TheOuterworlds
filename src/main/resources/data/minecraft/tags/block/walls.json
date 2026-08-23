@@ -1,0 +1,9 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:pyroxenite_wall",
+		"theouterworlds:polished_pyroxenite_wall",
+		"theouterworlds:norite_wall",
+		"theouterworlds:gabbro_wall"
+	]
+}

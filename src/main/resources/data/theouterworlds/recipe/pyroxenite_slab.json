@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"###"
+	],
+	"key": {
+		"#": "theouterworlds:pyroxenite"
+	},
+	"result": {
+		"id": "theouterworlds:pyroxenite_slab",
+		"count": 6
+	}
+}

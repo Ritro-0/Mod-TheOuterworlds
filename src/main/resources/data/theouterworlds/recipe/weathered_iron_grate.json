@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "I I",
+    " I "
+  ],
+  "key": {
+    "I": "theouterworlds:weathered_iron"
+  },
+  "result": {
+    "id": "theouterworlds:weathered_iron_grate",
+    "count": 4
+  }
+}
+

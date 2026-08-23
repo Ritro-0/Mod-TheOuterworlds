@@ -1,0 +1,9 @@
+{
+	"type": "minecraft:blasting",
+	"ingredient": "theouterworlds:raw_oxidized_iron",
+	"result": {
+		"id": "minecraft:iron_ingot"
+	},
+	"experience": 0.7,
+	"cookingtime": 100
+}

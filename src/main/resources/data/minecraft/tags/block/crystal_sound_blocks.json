@@ -1,0 +1,12 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:raw_olivine",
+		"theouterworlds:raw_olivine_bud",
+		"theouterworlds:olivine_crystal_0",
+		"theouterworlds:olivine_crystal_1",
+		"theouterworlds:olivine_crystal_2",
+		"theouterworlds:opal_block",
+		"theouterworlds:beacon_concentrator"
+	]
+}

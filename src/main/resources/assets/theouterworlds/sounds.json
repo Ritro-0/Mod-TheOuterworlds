@@ -1,0 +1,26 @@
+{
+	"entity.kharax.idle": {
+		"subtitle": "subtitles.entity.theouterworlds.kharax.idle",
+		"sounds": [
+			"theouterworlds:entity/kharax/kharax_idle"
+		]
+	},
+	"entity.kharax.hurt": {
+		"subtitle": "subtitles.entity.theouterworlds.kharax.hurt",
+		"sounds": [
+			"theouterworlds:entity/kharax/kharax_hurt"
+		]
+	},
+	"entity.kharax.death": {
+		"subtitle": "subtitles.entity.theouterworlds.kharax.death",
+		"sounds": [
+			"theouterworlds:entity/kharax/kharax_dies"
+		]
+	},
+	"entity.kharax.clicks": {
+		"subtitle": "subtitles.entity.theouterworlds.kharax.clicks",
+		"sounds": [
+			"theouterworlds:entity/kharax/kharax_clicks"
+		]
+	}
+}

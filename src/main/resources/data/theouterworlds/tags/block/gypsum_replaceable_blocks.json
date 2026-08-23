@@ -1,0 +1,12 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:oxidized_basalt",
+		"theouterworlds:anorthosite",
+		"theouterworlds:regolith",
+		"theouterworlds:gypsum_block",
+		"theouterworlds:pyroxenite",
+		"theouterworlds:gabbro",
+		"theouterworlds:norite"
+	]
+}

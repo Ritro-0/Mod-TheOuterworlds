@@ -1,0 +1,10 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:cut_nickel_slab",
+		"theouterworlds:pyroxenite_slab",
+		"theouterworlds:polished_pyroxenite_slab",
+		"theouterworlds:norite_slab",
+		"theouterworlds:gabbro_slab"
+	]
+}

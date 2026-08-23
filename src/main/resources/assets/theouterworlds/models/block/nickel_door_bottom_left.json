@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/door_bottom_left",
+	"textures": {
+		"bottom": "theouterworlds:block/nickel_door_bottom",
+		"top": "theouterworlds:block/nickel_door_top"
+	}
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "IBI",
+    " R "
+  ],
+  "key": {
+    "I": "theouterworlds:weathered_iron",
+    "B": "minecraft:blaze_rod",
+    "R": "minecraft:redstone"
+  },
+  "result": {
+    "id": "theouterworlds:weathered_iron_bulb",
+    "count": 4
+  }
+}
+

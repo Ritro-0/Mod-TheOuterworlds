@@ -1,0 +1,149 @@
+{
+	"type": "minecraft:block",
+	"pools": [
+		{
+			"bonus_rolls": 0.0,
+			"rolls": 1.0,
+			"entries": [
+				{
+					"type": "minecraft:alternatives",
+					"children": [
+						{
+							"type": "minecraft:item",
+							"name": "theouterworlds:oxidized_basalt_opal_ore",
+							"conditions": [
+								{
+									"condition": "minecraft:match_tool",
+									"predicate": {
+										"predicates": {
+											"minecraft:enchantments": [
+												{
+													"enchantments": "minecraft:silk_touch",
+													"levels": {
+														"min": 1
+													}
+												}
+											]
+										}
+									}
+								}
+							]
+						},
+						{
+							"type": "minecraft:item",
+							"name": "theouterworlds:opal",
+							"conditions": [
+								{
+									"condition": "minecraft:match_tool",
+									"predicate": {
+										"predicates": {
+											"minecraft:enchantments": [
+												{
+													"enchantments": "minecraft:fortune",
+													"levels": {
+														"min": 3
+													}
+												}
+											]
+										}
+									}
+								}
+							],
+							"functions": [
+								{
+									"function": "minecraft:set_count",
+									"count": {
+										"type": "minecraft:uniform",
+										"min": 2.0,
+										"max": 6.0
+									}
+								},
+								{
+									"function": "minecraft:explosion_decay"
+								}
+							]
+						},
+						{
+							"type": "minecraft:item",
+							"name": "theouterworlds:opal",
+							"conditions": [
+								{
+									"condition": "minecraft:match_tool",
+									"predicate": {
+										"predicates": {
+											"minecraft:enchantments": [
+												{
+													"enchantments": "minecraft:fortune",
+													"levels": {
+														"min": 2
+													}
+												}
+											]
+										}
+									}
+								}
+							],
+							"functions": [
+								{
+									"function": "minecraft:set_count",
+									"count": {
+										"type": "minecraft:uniform",
+										"min": 1.0,
+										"max": 4.0
+									}
+								},
+								{
+									"function": "minecraft:explosion_decay"
+								}
+							]
+						},
+						{
+							"type": "minecraft:item",
+							"name": "theouterworlds:opal",
+							"conditions": [
+								{
+									"condition": "minecraft:match_tool",
+									"predicate": {
+										"predicates": {
+											"minecraft:enchantments": [
+												{
+													"enchantments": "minecraft:fortune",
+													"levels": {
+														"min": 1
+													}
+												}
+											]
+										}
+									}
+								}
+							],
+							"functions": [
+								{
+									"function": "minecraft:set_count",
+									"count": {
+										"type": "minecraft:uniform",
+										"min": 1.0,
+										"max": 3.0
+									}
+								},
+								{
+									"function": "minecraft:explosion_decay"
+								}
+							]
+						},
+						{
+							"type": "minecraft:item",
+							"name": "theouterworlds:opal",
+							"functions": [
+								{
+									"function": "minecraft:explosion_decay"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"random_sequence": "theouterworlds:blocks/oxidized_basalt_opal_ore"
+}

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "theouterworlds:exposed_iron",
+  "result": {
+    "id": "theouterworlds:exposed_cut_iron",
+    "count": 4
+  }
+}
+

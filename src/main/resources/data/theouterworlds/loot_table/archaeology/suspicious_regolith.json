@@ -1,0 +1,61 @@
+{
+	"type": "minecraft:archaeology",
+	"pools": [
+		{
+			"rolls": 1.0,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "theouterworlds:redsteel_upgrade_smithing_template",
+					"weight": 10
+				},
+				{
+					"type": "minecraft:item",
+					"name": "theouterworlds:hematite",
+					"weight": 7
+				},
+				{
+					"type": "minecraft:item",
+					"name": "theouterworlds:olivine_crystal_2",
+					"weight": 7
+				},
+				{
+					"type": "minecraft:item",
+					"name": "minecraft:iron_nugget",
+					"weight": 4
+				},
+				{
+					"type": "minecraft:item",
+					"name": "theouterworlds:raw_oxidized_iron",
+					"weight": 10
+				},
+				{
+					"type": "minecraft:item",
+					"name": "theouterworlds:jarosite",
+					"weight": 3
+				},
+				{
+					"type": "minecraft:item",
+					"name": "theouterworlds:opal",
+					"weight": 3
+				},
+				{
+					"type": "minecraft:item",
+					"name": "theouterworlds:perchlorate_crystal",
+					"weight": 1
+				},
+				{
+					"type": "minecraft:item",
+					"name": "theouterworlds:rover_pottery_sherd",
+					"weight": 3
+				},
+				{
+					"type": "minecraft:item",
+					"name": "theouterworlds:orbit_smithing_template",
+					"weight": 3
+				}
+			]
+		}
+	],
+	"random_sequence": "theouterworlds:archaeology/suspicious_regolith"
+}

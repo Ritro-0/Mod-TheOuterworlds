@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "lit=false,powered=false": { "model": "theouterworlds:block/exposed_iron_bulb" },
+    "lit=false,powered=true": { "model": "theouterworlds:block/exposed_iron_bulb_powered" },
+    "lit=true,powered=false": { "model": "theouterworlds:block/exposed_iron_bulb_lit" },
+    "lit=true,powered=true": { "model": "theouterworlds:block/exposed_iron_bulb_lit_powered" }
+  }
+}

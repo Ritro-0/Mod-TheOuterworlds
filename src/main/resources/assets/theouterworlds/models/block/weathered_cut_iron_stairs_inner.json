@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "theouterworlds:block/weathered_cut_iron",
+    "top": "theouterworlds:block/weathered_cut_iron",
+    "side": "theouterworlds:block/weathered_cut_iron"
+  }
+}
+

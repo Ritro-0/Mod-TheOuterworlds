@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "IBI",
+    " R "
+  ],
+  "key": {
+    "I": "theouterworlds:oxidized_iron",
+    "B": "minecraft:blaze_rod",
+    "R": "minecraft:redstone"
+  },
+  "result": {
+    "id": "theouterworlds:oxidized_iron_bulb",
+    "count": 4
+  }
+}
+

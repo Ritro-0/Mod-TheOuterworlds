@@ -1,0 +1,13 @@
+{
+	"required": true,
+	"package": "com.theouterworld.mixin.client",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"SkyRenderingMixin",
+		"LeashFeatureRendererMixin",
+		"BeaconRendererMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

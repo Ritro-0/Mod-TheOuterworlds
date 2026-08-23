@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"XX",
+		" #",
+		" #"
+	],
+	"key": {
+		"X": "theouterworlds:nickel_ingot",
+		"#": "minecraft:stick"
+	},
+	"result": {
+		"id": "theouterworlds:nickel_hoe",
+		"count": 1
+	}
+}

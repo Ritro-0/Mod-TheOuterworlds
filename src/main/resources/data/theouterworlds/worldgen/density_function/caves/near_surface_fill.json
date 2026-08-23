@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:clamp",
+	"input": {
+		"type": "minecraft:add",
+		"argument1": 0.95,
+		"argument2": {
+			"type": "minecraft:mul",
+			"argument1": -0.042,
+			"argument2": {
+				"type": "minecraft:cache_once",
+				"argument": "theouterworlds:terrain"
+			}
+		}
+	},
+	"min": -1.0,
+	"max": 1.0
+}

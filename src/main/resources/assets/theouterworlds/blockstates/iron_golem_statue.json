@@ -1,0 +1,20 @@
+﻿{
+  "variants": {
+    "facing=north,half=lower,waterlogged=false": { "model": "theouterworlds:block/iron_golem_statue_bottom" },
+    "facing=north,half=upper,waterlogged=false": { "model": "theouterworlds:block/iron_golem_statue_top" },
+    "facing=south,half=lower,waterlogged=false": { "model": "theouterworlds:block/iron_golem_statue_bottom", "y": 180 },
+    "facing=south,half=upper,waterlogged=false": { "model": "theouterworlds:block/iron_golem_statue_top", "y": 180 },
+    "facing=east,half=lower,waterlogged=false": { "model": "theouterworlds:block/iron_golem_statue_bottom", "y": 90 },
+    "facing=east,half=upper,waterlogged=false": { "model": "theouterworlds:block/iron_golem_statue_top", "y": 90 },
+    "facing=west,half=lower,waterlogged=false": { "model": "theouterworlds:block/iron_golem_statue_bottom", "y": 270 },
+    "facing=west,half=upper,waterlogged=false": { "model": "theouterworlds:block/iron_golem_statue_top", "y": 270 },
+    "facing=north,half=lower,waterlogged=true": { "model": "theouterworlds:block/iron_golem_statue_bottom" },
+    "facing=north,half=upper,waterlogged=true": { "model": "theouterworlds:block/iron_golem_statue_top" },
+    "facing=south,half=lower,waterlogged=true": { "model": "theouterworlds:block/iron_golem_statue_bottom", "y": 180 },
+    "facing=south,half=upper,waterlogged=true": { "model": "theouterworlds:block/iron_golem_statue_top", "y": 180 },
+    "facing=east,half=lower,waterlogged=true": { "model": "theouterworlds:block/iron_golem_statue_bottom", "y": 90 },
+    "facing=east,half=upper,waterlogged=true": { "model": "theouterworlds:block/iron_golem_statue_top", "y": 90 },
+    "facing=west,half=lower,waterlogged=true": { "model": "theouterworlds:block/iron_golem_statue_bottom", "y": 270 },
+    "facing=west,half=upper,waterlogged=true": { "model": "theouterworlds:block/iron_golem_statue_top", "y": 270 }
+  }
+}

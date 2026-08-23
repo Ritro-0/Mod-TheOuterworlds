@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "theouterworlds:block/cut_iron",
+    "top": "theouterworlds:block/cut_iron",
+    "side": "theouterworlds:block/cut_iron"
+  }
+}
+

@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"N",
+		"I",
+		"N"
+	],
+	"key": {
+		"N": "theouterworlds:nickel_nugget",
+		"I": "theouterworlds:nickel_ingot"
+	},
+	"result": {
+		"id": "theouterworlds:nickel_chain",
+		"count": 1
+	}
+}

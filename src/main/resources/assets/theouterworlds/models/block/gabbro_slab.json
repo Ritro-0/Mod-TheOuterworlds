@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/slab",
+	"textures": {
+		"bottom": "theouterworlds:block/gabbro",
+		"top": "theouterworlds:block/gabbro",
+		"side": "theouterworlds:block/gabbro"
+	}
+}

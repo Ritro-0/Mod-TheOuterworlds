@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "theouterworlds:block/oxidized_iron_bar"
+  }
+}
+

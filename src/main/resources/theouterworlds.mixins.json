@@ -1,0 +1,33 @@
+{
+	"required": true,
+	"package": "com.theouterworld.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"mixins": [
+		"EntityAccessor",
+		"EntityGravityMixin",
+		"LivingEntityFallDamageMixin",
+		"DimensionClimateMixin",
+		"BaseFireBlockMixin",
+		"ArrowEntityGravityMixin",
+		"LivingEntityElytraFrictionMixin",
+		"VanillaIronOnPlacedMixin",
+		"VanillaIronDoorOnPlacedMixin",
+		"BeaconBlockEntityAccessor",
+		"InteriorShelterPlaceMixin",
+		"CarvedPumpkinBlockMixin",
+		"IronGolemSpawnMixin",
+		"OuterworldWeatherBlockerMixin",
+		"ArmorSlotGlassMixin",
+		"LivingEntityJarositeMixin",
+		"ItemEntityJarositeMixin",
+		"EntityJarositeFireMixin",
+		"AxeItemCorrosionMixin",
+		"HoneycombItemCorrosionMixin",
+		"FuelValuesMixin",
+		"PrimedTntAccessor",
+		"DecoratedPotPatternsMixin"
+	],
+	"injectors": {
+		"defaultRequire": 0
+	}
+}

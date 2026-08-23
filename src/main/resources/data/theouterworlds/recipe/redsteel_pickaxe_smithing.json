@@ -1,0 +1,9 @@
+{
+	"type": "minecraft:smithing_transform",
+	"template": "theouterworlds:redsteel_upgrade_smithing_template",
+	"base": "minecraft:iron_pickaxe",
+	"addition": "#theouterworlds:redsteel_tool_materials",
+	"result": {
+		"id": "theouterworlds:redsteel_pickaxe"
+	}
+}

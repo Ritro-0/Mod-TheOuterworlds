@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"X X",
+		"XXX",
+		"XXX"
+	],
+	"key": {
+		"X": "theouterworlds:nickel_ingot"
+	},
+	"result": {
+		"id": "theouterworlds:nickel_chestplate",
+		"count": 1
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"###",
+		"###"
+	],
+	"key": {
+		"#": "theouterworlds:norite"
+	},
+	"result": {
+		"id": "theouterworlds:norite_wall",
+		"count": 6
+	}
+}

@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/cube_bottom_top",
+	"textures": {
+		"top": "theouterworlds:block/perchlorate_charge_top",
+		"bottom": "theouterworlds:block/perchlorate_charge_bottom",
+		"side": "theouterworlds:block/perchlorate_charge_side"
+	}
+}

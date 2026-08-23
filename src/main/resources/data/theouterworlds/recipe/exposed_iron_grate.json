@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "I I",
+    " I "
+  ],
+  "key": {
+    "I": "theouterworlds:exposed_iron"
+  },
+  "result": {
+    "id": "theouterworlds:exposed_iron_grate",
+    "count": 4
+  }
+}
+

@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "theouterworlds:item/redsteel_helmet"
+	}
+}

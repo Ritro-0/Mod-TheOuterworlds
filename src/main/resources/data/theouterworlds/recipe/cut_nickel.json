@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"II",
+		"II"
+	],
+	"key": {
+		"I": "theouterworlds:nickel_block"
+	},
+	"result": {
+		"id": "theouterworlds:cut_nickel",
+		"count": 4
+	}
+}

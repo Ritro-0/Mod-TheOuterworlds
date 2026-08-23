@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		"minecraft:paper",
+		"theouterworlds:jarosite"
+	],
+	"result": {
+		"id": "theouterworlds:jarosite_rocket",
+		"count": 3,
+		"components": {
+			"minecraft:fireworks": {
+				"flight_duration": 6,
+				"explosions": []
+			}
+		}
+	}
+}

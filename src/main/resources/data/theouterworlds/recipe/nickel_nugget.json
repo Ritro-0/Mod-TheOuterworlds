@@ -1,0 +1,10 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		"theouterworlds:nickel_ingot"
+	],
+	"result": {
+		"id": "theouterworlds:nickel_nugget",
+		"count": 9
+	}
+}

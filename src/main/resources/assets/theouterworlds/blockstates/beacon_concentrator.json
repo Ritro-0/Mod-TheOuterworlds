@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "theouterworlds:block/beacon_concentrator"
+    },
+    "powered=true": {
+      "model": "theouterworlds:block/beacon_concentrator"
+    }
+  }
+}

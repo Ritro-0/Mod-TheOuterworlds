@@ -1,0 +1,14 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:unaffected_iron_chain",
+		"theouterworlds:exposed_iron_chain",
+		"theouterworlds:weathered_iron_chain",
+		"theouterworlds:oxidized_iron_chain",
+		"theouterworlds:waxed_iron_chain",
+		"theouterworlds:waxed_exposed_iron_chain",
+		"theouterworlds:waxed_weathered_iron_chain",
+		"theouterworlds:waxed_oxidized_iron_chain",
+		"theouterworlds:nickel_chain"
+	]
+}

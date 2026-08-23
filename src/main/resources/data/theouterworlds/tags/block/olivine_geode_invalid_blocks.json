@@ -1,0 +1,12 @@
+{
+	"replace": false,
+	"values": [
+		"#minecraft:geode_invalid_blocks",
+		"minecraft:air",
+		"minecraft:cave_air",
+		"minecraft:bedrock",
+		"theouterworlds:mercury",
+		"theouterworlds:mercury_block"
+	]
+}
+

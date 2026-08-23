@@ -1,0 +1,29 @@
+{
+	"type": "minecraft:add",
+	"argument1": "theouterworlds:height/desert",
+	"argument2": {
+		"type": "minecraft:mul",
+		"argument1": {
+			"type": "minecraft:spline",
+			"spline": {
+				"coordinate": {
+					"type": "minecraft:abs",
+					"argument": "theouterworlds:climate/ridges"
+				},
+				"points": [
+					{ "location": 0.15, "derivative": 0.0, "value": 0.0 },
+					{ "location": 0.35, "derivative": 0.0, "value": 1.0 }
+				]
+			}
+		},
+		"argument2": {
+			"type": "minecraft:add",
+			"argument1": "theouterworlds:height/crater_fields",
+			"argument2": {
+				"type": "minecraft:mul",
+				"argument1": -1,
+				"argument2": "theouterworlds:height/desert"
+			}
+		}
+	}
+}

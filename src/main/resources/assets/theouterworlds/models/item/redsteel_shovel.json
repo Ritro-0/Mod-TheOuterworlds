@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:item/handheld",
+	"textures": {
+		"layer0": "theouterworlds:item/redsteel_shovel"
+	}
+}

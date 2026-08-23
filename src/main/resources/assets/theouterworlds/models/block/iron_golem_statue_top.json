@@ -1,0 +1,36 @@
+{
+  "credit": "Made with Blockbench - Iron Golem Statue (living scale, upper half)",
+  "texture_size": [128, 128],
+  "textures": {
+    "0": "theouterworlds:block/iron_golem_statue",
+    "particle": "minecraft:block/iron_block"
+  },
+  "elements": [
+    {
+      "name": "head",
+      "from": [4, 16, 0.5],
+      "to": [12, 26, 8.5],
+      "faces": {
+        "north": {"uv": [1, 1, 2, 2.25], "texture": "#0"},
+        "east": {"uv": [0, 1, 1, 2.25], "texture": "#0"},
+        "south": {"uv": [3, 1, 4, 2.25], "texture": "#0"},
+        "west": {"uv": [2, 1, 3, 2.25], "texture": "#0"},
+        "up": {"uv": [2, 1, 1, 0], "texture": "#0"},
+        "down": {"uv": [3, 0, 2, 1], "texture": "#0"}
+      }
+    },
+    {
+      "name": "nose",
+      "from": [7, 16, -1.5],
+      "to": [9, 20, 0.5],
+      "faces": {
+        "north": {"uv": [3.25, 0.25, 3.5, 0.75], "texture": "#0"},
+        "east": {"uv": [3, 0.25, 3.25, 0.75], "texture": "#0"},
+        "south": {"uv": [3.75, 0.25, 4, 0.75], "texture": "#0"},
+        "west": {"uv": [3.5, 0.25, 3.75, 0.75], "texture": "#0"},
+        "up": {"uv": [3.5, 0.25, 3.25, 0], "texture": "#0"},
+        "down": {"uv": [3.75, 0, 3.5, 0.25], "texture": "#0"}
+      }
+    }
+  ]
+}

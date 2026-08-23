@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/stairs",
+	"textures": {
+		"bottom": "theouterworlds:block/norite",
+		"top": "theouterworlds:block/norite",
+		"side": "theouterworlds:block/norite"
+	}
+}

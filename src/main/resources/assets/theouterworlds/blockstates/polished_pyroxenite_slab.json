@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"type=bottom": {
+			"model": "theouterworlds:block/polished_pyroxenite_slab"
+		},
+		"type=top": {
+			"model": "theouterworlds:block/polished_pyroxenite_slab_top"
+		},
+		"type=double": {
+			"model": "theouterworlds:block/polished_pyroxenite"
+		}
+	}
+}

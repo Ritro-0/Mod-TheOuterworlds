@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "theouterworlds:block/oxidized_cut_iron_slab"
+    },
+    "type=top": {
+      "model": "theouterworlds:block/oxidized_cut_iron_slab_top"
+    },
+    "type=double": {
+      "model": "theouterworlds:block/oxidized_cut_iron"
+    }
+  }
+}
+

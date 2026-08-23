@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OOO",
+    "O O",
+    "OOO"
+  ],
+  "key": {
+    "O": "theouterworlds:oxidized_basalt"
+  },
+  "result": {
+    "id": "theouterworlds:processor",
+    "count": 1
+  }
+}
+

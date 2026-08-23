@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "theouterworlds:waxed_iron",
+  "result": {
+    "id": "theouterworlds:waxed_cut_iron",
+    "count": 4
+  }
+}
+

@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"###"
+	],
+	"key": {
+		"#": "theouterworlds:cut_nickel"
+	},
+	"result": {
+		"id": "theouterworlds:cut_nickel_slab",
+		"count": 6
+	}
+}

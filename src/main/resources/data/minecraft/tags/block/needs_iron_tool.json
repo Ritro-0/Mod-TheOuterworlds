@@ -1,0 +1,9 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:anorthosite_gold_ore",
+		"theouterworlds:anorthosite_redstone_ore",
+		"theouterworlds:rift_pad",
+		"theouterworlds:anorthosite_opal_ore"
+	]
+}
