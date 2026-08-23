@@ -8,7 +8,9 @@
 		"water_fog_color": 6697730
 	},
 	"features": [
-		[],
+		[
+			"theouterworlds:erg_dune"
+		],
 		[],
 		[
 			"theouterworlds:oxidized_basalt_pebble"
@@ -29,7 +31,8 @@
 			"theouterworlds:olivine_geode",
 			"theouterworlds:raw_perchlorate",
 			"theouterworlds:oxidized_basalt_opal_ore",
-			"theouterworlds:anorthosite_opal_ore"
+			"theouterworlds:anorthosite_opal_ore",
+			"theouterworlds:olivine_geode_ergs_surface"
 		],
 		[
 			"theouterworlds:lava_tube"

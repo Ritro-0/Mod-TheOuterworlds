@@ -8,7 +8,9 @@
 		"water_fog_color": 6697730
 	},
 	"features": [
-		[],
+		[
+			"theouterworlds:erg_dune"
+		],
 		[],
 		[
 			"theouterworlds:oxidized_basalt_pebble"
