@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"theouterworlds:sulfuric_basalt",
 		"minecraft:sulfur",
 		"minecraft:potent_sulfur",
 		"minecraft:sulfur_slab",

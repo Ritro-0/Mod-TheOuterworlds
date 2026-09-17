@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:block/cube_all",
+	"textures": {
+		"all": "theouterworlds:block/komatiite_diamond_ore"
+	}
+}

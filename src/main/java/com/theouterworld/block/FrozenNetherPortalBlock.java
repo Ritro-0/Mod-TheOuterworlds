@@ -16,7 +16,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Decorative, mineable stand-in for nether portal blocks in the Outerworld and Innerworld.
+ * Decorative, mineable stand-in for nether portal blocks in cold vacuum dimensions.
  * Does not teleport.
  */
 public class FrozenNetherPortalBlock extends Block {
@@ -32,6 +32,15 @@ public class FrozenNetherPortalBlock extends Block {
 
 	@Override
 	protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+		return getPortalShape(state);
+	}
+
+	@Override
+	protected VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+		return getPortalShape(state);
+	}
+
+	private static VoxelShape getPortalShape(BlockState state) {
 		return state.getValue(AXIS) == Direction.Axis.Z ? Z_AXIS_AABB : X_AXIS_AABB;
 	}
 

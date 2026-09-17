@@ -1,0 +1,8 @@
+{
+	"feature": "theouterworlds:scarletlands_crater",
+	"placement": [
+		{
+			"type": "minecraft:biome"
+		}
+	]
+}

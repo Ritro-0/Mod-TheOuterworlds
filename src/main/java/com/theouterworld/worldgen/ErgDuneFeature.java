@@ -18,8 +18,12 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 
 public class ErgDuneFeature extends Feature<NoneFeatureConfiguration> {
 	private static final double WIND = Math.toRadians(18.0);
-	/** Probed above the terrain so the lookup always lands in the surface biome layer. */
-	private static final int BIOME_PROBE_Y = 96;
+	/**
+	 * Probed at roughly the erg surface, where depth reads near zero. Surface biomes are all
+	 * depth-0 points, so a probe far above or below the terrain drifts toward the cave band and
+	 * starts reporting neighbours as non-ergs.
+	 */
+	private static final int BIOME_PROBE_Y = 70;
 	private static final ResourceKey<Biome> ERGS = ResourceKey.create(
 		Registries.BIOME,
 		OuterWorldMod.id("outerworld_ergs")

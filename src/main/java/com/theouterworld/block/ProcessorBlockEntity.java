@@ -2,6 +2,7 @@ package com.theouterworld.block;
 
 import com.theouterworld.item.ModItems;
 import com.theouterworld.registry.ModBlockEntities;
+import com.theouterworld.registry.ModDimensions;
 import com.theouterworld.screen.ProcessorScreenHandler;
 import java.util.Random;
 import net.minecraft.core.BlockPos;
@@ -18,32 +19,37 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import com.theouterworld.OuterWorldMod;
 
 public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, Container {
-    // Slot indices
-    public static final int PRIMARY_INPUT_SLOT = 0;  // Main ingredient (like brewing ingredient)
-    public static final int SECONDARY_INPUT_SLOT = 1; // Secondary input (like blaze powder slot)
+    public static final int PRIMARY_INPUT_SLOT = 0;
+    public static final int SECONDARY_INPUT_SLOT = 1;
     public static final int OUTPUT_SLOT = 2;
     public static final int INVENTORY_SIZE = 3;
-    
-    // Processing constants
-    public static final int MAX_PROGRESS = 400;      // Total ticks for processing (20 seconds)
-    public static final int MAX_HEAT = 200;          // Total ticks for heating (10 seconds)
-    
+
+    public static final int MODE_PROCESS = 0;
+    public static final int MODE_HEAT = 1;
+    public static final int MODE_PRESSURIZE = 2;
+
+    public static final int MAX_PROGRESS = 400;
+    public static final int MAX_HEAT = 200;
+    /** Pressurize prep phase is 2× as fast as heat (100 ticks). */
+    public static final int MAX_PRESSURE = 100;
+
     private final NonNullList<ItemStack> inventory = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
-    
-    // State variables
-    private int progress = 0;       // Processing progress (0 to MAX_PROGRESS)
-    private int heat = 0;           // Heat level (0 to MAX_HEAT)
-    private boolean heatMode = false; // false = processing mode, true = heat mode
-    
+
+    private int progress = 0;
+    private int heat = 0;
+    private int mode = MODE_PROCESS;
+
     private final Random random = new Random();
-    
-    // Property delegate for syncing to client
+
     protected final ContainerData propertyDelegate = new ContainerData() {
         @Override
         public int get(int index) {
@@ -51,8 +57,8 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
                 case 0 -> progress;
                 case 1 -> MAX_PROGRESS;
                 case 2 -> heat;
-                case 3 -> MAX_HEAT;
-                case 4 -> heatMode ? 1 : 0;
+                case 3 -> isPressurizeMode() ? MAX_PRESSURE : MAX_HEAT;
+                case 4 -> mode;
                 default -> 0;
             };
         }
@@ -62,7 +68,7 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
             switch (index) {
                 case 0 -> progress = value;
                 case 2 -> heat = value;
-                case 4 -> heatMode = (value == 1);
+                case 4 -> mode = value;
             }
         }
 
@@ -89,9 +95,10 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
     protected void writeNbt(CompoundTag nbt) {
         nbt.putInt("Progress", progress);
         nbt.putInt("Heat", heat);
-        nbt.putBoolean("HeatMode", heatMode);
-        
-        // Write inventory - save item ID and count
+        nbt.putInt("Mode", mode);
+        // Legacy key for older saves
+        nbt.putBoolean("HeatMode", mode == MODE_HEAT);
+
         ListTag items = new ListTag();
         for (int i = 0; i < inventory.size(); i++) {
             ItemStack stack = inventory.get(i);
@@ -109,9 +116,12 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
     protected void readNbt(CompoundTag nbt) {
         nbt.getInt("Progress").ifPresent(val -> this.progress = val);
         nbt.getInt("Heat").ifPresent(val -> this.heat = val);
-        nbt.getBoolean("HeatMode").ifPresent(val -> this.heatMode = val);
-        
-        // Read inventory - clear first, then load saved items
+        if (nbt.contains("Mode")) {
+            nbt.getInt("Mode").ifPresent(val -> this.mode = val);
+        } else {
+            nbt.getBoolean("HeatMode").ifPresent(val -> this.mode = val ? MODE_HEAT : MODE_PROCESS);
+        }
+
         for (int i = 0; i < inventory.size(); i++) {
             inventory.set(i, ItemStack.EMPTY);
         }
@@ -136,20 +146,27 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
 
     public static void tick(Level world, BlockPos pos, BlockState state, ProcessorBlockEntity entity) {
         if (world.isClientSide()) return;
-        
-        boolean dirty = false;
-        
-        if (entity.heatMode) {
-            dirty = tickHeatMode(entity);
-        } else {
-            dirty = tickProcessingMode(entity);
+
+        // Pressurize is Nearworld-only; snap back if the block somehow left the dimension.
+        if (entity.mode == MODE_PRESSURIZE && !ModDimensions.isNearworld(world.dimension())) {
+            entity.mode = MODE_PROCESS;
+            entity.progress = 0;
+            entity.heat = 0;
+            entity.setChanged();
+            return;
         }
-        
+
+        boolean dirty = switch (entity.mode) {
+            case MODE_HEAT -> tickHeatMode(world, entity);
+            case MODE_PRESSURIZE -> tickPressurizeMode(entity);
+            default -> tickProcessingMode(entity);
+        };
+
         if (dirty) {
             entity.setChanged();
         }
     }
-    
+
     private static boolean tickProcessingMode(ProcessorBlockEntity entity) {
         if (!hasProcessingRecipe(entity)) {
             if (entity.progress > 0) {
@@ -158,20 +175,20 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
             }
             return false;
         }
-        
+
         entity.progress++;
         if (entity.progress >= MAX_PROGRESS) {
             entity.progress = 0;
             processRecipe(entity);
             return true;
         }
-        
+
         return true;
     }
-    
-    private static boolean tickHeatMode(ProcessorBlockEntity entity) {
-        boolean hasRecipe = hasHeatRecipe(entity);
-        
+
+    private static boolean tickHeatMode(Level world, ProcessorBlockEntity entity) {
+        boolean hasRecipe = hasHeatRecipe(world, entity);
+
         if (!hasRecipe) {
             if (entity.progress > 0 || entity.heat > 0) {
                 entity.progress = 0;
@@ -180,99 +197,210 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
             }
             return false;
         }
-        
-        // Heat mode: first heat up, then process
+
         if (entity.heat < MAX_HEAT) {
-            // Heating phase
             entity.heat++;
             return true;
         } else {
-            // Processing phase (after fully heated)
             entity.progress++;
             if (entity.progress >= MAX_PROGRESS) {
                 entity.progress = 0;
                 entity.heat = 0;
-                processHeatRecipe(entity);
+                processHeatRecipe(world, entity);
                 return true;
             }
             return true;
         }
     }
-    
+
+    private static boolean tickPressurizeMode(ProcessorBlockEntity entity) {
+        boolean hasRecipe = hasPressurizeRecipe(entity);
+
+        if (!hasRecipe) {
+            if (entity.progress > 0 || entity.heat > 0) {
+                entity.progress = 0;
+                entity.heat = 0;
+                return true;
+            }
+            return false;
+        }
+
+        if (entity.heat < MAX_PRESSURE) {
+            entity.heat++;
+            return true;
+        } else {
+            entity.progress++;
+            if (entity.progress >= MAX_PROGRESS) {
+                entity.progress = 0;
+                entity.heat = 0;
+                processPressurizeRecipe(entity);
+                return true;
+            }
+            return true;
+        }
+    }
+
     private static boolean hasProcessingRecipe(ProcessorBlockEntity entity) {
         ItemStack primary = entity.getItem(PRIMARY_INPUT_SLOT);
-        
-        // Recipe: Regolith -> chance at iron ingot
-        return !primary.isEmpty() && primary.is(ModBlocks.REGOLITH.asItem());
+        if (primary.isEmpty()) {
+            return false;
+        }
+        if (primary.is(ModBlocks.REGOLITH.asItem())) {
+            return true;
+        }
+        return primary.is(ModBlocks.RAW_OSMIUM.asItem())
+            && canAcceptOutput(entity, new ItemStack(ModItems.OSMIUM_FLAKE));
     }
-    
-    private static boolean hasHeatRecipe(ProcessorBlockEntity entity) {
+
+    private static boolean hasHeatRecipe(Level world, ProcessorBlockEntity entity) {
         ItemStack primary = entity.getItem(PRIMARY_INPUT_SLOT);
         ItemStack secondary = entity.getItem(SECONDARY_INPUT_SLOT);
-        
-        // Recipe: Oxidized Basalt (primary/slot 0) + Regolith (secondary/slot 1) -> chance at Rust Splint
+
         boolean primaryValid = !primary.isEmpty() && primary.is(ModBlocks.OXIDIZED_BASALT.asItem());
         boolean secondaryValid = !secondary.isEmpty() && secondary.is(ModBlocks.REGOLITH.asItem());
-        
-        return primaryValid && secondaryValid;
+        if (primaryValid && secondaryValid) {
+            return canAcceptOutput(entity, new ItemStack(ModItems.RUST_SPLINT));
+        }
+
+        ItemStack smelted = getSmeltingResult(world, primary);
+        return !smelted.isEmpty() && canAcceptOutput(entity, smelted);
     }
-    
+
+    private static boolean hasPressurizeRecipe(ProcessorBlockEntity entity) {
+        ItemStack primary = entity.getItem(PRIMARY_INPUT_SLOT);
+        ItemStack secondary = entity.getItem(SECONDARY_INPUT_SLOT);
+        boolean primaryValid = !primary.isEmpty() && primary.is(ModItems.OPALINE_NICKEL);
+        boolean secondaryValid = !secondary.isEmpty() && secondary.is(ModItems.OSMIUM_FLAKE);
+        return primaryValid && secondaryValid
+            && canAcceptOutput(entity, new ItemStack(ModItems.IRIDIUM_INGOT));
+    }
+
     private static void processRecipe(ProcessorBlockEntity entity) {
         ItemStack primary = entity.getItem(PRIMARY_INPUT_SLOT);
-        
-        // Recipe: Regolith -> 40% iron nugget, 60% nothing
+
+        if (primary.is(ModBlocks.RAW_OSMIUM.asItem())) {
+            primary.shrink(1);
+            if (entity.random.nextFloat() < 0.6f) {
+                insertOutput(entity, new ItemStack(ModItems.OSMIUM_FLAKE));
+            }
+            return;
+        }
+
+        // Regolith -> 40% iron nugget, 60% nothing
         if (primary.is(ModBlocks.REGOLITH.asItem())) {
             primary.shrink(1);
-            
+
             if (entity.random.nextFloat() < 0.4f) {
-                // 40% chance for iron nugget
                 ItemStack output = entity.getItem(OUTPUT_SLOT);
                 if (output.isEmpty()) {
                     entity.setItem(OUTPUT_SLOT, new ItemStack(Items.IRON_NUGGET));
                 } else if (output.is(Items.IRON_NUGGET) && output.getCount() < output.getMaxStackSize()) {
                     output.grow(1);
                 }
-                // If output is full, item is lost (or we could prevent processing)
             }
-            // 60% chance: nothing happens (input consumed, no output)
         }
     }
-    
-    private static void processHeatRecipe(ProcessorBlockEntity entity) {
+
+    private static void processHeatRecipe(Level world, ProcessorBlockEntity entity) {
         ItemStack primary = entity.getItem(PRIMARY_INPUT_SLOT);
         ItemStack secondary = entity.getItem(SECONDARY_INPUT_SLOT);
-        
-        // Recipe: Oxidized Basalt + Regolith -> 20% Rust Splint, 80% nothing
-        if (primary.is(ModBlocks.OXIDIZED_BASALT.asItem()) 
+
+        if (primary.is(ModBlocks.OXIDIZED_BASALT.asItem())
             && secondary.is(ModBlocks.REGOLITH.asItem())) {
             primary.shrink(1);
             secondary.shrink(1);
-            
+
             if (entity.random.nextFloat() < 0.2f) {
-                // 20% chance for rust splint
-                ItemStack output = entity.getItem(OUTPUT_SLOT);
-                if (output.isEmpty()) {
-                    entity.setItem(OUTPUT_SLOT, new ItemStack(ModItems.RUST_SPLINT));
-                } else if (output.is(ModItems.RUST_SPLINT) && output.getCount() < output.getMaxStackSize()) {
-                    output.grow(1);
-                }
+                insertOutput(entity, new ItemStack(ModItems.RUST_SPLINT));
             }
-            // 80% chance: nothing happens (inputs consumed, no output)
+            return;
+        }
+
+        ItemStack smelted = getSmeltingResult(world, primary);
+        if (smelted.isEmpty()) {
+            return;
+        }
+        primary.shrink(1);
+        if (entity.random.nextFloat() < 0.4f) {
+            insertOutput(entity, smelted);
         }
     }
-    
+
+    private static void processPressurizeRecipe(ProcessorBlockEntity entity) {
+        ItemStack primary = entity.getItem(PRIMARY_INPUT_SLOT);
+        ItemStack secondary = entity.getItem(SECONDARY_INPUT_SLOT);
+        if (!primary.is(ModItems.OPALINE_NICKEL) || !secondary.is(ModItems.OSMIUM_FLAKE)) {
+            return;
+        }
+        primary.shrink(1);
+        secondary.shrink(1);
+        insertOutput(entity, new ItemStack(ModItems.IRIDIUM_INGOT));
+    }
+
+    private static ItemStack getSmeltingResult(Level world, ItemStack input) {
+        if (input.isEmpty() || world.getServer() == null) {
+            return ItemStack.EMPTY;
+        }
+        SingleRecipeInput recipeInput = new SingleRecipeInput(input);
+        return world.getServer()
+            .getRecipeManager()
+            .<SingleRecipeInput, SmeltingRecipe>getRecipeFor(RecipeType.SMELTING, recipeInput, world)
+            .map(RecipeHolder::value)
+            .map(recipe -> recipe.assemble(recipeInput))
+            .orElse(ItemStack.EMPTY);
+    }
+
+    private static boolean canAcceptOutput(ProcessorBlockEntity entity, ItemStack result) {
+        if (result.isEmpty()) {
+            return false;
+        }
+        ItemStack output = entity.getItem(OUTPUT_SLOT);
+        if (output.isEmpty()) {
+            return true;
+        }
+        return ItemStack.isSameItemSameComponents(output, result)
+            && output.getCount() + result.getCount() <= output.getMaxStackSize();
+    }
+
+    private static void insertOutput(ProcessorBlockEntity entity, ItemStack result) {
+        ItemStack output = entity.getItem(OUTPUT_SLOT);
+        if (output.isEmpty()) {
+            entity.setItem(OUTPUT_SLOT, result.copy());
+        } else if (ItemStack.isSameItemSameComponents(output, result)
+            && output.getCount() < output.getMaxStackSize()) {
+            output.grow(Math.min(result.getCount(), output.getMaxStackSize() - output.getCount()));
+        }
+    }
+
+    /** Cycles Process → Heat → (Pressurize if Nearworld) → Process. */
     public void toggleMode() {
-        this.heatMode = !this.heatMode;
+        boolean nearworld = this.level != null && ModDimensions.isNearworld(this.level.dimension());
+        this.mode = switch (this.mode) {
+            case MODE_PROCESS -> MODE_HEAT;
+            case MODE_HEAT -> nearworld ? MODE_PRESSURIZE : MODE_PROCESS;
+            default -> MODE_PROCESS;
+        };
         this.progress = 0;
         this.heat = 0;
         this.setChanged();
     }
-    
-    public boolean isHeatMode() {
-        return heatMode;
+
+    public int getMode() {
+        return mode;
     }
 
-    // Inventory implementation
+    public boolean isHeatMode() {
+        return mode == MODE_HEAT;
+    }
+
+    public boolean isPressurizeMode() {
+        return mode == MODE_PRESSURIZE;
+    }
+
+    public boolean isProcessMode() {
+        return mode == MODE_PROCESS;
+    }
+
     @Override
     public int getContainerSize() {
         return INVENTORY_SIZE;

@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/slab_top",
+	"textures": {
+		"bottom": "theouterworlds:block/anhydrite",
+		"top": "theouterworlds:block/anhydrite",
+		"side": "theouterworlds:block/anhydrite"
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"parent": "minecraft:block/pitcher_crop_top_stage_4",
+	"render_type": "cutout",
+	"textures": {
+		"particle": "theouterworlds:block/frozen_pitcher_crop_top",
+		"stage_4_top": "theouterworlds:block/frozen_pitcher_crop_top_stage_4",
+		"pitcher_top": "theouterworlds:block/frozen_pitcher_crop_top",
+		"pitcher_side": "theouterworlds:block/frozen_pitcher_crop_side"
+	}
+}

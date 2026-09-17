@@ -1,0 +1,11 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"category": "misc",
+	"ingredients": [
+		"theouterworlds:salt_block"
+	],
+	"result": {
+		"id": "theouterworlds:salt",
+		"count": 9
+	}
+}

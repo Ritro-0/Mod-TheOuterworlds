@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "equipment",
+	"pattern": [
+		"O O",
+		"NPN",
+		"III"
+	],
+	"key": {
+		"O": "theouterworlds:opal",
+		"N": "theouterworlds:nickel_ingot",
+		"P": "theouterworlds:opaline_nickel",
+		"I": "#theouterworlds:cut_iron_slabs"
+	},
+	"result": {
+		"id": "theouterworlds:emergency_return_pod",
+		"count": 1
+	}
+}

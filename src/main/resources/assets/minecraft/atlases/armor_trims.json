@@ -22,7 +22,8 @@
 				"resin": "minecraft:trims/color_palettes/resin",
 				"olivine": "theouterworlds:trims/color_palettes/olivine",
 				"opal": "theouterworlds:trims/color_palettes/opal",
-				"jarosite": "theouterworlds:trims/color_palettes/jarosite"
+				"jarosite": "theouterworlds:trims/color_palettes/jarosite",
+				"graphite": "theouterworlds:trims/color_palettes/graphite"
 			},
 			"textures": [
 				"minecraft:trims/entity/humanoid/sentry",

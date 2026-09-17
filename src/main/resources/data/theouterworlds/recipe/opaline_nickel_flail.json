@@ -7,7 +7,7 @@
 	],
 	"key": {
 		"N": "theouterworlds:opaline_nickel",
-		"S": "minecraft:stick"
+		"S": "#theouterworlds:sticks"
 	},
 	"result": {
 		"id": "theouterworlds:opaline_nickel_flail",

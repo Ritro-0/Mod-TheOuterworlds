@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"category": "misc",
+	"ingredients": [
+		"theouterworlds:jarosite",
+		"theouterworlds:regolith"
+	],
+	"result": {
+		"id": "theouterworlds:survival_brick",
+		"count": 1
+	}
+}

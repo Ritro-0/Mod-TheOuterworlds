@@ -4,7 +4,11 @@
 		"theouterworlds:cut_nickel_slab",
 		"theouterworlds:pyroxenite_slab",
 		"theouterworlds:polished_pyroxenite_slab",
+		"theouterworlds:anhydrite_slab",
+		"theouterworlds:polished_anhydrite_slab",
 		"theouterworlds:norite_slab",
-		"theouterworlds:gabbro_slab"
+		"theouterworlds:gabbro_slab",
+		"theouterworlds:enstatite_slab",
+		"theouterworlds:komatiite_slab"
 	]
 }

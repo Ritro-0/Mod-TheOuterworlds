@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"hanging=false": {
+			"model": "theouterworlds:block/exposed_lantern"
+		},
+		"hanging=true": {
+			"model": "theouterworlds:block/exposed_lantern_hanging"
+		}
+	}
+}

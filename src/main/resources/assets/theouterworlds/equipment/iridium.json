@@ -1,0 +1,14 @@
+{
+	"layers": {
+		"humanoid": [
+			{
+				"texture": "theouterworlds:iridium"
+			}
+		],
+		"humanoid_leggings": [
+			{
+				"texture": "theouterworlds:iridium"
+			}
+		]
+	}
+}

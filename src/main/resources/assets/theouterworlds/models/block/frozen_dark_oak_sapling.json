@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/cross",
+	"render_type": "cutout",
+	"textures": {
+		"cross": "theouterworlds:block/frozen_dark_oak_sapling"
+	}
+}

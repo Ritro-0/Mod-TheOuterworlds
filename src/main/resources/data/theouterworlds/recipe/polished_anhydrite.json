@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"##",
+		"##"
+	],
+	"key": {
+		"#": "theouterworlds:anhydrite"
+	},
+	"result": {
+		"id": "theouterworlds:polished_anhydrite",
+		"count": 4
+	}
+}

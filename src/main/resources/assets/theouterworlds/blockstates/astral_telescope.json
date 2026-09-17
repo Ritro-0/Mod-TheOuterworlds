@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "theouterworlds:block/astral_telescope" },
+		"facing=south": { "model": "theouterworlds:block/astral_telescope" },
+		"facing=west": { "model": "theouterworlds:block/astral_telescope" },
+		"facing=east": { "model": "theouterworlds:block/astral_telescope" }
+	}
+}

@@ -14,13 +14,21 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Util;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BrushItem;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.FireworkRocketItem;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SmithingTemplateItem;
+import net.minecraft.world.item.component.Consumables;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -29,6 +37,7 @@ import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.component.Fireworks;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.level.block.Block;
 
 public class ModItems {
 	public static final Item OXIDIZED_BASALT_ROCK = registerItem(
@@ -74,6 +83,16 @@ public class ModItems {
 	public static final Item RUST_SPLINT = registerItem(
 		"rust_splint",
 		key -> new Item(new Item.Properties().setId(key))
+	);
+
+	public static final Item OXIDIZED_COIL = registerItem(
+		"oxidized_coil",
+		key -> new Item(new Item.Properties().setId(key))
+	);
+
+	public static final Item OXIDIZED_COIL_BRUSH = registerItem(
+		"oxidized_coil_brush",
+		key -> new BrushItem(new Item.Properties().setId(key).durability(32))
 	);
 
 	public static final Item HEMATITE = registerItem(
@@ -232,6 +251,86 @@ public class ModItems {
 		key -> new Item(new Item.Properties().setId(key))
 	);
 
+	public static final Item OSMIUM_FLAKE = registerItem(
+		"osmium_flake",
+		key -> new Item(new Item.Properties().setId(key))
+	);
+
+	public static final Item IRIDIUM_INGOT = registerItem(
+		"iridium_ingot",
+		key -> new Item(new Item.Properties().setId(key).fireResistant())
+	);
+
+	public static final Item IRIDIUM_NUGGET = registerItem(
+		"iridium_nugget",
+		key -> new Item(new Item.Properties().setId(key).fireResistant())
+	);
+
+	public static final Item IRIDIUM_HELMET = registerItem(
+		"iridium_helmet",
+		key -> new Item(new Item.Properties().setId(key).fireResistant().humanoidArmor(ModArmorMaterials.IRIDIUM, ArmorType.HELMET))
+	);
+
+	public static final Item IRIDIUM_CHESTPLATE = registerItem(
+		"iridium_chestplate",
+		key -> new Item(new Item.Properties().setId(key).fireResistant().humanoidArmor(ModArmorMaterials.IRIDIUM, ArmorType.CHESTPLATE))
+	);
+
+	public static final Item IRIDIUM_LEGGINGS = registerItem(
+		"iridium_leggings",
+		key -> new Item(new Item.Properties().setId(key).fireResistant().humanoidArmor(ModArmorMaterials.IRIDIUM, ArmorType.LEGGINGS))
+	);
+
+	public static final Item IRIDIUM_BOOTS = registerItem(
+		"iridium_boots",
+		key -> new Item(new Item.Properties().setId(key).fireResistant().humanoidArmor(ModArmorMaterials.IRIDIUM, ArmorType.BOOTS))
+	);
+
+	public static final Item EMERGENCY_RETURN_POD = registerItem(
+		"emergency_return_pod",
+		key -> new EmergencyReturnPodItem(key, new Item.Properties().setId(key))
+	);
+
+	public static final Item BROKEN_EMERGENCY_RETURN_POD = registerItem(
+		"broken_emergency_return_pod",
+		key -> new Item(new Item.Properties().setId(key).stacksTo(1))
+	);
+
+	public static final Item QUANTUM_POD = registerItem(
+		"quantum_pod",
+		key -> new QuantumPodItem(key, new Item.Properties().setId(key))
+	);
+
+	public static final Item SALT = registerItem(
+		"salt",
+		key -> new Item(new Item.Properties().setId(key))
+	);
+
+	public static final Item AEROSTAT_BALLOON = registerItem(
+		"aerostat_balloon",
+		key -> new AerostatBalloonItem(key, new Item.Properties().setId(key))
+	);
+
+	public static final Item METALLIC_HYDROGEN = registerItem(
+		"metallic_hydrogen",
+		key -> new MetallicHydrogenItem(new Item.Properties().setId(key).fireResistant())
+	);
+
+	public static final Item METALLIC_HELIUM = registerItem(
+		"metallic_helium",
+		key -> new MetallicHeliumItem(new Item.Properties().setId(key).fireResistant())
+	);
+
+	public static final Item IONIC_AMMONIA = registerItem(
+		"ionic_ammonia",
+		key -> new IonicAmmoniaItem(new Item.Properties().setId(key).fireResistant())
+	);
+
+	public static final Item IONIC_METHANE = registerItem(
+		"ionic_methane",
+		key -> new IonicMethaneItem(new Item.Properties().setId(key).fireResistant())
+	);
+
 	public static final Item OPALINE_NICKEL_FLAIL = registerItem(
 		"opaline_nickel_flail",
 		key -> new OpalineNickelFlailItem(key, new Item.Properties().setId(key))
@@ -256,9 +355,124 @@ public class ModItems {
 		}
 	);
 
+	public static final Item UNLIT_TORCH = registerItem(
+		"unlit_torch",
+		key -> {
+			StandingAndWallBlockItem item = new StandingAndWallBlockItem(
+				ModBlocks.UNLIT_TORCH,
+				ModBlocks.UNLIT_WALL_TORCH,
+				Direction.DOWN,
+				new Item.Properties().setId(key).useBlockDescriptionPrefix()
+			);
+			item.registerBlocks(Item.BY_BLOCK, item);
+			return item;
+		}
+	);
+
 	public static final Item JAROSITE = registerItem(
 		"jarosite",
 		key -> new Item(new Item.Properties().setId(key).fireResistant().trimMaterial(ModTrimMaterials.JAROSITE))
+	);
+
+	public static final Item GRAPHITE_SHARD = registerItem(
+		"graphite_shard",
+		key -> new Item(new Item.Properties().setId(key).fireResistant().trimMaterial(ModTrimMaterials.GRAPHITE))
+	);
+
+	/** Half of one hunger shank (1 / 20 of the hunger bar). */
+	private static final FoodProperties FROZEN_SNACK = new FoodProperties.Builder()
+		.nutrition(1)
+		.saturationModifier(0.1F)
+		.build();
+
+	public static final Item FROZEN_WHEAT_SEEDS = registerItem(
+		"frozen_wheat_seeds",
+		key -> frozenCropSeed(ModBlocks.FROZEN_WHEAT, key)
+	);
+
+	public static final Item FROZEN_WHEAT = registerItem(
+		"frozen_wheat",
+		key -> new Item(new Item.Properties().setId(key).food(FROZEN_SNACK))
+	);
+
+	public static final Item FROZEN_CARROT = registerItem(
+		"frozen_carrot",
+		key -> frozenCropSeed(ModBlocks.FROZEN_CARROTS, key)
+	);
+
+	public static final Item FROZEN_POTATO = registerItem(
+		"frozen_potato",
+		key -> frozenCropSeed(ModBlocks.FROZEN_POTATOES, key)
+	);
+
+	public static final Item FROZEN_POISONOUS_POTATO = registerItem(
+		"frozen_poisonous_potato",
+		key -> new Item(
+			new Item.Properties()
+				.setId(key)
+				.food(FROZEN_SNACK, Consumables.POISONOUS_POTATO)
+		)
+	);
+
+	public static final Item FROZEN_BEETROOT_SEEDS = registerItem(
+		"frozen_beetroot_seeds",
+		key -> frozenCropSeed(ModBlocks.FROZEN_BEETROOTS, key)
+	);
+
+	public static final Item FROZEN_BEETROOT = registerItem(
+		"frozen_beetroot",
+		key -> new Item(new Item.Properties().setId(key).food(FROZEN_SNACK))
+	);
+
+	public static final Item FROZEN_TORCHFLOWER_SEEDS = registerItem(
+		"frozen_torchflower_seeds",
+		key -> frozenCropSeed(ModBlocks.FROZEN_TORCHFLOWER_CROP, key)
+	);
+
+	public static final Item FROZEN_PITCHER_POD = registerItem(
+		"frozen_pitcher_pod",
+		key -> frozenCropSeed(ModBlocks.FROZEN_PITCHER_CROP, key)
+	);
+
+	public static final Item FROZEN_PITCHER_PLANT = registerItem(
+		"frozen_pitcher_plant",
+		key -> new Item(new Item.Properties().setId(key))
+	);
+
+	public static final Item FROZEN_COCOA_BEANS = registerItem(
+		"frozen_cocoa_beans",
+		key -> {
+			BlockItem item = new BlockItem(
+				ModBlocks.FROZEN_COCOA,
+				new Item.Properties().setId(key).useItemDescriptionPrefix()
+			);
+			item.registerBlocks(Item.BY_BLOCK, item);
+			return item;
+		}
+	);
+
+	public static final Item FROZEN_PUMPKIN_SEEDS = registerItem(
+		"frozen_pumpkin_seeds",
+		key -> frozenCropSeed(ModBlocks.FROZEN_PUMPKIN_STEM, key)
+	);
+
+	public static final Item FROZEN_MELON_SEEDS = registerItem(
+		"frozen_melon_seeds",
+		key -> frozenCropSeed(ModBlocks.FROZEN_MELON_STEM, key)
+	);
+
+	public static final Item SURVIVAL_BRICK = registerItem(
+		"survival_brick",
+		key -> new Item(
+			new Item.Properties()
+				.setId(key)
+				.food(
+					new FoodProperties.Builder().nutrition(8).saturationModifier(0.1F).build(),
+					Consumables.defaultFood()
+						.onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.NAUSEA, 240, 0)))
+						.build()
+				)
+		)
 	);
 
 	public static final Item JAROSITE_ROCKET = registerItem(
@@ -299,6 +513,14 @@ public class ModItems {
 		)
 	);
 
+	public static final Item METHANE_BUCKET = registerItem(
+		"methane_bucket",
+		key -> new BucketItem(
+			com.theouterworld.registry.ModFluids.LIQUID_METHANE,
+			new Item.Properties().setId(key).craftRemainder(net.minecraft.world.item.Items.BUCKET).stacksTo(1)
+		)
+	);
+
 	public static final Item KHARAX_SPAWN_EGG = registerItem(
 		"kharax_spawn_egg",
 		key -> new SpawnEggItem(
@@ -332,6 +554,15 @@ public class ModItems {
 		}
 	);
 
+	private static Item frozenCropSeed(Block crop, ResourceKey<Item> key) {
+		BlockItem item = new BlockItem(
+			crop,
+			new Item.Properties().setId(key).food(FROZEN_SNACK).useItemDescriptionPrefix()
+		);
+		item.registerBlocks(Item.BY_BLOCK, item);
+		return item;
+	}
+
 	private static Item registerItem(String name, Function<ResourceKey<Item>, Item> factory) {
 		Identifier id = OuterWorldMod.id(name);
 		ResourceKey<Item> key = ResourceKey.create(BuiltInRegistries.ITEM.key(), id);
@@ -341,5 +572,11 @@ public class ModItems {
 
 	public static void registerModItems() {
 		OuterWorldMod.LOGGER.info("Registering items for {}", OuterWorldMod.MOD_ID);
+		Item.BY_BLOCK.put(ModBlocks.FROZEN_ATTACHED_PUMPKIN_STEM, FROZEN_PUMPKIN_SEEDS);
+		Item.BY_BLOCK.put(ModBlocks.FROZEN_ATTACHED_MELON_STEM, FROZEN_MELON_SEEDS);
+		Item.BY_BLOCK.put(ModBlocks.METALLIC_HYDROGEN, METALLIC_HYDROGEN);
+		Item.BY_BLOCK.put(ModBlocks.METALLIC_HELIUM, METALLIC_HELIUM);
+		Item.BY_BLOCK.put(ModBlocks.IONIC_AMMONIA, IONIC_AMMONIA);
+		Item.BY_BLOCK.put(ModBlocks.IONIC_METHANE, IONIC_METHANE);
 	}
 }

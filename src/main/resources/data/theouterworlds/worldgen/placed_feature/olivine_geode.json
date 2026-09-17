@@ -1,5 +1,5 @@
 {
-	"feature": "theouterworlds:olivine_geode",
+	"feature": "theouterworlds:outerworld_olivine_geode",
 	"placement": [
 		{
 			"type": "minecraft:rarity_filter",
@@ -31,7 +31,6 @@
 				"type": "minecraft:matching_blocks",
 				"blocks": [
 					"theouterworlds:oxidized_basalt",
-					"theouterworlds:anorthosite",
 					"theouterworlds:regolith",
 					"theouterworlds:anorthositic_regolith",
 					"theouterworlds:pyroxenite",

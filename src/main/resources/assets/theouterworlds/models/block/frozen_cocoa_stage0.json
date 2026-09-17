@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/cocoa_stage0",
+	"textures": {
+		"particle": "theouterworlds:block/frozen_cocoa_stage0",
+		"cocoa": "theouterworlds:block/frozen_cocoa_stage0"
+	}
+}

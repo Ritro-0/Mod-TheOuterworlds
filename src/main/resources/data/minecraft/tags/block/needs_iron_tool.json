@@ -3,7 +3,10 @@
 	"values": [
 		"theouterworlds:anorthosite_gold_ore",
 		"theouterworlds:anorthosite_redstone_ore",
-		"theouterworlds:rift_pad",
-		"theouterworlds:anorthosite_opal_ore"
+		"theouterworlds:rift_charge","theouterworlds:rift_pad",
+		"theouterworlds:anorthosite_opal_ore",
+		"theouterworlds:graphite",
+		"theouterworlds:enstatite_diamond_ore",
+		"theouterworlds:komatiite_diamond_ore"
 	]
 }

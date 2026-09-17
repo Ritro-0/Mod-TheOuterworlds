@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/template_farmland",
+	"textures": {
+		"dirt": "theouterworlds:block/regolith",
+		"top": "theouterworlds:block/regolith_farmland"
+	}
+}

@@ -3,6 +3,8 @@
 	"values": [
 		"theouterworlds:dry_ice",
 		"theouterworlds:carbonic_ice",
+		"theouterworlds:nitrogen_ice",
+		"theouterworlds:methane_ice",
 		"theouterworlds:ice",
 		"theouterworlds:packed_ice",
 		"theouterworlds:blue_ice"

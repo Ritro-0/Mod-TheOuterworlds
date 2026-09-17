@@ -1,6 +1,11 @@
 {
 	"replace": false,
 	"values": [
-		"theouterworlds:knapping_table"
+		"theouterworlds:frozen_melon",
+		"theouterworlds:frozen_pumpkin",
+		"theouterworlds:frozen_cocoa",
+		"theouterworlds:frozen_azalea",
+		"theouterworlds:frozen_flowering_azalea",
+		"theouterworlds:frozen_bamboo"
 	]
 }

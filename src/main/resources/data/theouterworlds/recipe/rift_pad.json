@@ -1,15 +1,16 @@
 {
 	"type": "minecraft:crafting_shaped",
 	"pattern": [
-		" A ",
-		"IBI",
-		"NNN"
+		" O ",
+		"KPK",
+		"NRN"
 	],
 	"key": {
-		"A": "minecraft:amethyst_shard",
-		"I": "minecraft:iron_block",
-		"B": "minecraft:beacon",
-		"N": "minecraft:netherite_ingot"
+		"O": "theouterworlds:opal",
+		"K": "theouterworlds:kharax_chitin",
+		"P": "theouterworlds:perchlorate_crystal",
+		"N": "minecraft:netherite_ingot",
+		"R": "theouterworlds:redsteel_ingot"
 	},
 	"result": {
 		"id": "theouterworlds:rift_pad",

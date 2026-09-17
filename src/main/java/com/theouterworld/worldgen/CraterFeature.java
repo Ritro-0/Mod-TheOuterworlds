@@ -7,6 +7,7 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BrushableBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -168,13 +169,24 @@ public class CraterFeature extends Feature<NoneFeatureConfiguration> {
 					elev = localRim * Math.pow(1.0 - outerT, 1.45);
 				}
 
-				int plains = plainsHeight(seed, x, z);
-				int surfaceY = Math.max(minY, plains + (int) Math.round(elev));
-				int clearTop = plains + (int) Math.ceil(rimHeight) + 16;
+				int originalSurface = findSurfaceY(world, x, z, minY, cursor);
+				if (originalSurface <= minY) {
+					continue;
+				}
+				int surfaceY = Math.max(minY, originalSurface + (int) Math.round(elev));
+				int clearTop = Math.max(originalSurface, surfaceY) + 12;
 				for (int y = clearTop; y > surfaceY; y--) {
 					cursor.set(x, y, z);
 					if (!world.getBlockState(cursor).is(Blocks.BEDROCK)) {
 						world.setBlock(cursor, Blocks.AIR.defaultBlockState(), 2);
+					}
+				}
+				if (surfaceY > originalSurface) {
+					for (int y = originalSurface + 1; y < surfaceY; y++) {
+						cursor.set(x, y, z);
+						if (!world.getBlockState(cursor).is(Blocks.BEDROCK)) {
+							world.setBlock(cursor, basalt, 2);
+						}
 					}
 				}
 
@@ -195,23 +207,46 @@ public class CraterFeature extends Feature<NoneFeatureConfiguration> {
 						brushable.setLootTable(ModLootTables.SUSPICIOUS_REGOLITH, BlockPos.asLong(x, surfaceY, z) ^ seed);
 					}
 				}
-				if (inner && t < 0.70) {
-					for (int y = surfaceY - 1; y >= surfaceY - 2 && y > minY; y--) {
-						cursor.set(x, y, z);
-						if (!world.getBlockState(cursor).is(Blocks.BEDROCK)) {
-							world.setBlock(cursor, basalt, 2);
-						}
-					}
-				}
+				fillSupport(world, cursor, x, z, surfaceY - 1, minY, basalt, inner && t < 0.70 ? 12 : 8);
 			}
 		}
 		return true;
 	}
 
-	private static int plainsHeight(long seed, int x, int z) {
-		double roll = 8.0 * WorldgenNoise.signed(WorldgenNoise.octaveNoise(seed + 501, x / 95.0, z / 95.0, 2, 0.5));
-		double detail = 4.0 * WorldgenNoise.signed(WorldgenNoise.octaveNoise(seed + 521, x / 42.0, z / 42.0, 2, 0.45));
-		return 76 + (int) Math.round(roll + detail);
+	private static int findSurfaceY(WorldGenLevel world, int x, int z, int minY, BlockPos.MutableBlockPos cursor) {
+		int y = world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z);
+		while (y > minY) {
+			cursor.set(x, y, z);
+			BlockState state = world.getBlockState(cursor);
+			if (!state.isAir() && !state.canBeReplaced()) {
+				return y;
+			}
+			y--;
+		}
+		return minY;
+	}
+
+	private static void fillSupport(
+		WorldGenLevel world,
+		BlockPos.MutableBlockPos cursor,
+		int x,
+		int z,
+		int fromY,
+		int minY,
+		BlockState fill,
+		int maxDepth
+	) {
+		for (int y = fromY; y > fromY - maxDepth && y > minY; y--) {
+			cursor.set(x, y, z);
+			BlockState state = world.getBlockState(cursor);
+			if (state.is(Blocks.BEDROCK)) {
+				break;
+			}
+			if (!state.isAir() && !state.canBeReplaced()) {
+				break;
+			}
+			world.setBlock(cursor, fill, 2);
+		}
 	}
 
 	private static double angleDelta(double angle, double target) {

@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"hanging=false": {
+			"model": "theouterworlds:block/frozen_waxed_exposed_copper_lantern"
+		},
+		"hanging=true": {
+			"model": "theouterworlds:block/frozen_waxed_exposed_copper_lantern_hanging"
+		}
+	}
+}

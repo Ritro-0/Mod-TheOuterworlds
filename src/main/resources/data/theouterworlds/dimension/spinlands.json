@@ -1,0 +1,11 @@
+{
+	"type": "theouterworlds:spinlands",
+	"generator": {
+		"type": "minecraft:noise",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "theouterworlds:spinlands"
+		},
+		"settings": "theouterworlds:spinlands"
+	}
+}

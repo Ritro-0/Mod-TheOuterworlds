@@ -6,7 +6,7 @@
 			"type": "minecraft:multi_noise",
 			"biomes": [
 				{
-					"biome": "theouterworlds:innerworld",
+					"biome": "theouterworlds:innerworld_highlands",
 					"parameters": {
 						"temperature": [-1.0, 1.0],
 						"humidity": [-1.0, 1.0],

@@ -1,6 +1,7 @@
 package com.theouterworld.client;
 
 import com.theouterworld.OuterWorldMod;
+import com.theouterworld.block.ProcessorBlockEntity;
 import com.theouterworld.network.ProcessorModeTogglePacket;
 import com.theouterworld.screen.ProcessorScreenHandler;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -15,20 +16,19 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class ProcessorScreen extends AbstractContainerScreen<ProcessorScreenHandler> implements MenuAccess<ProcessorScreenHandler> {
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(OuterWorldMod.MOD_ID, "textures/gui/container/processor.png");
-    
-    // Progress bar dimensions (similar to brewing stand bubbles/arrow)
+
     private static final int PROGRESS_BAR_X = 97;
     private static final int PROGRESS_BAR_Y = 16;
     private static final int PROGRESS_BAR_WIDTH = 9;
     private static final int PROGRESS_BAR_HEIGHT = 28;
-    
-    // Heat bar dimensions (similar to blaze powder meter)
+
     private static final int HEAT_BAR_X = 17;
     private static final int HEAT_BAR_Y = 34;
     private static final int HEAT_BAR_WIDTH = 16;
-    private static final int HEAT_BAR_HEIGHT = 4;
-    
-    // Mode toggle button
+
+    private static final int HEAT_COLOR = 0xFFFF6600;
+    private static final int PRESSURE_COLOR = 0xFFB8E000;
+
     private Button modeButton;
 
     public ProcessorScreen(ProcessorScreenHandler handler, Inventory inventory, Component title) {
@@ -38,56 +38,55 @@ public class ProcessorScreen extends AbstractContainerScreen<ProcessorScreenHand
     @Override
     protected void init() {
         super.init();
-        // Center the title
         titleLabelX = (imageWidth - font.width(title)) / 2;
-        
-        // Add mode toggle button (below secondary input slot)
+
         int buttonX = this.leftPos + 7;
-        int buttonY = this.topPos + 59;
+        int buttonY = this.topPos + 56;
         modeButton = Button.builder(getModeButtonText(), button -> {
-            // Get BlockPos from handler (works on server) or from player's target block
             net.minecraft.core.BlockPos pos = menu.getBlockPos();
-            OuterWorldMod.LOGGER.info("[Processor Client] Button clicked, handler BlockPos: {}", pos);
-            // If handler doesn't have the pos (client side), try to get it from player's target
             if (pos.equals(net.minecraft.core.BlockPos.ZERO) && this.minecraft != null && this.minecraft.player != null) {
-                // Try crosshair target first
                 var hitResult = this.minecraft.hitResult;
                 if (hitResult instanceof net.minecraft.world.phys.BlockHitResult blockHit) {
                     pos = blockHit.getBlockPos();
-                    OuterWorldMod.LOGGER.info("[Processor Client] Got BlockPos from crosshair: {}", pos);
                 } else {
-                    // Fallback: look for processor block near player (within 5 blocks)
                     var playerPos = this.minecraft.player.blockPosition();
                     var world = this.minecraft.player.level();
+                    outer:
                     for (int x = -5; x <= 5; x++) {
                         for (int y = -5; y <= 5; y++) {
                             for (int z = -5; z <= 5; z++) {
                                 var checkPos = playerPos.offset(x, y, z);
-                                if (world.getBlockEntity(checkPos) instanceof com.theouterworld.block.ProcessorBlockEntity) {
+                                if (world.getBlockEntity(checkPos) instanceof ProcessorBlockEntity) {
                                     pos = checkPos;
-                                    OuterWorldMod.LOGGER.info("[Processor Client] Found BlockPos near player: {}", pos);
-                                    break;
+                                    break outer;
                                 }
                             }
-                            if (!pos.equals(net.minecraft.core.BlockPos.ZERO)) break;
                         }
-                        if (!pos.equals(net.minecraft.core.BlockPos.ZERO)) break;
                     }
                 }
             }
-            // Send packet to toggle mode on server
             if (!pos.equals(net.minecraft.core.BlockPos.ZERO)) {
-                OuterWorldMod.LOGGER.info("[Processor Client] Sending toggle packet with BlockPos: {}", pos);
                 ClientPlayNetworking.send(new ProcessorModeTogglePacket(pos));
-            } else {
-                OuterWorldMod.LOGGER.warn("[Processor Client] Could not determine BlockPos, not sending packet");
             }
-        }).bounds(buttonX, buttonY, 50, 16).build();
+        }).bounds(buttonX, buttonY, 58, 16).build();
         this.addRenderableWidget(modeButton);
     }
 
     private Component getModeButtonText() {
-        return menu.isHeatMode() ? Component.literal("Heat") : Component.literal("Process");
+        int mode = menu.getMode();
+        return switch (mode) {
+            case ProcessorBlockEntity.MODE_HEAT -> Component.literal("Heat");
+            case ProcessorBlockEntity.MODE_PRESSURIZE -> Component.literal("Pressurize");
+            default -> Component.literal("Process");
+        };
+    }
+
+    private String getModeLabel() {
+        return switch (menu.getMode()) {
+            case ProcessorBlockEntity.MODE_HEAT -> "Heat Mode";
+            case ProcessorBlockEntity.MODE_PRESSURIZE -> "Pressurize Mode";
+            default -> "Process Mode";
+        };
     }
 
     @Override
@@ -105,7 +104,6 @@ public class ProcessorScreen extends AbstractContainerScreen<ProcessorScreenHand
             256, 256
         );
 
-        // Progress bar (green, fills downward)
         float progress = menu.getProgressScaled();
         if (progress > 0) {
             int progressHeight = (int) (PROGRESS_BAR_HEIGHT * progress);
@@ -114,26 +112,27 @@ public class ProcessorScreen extends AbstractContainerScreen<ProcessorScreenHand
             context.fill(barX, barY, barX + PROGRESS_BAR_WIDTH, barY + progressHeight, 0xFF00AA00);
         }
 
-        // Heat bar (orange, fills upward) — heat mode only
-        if (menu.isHeatMode()) {
+        if (menu.isHeatMode() || menu.isPressurizeMode()) {
             float heat = menu.getHeatScaled();
             if (heat > 0) {
                 int heatHeight = (int) (20 * heat);
                 int barX = x + HEAT_BAR_X;
                 int barY = y + HEAT_BAR_Y + (20 - heatHeight);
-                context.fill(barX, barY, barX + HEAT_BAR_WIDTH, barY + heatHeight, 0xFFFF6600);
+                int color = menu.isPressurizeMode() ? PRESSURE_COLOR : HEAT_COLOR;
+                context.fill(barX, barY, barX + HEAT_BAR_WIDTH, barY + heatHeight, color);
             }
         }
     }
 
     @Override
-    protected void extractLabels(net.minecraft.client.gui.GuiGraphicsExtractor context, int mouseX, int mouseY) {
+    protected void extractLabels(GuiGraphicsExtractor context, int mouseX, int mouseY) {
         super.extractLabels(context, mouseX, mouseY);
-        String modeText = menu.isHeatMode() ? "Heat Mode" : "Process Mode";
-        context.text(this.font, modeText, 7, 64, 4210752, false);
+        // If client left Nearworld while GUI open and mode is Pressurize, still show label from sync.
+        context.text(this.font, getModeLabel(), 7, 64, 4210752, false);
         if (modeButton != null) {
             modeButton.setMessage(getModeButtonText());
+            // Pressurize only appears via cycling in Nearworld; button always present for Process/Heat.
+            modeButton.visible = true;
         }
     }
 }
-

@@ -1,13 +1,15 @@
 package com.theouterworld.client;
 
-import com.theouterworld.OuterWorldClient;
 import com.theouterworld.registry.ModDimensions;
+import com.theouterworld.weather.DustStormManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
@@ -24,7 +26,11 @@ public class DustStormHandler {
 
 	private static void onWorldTick(ClientLevel world) {
 		Minecraft client = Minecraft.getInstance();
-		if (client.player == null) {
+		// Anchor to the camera, not the local player: in a Flashback replay the viewer's own entity
+		// stays behind while the camera follows a recorded player, which left the dust hanging
+		// somewhere off screen.
+		Entity camera = client.getCameraEntity();
+		if (camera == null) {
 			return;
 		}
 
@@ -32,14 +38,14 @@ public class DustStormHandler {
 			return;
 		}
 
-		if (!OuterWorldClient.isDustStormActive) {
+		if (!DustStormClientState.isActive()) {
 			return;
 		}
 
 		float particleMultiplier = getParticleMultiplier(client);
 
 		RandomSource random = world.getRandom();
-		Vec3 eyePos = client.player.getEyePosition();
+		Vec3 eyePos = camera.getEyePosition();
 
 		distantLayerTickCounter++;
 		intermediateLayerTickCounter++;
@@ -91,6 +97,10 @@ public class DustStormHandler {
 		double z = center.z + r * Math.sin(phi) * Math.sin(theta);
 
 		if (InteriorShelterClient.isInterior(x, y, z)) {
+			return;
+		}
+
+		if (!DustStormManager.isOpenToSky(world, BlockPos.containing(x, y, z))) {
 			return;
 		}
 

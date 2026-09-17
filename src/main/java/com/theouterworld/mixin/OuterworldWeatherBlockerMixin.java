@@ -8,8 +8,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Prevents vanilla rain, snow, and storms in the Outerworld and Innerworld.
- * The Outerworld is Mars — it never rains water. The Innerworld is the Moon.
+ * Prevents vanilla weather cycle advances in mod dimensions.
+ * Outerworld/Moon/Innerworld have no weather; Nearworld forces rain levels separately
+ * without mutating the server-global WeatherData shared with the Overworld.
  */
 @Mixin(ServerLevel.class)
 public class OuterworldWeatherBlockerMixin {
@@ -21,29 +22,8 @@ public class OuterworldWeatherBlockerMixin {
 	private void preventVanillaWeatherInOuterworld(CallbackInfo ci) {
 		ServerLevel world = (ServerLevel) (Object) this;
 
-		if (ModDimensions.isOuterworld(world.dimension()) || ModDimensions.isInnerworld(world.dimension())) {
+		if (ModDimensions.isVacuum(world.dimension())) {
 			ci.cancel();
-		}
-	}
-
-	@Inject(
-		method = "setWeatherParameters(IIZZ)V",
-		at = @At("HEAD"),
-		cancellable = true
-	)
-	private void preventVanillaWeatherSetInOuterworld(
-		int clearDuration,
-		int rainDuration,
-		boolean raining,
-		boolean thundering,
-		CallbackInfo ci
-	) {
-		ServerLevel world = (ServerLevel) (Object) this;
-
-		if (ModDimensions.isOuterworld(world.dimension()) || ModDimensions.isInnerworld(world.dimension())) {
-			if (raining || thundering) {
-				ci.cancel();
-			}
 		}
 	}
 }

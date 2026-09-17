@@ -42,12 +42,22 @@ public final class GlassHelmetUtil {
 		return stack != null && !stack.isEmpty() && isGlassHelmetItem(stack.getItem());
 	}
 
-	public static boolean isWearingDustStormProtection(LivingEntity entity) {
+	public static boolean isWearingOpalLens(LivingEntity entity) {
+		return entity != null && entity.getItemBySlot(EquipmentSlot.HEAD).is(com.theouterworld.item.ModItems.OPAL_LENS);
+	}
+
+	/** Glass helmets and the Opal Lens both let you breathe in vacuum dimensions. */
+	public static boolean isWearingAirProtection(LivingEntity entity) {
 		if (entity == null) {
 			return false;
 		}
 		ItemStack head = entity.getItemBySlot(EquipmentSlot.HEAD);
 		return isGlassHelmetItem(head) || head.is(com.theouterworld.item.ModItems.OPAL_LENS);
+	}
+
+	/** Dust storm overlay and status effects are blocked only by the Opal Lens. */
+	public static boolean isWearingDustStormProtection(LivingEntity entity) {
+		return isWearingOpalLens(entity);
 	}
 
 	public static boolean isWearingGlassHelmet(LivingEntity entity) {

@@ -7,7 +7,7 @@
   ],
   "key": {
     "X": "theouterworlds:oxidized_basalt",
-    "#": "theouterworlds:rust_splint"
+    "#": "#theouterworlds:sticks"
   },
   "result": {
     "id": "theouterworlds:oxidized_basalt_sword",

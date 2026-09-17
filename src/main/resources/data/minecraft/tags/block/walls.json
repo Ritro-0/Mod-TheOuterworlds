@@ -3,7 +3,11 @@
 	"values": [
 		"theouterworlds:pyroxenite_wall",
 		"theouterworlds:polished_pyroxenite_wall",
+		"theouterworlds:anhydrite_wall",
+		"theouterworlds:polished_anhydrite_wall",
 		"theouterworlds:norite_wall",
-		"theouterworlds:gabbro_wall"
+		"theouterworlds:gabbro_wall",
+		"theouterworlds:enstatite_wall",
+		"theouterworlds:komatiite_wall"
 	]
 }

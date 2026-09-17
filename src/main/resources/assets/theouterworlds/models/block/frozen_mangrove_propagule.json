@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/mangrove_propagule",
+	"render_type": "cutout",
+	"textures": {
+		"sapling": "theouterworlds:block/frozen_mangrove_propagule",
+		"particle": "theouterworlds:block/frozen_mangrove_propagule"
+	}
+}

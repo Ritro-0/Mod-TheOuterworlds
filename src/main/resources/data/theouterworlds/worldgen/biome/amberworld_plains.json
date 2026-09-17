@@ -1,0 +1,38 @@
+{
+	"carvers": [],
+	"downfall": 0.4,
+	"effects": {
+		"fog_color": 11044890,
+		"sky_color": 11044890,
+		"water_color": 10121400,
+		"water_fog_color": 6905688
+	},
+	"features": [
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[
+			"theouterworlds:amberworld_methane_pond"
+		],
+		[]
+	],
+	"has_precipitation": false,
+	"spawn_costs": {},
+	"spawners": {
+		"ambient": [],
+		"axolotls": [],
+		"creature": [],
+		"misc": [],
+		"monster": [],
+		"underground_water_creature": [],
+		"water_ambient": [],
+		"water_creature": []
+	},
+	"temperature": 0.5
+}

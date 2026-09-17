@@ -1,0 +1,8 @@
+{
+	"feature": "theouterworlds:wanderlands_ice_cavern",
+	"placement": [
+		{
+			"type": "minecraft:biome"
+		}
+	]
+}

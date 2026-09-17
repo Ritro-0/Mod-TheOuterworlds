@@ -1,0 +1,11 @@
+{
+	"type": "theouterworlds:scarletlands",
+	"generator": {
+		"type": "minecraft:noise",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "theouterworlds:scarletlands"
+		},
+		"settings": "theouterworlds:scarletlands"
+	}
+}

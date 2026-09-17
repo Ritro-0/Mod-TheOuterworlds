@@ -2,6 +2,8 @@
 	"replace": false,
 	"values": [
 		"theouterworlds:oxidized_basalt",
+		"theouterworlds:sulfuric_basalt",
+		"minecraft:basalt",
 		"theouterworlds:anorthosite",
 		"theouterworlds:regolith",
 		"theouterworlds:anorthositic_regolith",
@@ -20,6 +22,7 @@
 		"theouterworlds:anorthosite_oxidized_iron_ore",
 		"theouterworlds:anorthosite_redstone_ore",
 		"theouterworlds:anorthosite_opal_ore",
+		"theouterworlds:anorthosite_nickel_ore",
 		"theouterworlds:oxidized_basalt_opal_ore",
 		"theouterworlds:raw_hematite",
 		"theouterworlds:raw_perchlorate",

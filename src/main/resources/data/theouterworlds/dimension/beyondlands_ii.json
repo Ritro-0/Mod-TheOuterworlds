@@ -1,0 +1,11 @@
+{
+	"type": "theouterworlds:beyondlands_ii",
+	"generator": {
+		"type": "minecraft:noise",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "theouterworlds:beyondlands_ii"
+		},
+		"settings": "theouterworlds:beyondlands_ii"
+	}
+}

@@ -2,6 +2,8 @@
 	"replace": false,
 	"values": [
 		"theouterworlds:dry_ice",
-		"theouterworlds:carbonic_ice"
+		"theouterworlds:carbonic_ice",
+		"theouterworlds:nitrogen_ice",
+		"theouterworlds:methane_ice",
 	]
 }

@@ -82,8 +82,20 @@ public class ProcessorScreenHandler extends AbstractContainerMenu {
         return propertyDelegate.get(3);
     }
 
+    public int getMode() {
+        return propertyDelegate.get(4);
+    }
+
     public boolean isHeatMode() {
-        return propertyDelegate.get(4) == 1;
+        return getMode() == ProcessorBlockEntity.MODE_HEAT;
+    }
+
+    public boolean isPressurizeMode() {
+        return getMode() == ProcessorBlockEntity.MODE_PRESSURIZE;
+    }
+
+    public boolean isProcessMode() {
+        return getMode() == ProcessorBlockEntity.MODE_PROCESS;
     }
 
     public float getProgressScaled() {

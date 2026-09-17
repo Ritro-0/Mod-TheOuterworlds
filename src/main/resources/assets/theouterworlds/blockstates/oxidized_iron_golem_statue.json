@@ -1,4 +1,4 @@
-﻿{
+{
   "variants": {
     "facing=north,half=lower,waterlogged=false": { "model": "theouterworlds:block/oxidized_iron_golem_statue_bottom" },
     "facing=north,half=upper,waterlogged=false": { "model": "theouterworlds:block/oxidized_iron_golem_statue_top" },

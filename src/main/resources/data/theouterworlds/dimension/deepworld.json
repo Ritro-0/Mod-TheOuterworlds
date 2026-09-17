@@ -1,0 +1,11 @@
+{
+	"type": "theouterworlds:deepworld",
+	"generator": {
+		"type": "minecraft:noise",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "theouterworlds:deepworld_atmosphere"
+		},
+		"settings": "theouterworlds:deepworld"
+	}
+}

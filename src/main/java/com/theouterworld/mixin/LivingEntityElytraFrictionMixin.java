@@ -9,8 +9,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Scales leftover vanilla elytra air drag to the world's atmosphere and gravity.
+ * Vacuums fully cancel vanilla air friction; Venus / gas giants add drag.
+ */
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityElytraFrictionMixin {
+	private static final double BASE_FRICTION_XZ = 0.99D;
+	private static final double BASE_FRICTION_Y = 0.98D;
+
 	@Inject(method = "aiStep()V", at = @At("TAIL"))
 	private void theouterworlds$adjustElytraFriction(CallbackInfo ci) {
 		LivingEntity self = (LivingEntity) (Object) this;
@@ -19,19 +26,32 @@ public abstract class LivingEntityElytraFrictionMixin {
 		}
 
 		Level world = ((EntityAccessor) self).accessor$getWorld();
-		if (world == null || !ModDimensions.isLowGravity(world.dimension())) {
+		if (world == null) {
 			return;
 		}
 
-		final double desiredFrictionFraction = 0.00337D;
-		final double baseFrictionXZ = 0.99D;
-		final double baseFrictionY = 0.98D;
-		final double newFrictionXZ = 1.0D - (1.0D - baseFrictionXZ) * desiredFrictionFraction;
-		final double newFrictionY = 1.0D - (1.0D - baseFrictionY) * desiredFrictionFraction;
-		final double compensationXZ = newFrictionXZ / baseFrictionXZ;
-		final double compensationY = newFrictionY / baseFrictionY;
+		double dragFraction = ModDimensions.elytraDragFraction(world.dimension());
+		if (Math.abs(dragFraction - 1.0D) < 0.001D) {
+			return;
+		}
 
 		Vec3 v = self.getDeltaMovement();
-		self.setDeltaMovement(v.x * compensationXZ, v.y * compensationY, v.z * compensationXZ);
+		if (dragFraction <= 0.0D) {
+			// Undo vanilla elytra air friction completely in vacuum.
+			self.setDeltaMovement(v.x / BASE_FRICTION_XZ, v.y / BASE_FRICTION_Y, v.z / BASE_FRICTION_XZ);
+			return;
+		}
+
+		double newFrictionXZ = clampFriction(1.0D - (1.0D - BASE_FRICTION_XZ) * dragFraction);
+		double newFrictionY = clampFriction(1.0D - (1.0D - BASE_FRICTION_Y) * dragFraction);
+		self.setDeltaMovement(
+			v.x * (newFrictionXZ / BASE_FRICTION_XZ),
+			v.y * (newFrictionY / BASE_FRICTION_Y),
+			v.z * (newFrictionXZ / BASE_FRICTION_XZ)
+		);
+	}
+
+	private static double clampFriction(double friction) {
+		return Math.max(0.50D, Math.min(0.99999D, friction));
 	}
 }

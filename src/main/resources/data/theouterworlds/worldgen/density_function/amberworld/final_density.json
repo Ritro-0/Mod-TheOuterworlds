@@ -1,0 +1,24 @@
+{
+	"type": "minecraft:interpolated",
+	"argument": {
+		"type": "minecraft:max",
+		"argument1": {
+			"type": "minecraft:y_clamped_gradient",
+			"from_value": 12,
+			"from_y": -64,
+			"to_value": -8,
+			"to_y": -50
+		},
+		"argument2": {
+			"type": "minecraft:add",
+			"argument1": {
+				"type": "minecraft:y_clamped_gradient",
+				"from_value": 64,
+				"from_y": -64,
+				"to_value": -320,
+				"to_y": 320
+			},
+			"argument2": "theouterworlds:amberworld/surface_height"
+		}
+	}
+}

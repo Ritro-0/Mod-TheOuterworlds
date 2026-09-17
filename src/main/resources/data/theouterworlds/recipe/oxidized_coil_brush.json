@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "equipment",
+	"pattern": [
+		"O",
+		"H",
+		"A"
+	],
+	"key": {
+		"O": "theouterworlds:oxidized_coil",
+		"H": "theouterworlds:hematite",
+		"A": "theouterworlds:anorthosite"
+	},
+	"result": {
+		"id": "theouterworlds:oxidized_coil_brush",
+		"count": 1
+	}
+}

@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"type=bottom": {
+			"model": "theouterworlds:block/anhydrite_slab"
+		},
+		"type=top": {
+			"model": "theouterworlds:block/anhydrite_slab_top"
+		},
+		"type=double": {
+			"model": "theouterworlds:block/anhydrite"
+		}
+	}
+}

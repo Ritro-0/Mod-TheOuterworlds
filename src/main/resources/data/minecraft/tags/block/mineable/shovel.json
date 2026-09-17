@@ -2,9 +2,16 @@
 	"replace": false,
 	"values": [
 		"theouterworlds:regolith",
+		"theouterworlds:regolith_farmland",
 		"theouterworlds:suspicious_regolith",
 		"theouterworlds:anorthositic_regolith",
+		"theouterworlds:magnesian_regolith",
 		"theouterworlds:kharax_shed",
-		"theouterworlds:kharax_spore"
+		"theouterworlds:kharax_spore",
+		"theouterworlds:sulfide_cloud",
+		"theouterworlds:ammonia_cloud",
+		"theouterworlds:methane_cloud",
+		"theouterworlds:tholin",
+		"theouterworlds:tholinic_regolith"
 	]
 }

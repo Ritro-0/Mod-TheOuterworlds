@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/bamboo4_age1",
+	"textures": {
+		"all": "theouterworlds:block/frozen_bamboo_singleleaf",
+		"particle": "theouterworlds:block/frozen_bamboo_singleleaf"
+	}
+}

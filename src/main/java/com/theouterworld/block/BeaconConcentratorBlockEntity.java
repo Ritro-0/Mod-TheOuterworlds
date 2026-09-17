@@ -69,7 +69,7 @@ public class BeaconConcentratorBlockEntity extends BlockEntity {
 
 		boolean returnBeam = state.is(ModBlocks.CONCENTRATED_BEACON_BEAM);
 		if (returnBeam) {
-			if (!ModDimensions.isInnerworld(serverWorld.dimension())) {
+			if (!ModDimensions.isMoon(serverWorld.dimension())) {
 				return;
 			}
 			launchAndTeleport(serverWorld, pos, true);
@@ -171,7 +171,9 @@ public class BeaconConcentratorBlockEntity extends BlockEntity {
 			double targetY = ride.highEntry ? ride.entryY + HIGH_ENTRY_EXTRA_Y : DEFAULT_TARGET_Y;
 			if (player.getY() >= targetY) {
 				RIDES.remove(player);
-				teleportPlayer(player, world, pos, returnBeam);
+				setCooldown(player, world);
+				BlockPos portal = pos.immutable();
+				world.getServer().execute(() -> teleportPlayer(player, world, portal, returnBeam));
 			}
 		}
 	}
@@ -190,11 +192,15 @@ public class BeaconConcentratorBlockEntity extends BlockEntity {
 	}
 
 	private static void teleportPlayer(Player player, ServerLevel source, BlockPos portalPos, boolean returnBeam) {
-		ResourceKey<Level> destinationKey = returnBeam ? Level.OVERWORLD : ModDimensions.INNERWORLD_WORLD_KEY;
+		ResourceKey<Level> destinationKey = returnBeam ? Level.OVERWORLD : ModDimensions.MOON_WORLD_KEY;
 		if (!returnBeam && !source.dimension().equals(Level.OVERWORLD)) {
 			return;
 		}
-		if (returnBeam && !ModDimensions.isInnerworld(source.dimension())) {
+		if (returnBeam && !ModDimensions.isMoon(source.dimension())) {
+			return;
+		}
+
+		if (!player.isAlive() || player.isRemoved()) {
 			return;
 		}
 

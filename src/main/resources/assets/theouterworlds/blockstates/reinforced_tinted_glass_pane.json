@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "theouterworlds:block/reinforced_tinted_glass_pane" },
+		"facing=south": { "model": "theouterworlds:block/reinforced_tinted_glass_pane", "y": 180 },
+		"facing=west": { "model": "theouterworlds:block/reinforced_tinted_glass_pane", "y": 270 },
+		"facing=east": { "model": "theouterworlds:block/reinforced_tinted_glass_pane", "y": 90 }
+	}
+}

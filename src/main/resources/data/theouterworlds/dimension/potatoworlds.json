@@ -1,0 +1,11 @@
+{
+	"type": "theouterworlds:potatoworlds",
+	"generator": {
+		"type": "minecraft:noise",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "theouterworlds:potatoworlds_potato"
+		},
+		"settings": "theouterworlds:potatoworlds"
+	}
+}

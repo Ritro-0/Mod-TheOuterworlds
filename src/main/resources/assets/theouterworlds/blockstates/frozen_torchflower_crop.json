@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"age=0": {
+			"model": "theouterworlds:block/frozen_torchflower_crop_stage0"
+		},
+		"age=1": {
+			"model": "theouterworlds:block/frozen_torchflower_crop_stage1"
+		}
+	}
+}

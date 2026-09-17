@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"type=bottom": {
+			"model": "theouterworlds:block/enstatite_slab"
+		},
+		"type=top": {
+			"model": "theouterworlds:block/enstatite_slab_top"
+		},
+		"type=double": {
+			"model": "theouterworlds:block/enstatite"
+		}
+	}
+}

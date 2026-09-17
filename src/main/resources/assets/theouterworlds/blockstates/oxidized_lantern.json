@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"hanging=false": {
+			"model": "theouterworlds:block/oxidized_lantern"
+		},
+		"hanging=true": {
+			"model": "theouterworlds:block/oxidized_lantern_hanging"
+		}
+	}
+}

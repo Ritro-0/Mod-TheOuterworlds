@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"pattern": [
+		"#  ",
+		"## ",
+		"###"
+	],
+	"key": {
+		"#": "theouterworlds:waxed_cut_iron"
+	},
+	"result": {
+		"id": "theouterworlds:waxed_cut_iron_stairs",
+		"count": 4
+	}
+}

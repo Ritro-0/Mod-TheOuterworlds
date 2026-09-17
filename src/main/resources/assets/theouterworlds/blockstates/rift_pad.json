@@ -1,12 +1,7 @@
 {
 	"variants": {
-		"facing=north,powered=false": { "model": "theouterworlds:block/rift_pad" },
-		"facing=north,powered=true": { "model": "theouterworlds:block/rift_pad" },
-		"facing=south,powered=false": { "model": "theouterworlds:block/rift_pad", "y": 180 },
-		"facing=south,powered=true": { "model": "theouterworlds:block/rift_pad", "y": 180 },
-		"facing=east,powered=false": { "model": "theouterworlds:block/rift_pad", "y": 90 },
-		"facing=east,powered=true": { "model": "theouterworlds:block/rift_pad", "y": 90 },
-		"facing=west,powered=false": { "model": "theouterworlds:block/rift_pad", "y": 270 },
-		"facing=west,powered=true": { "model": "theouterworlds:block/rift_pad", "y": 270 }
+		"": {
+			"model": "theouterworlds:block/rift_pad"
+		}
 	}
 }

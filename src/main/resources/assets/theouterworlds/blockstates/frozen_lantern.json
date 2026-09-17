@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"hanging=false": {
+			"model": "theouterworlds:block/frozen_lantern"
+		},
+		"hanging=true": {
+			"model": "theouterworlds:block/frozen_lantern_hanging"
+		}
+	}
+}

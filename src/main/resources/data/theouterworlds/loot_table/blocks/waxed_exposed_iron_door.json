@@ -12,9 +12,15 @@
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
+        },
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "theouterworlds:waxed_exposed_iron_door",
+          "properties": {
+            "half": "lower"
+          }
         }
       ]
     }
   ]
 }
-

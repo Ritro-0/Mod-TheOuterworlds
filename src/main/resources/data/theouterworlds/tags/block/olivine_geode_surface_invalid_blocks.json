@@ -1,0 +1,11 @@
+{
+	"replace": false,
+	"values": [
+		"#minecraft:geode_invalid_blocks",
+		"minecraft:bedrock",
+		"theouterworlds:mercury",
+		"theouterworlds:mercury_block",
+		"theouterworlds:regolith",
+		"theouterworlds:anorthositic_regolith"
+	]
+}

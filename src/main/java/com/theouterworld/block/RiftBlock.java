@@ -33,12 +33,14 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -140,19 +142,41 @@ public class RiftBlock extends BaseEntityBlock {
 	}
 
 	@Override
+	protected float getDestroyProgress(BlockState state, Player player, BlockGetter world, BlockPos pos) {
+		// Survival/adventure cannot mine rifts — only removing the rift charge's redstone closes them.
+		if (!player.getAbilities().instabuild) {
+			return 0.0F;
+		}
+		return super.getDestroyProgress(state, player, world, pos);
+	}
+
+	/** Creative-only block: never drop an item, including on depower / explosions. */
+	@Override
+	protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+		return List.of();
+	}
+
+	@Override
+	protected void spawnAfterBreak(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack, boolean dropExperience) {
+	}
+
+	@Override
 	public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
+		if (!player.getAbilities().instabuild) {
+			return state;
+		}
 		if (!world.isClientSide()) {
 			DoubleBlockHalf half = state.getValue(HALF);
 			if (half == DoubleBlockHalf.UPPER) {
 				BlockPos below = pos.below();
 				BlockState belowState = world.getBlockState(below);
 				if (belowState.is(this) && belowState.getValue(HALF) == DoubleBlockHalf.LOWER) {
-					world.destroyBlock(below, !player.isCreative());
+					world.destroyBlock(below, false);
 				}
 			} else {
 				BlockPos above = pos.above();
 				if (world.getBlockState(above).is(this)) {
-					world.setBlock(above, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+					world.destroyBlock(above, false);
 				}
 			}
 		}
@@ -330,7 +354,9 @@ public class RiftBlock extends BaseEntityBlock {
 	}
 
 	private static ResourceKey<Level> riftDestination(ServerLevel world) {
-		if (ModDimensions.isInnerworld(world.dimension())) {
+		if (ModDimensions.isMoon(world.dimension())
+			|| ModDimensions.isInnerworld(world.dimension())
+			|| ModDimensions.isNearworld(world.dimension())) {
 			return ModDimensions.OUTERWORLD_WORLD_KEY;
 		}
 		if (ModDimensions.isOuterworld(world.dimension())) {
@@ -340,8 +366,27 @@ public class RiftBlock extends BaseEntityBlock {
 	}
 
 	private static BlockState riftFoundation(ServerLevel targetWorld) {
-		if (ModDimensions.isInnerworld(targetWorld.dimension())) {
+		if (ModDimensions.isMoon(targetWorld.dimension())) {
 			return ModBlocks.NORITE.defaultBlockState();
+		}
+		if (ModDimensions.isInnerworld(targetWorld.dimension())) {
+			return ModBlocks.KOMATIITE.defaultBlockState();
+		}
+		if (ModDimensions.isNearworld(targetWorld.dimension())
+			|| ModDimensions.isEmberworld(targetWorld.dimension())) {
+			return ModBlocks.SULFURIC_BASALT.defaultBlockState();
+		}
+		if (ModDimensions.isFrostworld(targetWorld.dimension())) {
+			return ModBlocks.CARBONIC_ICE.defaultBlockState();
+		}
+		if (ModDimensions.isAmberworld(targetWorld.dimension())) {
+			return ModBlocks.THOLIN.defaultBlockState();
+		}
+		if (ModDimensions.isSpongeworld(targetWorld.dimension())) {
+			return Blocks.PACKED_ICE.defaultBlockState();
+		}
+		if (ModDimensions.isPotatoworlds(targetWorld.dimension())) {
+			return ModBlocks.REGOLITH.defaultBlockState();
 		}
 		if (ModDimensions.isOuterworld(targetWorld.dimension())) {
 			return ModBlocks.OXIDIZED_BASALT.defaultBlockState();

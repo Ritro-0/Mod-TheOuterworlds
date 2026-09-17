@@ -1,0 +1,8 @@
+{
+	"type": "minecraft:stonecutting",
+	"ingredient": "theouterworlds:anhydrite",
+	"result": {
+		"id": "theouterworlds:anhydrite_stairs",
+		"count": 1
+	}
+}

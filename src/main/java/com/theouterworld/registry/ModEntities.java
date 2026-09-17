@@ -2,6 +2,7 @@ package com.theouterworld.registry;
 
 import com.theouterworld.OuterWorldMod;
 import com.theouterworld.entity.KharaxEntity;
+import com.theouterworld.registry.ModDimensions;
 import com.theouterworld.entity.OpalineNickelFlailEntity;
 import com.theouterworld.entity.OxidizableIronGolemEntity;
 import com.theouterworld.entity.PrimedPerchlorateCharge;
@@ -69,7 +70,9 @@ public class ModEntities {
 			KHARAX,
 			SpawnPlacementTypes.ON_GROUND,
 			Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-			Mob::checkMobSpawnRules
+			(type, world, reason, pos, random) ->
+				ModDimensions.isOuterworld(world.getLevel().dimension())
+					&& Mob.checkMobSpawnRules(type, world, reason, pos, random)
 		);
 	}
 }

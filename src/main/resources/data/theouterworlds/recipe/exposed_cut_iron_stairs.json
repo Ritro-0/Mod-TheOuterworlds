@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"pattern": [
+		"#  ",
+		"## ",
+		"###"
+	],
+	"key": {
+		"#": "theouterworlds:exposed_cut_iron"
+	},
+	"result": {
+		"id": "theouterworlds:exposed_cut_iron_stairs",
+		"count": 4
+	}
+}

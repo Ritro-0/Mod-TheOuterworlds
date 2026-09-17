@@ -1,0 +1,27 @@
+{
+	"type": "minecraft:add",
+	"argument1": 70,
+	"argument2": {
+		"type": "minecraft:add",
+		"argument1": {
+			"type": "minecraft:mul",
+			"argument1": 10.0,
+			"argument2": {
+				"type": "minecraft:noise",
+				"noise": "theouterworlds:nearworld_plains",
+				"xz_scale": 0.72,
+				"y_scale": 0.0
+			}
+		},
+		"argument2": {
+			"type": "minecraft:mul",
+			"argument1": 4.0,
+			"argument2": {
+				"type": "minecraft:noise",
+				"noise": "minecraft:surface",
+				"xz_scale": 1.15,
+				"y_scale": 0.0
+			}
+		}
+	}
+}

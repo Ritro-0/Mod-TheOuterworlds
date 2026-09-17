@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
-		"theouterworlds:olivine_torch"
+		"theouterworlds:olivine_torch",
+		"theouterworlds:unlit_torch"
 	]
 }

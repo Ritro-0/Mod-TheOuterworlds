@@ -1,0 +1,58 @@
+{
+	"multipart": [
+		{
+			"apply": [
+				{
+					"model": "theouterworlds:block/frozen_bamboo1_age0"
+				},
+				{
+					"model": "theouterworlds:block/frozen_bamboo2_age0"
+				},
+				{
+					"model": "theouterworlds:block/frozen_bamboo3_age0"
+				},
+				{
+					"model": "theouterworlds:block/frozen_bamboo4_age0"
+				}
+			],
+			"when": {
+				"age": "0"
+			}
+		},
+		{
+			"apply": [
+				{
+					"model": "theouterworlds:block/frozen_bamboo1_age1"
+				},
+				{
+					"model": "theouterworlds:block/frozen_bamboo2_age1"
+				},
+				{
+					"model": "theouterworlds:block/frozen_bamboo3_age1"
+				},
+				{
+					"model": "theouterworlds:block/frozen_bamboo4_age1"
+				}
+			],
+			"when": {
+				"age": "1"
+			}
+		},
+		{
+			"apply": {
+				"model": "theouterworlds:block/frozen_bamboo_small_leaves"
+			},
+			"when": {
+				"leaves": "small"
+			}
+		},
+		{
+			"apply": {
+				"model": "theouterworlds:block/frozen_bamboo_large_leaves"
+			},
+			"when": {
+				"leaves": "large"
+			}
+		}
+	]
+}

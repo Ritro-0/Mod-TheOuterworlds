@@ -1,0 +1,16 @@
+{
+	"values": [
+		"theouterworlds:cut_iron_slab",
+		"theouterworlds:exposed_cut_iron_slab",
+		"theouterworlds:weathered_cut_iron_slab",
+		"theouterworlds:oxidized_cut_iron_slab",
+		"theouterworlds:waxed_cut_iron_slab",
+		"theouterworlds:waxed_exposed_cut_iron_slab",
+		"theouterworlds:waxed_weathered_cut_iron_slab",
+		"theouterworlds:waxed_oxidized_cut_iron_slab",
+		"theouterworlds:corroded_cut_iron_slab",
+		"theouterworlds:corroded_exposed_cut_iron_slab",
+		"theouterworlds:corroded_weathered_cut_iron_slab",
+		"theouterworlds:corroded_oxidized_cut_iron_slab"
+	]
+}

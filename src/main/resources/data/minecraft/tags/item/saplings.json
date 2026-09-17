@@ -1,0 +1,14 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:frozen_oak_sapling",
+		"theouterworlds:frozen_spruce_sapling",
+		"theouterworlds:frozen_birch_sapling",
+		"theouterworlds:frozen_jungle_sapling",
+		"theouterworlds:frozen_acacia_sapling",
+		"theouterworlds:frozen_dark_oak_sapling",
+		"theouterworlds:frozen_cherry_sapling",
+		"theouterworlds:frozen_pale_oak_sapling",
+		"theouterworlds:frozen_mangrove_propagule"
+	]
+}

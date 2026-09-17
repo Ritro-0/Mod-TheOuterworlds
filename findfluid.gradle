@@ -1,0 +1,12 @@
+plugins.apply("java")
+tasks.register("findFluid") {
+  doLast {
+    def f = configurations.compileClasspath.files.find { it.name.contains("fabric") && new java.util.jar.JarFile(it).entries().any { e -> e.name.contains("FluidBehavior") } }
+    println f
+    if (f != null) {
+      new java.util.jar.JarFile(f).entries().each { e ->
+        if (e.name.contains("Fluid") || e.name.contains("fluid")) println e.name
+      }
+    }
+  }
+}

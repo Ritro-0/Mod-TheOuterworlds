@@ -17,8 +17,8 @@ import net.minecraft.world.level.saveddata.SavedDataType;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Persistent overworld registry of beacon concentrator portals and the Innerworld
- * return beams they own. Innerworld chunks reconcile against this on load so a
+ * Persistent overworld registry of beacon concentrator portals and the Moon
+ * return beams they own. Moon chunks reconcile against this on load so a
  * broken concentrator still removes its beam the next time that chunk is loaded.
  */
 public class BeaconConcentratorSavedData extends SavedData {

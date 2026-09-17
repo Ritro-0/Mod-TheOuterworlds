@@ -7,7 +7,7 @@
 	],
 	"key": {
 		"X": "theouterworlds:nickel_ingot",
-		"#": "minecraft:stick"
+		"#": "#theouterworlds:sticks"
 	},
 	"result": {
 		"id": "theouterworlds:nickel_shovel",

@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
-		"theouterworlds:opaline_nickel_flail"
+		"theouterworlds:opaline_nickel_flail",
+		"theouterworlds:oxidized_coil_brush"
 	]
 }

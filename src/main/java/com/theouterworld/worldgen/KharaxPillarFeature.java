@@ -2,6 +2,7 @@ package com.theouterworld.worldgen;
 
 import com.theouterworld.block.ModBlocks;
 import com.theouterworld.entity.KharaxEntity;
+import com.theouterworld.registry.ModDimensions;
 import com.theouterworld.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -33,6 +34,9 @@ public class KharaxPillarFeature extends Feature<NoneFeatureConfiguration> {
 	@Override
 	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
 		WorldGenLevel world = context.level();
+		if (!ModDimensions.isOuterworld(world.getLevel().dimension())) {
+			return false;
+		}
 		RandomSource random = context.random();
 		BlockPos origin = context.origin();
 		int minX = origin.getX() & ~15;

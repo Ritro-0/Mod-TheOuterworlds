@@ -28,7 +28,7 @@ public class PrimedPerchlorateCharge extends PrimedTnt {
 		this.setPos(x, y, z);
 		double angle = level.getRandom().nextDouble() * (Math.PI * 2.0);
 		this.setDeltaMovement(-Math.sin(angle) * 0.02, 0.2, -Math.cos(angle) * 0.02);
-		this.setFuse(DEFAULT_FUSE_TIME);
+		this.setFuse(DEFAULT_FUSE_TIME * 3);
 		this.xo = x;
 		this.yo = y;
 		this.zo = z;

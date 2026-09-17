@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/cube_column",
+	"textures": {
+		"end": "theouterworlds:block/frozen_melon_top",
+		"side": "theouterworlds:block/frozen_melon_side"
+	}
+}

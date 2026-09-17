@@ -4,8 +4,18 @@
 	"compatibilityLevel": "JAVA_25",
 	"client": [
 		"SkyRenderingMixin",
+		"HighworldSkyLightMixin",
 		"LeashFeatureRendererMixin",
-		"BeaconRendererMixin"
+		"BeaconRendererMixin",
+		"FrozenStemColorMixin",
+		"NearworldLightningColorMixin",
+		"NearworldRainTextureMixin",
+		"NearworldRainSplashMixin",
+		"NearworldFogMixin",
+		"LocalPlayerHydrogenSwimMixin",
+		"LivingEntityRendererHydrogenSwimMixin",
+		"HumanoidModelAerostatMixin",
+		"CreateWorldScreenOuterworldPresetMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

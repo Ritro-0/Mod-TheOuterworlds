@@ -92,6 +92,7 @@
 		"theouterworlds:waxed_weathered_cut_iron_stairs",
 		"theouterworlds:waxed_oxidized_cut_iron_stairs",
 		"theouterworlds:raw_hematite",
+		"theouterworlds:raw_osmium",
 		"theouterworlds:raw_jarosite",
 		"theouterworlds:raw_perchlorate",
 		"theouterworlds:oxidized_basalt_opal_ore",
@@ -161,6 +162,8 @@
 		"theouterworlds:nickel_trapdoor",
 		"theouterworlds:nickel_chain",
 		"theouterworlds:nickel_bars",
-		"theouterworlds:pyroxenite_nickel_ore"
+		"theouterworlds:pyroxenite_nickel_ore",
+		"theouterworlds:anorthosite_nickel_ore",
+		"theouterworlds:raw_nickel_block"
 	]
 }

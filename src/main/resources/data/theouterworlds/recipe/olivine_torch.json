@@ -6,7 +6,7 @@
 	],
 	"key": {
 		"C": "theouterworlds:olivine_crystal_2",
-		"#": "theouterworlds:rust_splint"
+		"#": "#theouterworlds:sticks"
 	},
 	"result": {
 		"id": "theouterworlds:olivine_torch",

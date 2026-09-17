@@ -1,0 +1,11 @@
+{
+	"type": "theouterworlds:edgeworld",
+	"generator": {
+		"type": "minecraft:noise",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "theouterworlds:edgeworld_atmosphere"
+		},
+		"settings": "theouterworlds:edgeworld"
+	}
+}

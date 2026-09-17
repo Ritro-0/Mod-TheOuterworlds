@@ -1,0 +1,11 @@
+{
+	"type": "theouterworlds:lonelands",
+	"generator": {
+		"type": "minecraft:noise",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "theouterworlds:lonelands"
+		},
+		"settings": "theouterworlds:lonelands"
+	}
+}

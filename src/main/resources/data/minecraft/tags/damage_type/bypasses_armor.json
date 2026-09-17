@@ -1,0 +1,9 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:vacuum",
+		"theouterworlds:solar_irradiation",
+		"theouterworlds:extreme_pressure",
+		"theouterworlds:solar_dissolution"
+	]
+}

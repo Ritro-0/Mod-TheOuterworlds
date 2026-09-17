@@ -6,6 +6,11 @@
 			"entries": [
 				{
 					"type": "minecraft:item",
+					"name": "theouterworlds:rust_splint",
+					"weight": 10
+				},
+				{
+					"type": "minecraft:item",
 					"name": "theouterworlds:redsteel_upgrade_smithing_template",
 					"weight": 10
 				},

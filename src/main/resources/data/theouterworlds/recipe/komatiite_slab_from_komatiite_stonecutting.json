@@ -1,0 +1,8 @@
+{
+	"type": "minecraft:stonecutting",
+	"ingredient": "theouterworlds:komatiite",
+	"result": {
+		"id": "theouterworlds:komatiite_slab",
+		"count": 2
+	}
+}

@@ -6,7 +6,6 @@ import com.theouterworld.registry.ModEntities;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -143,6 +142,7 @@ public class OpalineNickelFlailEntity extends ThrowableProjectile {
 	private void startReturning() {
 		this.returning = true;
 		this.setDeltaMovement(Vec3.ZERO);
+		this.hitEntities.clear();
 	}
 
 	private void hurtEntitiesAlongPath() {
@@ -157,8 +157,10 @@ public class OpalineNickelFlailEntity extends ThrowableProjectile {
 			double dist = this.origin.distanceTo(this.position());
 			float damage = this.computeDamage(living, dist);
 			DamageSource source = this.damageSource();
+			if (this.returning) {
+				living.invulnerableTime = 0;
+			}
 			boolean hit = living.hurtServer(serverLevel, source, damage);
-			this.debugHit(living, dist, damage, hit);
 			if (hit) {
 				serverLevel.playSound(
 					null,
@@ -172,21 +174,6 @@ public class OpalineNickelFlailEntity extends ThrowableProjectile {
 				);
 			}
 		}
-	}
-
-	private void debugHit(LivingEntity living, double dist, float damage, boolean applied) {
-		if (!(this.getOwner() instanceof Player player)) {
-			return;
-		}
-		player.sendSystemMessage(
-			Component.literal(String.format(
-				"[Flail] %s @ %.1f blocks → %.2f damage%s",
-				living.getName().getString(),
-				dist,
-				damage,
-				applied ? "" : " (blocked)"
-			))
-		);
 	}
 
 	private boolean canDamage(LivingEntity living) {
@@ -203,9 +190,9 @@ public class OpalineNickelFlailEntity extends ThrowableProjectile {
 		float base = MIN_THROWN_DAMAGE + (MAX_THROWN_DAMAGE - MIN_THROWN_DAMAGE) * rangeFactor;
 		if (this.level() instanceof ServerLevel serverLevel && !this.weapon.isEmpty()) {
 			DamageSource source = this.damageSource();
-			// Density V at ~35+ blocks ≈ 50 damage (2-shot iron golem). Divisor 3 keeps 40-block hits near ~55.
+			// Density V at ~35+ blocks ≈ 52 damage. Divisor 2.8 keeps 40-block hits near ~58.
 			base += EnchantmentHelper.modifyFallBasedDamage(serverLevel, this.weapon, target, source, 0.0F)
-				* (float) (clamped / 3.0);
+				* (float) (clamped / 2.8);
 		}
 		return base;
 	}

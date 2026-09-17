@@ -6,7 +6,12 @@
 		"minecraft:cave_air",
 		"minecraft:bedrock",
 		"theouterworlds:mercury",
-		"theouterworlds:mercury_block"
+		"theouterworlds:mercury_block",
+		"theouterworlds:nitrogen_ice",
+		"theouterworlds:methane_ice",
+		"theouterworlds:tholin",
+		"theouterworlds:packed_ice",
+		"minecraft:packed_ice"
 	]
 }
 

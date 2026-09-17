@@ -30,7 +30,7 @@ public class AgingIceBlock extends Block {
 	}
 
 	private boolean canAge(Level level) {
-		return this.nextStage != null && this.nextStage.get() != null && ModDimensions.isLowGravity(level.dimension());
+		return this.nextStage != null && this.nextStage.get() != null && ModDimensions.isColdClimate(level.dimension());
 	}
 
 	private static int agingDelay(RandomSource random) {

@@ -4,7 +4,11 @@
 		"theouterworlds:cut_nickel_stairs",
 		"theouterworlds:pyroxenite_stairs",
 		"theouterworlds:polished_pyroxenite_stairs",
+		"theouterworlds:anhydrite_stairs",
+		"theouterworlds:polished_anhydrite_stairs",
 		"theouterworlds:norite_stairs",
-		"theouterworlds:gabbro_stairs"
+		"theouterworlds:gabbro_stairs",
+		"theouterworlds:enstatite_stairs",
+		"theouterworlds:komatiite_stairs"
 	]
 }

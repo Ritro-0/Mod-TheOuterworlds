@@ -1,0 +1,5 @@
+tasks.register("dumpCp") {
+  doLast {
+    configurations.compileClasspath.files.each { println it }
+  }
+}

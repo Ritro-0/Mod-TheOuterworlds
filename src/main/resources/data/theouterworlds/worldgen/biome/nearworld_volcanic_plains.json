@@ -1,0 +1,46 @@
+{
+	"carvers": [],
+	"downfall": 1.0,
+	"effects": {
+		"fog_color": 16759839,
+		"sky_color": 16759839,
+		"water_color": 11046720,
+		"water_fog_color": 12102175
+	},
+	"features": [
+		[
+			"theouterworlds:nearworld_lava_lake"
+		],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[
+			"theouterworlds:nearworld_tube_cave",
+			"theouterworlds:nearworld_lava_tube"
+		],
+		[
+			"theouterworlds:nearworld_volcano",
+			"theouterworlds:anhydrite_patch"
+		],
+		[
+			"theouterworlds:nearworld_under_volcano_olivine_geode"
+		],
+		[]
+	],
+	"has_precipitation": true,
+	"spawn_costs": {},
+	"spawners": {
+		"ambient": [],
+		"axolotls": [],
+		"creature": [],
+		"misc": [],
+		"monster": [],
+		"underground_water_creature": [],
+		"water_ambient": [],
+		"water_creature": []
+	},
+	"temperature": 2.0
+}

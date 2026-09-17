@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" A ",
+		"IBI",
+		"NNN"
+	],
+	"key": {
+		"A": "minecraft:amethyst_cluster",
+		"I": "minecraft:iron_block",
+		"B": "minecraft:beacon",
+		"N": "minecraft:netherite_ingot"
+	},
+	"result": {
+		"id": "theouterworlds:rift_charge",
+		"count": 1
+	}
+}

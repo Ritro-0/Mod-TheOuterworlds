@@ -107,4 +107,28 @@ public final class ModArmorMaterials {
 		REPAIRS_KHARAX_BELT,
 		KHARAX_BELT_EQUIPMENT
 	);
+
+	/** ~1.5× netherite durability/defense/toughness/knockback. */
+	public static final int IRIDIUM_BASE_DURABILITY = 55;
+
+	public static final TagKey<Item> REPAIRS_IRIDIUM = TagKey.create(
+		Registries.ITEM,
+		OuterWorldMod.id("repairs_iridium")
+	);
+
+	public static final ResourceKey<EquipmentAsset> IRIDIUM_EQUIPMENT = ResourceKey.create(
+		EquipmentAssets.ROOT_ID,
+		OuterWorldMod.id("iridium")
+	);
+
+	public static final ArmorMaterial IRIDIUM = new ArmorMaterial(
+		IRIDIUM_BASE_DURABILITY,
+		ArmorMaterials.makeDefense(5, 9, 12, 5, 8),
+		15,
+		SoundEvents.ARMOR_EQUIP_NETHERITE,
+		4.5F,
+		0.15F,
+		REPAIRS_IRIDIUM,
+		IRIDIUM_EQUIPMENT
+	);
 }

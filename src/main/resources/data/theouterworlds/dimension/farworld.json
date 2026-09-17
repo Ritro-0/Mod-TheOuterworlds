@@ -1,0 +1,11 @@
+{
+	"type": "theouterworlds:farworld",
+	"generator": {
+		"type": "minecraft:noise",
+		"biome_source": {
+			"type": "minecraft:fixed",
+			"biome": "theouterworlds:farworld_atmosphere"
+		},
+		"settings": "theouterworlds:farworld"
+	}
+}

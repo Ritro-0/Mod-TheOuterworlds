@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"hanging=false": {
+			"model": "theouterworlds:block/weathered_lantern"
+		},
+		"hanging=true": {
+			"model": "theouterworlds:block/weathered_lantern_hanging"
+		}
+	}
+}

@@ -1,0 +1,46 @@
+{
+	"carvers": [],
+	"downfall": 1.0,
+	"effects": {
+		"fog_color": 7059648,
+		"sky_color": 8308944,
+		"water_color": 11056127,
+		"water_fog_color": 329011,
+		"particle": {
+			"options": {
+				"type": "minecraft:cloud"
+			},
+			"probability": 0.002
+		}
+	},
+	"features": [
+		[
+			"theouterworlds:farworld_cloud_deck"
+		],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[
+			"theouterworlds:ionic_ammonia_deposit"
+		],
+		[],
+		[],
+		[]
+	],
+	"has_precipitation": true,
+	"spawn_costs": {},
+	"spawners": {
+		"ambient": [],
+		"axolotls": [],
+		"creature": [],
+		"misc": [],
+		"monster": [],
+		"underground_water_creature": [],
+		"water_ambient": [],
+		"water_creature": []
+	},
+	"temperature": 0.2
+}

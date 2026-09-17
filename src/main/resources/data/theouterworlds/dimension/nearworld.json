@@ -1,0 +1,48 @@
+{
+	"type": "theouterworlds:nearworld",
+	"generator": {
+		"type": "minecraft:noise",
+		"biome_source": {
+			"type": "minecraft:multi_noise",
+			"biomes": [
+				{
+					"biome": "theouterworlds:nearworld_volcanic_plains",
+					"parameters": {
+						"temperature": [-1.0, 0.15],
+						"humidity": [-1.0, 1.0],
+						"continentalness": [-1.0, 1.0],
+						"erosion": [-1.0, 1.0],
+						"weirdness": [-1.0, 1.0],
+						"depth": 0,
+						"offset": 0
+					}
+				},
+				{
+					"biome": "theouterworlds:nearworld_tessera",
+					"parameters": {
+						"temperature": [0.15, 1.0],
+						"humidity": [-1.0, 1.0],
+						"continentalness": [-1.0, 1.0],
+						"erosion": [-1.0, 1.0],
+						"weirdness": [-1.0, 1.0],
+						"depth": 0,
+						"offset": 0
+					}
+				},
+				{
+					"biome": "theouterworlds:nearworld_sulfur_caves",
+					"parameters": {
+						"temperature": [-1.0, 1.0],
+						"humidity": [-1.0, 1.0],
+						"continentalness": [-1.0, 1.0],
+						"erosion": [-1.0, 1.0],
+						"weirdness": [-1.0, 1.0],
+						"depth": [0.7, 1.0],
+						"offset": 0
+					}
+				}
+			]
+		},
+		"settings": "theouterworlds:nearworld"
+	}
+}

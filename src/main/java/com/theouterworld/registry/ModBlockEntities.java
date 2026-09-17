@@ -1,11 +1,13 @@
 package com.theouterworld.registry;
 
 import com.theouterworld.OuterWorldMod;
+import com.theouterworld.block.AstralTelescopeBlockEntity;
 import com.theouterworld.block.BeaconConcentratorBlockEntity;
 import com.theouterworld.block.IronGolemStatueBlockEntity;
 import com.theouterworld.block.ModBlocks;
 import com.theouterworld.block.ProcessorBlockEntity;
 import com.theouterworld.block.RiftBlockEntity;
+import com.theouterworld.block.RiftChargeBlockEntity;
 import com.theouterworld.block.RiftPadBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityType;
 import net.minecraft.core.Registry;
@@ -14,6 +16,15 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.BlockEntityTypes;
 
 public class ModBlockEntities {
+	public static final BlockEntityType<RiftChargeBlockEntity> RIFT_CHARGE = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE,
+		OuterWorldMod.id("rift_charge"),
+		net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.<RiftChargeBlockEntity>create(
+			RiftChargeBlockEntity::new,
+			ModBlocks.RIFT_CHARGE
+		).build()
+	);
+
 	public static final BlockEntityType<RiftPadBlockEntity> RIFT_PAD = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE,
 		OuterWorldMod.id("rift_pad"),
@@ -64,6 +75,15 @@ public class ModBlockEntities {
 		net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.<ProcessorBlockEntity>create(
 			ProcessorBlockEntity::new,
 			ModBlocks.PROCESSOR
+		).build()
+	);
+
+	public static final BlockEntityType<AstralTelescopeBlockEntity> ASTRAL_TELESCOPE = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE,
+		OuterWorldMod.id("astral_telescope"),
+		net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.<AstralTelescopeBlockEntity>create(
+			AstralTelescopeBlockEntity::new,
+			ModBlocks.ASTRAL_TELESCOPE
 		).build()
 	);
 

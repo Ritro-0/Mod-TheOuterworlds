@@ -1,0 +1,8 @@
+{
+	"feature": "theouterworlds:moon_crater",
+	"placement": [
+		{
+			"type": "minecraft:biome"
+		}
+	]
+}

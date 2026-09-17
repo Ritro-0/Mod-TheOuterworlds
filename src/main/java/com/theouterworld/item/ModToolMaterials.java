@@ -41,7 +41,7 @@ public class ModToolMaterials {
         ItemTags.STONE_TOOL_MATERIALS // repair items (using stone as placeholder)
     );
 
-    /** Iron mining tier / speed / damage; netherite durability. */
+    /** Diamond mining tier (can break obsidian-tier blocks); netherite durability, iron speed/damage. */
     public static final TagKey<Block> INCORRECT_FOR_REDSTEEL_TOOL = TagKey.create(
         Registries.BLOCK,
         OuterWorldMod.id("incorrect_for_redsteel_tool")

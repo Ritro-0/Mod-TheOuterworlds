@@ -3,7 +3,6 @@ package com.theouterworld.mixin;
 import com.theouterworld.registry.ModDimensions;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,9 +28,6 @@ public class EntityGravityMixin {
 		ResourceKey<Level> dimensionKey = world.dimension();
 		double multiplier = ModDimensions.gravityMultiplier(dimensionKey);
 		if (multiplier != 1.0) {
-			if (instance instanceof LivingEntity living && ((EntityAccessor) living).invokeGetFlag(7)) {
-				return originalGravity;
-			}
 			return originalGravity * multiplier;
 		}
 

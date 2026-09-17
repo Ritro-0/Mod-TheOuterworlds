@@ -93,6 +93,26 @@ public class CorrodedBlocks {
 	public static final Block CORRODED_WEATHERED_IRON_BARS = ironBars("corroded_weathered_iron_bars", WEATHERED, true);
 	public static final Block CORRODED_OXIDIZED_IRON_BARS = ironBars("corroded_oxidized_iron_bars", OXIDIZED, false);
 
+	public static final Block CORRODED_LANTERN = ironLantern("corroded_lantern", UNAFFECTED, Blocks.LANTERN, true);
+	public static final Block CORRODED_EXPOSED_LANTERN = ironLantern("corroded_exposed_lantern", EXPOSED, Blocks.COPPER_LANTERN.weathering().exposed(), true);
+	public static final Block CORRODED_WEATHERED_LANTERN = ironLantern("corroded_weathered_lantern", WEATHERED, Blocks.COPPER_LANTERN.weathering().weathered(), true);
+	public static final Block CORRODED_OXIDIZED_LANTERN = ironLantern("corroded_oxidized_lantern", OXIDIZED, Blocks.COPPER_LANTERN.weathering().oxidized(), false);
+
+	public static final Block CORRODED_FROZEN_LANTERN = frozenLantern("corroded_frozen_lantern", UNAFFECTED, OxidizableLanternAging.Kind.IRON, true);
+	public static final Block CORRODED_FROZEN_EXPOSED_LANTERN = frozenLantern("corroded_frozen_exposed_lantern", EXPOSED, OxidizableLanternAging.Kind.IRON, true);
+	public static final Block CORRODED_FROZEN_WEATHERED_LANTERN = frozenLantern("corroded_frozen_weathered_lantern", WEATHERED, OxidizableLanternAging.Kind.IRON, true);
+	public static final Block CORRODED_FROZEN_OXIDIZED_LANTERN = frozenLantern("corroded_frozen_oxidized_lantern", OXIDIZED, OxidizableLanternAging.Kind.IRON, false);
+
+	public static final Block CORRODED_COPPER_LANTERN = copperLantern("corroded_copper_lantern", UNAFFECTED, Blocks.COPPER_LANTERN.weathering().unaffected(), true);
+	public static final Block CORRODED_EXPOSED_COPPER_LANTERN = copperLantern("corroded_exposed_copper_lantern", EXPOSED, Blocks.COPPER_LANTERN.weathering().exposed(), true);
+	public static final Block CORRODED_WEATHERED_COPPER_LANTERN = copperLantern("corroded_weathered_copper_lantern", WEATHERED, Blocks.COPPER_LANTERN.weathering().weathered(), true);
+	public static final Block CORRODED_OXIDIZED_COPPER_LANTERN = copperLantern("corroded_oxidized_copper_lantern", OXIDIZED, Blocks.COPPER_LANTERN.weathering().oxidized(), false);
+
+	public static final Block CORRODED_FROZEN_COPPER_LANTERN = frozenLantern("corroded_frozen_copper_lantern", UNAFFECTED, OxidizableLanternAging.Kind.COPPER, true);
+	public static final Block CORRODED_FROZEN_EXPOSED_COPPER_LANTERN = frozenLantern("corroded_frozen_exposed_copper_lantern", EXPOSED, OxidizableLanternAging.Kind.COPPER, true);
+	public static final Block CORRODED_FROZEN_WEATHERED_COPPER_LANTERN = frozenLantern("corroded_frozen_weathered_copper_lantern", WEATHERED, OxidizableLanternAging.Kind.COPPER, true);
+	public static final Block CORRODED_FROZEN_OXIDIZED_COPPER_LANTERN = frozenLantern("corroded_frozen_oxidized_copper_lantern", OXIDIZED, OxidizableLanternAging.Kind.COPPER, false);
+
 	private static Block copper(String name, WeatheringCopper.WeatherState state, Block vanilla, boolean tick) {
 		return register(name, key -> new FastWeatheringCopperBlock(state, copy(vanilla, key, tick)));
 	}
@@ -141,6 +161,26 @@ public class CorrodedBlocks {
 		return register(name, key -> new OxidizableIronBarsBlock(state, metal(key, tick, true)));
 	}
 
+	private static Block ironLantern(String name, WeatheringCopper.WeatherState state, Block lightSource, boolean tick) {
+		return register(name, key -> new OxidizableLanternBlock(state, OxidizableLanternAging.Kind.IRON, true, lantern(lightSource, key, tick, null)));
+	}
+
+	private static Block copperLantern(String name, WeatheringCopper.WeatherState state, Block vanilla, boolean tick) {
+		return register(name, key -> new OxidizableLanternBlock(state, OxidizableLanternAging.Kind.COPPER, false, lantern(vanilla, key, tick, null)));
+	}
+
+	private static Block frozenLantern(String name, WeatheringCopper.WeatherState state, OxidizableLanternAging.Kind kind, boolean tick) {
+		return register(name, key -> new OxidizableFrozenLanternBlock(state, kind, lantern(Blocks.LANTERN, key, tick, 0)));
+	}
+
+	private static BlockBehaviour.Properties lantern(Block vanilla, ResourceKey<Block> key, boolean tick, Integer light) {
+		BlockBehaviour.Properties properties = BlockBehaviour.Properties.ofFullCopy(vanilla).setId(key);
+		if (light != null) {
+			properties = properties.lightLevel(state -> light);
+		}
+		return tick ? properties.randomTicks() : properties;
+	}
+
 	private static BlockBehaviour.Properties copy(Block vanilla, ResourceKey<Block> key, boolean tick) {
 		BlockBehaviour.Properties properties = BlockBehaviour.Properties.ofFullCopy(vanilla).setId(key);
 		return tick ? properties.randomTicks() : properties;
@@ -184,6 +224,10 @@ public class CorrodedBlocks {
 		chain(CORRODED_IRON_TRAPDOOR, CORRODED_EXPOSED_IRON_TRAPDOOR, CORRODED_WEATHERED_IRON_TRAPDOOR, CORRODED_OXIDIZED_IRON_TRAPDOOR);
 		chain(CORRODED_IRON_CHAIN, CORRODED_EXPOSED_IRON_CHAIN, CORRODED_WEATHERED_IRON_CHAIN, CORRODED_OXIDIZED_IRON_CHAIN);
 		chain(CORRODED_IRON_BARS, CORRODED_EXPOSED_IRON_BARS, CORRODED_WEATHERED_IRON_BARS, CORRODED_OXIDIZED_IRON_BARS);
+		chain(CORRODED_LANTERN, CORRODED_EXPOSED_LANTERN, CORRODED_WEATHERED_LANTERN, CORRODED_OXIDIZED_LANTERN);
+		chain(CORRODED_FROZEN_LANTERN, CORRODED_FROZEN_EXPOSED_LANTERN, CORRODED_FROZEN_WEATHERED_LANTERN, CORRODED_FROZEN_OXIDIZED_LANTERN);
+		chain(CORRODED_COPPER_LANTERN, CORRODED_EXPOSED_COPPER_LANTERN, CORRODED_WEATHERED_COPPER_LANTERN, CORRODED_OXIDIZED_COPPER_LANTERN);
+		chain(CORRODED_FROZEN_COPPER_LANTERN, CORRODED_FROZEN_EXPOSED_COPPER_LANTERN, CORRODED_FROZEN_WEATHERED_COPPER_LANTERN, CORRODED_FROZEN_OXIDIZED_COPPER_LANTERN);
 
 		wax(CORRODED_COPPER, Blocks.COPPER_BLOCK.waxed().unaffected());
 		wax(CORRODED_EXPOSED_COPPER, Blocks.COPPER_BLOCK.waxed().exposed());
@@ -242,6 +286,22 @@ public class CorrodedBlocks {
 		wax(CORRODED_EXPOSED_IRON_BARS, ModBlocks.WAXED_EXPOSED_IRON_BARS);
 		wax(CORRODED_WEATHERED_IRON_BARS, ModBlocks.WAXED_WEATHERED_IRON_BARS);
 		wax(CORRODED_OXIDIZED_IRON_BARS, ModBlocks.WAXED_OXIDIZED_IRON_BARS);
+		wax(CORRODED_LANTERN, ModBlocks.WAXED_LANTERN);
+		wax(CORRODED_EXPOSED_LANTERN, ModBlocks.WAXED_EXPOSED_LANTERN);
+		wax(CORRODED_WEATHERED_LANTERN, ModBlocks.WAXED_WEATHERED_LANTERN);
+		wax(CORRODED_OXIDIZED_LANTERN, ModBlocks.WAXED_OXIDIZED_LANTERN);
+		wax(CORRODED_FROZEN_LANTERN, ModBlocks.FROZEN_WAXED_LANTERN);
+		wax(CORRODED_FROZEN_EXPOSED_LANTERN, ModBlocks.FROZEN_WAXED_EXPOSED_LANTERN);
+		wax(CORRODED_FROZEN_WEATHERED_LANTERN, ModBlocks.FROZEN_WAXED_WEATHERED_LANTERN);
+		wax(CORRODED_FROZEN_OXIDIZED_LANTERN, ModBlocks.FROZEN_WAXED_OXIDIZED_LANTERN);
+		wax(CORRODED_COPPER_LANTERN, Blocks.COPPER_LANTERN.waxed().unaffected());
+		wax(CORRODED_EXPOSED_COPPER_LANTERN, Blocks.COPPER_LANTERN.waxed().exposed());
+		wax(CORRODED_WEATHERED_COPPER_LANTERN, Blocks.COPPER_LANTERN.waxed().weathered());
+		wax(CORRODED_OXIDIZED_COPPER_LANTERN, Blocks.COPPER_LANTERN.waxed().oxidized());
+		wax(CORRODED_FROZEN_COPPER_LANTERN, ModBlocks.FROZEN_WAXED_COPPER_LANTERN);
+		wax(CORRODED_FROZEN_EXPOSED_COPPER_LANTERN, ModBlocks.FROZEN_WAXED_EXPOSED_COPPER_LANTERN);
+		wax(CORRODED_FROZEN_WEATHERED_COPPER_LANTERN, ModBlocks.FROZEN_WAXED_WEATHERED_COPPER_LANTERN);
+		wax(CORRODED_FROZEN_OXIDIZED_COPPER_LANTERN, ModBlocks.FROZEN_WAXED_OXIDIZED_COPPER_LANTERN);
 
 		pair(Blocks.COPPER_BLOCK.weathering().unaffected(), CORRODED_COPPER);
 		pair(Blocks.COPPER_BLOCK.weathering().exposed(), CORRODED_EXPOSED_COPPER);
@@ -305,6 +365,22 @@ public class CorrodedBlocks {
 		pair(ModBlocks.EXPOSED_IRON_BARS, CORRODED_EXPOSED_IRON_BARS);
 		pair(ModBlocks.WEATHERED_IRON_BARS, CORRODED_WEATHERED_IRON_BARS);
 		pair(ModBlocks.OXIDIZED_IRON_BARS, CORRODED_OXIDIZED_IRON_BARS);
+		pair(Blocks.LANTERN, CORRODED_LANTERN);
+		pair(ModBlocks.EXPOSED_LANTERN, CORRODED_EXPOSED_LANTERN);
+		pair(ModBlocks.WEATHERED_LANTERN, CORRODED_WEATHERED_LANTERN);
+		pair(ModBlocks.OXIDIZED_LANTERN, CORRODED_OXIDIZED_LANTERN);
+		pair(ModBlocks.FROZEN_LANTERN, CORRODED_FROZEN_LANTERN);
+		pair(ModBlocks.FROZEN_EXPOSED_LANTERN, CORRODED_FROZEN_EXPOSED_LANTERN);
+		pair(ModBlocks.FROZEN_WEATHERED_LANTERN, CORRODED_FROZEN_WEATHERED_LANTERN);
+		pair(ModBlocks.FROZEN_OXIDIZED_LANTERN, CORRODED_FROZEN_OXIDIZED_LANTERN);
+		pair(Blocks.COPPER_LANTERN.weathering().unaffected(), CORRODED_COPPER_LANTERN);
+		pair(Blocks.COPPER_LANTERN.weathering().exposed(), CORRODED_EXPOSED_COPPER_LANTERN);
+		pair(Blocks.COPPER_LANTERN.weathering().weathered(), CORRODED_WEATHERED_COPPER_LANTERN);
+		pair(Blocks.COPPER_LANTERN.weathering().oxidized(), CORRODED_OXIDIZED_COPPER_LANTERN);
+		pair(ModBlocks.FROZEN_COPPER_LANTERN, CORRODED_FROZEN_COPPER_LANTERN);
+		pair(ModBlocks.FROZEN_EXPOSED_COPPER_LANTERN, CORRODED_FROZEN_EXPOSED_COPPER_LANTERN);
+		pair(ModBlocks.FROZEN_WEATHERED_COPPER_LANTERN, CORRODED_FROZEN_WEATHERED_COPPER_LANTERN);
+		pair(ModBlocks.FROZEN_OXIDIZED_COPPER_LANTERN, CORRODED_FROZEN_OXIDIZED_COPPER_LANTERN);
 
 		OuterWorldMod.LOGGER.info("Registered corroded copper and iron blocks");
 	}

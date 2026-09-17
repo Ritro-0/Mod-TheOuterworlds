@@ -1,0 +1,9 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:hydrogen_crystal",
+		"theouterworlds:helium_crystal",
+		"theouterworlds:ionic_crystal",
+		"theouterworlds:methane_crystal"
+	]
+}

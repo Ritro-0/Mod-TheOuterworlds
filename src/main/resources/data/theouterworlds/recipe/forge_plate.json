@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"pattern": [
+		"HH",
+		"OO",
+		"OO"
+	],
+	"key": {
+		"H": "theouterworlds:hematite",
+		"O": "theouterworlds:oxidized_basalt"
+	},
+	"result": {
+		"id": "theouterworlds:forge_plate",
+		"count": 1
+	}
+}

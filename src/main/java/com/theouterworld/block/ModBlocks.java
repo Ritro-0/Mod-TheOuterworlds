@@ -4,11 +4,14 @@ import com.theouterworld.OuterWorldMod;
 import com.theouterworld.registry.ModFluids;
 import com.theouterworld.registry.ModTrimMaterials;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
+import net.fabricmc.fabric.api.registry.TillableBlockRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
@@ -19,7 +22,10 @@ import net.minecraft.world.level.block.BrushableBlock;
 import net.minecraft.world.level.block.ChainBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.LanternBlock;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.PointedDripstoneBlock;
+import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
@@ -27,10 +33,15 @@ import net.minecraft.world.level.block.TorchBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WallTorchBlock;
+import net.minecraft.data.worldgen.features.TreeFeatures;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.FlowerBlock;
+import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.effect.MobEffects;
 
 import java.util.function.Function;
 
@@ -42,6 +53,16 @@ public class ModBlocks {
 				.setId(key)
 				.mapColor(MapColor.TERRACOTTA_ORANGE)
 				.strength(0.5f, 0.5f)
+				.sound(SoundType.SAND)
+		)
+	);
+
+	public static final Block REGOLITH_FARMLAND = registerBlock(
+		"regolith_farmland",
+		key -> new RegolithFarmlandBlock(
+			BlockBehaviour.Properties.ofFullCopy(Blocks.FARMLAND)
+				.setId(key)
+				.mapColor(MapColor.TERRACOTTA_ORANGE)
 				.sound(SoundType.SAND)
 		)
 	);
@@ -70,6 +91,42 @@ public class ModBlocks {
 				.strength(1.25f, 4.2f)
 				.sound(SoundType.BASALT)
 				.requiresCorrectToolForDrops()
+		)
+	);
+
+	public static final Block SULFURIC_BASALT = registerBlock(
+		"sulfuric_basalt",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_YELLOW)
+				.strength(1.25f, 4.2f)
+				.sound(SoundType.BASALT)
+				.requiresCorrectToolForDrops()
+		)
+	);
+
+	/** Titan organic polymer — very soft “stone” of Amberworld. */
+	public static final Block THOLIN = registerBlock(
+		"tholin",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_ORANGE)
+				.strength(0.4f, 0.4f)
+				.sound(SoundType.GRAVEL)
+		)
+	);
+
+	/** Soft tholin dust / soil covering Amberworld's surface. */
+	public static final Block THOLINIC_REGOLITH = registerBlock(
+		"tholinic_regolith",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.TERRACOTTA_ORANGE)
+				.strength(0.25f, 0.25f)
+				.sound(SoundType.SAND)
 		)
 	);
 
@@ -158,13 +215,25 @@ public class ModBlocks {
 		)
 	);
 
+	public static final Block RAW_OSMIUM = registerBlock(
+		"raw_osmium",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_LIGHT_BLUE)
+				.strength(5.0f, 6.0f)
+				.sound(SoundType.STONE)
+				.requiresCorrectToolForDrops()
+		)
+	);
+
 	public static final Block RAW_OLIVINE = registerBlock(
 		"raw_olivine",
 		key -> new Block(
 			BlockBehaviour.Properties.of()
 				.setId(key)
 				.mapColor(MapColor.COLOR_GREEN)
-				.strength(1.5f, 1.5f)
+				.strength(1.5f, 1200.0f)
 				.sound(SoundType.AMETHYST)
 				.requiresCorrectToolForDrops()
 		)
@@ -176,7 +245,7 @@ public class ModBlocks {
 			BlockBehaviour.Properties.of()
 				.setId(key)
 				.mapColor(MapColor.COLOR_GREEN)
-				.strength(1.5f, 1.5f)
+				.strength(1.5f, 1200.0f)
 				.sound(SoundType.AMETHYST)
 				.requiresCorrectToolForDrops()
 				.randomTicks()
@@ -194,7 +263,7 @@ public class ModBlocks {
 				.forceSolidOn()
 				.noOcclusion()
 				.sound(SoundType.AMETHYST_CLUSTER)
-				.strength(1.5f)
+				.strength(1.5f, 1200.0f)
 				.lightLevel(state -> 1)
 				.pushReaction(PushReaction.DESTROY)
 		)
@@ -211,7 +280,7 @@ public class ModBlocks {
 				.forceSolidOn()
 				.noOcclusion()
 				.sound(SoundType.AMETHYST_CLUSTER)
-				.strength(1.5f)
+				.strength(1.5f, 1200.0f)
 				.lightLevel(state -> 2)
 				.pushReaction(PushReaction.DESTROY)
 		)
@@ -228,7 +297,7 @@ public class ModBlocks {
 				.forceSolidOn()
 				.noOcclusion()
 				.sound(SoundType.AMETHYST_CLUSTER)
-				.strength(1.5f)
+				.strength(1.5f, 1200.0f)
 				.lightLevel(state -> 5)
 				.pushReaction(PushReaction.DESTROY)
 		),
@@ -261,6 +330,25 @@ public class ModBlocks {
 				.sound(SoundType.WOOD)
 				.pushReaction(PushReaction.DESTROY)
 				.overrideDescription("block.theouterworlds.olivine_torch")
+		)
+	);
+
+	public static final Block UNLIT_TORCH = registerBlockOnly(
+		"unlit_torch",
+		key -> new UnlitTorchBlock(
+			BlockBehaviour.Properties.ofFullCopy(Blocks.TORCH)
+				.setId(key)
+				.lightLevel(state -> 0)
+		)
+	);
+
+	public static final Block UNLIT_WALL_TORCH = registerBlockOnly(
+		"unlit_wall_torch",
+		key -> new UnlitWallTorchBlock(
+			BlockBehaviour.Properties.ofFullCopy(Blocks.WALL_TORCH)
+				.setId(key)
+				.lightLevel(state -> 0)
+				.overrideDescription("block.theouterworlds.unlit_torch")
 		)
 	);
 
@@ -322,6 +410,18 @@ public class ModBlocks {
 		)
 	);
 
+	public static final Block ANORTHOSITE_NICKEL_ORE = registerBlock(
+		"anorthosite_nickel_ore",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.DEEPSLATE)
+				.strength(4.5f, 3.0f)
+				.sound(SoundType.DEEPSLATE)
+				.requiresCorrectToolForDrops()
+		)
+	);
+
 	public static final Block KNAPPING_TABLE = registerBlock(
 		"knapping_table",
 		key -> new KnappingTableBlock(
@@ -329,7 +429,8 @@ public class ModBlocks {
 				.setId(key)
 				.mapColor(MapColor.STONE)
 				.strength(2.5f, 2.5f)
-				.sound(SoundType.WOOD)
+				.sound(SoundType.STONE)
+				.requiresCorrectToolForDrops()
 				.noOcclusion()
 		)
 	);
@@ -342,6 +443,32 @@ public class ModBlocks {
 				.mapColor(MapColor.STONE)
 				.strength(3.5f, 3.5f)
 				.sound(SoundType.STONE)
+				.requiresCorrectToolForDrops()
+				.noOcclusion()
+		)
+	);
+
+	public static final Block FORGE_PLATE = registerBlock(
+		"forge_plate",
+		key -> new ForgePlateBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.STONE)
+				.strength(1.5f, 6.0f)
+				.sound(SoundType.BASALT)
+				.requiresCorrectToolForDrops()
+				.noOcclusion()
+		)
+	);
+
+	public static final Block ASTRAL_TELESCOPE = registerBlock(
+		"astral_telescope",
+		key -> new AstralTelescopeBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.METAL)
+				.strength(2.0f, 6.0f)
+				.sound(SoundType.METAL)
 				.requiresCorrectToolForDrops()
 				.noOcclusion()
 		)
@@ -367,6 +494,31 @@ public class ModBlocks {
 				.mapColor(MapColor.COLOR_LIGHT_BLUE)
 				.strength(0.65f, 0.65f)
 				.friction(0.989f)
+				.sound(SoundType.GLASS)
+		)
+	);
+
+	public static final Block NITROGEN_ICE = registerBlock(
+		"nitrogen_ice",
+		key -> new DryIceBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_LIGHT_BLUE)
+				.strength(0.65f, 0.65f)
+				.friction(0.989f)
+				.sound(SoundType.GLASS)
+		)
+	);
+
+	/** Makemake crust ice — slippery, always drops, any pickaxe. */
+	public static final Block METHANE_ICE = registerBlock(
+		"methane_ice",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.SNOW)
+				.strength(0.4f, 0.4f)
+				.friction(0.996f)
 				.sound(SoundType.GLASS)
 		)
 	);
@@ -483,6 +635,291 @@ public class ModBlocks {
 		)
 	);
 
+	public static final Block LIQUID_HYDROGEN = registerBlockOnly(
+		"liquid_hydrogen",
+		key -> new LiquidBlock(
+			ModFluids.LIQUID_HYDROGEN,
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_LIGHT_BLUE)
+				.replaceable()
+				.noCollision()
+				.strength(100.0f)
+				.pushReaction(PushReaction.DESTROY)
+				.noLootTable()
+				.liquid()
+				.lightLevel(state -> 2)
+				.sound(SoundType.EMPTY)
+		)
+	);
+
+	public static final Block LIQUID_HELIUM = registerBlockOnly(
+		"liquid_helium",
+		key -> new LiquidBlock(
+			ModFluids.LIQUID_HELIUM,
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_LIGHT_BLUE)
+				.replaceable()
+				.noCollision()
+				.strength(100.0f)
+				.pushReaction(PushReaction.DESTROY)
+				.noLootTable()
+				.liquid()
+				.lightLevel(state -> 2)
+				.sound(SoundType.EMPTY)
+		)
+	);
+
+	public static final Block LIQUID_AMMONIA = registerBlockOnly(
+		"liquid_ammonia",
+		key -> new LiquidBlock(
+			ModFluids.LIQUID_AMMONIA,
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_LIGHT_GREEN)
+				.replaceable()
+				.noCollision()
+				.strength(100.0f)
+				.pushReaction(PushReaction.DESTROY)
+				.noLootTable()
+				.liquid()
+				.lightLevel(state -> 2)
+				.sound(SoundType.EMPTY)
+		)
+	);
+
+	public static final Block METALLIC_HYDROGEN = registerBlockOnly(
+		"metallic_hydrogen",
+		key -> new MetallicHydrogenBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_LIGHT_BLUE)
+				.noCollision()
+				.noOcclusion()
+				.strength(0.5f, 0.5f)
+				.pushReaction(PushReaction.DESTROY)
+				.lightLevel(state -> 15)
+				.sound(SoundType.GLASS)
+				.isViewBlocking((state, level, pos) -> false)
+				.isSuffocating((state, level, pos) -> false)
+		)
+	);
+
+	public static final Block METALLIC_HELIUM = registerBlockOnly(
+		"metallic_helium",
+		key -> new MetallicHeliumBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_LIGHT_BLUE)
+				.noCollision()
+				.noOcclusion()
+				.strength(0.5f, 0.5f)
+				.pushReaction(PushReaction.DESTROY)
+				.lightLevel(state -> 15)
+				.sound(SoundType.GLASS)
+				.isViewBlocking((state, level, pos) -> false)
+				.isSuffocating((state, level, pos) -> false)
+		)
+	);
+
+	public static final Block HYDROGEN_CRYSTAL = registerBlock(
+		"hydrogen_crystal",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_LIGHT_BLUE)
+				.strength(50.0f, 1200.0f)
+				.sound(SoundType.GLASS)
+				.requiresCorrectToolForDrops()
+				.lightLevel(state -> 15)
+		)
+	);
+
+	public static final Block HELIUM_CRYSTAL = registerBlock(
+		"helium_crystal",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_LIGHT_BLUE)
+				.strength(50.0f, 1200.0f)
+				.sound(SoundType.GLASS)
+				.requiresCorrectToolForDrops()
+				.lightLevel(state -> 15)
+		)
+	);
+
+	public static final Block IONIC_AMMONIA = registerBlockOnly(
+		"ionic_ammonia",
+		key -> new IonicAmmoniaBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_LIGHT_GREEN)
+				.noCollision()
+				.noOcclusion()
+				.strength(0.5f, 0.5f)
+				.pushReaction(PushReaction.DESTROY)
+				.lightLevel(state -> 15)
+				.sound(SoundType.GLASS)
+				.isViewBlocking((state, level, pos) -> false)
+				.isSuffocating((state, level, pos) -> false)
+		)
+	);
+
+	public static final Block IONIC_CRYSTAL = registerBlock(
+		"ionic_crystal",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_LIGHT_GREEN)
+				.strength(50.0f, 1200.0f)
+				.sound(SoundType.GLASS)
+				.requiresCorrectToolForDrops()
+				.lightLevel(state -> 15)
+		)
+	);
+
+	public static final Block LIQUID_METHANE = registerBlockOnly(
+		"liquid_methane",
+		key -> new LiquidBlock(
+			ModFluids.LIQUID_METHANE,
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_CYAN)
+				.replaceable()
+				.noCollision()
+				.strength(100.0f)
+				.pushReaction(PushReaction.DESTROY)
+				.noLootTable()
+				.liquid()
+				.lightLevel(state -> 2)
+				.sound(SoundType.EMPTY)
+		)
+	);
+
+	public static final Block SOLAR_PLASMA = registerBlockOnly(
+		"solar_plasma",
+		key -> new SolarPlasmaLiquidBlock(
+			ModFluids.SOLAR_PLASMA,
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_ORANGE)
+				.replaceable()
+				.noCollision()
+				.strength(100.0f)
+				.pushReaction(PushReaction.DESTROY)
+				.noLootTable()
+				.liquid()
+				.lightLevel(state -> 15)
+				.sound(SoundType.EMPTY)
+		)
+	);
+
+	public static final Block IONIC_METHANE = registerBlockOnly(
+		"ionic_methane",
+		key -> new IonicMethaneBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_CYAN)
+				.noCollision()
+				.noOcclusion()
+				.strength(0.5f, 0.5f)
+				.pushReaction(PushReaction.DESTROY)
+				.lightLevel(state -> 15)
+				.sound(SoundType.GLASS)
+				.isViewBlocking((state, level, pos) -> false)
+				.isSuffocating((state, level, pos) -> false)
+		)
+	);
+
+	public static final Block METHANE_CRYSTAL = registerBlock(
+		"methane_crystal",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_CYAN)
+				.strength(50.0f, 1200.0f)
+				.sound(SoundType.GLASS)
+				.requiresCorrectToolForDrops()
+				.lightLevel(state -> 15)
+		)
+	);
+
+	/** Sulfide cloud deck: sink very slowly, Nausea II when head is inside. */
+	public static final Block SULFIDE_CLOUD = registerBlockOnly(
+		"sulfide_cloud",
+		key -> new AerogelCloudBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_YELLOW)
+				.strength(0.2f, 0.2f)
+				.sound(SoundType.WOOL)
+				.noCollision()
+				.noOcclusion()
+				.noLootTable()
+				.isViewBlocking((state, level, pos) -> false)
+				.isSuffocating((state, level, pos) -> false),
+			0.88F,
+			0.028,
+			0.07,
+			1
+		)
+	);
+
+	/** Ammonia cloud deck: sinks a bit faster, Nausea I when head is inside. */
+	public static final Block AMMONIA_CLOUD = registerBlockOnly(
+		"ammonia_cloud",
+		key -> new AerogelCloudBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_LIGHT_GREEN)
+				.strength(0.15f, 0.15f)
+				.sound(SoundType.WOOL)
+				.noCollision()
+				.noOcclusion()
+				.noLootTable()
+				.isViewBlocking((state, level, pos) -> false)
+				.isSuffocating((state, level, pos) -> false),
+			0.86F,
+			0.04,
+			0.065,
+			0
+		)
+	);
+
+	/** Methane cloud deck: similar sink to ammonia, Nausea I when head is inside. */
+	public static final Block METHANE_CLOUD = registerBlockOnly(
+		"methane_cloud",
+		key -> new AerogelCloudBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_CYAN)
+				.strength(0.15f, 0.15f)
+				.sound(SoundType.WOOL)
+				.noCollision()
+				.noOcclusion()
+				.noLootTable()
+				.isViewBlocking((state, level, pos) -> false)
+				.isSuffocating((state, level, pos) -> false),
+			0.86F,
+			0.04,
+			0.065,
+			1
+		)
+	);
+
+	public static final Block RAW_NICKEL_BLOCK = registerBlock(
+		"raw_nickel_block",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.METAL)
+				.strength(5.0f, 6.0f)
+				.sound(SoundType.STONE)
+				.requiresCorrectToolForDrops()
+		)
+	);
+
 	public static final Block MERCURY_BLOCK = registerBlock(
 		"mercury_block",
 		key -> new MercuryBlock(
@@ -495,6 +932,269 @@ public class ModBlocks {
 		)
 	);
 
+	public static final Block FROZEN_WHEAT = registerBlockOnly(
+		"frozen_wheat",
+		key -> new FrozenCropBlock(
+			BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT).setId(key),
+			"frozen_wheat_seeds"
+		)
+	);
+
+	public static final Block FROZEN_CARROTS = registerBlockOnly(
+		"frozen_carrots",
+		key -> new FrozenCropBlock(
+			BlockBehaviour.Properties.ofFullCopy(Blocks.CARROTS).setId(key),
+			"frozen_carrot"
+		)
+	);
+
+	public static final Block FROZEN_POTATOES = registerBlockOnly(
+		"frozen_potatoes",
+		key -> new FrozenCropBlock(
+			BlockBehaviour.Properties.ofFullCopy(Blocks.POTATOES).setId(key),
+			"frozen_potato"
+		)
+	);
+
+	public static final Block FROZEN_BEETROOTS = registerBlockOnly(
+		"frozen_beetroots",
+		key -> new FrozenBeetrootBlock(
+			BlockBehaviour.Properties.ofFullCopy(Blocks.BEETROOTS).setId(key)
+		)
+	);
+
+	public static final Block FROZEN_TORCHFLOWER_CROP = registerBlockOnly(
+		"frozen_torchflower_crop",
+		key -> new FrozenTorchflowerCropBlock(
+			BlockBehaviour.Properties.ofFullCopy(Blocks.TORCHFLOWER_CROP).setId(key)
+		)
+	);
+
+	public static final Block FROZEN_PITCHER_CROP = registerBlockOnly(
+		"frozen_pitcher_crop",
+		key -> new FrozenPitcherCropBlock(
+			BlockBehaviour.Properties.ofFullCopy(Blocks.PITCHER_CROP).setId(key)
+		)
+	);
+
+	public static final Block FROZEN_TORCHFLOWER = registerBlock(
+		"frozen_torchflower",
+		key -> new FlowerBlock(
+			MobEffects.NIGHT_VISION,
+			4.0F,
+			BlockBehaviour.Properties.ofFullCopy(Blocks.TORCHFLOWER).setId(key)
+		)
+	);
+
+	public static final Block FROZEN_OAK_SAPLING = frozenSapling("frozen_oak_sapling", TreeGrower.OAK, Blocks.OAK_SAPLING);
+	public static final Block FROZEN_SPRUCE_SAPLING = frozenSapling("frozen_spruce_sapling", TreeGrower.SPRUCE, Blocks.SPRUCE_SAPLING);
+	public static final Block FROZEN_BIRCH_SAPLING = frozenSapling("frozen_birch_sapling", TreeGrower.BIRCH, Blocks.BIRCH_SAPLING);
+	public static final Block FROZEN_JUNGLE_SAPLING = frozenSapling("frozen_jungle_sapling", TreeGrower.JUNGLE, Blocks.JUNGLE_SAPLING);
+	public static final Block FROZEN_ACACIA_SAPLING = frozenSapling("frozen_acacia_sapling", TreeGrower.ACACIA, Blocks.ACACIA_SAPLING);
+	public static final Block FROZEN_DARK_OAK_SAPLING = frozenSapling("frozen_dark_oak_sapling", TreeGrower.DARK_OAK, Blocks.DARK_OAK_SAPLING);
+	public static final Block FROZEN_CHERRY_SAPLING = frozenSapling("frozen_cherry_sapling", TreeGrower.CHERRY, Blocks.CHERRY_SAPLING);
+	public static final Block FROZEN_PALE_OAK_SAPLING = frozenSapling("frozen_pale_oak_sapling", TreeGrower.PALE_OAK, Blocks.PALE_OAK_SAPLING);
+
+	public static final Block FROZEN_MANGROVE_PROPAGULE = registerBlock(
+		"frozen_mangrove_propagule",
+		key -> new FrozenMangrovePropaguleBlock(
+			TreeGrower.MANGROVE,
+			BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_PROPAGULE).setId(key)
+		)
+	);
+
+	public static final Block FROZEN_AZALEA = registerBlock(
+		"frozen_azalea",
+		key -> new FrozenAzaleaBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA).setId(key))
+	);
+
+	public static final Block FROZEN_FLOWERING_AZALEA = registerBlock(
+		"frozen_flowering_azalea",
+		key -> new FrozenAzaleaBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWERING_AZALEA).setId(key))
+	);
+
+	public static final Block FROZEN_RED_MUSHROOM = registerBlock(
+		"frozen_red_mushroom",
+		key -> new FrozenMushroomBlock(
+			TreeFeatures.HUGE_RED_MUSHROOM,
+			BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM).setId(key)
+		)
+	);
+
+	public static final Block FROZEN_BROWN_MUSHROOM = registerBlock(
+		"frozen_brown_mushroom",
+		key -> new FrozenMushroomBlock(
+			TreeFeatures.HUGE_BROWN_MUSHROOM,
+			BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM).setId(key)
+		)
+	);
+
+	public static final Block FROZEN_CRIMSON_FUNGUS = registerBlock(
+		"frozen_crimson_fungus",
+		key -> new FrozenNetherFungusBlock(
+			TreeFeatures.CRIMSON_FUNGUS_PLANTED,
+			Blocks.CRIMSON_NYLIUM,
+			BlockTags.SUPPORTS_CRIMSON_FUNGUS,
+			BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_FUNGUS).setId(key)
+		)
+	);
+
+	public static final Block FROZEN_WARPED_FUNGUS = registerBlock(
+		"frozen_warped_fungus",
+		key -> new FrozenNetherFungusBlock(
+			TreeFeatures.WARPED_FUNGUS_PLANTED,
+			Blocks.WARPED_NYLIUM,
+			BlockTags.SUPPORTS_WARPED_FUNGUS,
+			BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FUNGUS).setId(key)
+		)
+	);
+
+	public static final Block FROZEN_COCOA = registerBlockOnly(
+		"frozen_cocoa",
+		key -> new FrozenCocoaBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COCOA).setId(key))
+	);
+
+	public static final Block FROZEN_MELON = registerBlock(
+		"frozen_melon",
+		key -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.MELON).setId(key))
+	);
+
+	public static final Block FROZEN_PUMPKIN = registerBlock(
+		"frozen_pumpkin",
+		key -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PUMPKIN).setId(key))
+	);
+
+	public static final Block FROZEN_PUMPKIN_STEM = registerBlockOnly(
+		"frozen_pumpkin_stem",
+		key -> new FrozenStemBlock(
+			blockKey("frozen_pumpkin"),
+			blockKey("frozen_attached_pumpkin_stem"),
+			itemKey("frozen_pumpkin_seeds"),
+			BlockTags.SUPPORTS_PUMPKIN_STEM,
+			BlockTags.SUPPORTS_PUMPKIN_STEM_FRUIT,
+			BlockBehaviour.Properties.ofFullCopy(Blocks.PUMPKIN_STEM).setId(key)
+		)
+	);
+
+	public static final Block FROZEN_MELON_STEM = registerBlockOnly(
+		"frozen_melon_stem",
+		key -> new FrozenStemBlock(
+			blockKey("frozen_melon"),
+			blockKey("frozen_attached_melon_stem"),
+			itemKey("frozen_melon_seeds"),
+			BlockTags.SUPPORTS_MELON_STEM,
+			BlockTags.SUPPORTS_MELON_STEM_FRUIT,
+			BlockBehaviour.Properties.ofFullCopy(Blocks.MELON_STEM).setId(key)
+		)
+	);
+
+	public static final Block FROZEN_ATTACHED_PUMPKIN_STEM = registerBlockOnly(
+		"frozen_attached_pumpkin_stem",
+		key -> new FrozenAttachedStemBlock(
+			blockKey("frozen_pumpkin_stem"),
+			blockKey("frozen_pumpkin"),
+			itemKey("frozen_pumpkin_seeds"),
+			BlockTags.SUPPORTS_PUMPKIN_STEM,
+			BlockBehaviour.Properties.ofFullCopy(Blocks.ATTACHED_PUMPKIN_STEM).setId(key)
+		)
+	);
+
+	public static final Block FROZEN_ATTACHED_MELON_STEM = registerBlockOnly(
+		"frozen_attached_melon_stem",
+		key -> new FrozenAttachedStemBlock(
+			blockKey("frozen_melon_stem"),
+			blockKey("frozen_melon"),
+			itemKey("frozen_melon_seeds"),
+			BlockTags.SUPPORTS_MELON_STEM,
+			BlockBehaviour.Properties.ofFullCopy(Blocks.ATTACHED_MELON_STEM).setId(key)
+		)
+	);
+
+	public static final Block FROZEN_BAMBOO_SAPLING = registerBlockOnly(
+		"frozen_bamboo_sapling",
+		key -> new FrozenBambooSaplingBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_SAPLING).setId(key))
+	);
+
+	public static final Block FROZEN_BAMBOO = registerBlock(
+		"frozen_bamboo",
+		key -> new FrozenBambooStalkBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO).setId(key))
+	);
+
+	public static final Block FROZEN_FIREFLY_BUSH = registerBlock(
+		"frozen_firefly_bush",
+		key -> new FrozenFireflyBushBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FIREFLY_BUSH).setId(key))
+	);
+
+	public static final Block FROZEN_LANTERN = registerOxidizableFrozenLantern(
+		"frozen_lantern",
+		Blocks.LANTERN,
+		WeatheringCopper.WeatherState.UNAFFECTED,
+		OxidizableLanternAging.Kind.IRON
+	);
+	public static final Block FROZEN_EXPOSED_LANTERN = registerOxidizableFrozenLantern(
+		"frozen_exposed_lantern",
+		Blocks.LANTERN,
+		WeatheringCopper.WeatherState.EXPOSED,
+		OxidizableLanternAging.Kind.IRON
+	);
+	public static final Block FROZEN_WEATHERED_LANTERN = registerOxidizableFrozenLantern(
+		"frozen_weathered_lantern",
+		Blocks.LANTERN,
+		WeatheringCopper.WeatherState.WEATHERED,
+		OxidizableLanternAging.Kind.IRON
+	);
+	public static final Block FROZEN_OXIDIZED_LANTERN = registerOxidizableFrozenLantern(
+		"frozen_oxidized_lantern",
+		Blocks.LANTERN,
+		WeatheringCopper.WeatherState.OXIDIZED,
+		OxidizableLanternAging.Kind.IRON
+	);
+	public static final Block FROZEN_WAXED_LANTERN = registerFrozenLantern("frozen_waxed_lantern", Blocks.LANTERN);
+	public static final Block FROZEN_WAXED_EXPOSED_LANTERN = registerFrozenLantern("frozen_waxed_exposed_lantern", Blocks.LANTERN);
+	public static final Block FROZEN_WAXED_WEATHERED_LANTERN = registerFrozenLantern("frozen_waxed_weathered_lantern", Blocks.LANTERN);
+	public static final Block FROZEN_WAXED_OXIDIZED_LANTERN = registerFrozenLantern("frozen_waxed_oxidized_lantern", Blocks.LANTERN);
+	public static final Block FROZEN_SOUL_LANTERN = registerFrozenLantern("frozen_soul_lantern", Blocks.SOUL_LANTERN);
+	public static final Block FROZEN_COPPER_LANTERN = registerOxidizableFrozenLantern(
+		"frozen_copper_lantern",
+		Blocks.COPPER_LANTERN.weathering().unaffected(),
+		WeatheringCopper.WeatherState.UNAFFECTED,
+		OxidizableLanternAging.Kind.COPPER
+	);
+	public static final Block FROZEN_EXPOSED_COPPER_LANTERN = registerOxidizableFrozenLantern(
+		"frozen_exposed_copper_lantern",
+		Blocks.COPPER_LANTERN.weathering().exposed(),
+		WeatheringCopper.WeatherState.EXPOSED,
+		OxidizableLanternAging.Kind.COPPER
+	);
+	public static final Block FROZEN_WEATHERED_COPPER_LANTERN = registerOxidizableFrozenLantern(
+		"frozen_weathered_copper_lantern",
+		Blocks.COPPER_LANTERN.weathering().weathered(),
+		WeatheringCopper.WeatherState.WEATHERED,
+		OxidizableLanternAging.Kind.COPPER
+	);
+	public static final Block FROZEN_OXIDIZED_COPPER_LANTERN = registerOxidizableFrozenLantern(
+		"frozen_oxidized_copper_lantern",
+		Blocks.COPPER_LANTERN.weathering().oxidized(),
+		WeatheringCopper.WeatherState.OXIDIZED,
+		OxidizableLanternAging.Kind.COPPER
+	);
+	public static final Block FROZEN_WAXED_COPPER_LANTERN = registerFrozenLantern(
+		"frozen_waxed_copper_lantern",
+		Blocks.COPPER_LANTERN.waxed().unaffected()
+	);
+	public static final Block FROZEN_WAXED_EXPOSED_COPPER_LANTERN = registerFrozenLantern(
+		"frozen_waxed_exposed_copper_lantern",
+		Blocks.COPPER_LANTERN.waxed().exposed()
+	);
+	public static final Block FROZEN_WAXED_WEATHERED_COPPER_LANTERN = registerFrozenLantern(
+		"frozen_waxed_weathered_copper_lantern",
+		Blocks.COPPER_LANTERN.waxed().weathered()
+	);
+	public static final Block FROZEN_WAXED_OXIDIZED_COPPER_LANTERN = registerFrozenLantern(
+		"frozen_waxed_oxidized_copper_lantern",
+		Blocks.COPPER_LANTERN.waxed().oxidized()
+	);
+
 	public static final Block FROZEN_NETHER_PORTAL = registerBlock(
 		"frozen_nether_portal",
 		key -> new FrozenNetherPortalBlock(
@@ -505,11 +1205,22 @@ public class ModBlocks {
 				.sound(SoundType.GLASS)
 				.lightLevel(state -> 11)
 				.noOcclusion()
-				.noCollision()
 				.pushReaction(PushReaction.DESTROY)
 		)
 	);
 
+	public static final Block FROZEN_MAGMA = registerBlock(
+		"frozen_magma",
+		key -> new Block(
+			BlockBehaviour.Properties.ofFullCopy(Blocks.MAGMA_BLOCK)
+				.setId(key)
+				.mapColor(MapColor.COLOR_CYAN)
+				.lightLevel(state -> 0)
+				.isValidSpawn((state, world, pos, type) -> false)
+		)
+	);
+
+	/** Creative-only: never drops in survival. Do not re-add a loot table. */
 	public static final Block RIFT = registerBlock(
 		"rift",
 		key -> new RiftBlock(
@@ -518,9 +1229,25 @@ public class ModBlocks {
 				.mapColor(MapColor.COLOR_PURPLE)
 				.noCollision()
 				.noOcclusion()
-				.strength(0.3f)
+				.strength(-1.0f, 3600000.0f)
 				.lightLevel(state -> 11)
 				.sound(SoundType.GLASS)
+				.pushReaction(PushReaction.BLOCK)
+				.noLootTable()
+		)
+	);
+
+	public static final Block RIFT_CHARGE = registerBlock(
+		"rift_charge",
+		key -> new RiftChargeBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_PURPLE)
+				.strength(5.0f, 1200.0f)
+				.sound(SoundType.METAL)
+				.requiresCorrectToolForDrops()
+				.noOcclusion()
+				.lightLevel(state -> state.getValue(RiftChargeBlock.POWERED) ? 11 : 4)
 				.pushReaction(PushReaction.BLOCK)
 		)
 	);
@@ -535,7 +1262,7 @@ public class ModBlocks {
 				.sound(SoundType.METAL)
 				.requiresCorrectToolForDrops()
 				.noOcclusion()
-				.lightLevel(state -> state.getValue(RiftPadBlock.POWERED) ? 11 : 4)
+				.lightLevel(state -> 8)
 				.pushReaction(PushReaction.BLOCK)
 		)
 	);
@@ -587,6 +1314,14 @@ public class ModBlocks {
 		"polished_pyroxenite_wall",
 		key -> new WallBlock(stoneProperties(key, MapColor.TERRACOTTA_BROWN).lightLevel(state -> 4))
 	);
+	public static final Block ANHYDRITE = registerStone("anhydrite", MapColor.COLOR_LIGHT_GRAY);
+	public static final Block ANHYDRITE_STAIRS = registerStairs("anhydrite_stairs", ANHYDRITE);
+	public static final Block ANHYDRITE_SLAB = registerSlab("anhydrite_slab", ANHYDRITE);
+	public static final Block ANHYDRITE_WALL = registerWall("anhydrite_wall", ANHYDRITE);
+	public static final Block POLISHED_ANHYDRITE = registerStone("polished_anhydrite", MapColor.COLOR_LIGHT_GRAY);
+	public static final Block POLISHED_ANHYDRITE_STAIRS = registerStairs("polished_anhydrite_stairs", POLISHED_ANHYDRITE);
+	public static final Block POLISHED_ANHYDRITE_SLAB = registerSlab("polished_anhydrite_slab", POLISHED_ANHYDRITE);
+	public static final Block POLISHED_ANHYDRITE_WALL = registerWall("polished_anhydrite_wall", POLISHED_ANHYDRITE);
 	public static final Block PYROXENITE_NICKEL_ORE = registerBlock(
 		"pyroxenite_nickel_ore",
 		key -> new Block(
@@ -614,6 +1349,68 @@ public class ModBlocks {
 				.mapColor(MapColor.SNOW)
 				.strength(0.5f, 0.5f)
 				.sound(SoundType.SAND)
+		)
+	);
+	public static final Block SALT_BLOCK = registerBlock(
+		"salt_block",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.SNOW)
+				.strength(0.8f, 0.8f)
+				.sound(SoundType.SAND)
+				.requiresCorrectToolForDrops()
+		)
+	);
+	public static final Block ENSTATITE = registerStone("enstatite", MapColor.TERRACOTTA_GRAY);
+	public static final Block ENSTATITE_STAIRS = registerStairs("enstatite_stairs", ENSTATITE);
+	public static final Block ENSTATITE_SLAB = registerSlab("enstatite_slab", ENSTATITE);
+	public static final Block ENSTATITE_WALL = registerWall("enstatite_wall", ENSTATITE);
+	public static final Block ENSTATITE_DIAMOND_ORE = registerBlock(
+		"enstatite_diamond_ore",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.TERRACOTTA_GRAY)
+				.strength(4.5f, 3.0f)
+				.sound(SoundType.STONE)
+				.requiresCorrectToolForDrops()
+		)
+	);
+	public static final Block KOMATIITE = registerStone("komatiite", MapColor.TERRACOTTA_ORANGE);
+	public static final Block KOMATIITE_STAIRS = registerStairs("komatiite_stairs", KOMATIITE);
+	public static final Block KOMATIITE_SLAB = registerSlab("komatiite_slab", KOMATIITE);
+	public static final Block KOMATIITE_WALL = registerWall("komatiite_wall", KOMATIITE);
+	public static final Block KOMATIITE_DIAMOND_ORE = registerBlock(
+		"komatiite_diamond_ore",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.TERRACOTTA_ORANGE)
+				.strength(3.0f, 3.0f)
+				.sound(SoundType.STONE)
+				.requiresCorrectToolForDrops()
+		)
+	);
+	public static final Block MAGNESIAN_REGOLITH = registerBlock(
+		"magnesian_regolith",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY)
+				.strength(0.5f, 0.5f)
+				.sound(SoundType.SAND)
+		)
+	);
+	public static final Block GRAPHITE = registerBlock(
+		"graphite",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_BLACK)
+				.strength(3.0f, 3.0f)
+				.sound(SoundType.STONE)
+				.requiresCorrectToolForDrops()
 		)
 	);
 	public static final Block OPAL_BLOCK = registerBlock(
@@ -683,6 +1480,14 @@ public class ModBlocks {
 	public static final Block NICKEL_BARS = registerBlock(
 		"nickel_bars",
 		key -> new IronBarsBlock(nickelProperties(key).noOcclusion())
+	);
+	public static final Block REINFORCED_TINTED_GLASS_PANE = registerBlock(
+		"reinforced_tinted_glass_pane",
+		key -> new ReinforcedTintedGlassPaneBlock(
+			BlockBehaviour.Properties.ofFullCopy(Blocks.TINTED_GLASS)
+				.setId(key)
+				.noOcclusion()
+		)
 	);
 
 	// Oxidizable Iron blocks - oxidize only in Outerworld dimension
@@ -1211,6 +2016,26 @@ public class ModBlocks {
 	public static final Block WAXED_IRON_BARS = registerBlock("waxed_iron_bars",
 		key -> new WaxedIronBarsBlock(UNAFFECTED_IRON_BARS, BlockBehaviour.Properties.of().setId(key).strength(5.0f, 6.0f).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion()));
 
+	public static final Block EXPOSED_LANTERN = registerLitIronLantern(
+		"exposed_lantern",
+		WeatheringCopper.WeatherState.EXPOSED,
+		Blocks.COPPER_LANTERN.weathering().exposed()
+	);
+	public static final Block WEATHERED_LANTERN = registerLitIronLantern(
+		"weathered_lantern",
+		WeatheringCopper.WeatherState.WEATHERED,
+		Blocks.COPPER_LANTERN.weathering().weathered()
+	);
+	public static final Block OXIDIZED_LANTERN = registerLitIronLantern(
+		"oxidized_lantern",
+		WeatheringCopper.WeatherState.OXIDIZED,
+		Blocks.COPPER_LANTERN.weathering().oxidized()
+	);
+	public static final Block WAXED_LANTERN = registerWaxedLantern("waxed_lantern", Blocks.LANTERN);
+	public static final Block WAXED_EXPOSED_LANTERN = registerWaxedLantern("waxed_exposed_lantern", Blocks.COPPER_LANTERN.weathering().exposed());
+	public static final Block WAXED_WEATHERED_LANTERN = registerWaxedLantern("waxed_weathered_lantern", Blocks.COPPER_LANTERN.weathering().weathered());
+	public static final Block WAXED_OXIDIZED_LANTERN = registerWaxedLantern("waxed_oxidized_lantern", Blocks.COPPER_LANTERN.weathering().oxidized());
+
 	// ============= IRON GOLEM STATUES =============
 	// Petrified iron golems that can be scraped to de-oxidize and eventually reanimate
 	
@@ -1498,6 +2323,63 @@ public class ModBlocks {
 			.requiresCorrectToolForDrops();
 	}
 
+	private static ResourceKey<Block> blockKey(String name) {
+		return ResourceKey.create(Registries.BLOCK, OuterWorldMod.id(name));
+	}
+
+	private static ResourceKey<Item> itemKey(String name) {
+		return ResourceKey.create(Registries.ITEM, OuterWorldMod.id(name));
+	}
+
+	private static Block registerFrozenLantern(String name, Block vanilla) {
+		return registerBlock(
+			name,
+			key -> new FrozenLanternBlock(
+				BlockBehaviour.Properties.ofFullCopy(vanilla).setId(key).lightLevel(state -> 0)
+			)
+		);
+	}
+
+	private static Block registerOxidizableFrozenLantern(
+		String name,
+		Block vanilla,
+		WeatheringCopper.WeatherState age,
+		OxidizableLanternAging.Kind kind
+	) {
+		return registerBlock(
+			name,
+			key -> {
+				BlockBehaviour.Properties properties = BlockBehaviour.Properties.ofFullCopy(vanilla)
+					.setId(key)
+					.lightLevel(state -> 0);
+				if (age != WeatheringCopper.WeatherState.OXIDIZED) {
+					properties = properties.randomTicks();
+				}
+				return new OxidizableFrozenLanternBlock(age, kind, properties);
+			}
+		);
+	}
+
+	private static Block registerLitIronLantern(String name, WeatheringCopper.WeatherState age, Block copperStage) {
+		return registerBlock(
+			name,
+			key -> {
+				BlockBehaviour.Properties properties = BlockBehaviour.Properties.ofFullCopy(copperStage).setId(key);
+				if (age != WeatheringCopper.WeatherState.OXIDIZED) {
+					properties = properties.randomTicks();
+				}
+				return new OxidizableLanternBlock(age, OxidizableLanternAging.Kind.IRON, true, properties);
+			}
+		);
+	}
+
+	private static Block registerWaxedLantern(String name, Block vanilla) {
+		return registerBlock(
+			name,
+			key -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(vanilla).setId(key))
+		);
+	}
+
 	private static Block registerStone(String name, MapColor color) {
 		return registerBlock(name, key -> new Block(stoneProperties(key, color)));
 	}
@@ -1512,6 +2394,13 @@ public class ModBlocks {
 
 	private static Block registerWall(String name, Block base) {
 		return registerBlock(name, key -> new WallBlock(stoneProperties(key, base.defaultMapColor())));
+	}
+
+	private static Block frozenSapling(String name, TreeGrower grower, Block vanilla) {
+		return registerBlock(
+			name,
+			key -> new FrozenSaplingBlock(grower, BlockBehaviour.Properties.ofFullCopy(vanilla).setId(key))
+		);
 	}
 
 	private static Block registerBlock(String name, Function<ResourceKey<Block>, Block> factory) {
@@ -1552,6 +2441,12 @@ public class ModBlocks {
 
 	public static void registerModBlocks() {
 		OuterWorldMod.LOGGER.info("Registering blocks for {}", OuterWorldMod.MOD_ID);
+
+		TillableBlockRegistry.register(
+			REGOLITH,
+			HoeItem::onlyIfAirAbove,
+			REGOLITH_FARMLAND.defaultBlockState()
+		);
 
 		if (ICE instanceof AgingIceBlock ice) {
 			ice.setNextStage(PACKED_ICE);
@@ -1714,6 +2609,29 @@ public class ModBlocks {
 		OxidizableBlocksRegistry.registerWaxable(Blocks.IRON_TRAPDOOR, WAXED_IRON_TRAPDOOR);
 		OxidizableBlocksRegistry.registerWaxable(Blocks.IRON_BARS, WAXED_IRON_BARS);
 		OxidizableBlocksRegistry.registerWaxable(Blocks.IRON_CHAIN, WAXED_IRON_CHAIN);
+
+		OxidizableBlocksRegistry.registerNextStage(FROZEN_LANTERN, FROZEN_EXPOSED_LANTERN);
+		OxidizableBlocksRegistry.registerNextStage(FROZEN_EXPOSED_LANTERN, FROZEN_WEATHERED_LANTERN);
+		OxidizableBlocksRegistry.registerNextStage(FROZEN_WEATHERED_LANTERN, FROZEN_OXIDIZED_LANTERN);
+		OxidizableBlocksRegistry.registerNextStage(Blocks.LANTERN, EXPOSED_LANTERN);
+		OxidizableBlocksRegistry.registerNextStage(EXPOSED_LANTERN, WEATHERED_LANTERN);
+		OxidizableBlocksRegistry.registerNextStage(WEATHERED_LANTERN, OXIDIZED_LANTERN);
+		OxidizableBlocksRegistry.registerNextStage(FROZEN_COPPER_LANTERN, FROZEN_EXPOSED_COPPER_LANTERN);
+		OxidizableBlocksRegistry.registerNextStage(FROZEN_EXPOSED_COPPER_LANTERN, FROZEN_WEATHERED_COPPER_LANTERN);
+		OxidizableBlocksRegistry.registerNextStage(FROZEN_WEATHERED_COPPER_LANTERN, FROZEN_OXIDIZED_COPPER_LANTERN);
+
+		OxidizableBlocksRegistry.registerWaxable(Blocks.LANTERN, WAXED_LANTERN);
+		OxidizableBlocksRegistry.registerWaxable(EXPOSED_LANTERN, WAXED_EXPOSED_LANTERN);
+		OxidizableBlocksRegistry.registerWaxable(WEATHERED_LANTERN, WAXED_WEATHERED_LANTERN);
+		OxidizableBlocksRegistry.registerWaxable(OXIDIZED_LANTERN, WAXED_OXIDIZED_LANTERN);
+		OxidizableBlocksRegistry.registerWaxable(FROZEN_LANTERN, FROZEN_WAXED_LANTERN);
+		OxidizableBlocksRegistry.registerWaxable(FROZEN_EXPOSED_LANTERN, FROZEN_WAXED_EXPOSED_LANTERN);
+		OxidizableBlocksRegistry.registerWaxable(FROZEN_WEATHERED_LANTERN, FROZEN_WAXED_WEATHERED_LANTERN);
+		OxidizableBlocksRegistry.registerWaxable(FROZEN_OXIDIZED_LANTERN, FROZEN_WAXED_OXIDIZED_LANTERN);
+		OxidizableBlocksRegistry.registerWaxable(FROZEN_COPPER_LANTERN, FROZEN_WAXED_COPPER_LANTERN);
+		OxidizableBlocksRegistry.registerWaxable(FROZEN_EXPOSED_COPPER_LANTERN, FROZEN_WAXED_EXPOSED_COPPER_LANTERN);
+		OxidizableBlocksRegistry.registerWaxable(FROZEN_WEATHERED_COPPER_LANTERN, FROZEN_WAXED_WEATHERED_COPPER_LANTERN);
+		OxidizableBlocksRegistry.registerWaxable(FROZEN_OXIDIZED_COPPER_LANTERN, FROZEN_WAXED_OXIDIZED_COPPER_LANTERN);
 
 		OuterWorldMod.LOGGER.info("Registered oxidizable iron blocks");
 	}

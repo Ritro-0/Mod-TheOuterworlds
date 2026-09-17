@@ -2,6 +2,13 @@
 	"feature": "theouterworlds:crater",
 	"placement": [
 		{
+			"type": "minecraft:in_square"
+		},
+		{
+			"type": "minecraft:heightmap",
+			"heightmap": "WORLD_SURFACE_WG"
+		},
+		{
 			"type": "minecraft:biome"
 		}
 	]

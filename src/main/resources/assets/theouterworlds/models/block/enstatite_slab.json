@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/slab",
+	"textures": {
+		"bottom": "theouterworlds:block/enstatite",
+		"top": "theouterworlds:block/enstatite",
+		"side": "theouterworlds:block/enstatite"
+	}
+}

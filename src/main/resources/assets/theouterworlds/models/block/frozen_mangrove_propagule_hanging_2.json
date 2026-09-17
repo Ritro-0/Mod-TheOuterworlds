@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/mangrove_propagule_hanging_2",
+	"render_type": "cutout",
+	"textures": {
+		"propagule": "theouterworlds:block/frozen_mangrove_propagule_hanging",
+		"particle": "theouterworlds:block/frozen_mangrove_propagule_hanging"
+	}
+}

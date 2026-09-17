@@ -1,0 +1,14 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:frozen_wheat",
+		"theouterworlds:frozen_carrots",
+		"theouterworlds:frozen_potatoes",
+		"theouterworlds:frozen_beetroots",
+		"theouterworlds:frozen_torchflower_crop",
+		"theouterworlds:frozen_torchflower",
+		"theouterworlds:frozen_pitcher_crop",
+		"theouterworlds:frozen_pumpkin_stem",
+		"theouterworlds:frozen_melon_stem"
+	]
+}
