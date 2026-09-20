@@ -202,7 +202,7 @@ public class RiftPadScreen extends Screen implements MenuAccess<RiftPadMenu> {
 
 	@Override
 	public boolean mouseDragged(MouseButtonEvent event, double dragX, double dragY) {
-		if (event.button() == 1 || event.button() == 2) {
+		if (event.button() == 2 || event.button() == 3) {
 			this.panX += (float) dragX;
 			this.panY += (float) dragY;
 			return true;
@@ -212,17 +212,14 @@ public class RiftPadScreen extends Screen implements MenuAccess<RiftPadMenu> {
 
 	@Override
 	public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-		if (super.mouseClicked(event, doubleClick)) {
-			return true;
-		}
-		if (event.button() != 0) {
-			return false;
+		if (event.button() != 1) {
+			return super.mouseClicked(event, doubleClick);
 		}
 
 		int mx = (int) event.x();
 		int my = (int) event.y();
 		if (this.selected != null && isInsidePanel(mx, my)) {
-			return true;
+			return super.mouseClicked(event, doubleClick);
 		}
 
 		Body hit = findHovered(mx, my, currentOrbit());

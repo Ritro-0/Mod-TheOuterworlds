@@ -1,34 +1,23 @@
 {
-	"type": "minecraft:block",
-	"pools": [
-		{
-			"rolls": 1,
-			"entries": [
-				{
-					"type": "minecraft:item",
-					"name": "theouterworlds:carbonic_ice"
-				}
-			],
-			"conditions": [
-				{
-					"condition": "minecraft:survives_explosion"
-				},
-				{
-					"condition": "minecraft:match_tool",
-					"predicate": {
-						"predicates": {
-							"minecraft:enchantments": [
-								{
-									"enchantments": "minecraft:silk_touch",
-									"levels": {
-										"min": 1
-									}
-								}
-							]
-						}
-					}
-				}
-			]
-		}
-	]
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "theouterworlds:carbonic_ice"
+        }
+      ],
+      "condition": {
+        "type": "minecraft:all_of",
+        "terms": [
+          {
+            "type": "minecraft:survives_explosion"
+          },
+          "minecraft:tool/can_silk_touch"
+        ]
+      }
+    }
+  ]
 }

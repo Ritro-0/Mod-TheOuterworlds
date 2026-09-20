@@ -9,18 +9,21 @@
           "name": "theouterworlds:waxed_iron_golem_statue"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        },
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "theouterworlds:waxed_iron_golem_statue",
-          "properties": {
-            "half": "lower"
+      "condition": {
+        "type": "minecraft:all_of",
+        "terms": [
+          {
+            "type": "minecraft:survives_explosion"
+          },
+          {
+            "type": "minecraft:match_block",
+            "blocks": "theouterworlds:waxed_iron_golem_statue",
+            "state": {
+              "half": "lower"
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   ]
 }

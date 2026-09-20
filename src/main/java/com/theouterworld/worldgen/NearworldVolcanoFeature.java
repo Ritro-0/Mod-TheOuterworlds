@@ -9,15 +9,18 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.util.RandomSource;
 
 /**
  * Wide, gradual Nearworld shield volcanoes with a contained lava caldera.
  * The crater rim follows the surrounding shield slope (no floating crown).
  * Slope rivers are deferred — lava stays inside a continuous rock rim for now.
  */
-public class NearworldVolcanoFeature extends Feature<NoneFeatureConfiguration> {
+public class NearworldVolcanoFeature implements Feature {
+	public static final MapCodec<NearworldVolcanoFeature> CODEC = MapCodec.unit(NearworldVolcanoFeature::new);
+
 	private static final int MAX_EXTENT = 144;
 	private static final int CELL = 224;
 	private static final double SPAWN_CHANCE = 0.32;
@@ -27,7 +30,11 @@ public class NearworldVolcanoFeature extends Feature<NoneFeatureConfiguration> {
 	private static final double TOE_START = 0.72;
 
 	public NearworldVolcanoFeature() {
-		super(NoneFeatureConfiguration.CODEC);
+	}
+
+	@Override
+	public MapCodec<NearworldVolcanoFeature> codec() {
+		return CODEC;
 	}
 
 	/** True when the column sits inside a Nearworld volcano footprint (including lava-flow skirts). */
@@ -50,9 +57,7 @@ public class NearworldVolcanoFeature extends Feature<NoneFeatureConfiguration> {
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		BlockPos origin = context.origin();
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		return applyGrid(world, world.getSeed() + 55121L, minX, minZ, minX + 15, minZ + 15);

@@ -228,7 +228,7 @@ public class AstralTelescopeScreen extends Screen implements MenuAccess<AstralTe
 
 	@Override
 	public boolean mouseClicked(MouseButtonEvent event, boolean doubled) {
-		if (event.button() != 0) {
+		if (event.button() != 1) {
 			return super.mouseClicked(event, doubled);
 		}
 		if (this.viewMode == ViewMode.FULL) {

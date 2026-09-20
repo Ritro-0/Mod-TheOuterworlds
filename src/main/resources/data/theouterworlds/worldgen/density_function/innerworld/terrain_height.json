@@ -1,29 +1,29 @@
 {
 	"type": "minecraft:add",
-	"argument1": 72,
-	"argument2": {
+	"left": 72,
+	"right": {
 		"type": "minecraft:add",
-		"argument1": {
+		"left": {
 			"type": "minecraft:mul",
-			"argument1": 0.25,
-			"argument2": {
+			"left": 0.25,
+			"right": {
 				"type": "minecraft:noise",
 				"noise": "minecraft:surface",
 				"xz_scale": 1.0,
 				"y_scale": 0.0
 			}
 		},
-		"argument2": {
+		"right": {
 			"type": "minecraft:add",
-			"argument1": {
+			"left": {
 				"type": "minecraft:mul",
-				"argument1": 4.0,
-				"argument2": {
+				"left": 4.0,
+				"right": {
 					"type": "minecraft:clamp",
 					"input": {
 						"type": "minecraft:mul",
-						"argument1": 40.0,
-						"argument2": {
+						"left": 40.0,
+						"right": {
 							"type": "minecraft:noise",
 							"noise": "theouterworlds:innerworld_scarp",
 							"xz_scale": 0.09,
@@ -34,15 +34,15 @@
 					"max": 1.0
 				}
 			},
-			"argument2": {
+			"right": {
 				"type": "minecraft:mul",
-				"argument1": 2.75,
-				"argument2": {
+				"left": 2.75,
+				"right": {
 					"type": "minecraft:clamp",
 					"input": {
 						"type": "minecraft:mul",
-						"argument1": 35.0,
-						"argument2": {
+						"left": 35.0,
+						"right": {
 							"type": "minecraft:noise",
 							"noise": "theouterworlds:innerworld_scarp_secondary",
 							"xz_scale": 0.14,

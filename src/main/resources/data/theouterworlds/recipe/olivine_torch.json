@@ -1,15 +1,15 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"pattern": [
-		"C",
-		"#"
-	],
-	"key": {
-		"C": "theouterworlds:olivine_crystal_2",
-		"#": "#theouterworlds:sticks"
-	},
-	"result": {
-		"id": "theouterworlds:olivine_torch",
-		"count": 4
-	}
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "C",
+    "#"
+  ],
+  "key": {
+    "C": "theouterworlds:olivine_crystal_2",
+    "#": "#theouterworlds:sticks"
+  },
+  "result": {
+    "id": "theouterworlds:olivine_torch",
+    "count": 4
+  }
 }

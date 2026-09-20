@@ -1,8 +1,8 @@
 {
-	"type": "minecraft:stonecutting",
-	"ingredient": "theouterworlds:nickel_block",
-	"result": {
-		"id": "theouterworlds:cut_nickel_slab",
-		"count": 8
-	}
+  "type": "minecraft:stonecutting",
+  "ingredient": "theouterworlds:nickel_block",
+  "result": {
+    "id": "theouterworlds:cut_nickel_slab",
+    "count": 8
+  }
 }

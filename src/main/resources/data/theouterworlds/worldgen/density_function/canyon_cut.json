@@ -1,25 +1,37 @@
 {
 	"type": "minecraft:add",
-	"argument1": {
+	"left": {
 		"type": "minecraft:spline",
 		"spline": {
 			"coordinate": {
 				"type": "minecraft:abs",
-				"argument": "theouterworlds:climate/ridges"
+				"input": "theouterworlds:climate/ridges"
 			},
 			"points": [
-				{ "location": 0.0, "derivative": 0.0, "value": 14.0 },
-				{ "location": 0.08, "derivative": -10.0, "value": 8.0 },
-				{ "location": 0.14, "derivative": 0.0, "value": 0.0 }
+				{
+					"location": 0.0,
+					"derivative": 0.0,
+					"value": 14.0
+				},
+				{
+					"location": 0.08,
+					"derivative": -10.0,
+					"value": 8.0
+				},
+				{
+					"location": 0.14,
+					"derivative": 0.0,
+					"value": 0.0
+				}
 			]
 		}
 	},
-	"argument2": {
+	"right": {
 		"type": "minecraft:spline",
 		"spline": {
 			"coordinate": {
 				"type": "minecraft:abs",
-				"argument": {
+				"input": {
 					"type": "minecraft:noise",
 					"noise": "theouterworlds:canyon_tributary",
 					"xz_scale": 0.28,
@@ -27,9 +39,21 @@
 				}
 			},
 			"points": [
-				{ "location": 0.0, "derivative": 0.0, "value": 8.0 },
-				{ "location": 0.05, "derivative": -25.0, "value": 2.0 },
-				{ "location": 0.10, "derivative": 0.0, "value": 0.0 }
+				{
+					"location": 0.0,
+					"derivative": 0.0,
+					"value": 8.0
+				},
+				{
+					"location": 0.05,
+					"derivative": -25.0,
+					"value": 2.0
+				},
+				{
+					"location": 0.1,
+					"derivative": 0.0,
+					"value": 0.0
+				}
 			]
 		}
 	}

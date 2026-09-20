@@ -1,21 +1,19 @@
 {
-	"type": "minecraft:block",
-	"pools": [
-		{
-			"bonus_rolls": 0.0,
-			"rolls": 1.0,
-			"entries": [
-				{
-					"type": "minecraft:item",
-					"name": "theouterworlds:cut_nickel"
-				}
-			],
-			"conditions": [
-				{
-					"condition": "minecraft:survives_explosion"
-				}
-			]
-		}
-	],
-	"random_sequence": "theouterworlds:blocks/cut_nickel"
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "theouterworlds:cut_nickel"
+        }
+      ],
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
+    }
+  ],
+  "random_sequence": "theouterworlds:blocks/cut_nickel"
 }

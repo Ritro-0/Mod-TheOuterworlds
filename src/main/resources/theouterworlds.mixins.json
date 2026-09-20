@@ -27,9 +27,7 @@
 		"EntityJarositeFireMixin",
 		"AxeItemCorrosionMixin",
 		"HoneycombItemCorrosionMixin",
-		"FuelValuesMixin",
 		"PrimedTntAccessor",
-		"DecoratedPotPatternsMixin",
 		"StickIngredientMixin",
 		"CropBlockFreezeMixin",
 		"PitcherCropBlockFreezeMixin",
@@ -42,7 +40,8 @@
 		"StemBlockFreezeMixin",
 		"BambooSaplingBlockFreezeMixin",
 		"BambooStalkBlockFreezeMixin",
-		"SunExistenceMixin"
+		"SunExistenceMixin",
+		"FrostworldFluidPickerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 0

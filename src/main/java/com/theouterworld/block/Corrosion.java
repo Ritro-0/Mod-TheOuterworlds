@@ -69,7 +69,7 @@ public final class Corrosion {
 		if (!world.isClientSide()) {
 			world.setBlockAndUpdate(pos, corroded);
 			world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, corroded));
-			world.levelEvent(player, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, pos, 0);
+			world.levelEvent(player, LevelEvent.PARTICLES_WAX_ON, pos, 0);
 			world.playSound(null, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0f, 0.8f);
 			if (player == null || !player.isCreative()) {
 				stack.shrink(1);
@@ -86,7 +86,7 @@ public final class Corrosion {
 		if (!world.isClientSide()) {
 			world.setBlockAndUpdate(pos, original);
 			world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, original));
-			world.playSound(null, pos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS, 1.0f, 1.0f);
+			world.playSound(null, pos, SoundEvents.AXE_WAX_OFF.value(), SoundSource.BLOCKS, 1.0f, 1.0f);
 			world.levelEvent(player, LevelEvent.PARTICLES_WAX_OFF, pos, 0);
 			if (player != null && !player.isCreative()) {
 				stack.hurtAndBreak(1, player, player.getUsedItemHand());

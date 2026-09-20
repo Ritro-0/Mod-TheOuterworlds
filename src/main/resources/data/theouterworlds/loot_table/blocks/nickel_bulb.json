@@ -1,21 +1,19 @@
 {
-	"type": "minecraft:block",
-	"pools": [
-		{
-			"bonus_rolls": 0.0,
-			"rolls": 1.0,
-			"entries": [
-				{
-					"type": "minecraft:item",
-					"name": "theouterworlds:nickel_bulb"
-				}
-			],
-			"conditions": [
-				{
-					"condition": "minecraft:survives_explosion"
-				}
-			]
-		}
-	],
-	"random_sequence": "theouterworlds:blocks/nickel_bulb"
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "theouterworlds:nickel_bulb"
+        }
+      ],
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
+    }
+  ],
+  "random_sequence": "theouterworlds:blocks/nickel_bulb"
 }

@@ -7,14 +7,17 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.util.RandomSource;
 
 /**
  * Occasional methane ponds and small lakes on Amberworld high ground,
  * plus short river-like channels that drain toward lower terrain.
  */
-public class AmberworldMethanePondFeature extends Feature<NoneFeatureConfiguration> {
+public class AmberworldMethanePondFeature implements Feature {
+	public static final MapCodec<AmberworldMethanePondFeature> CODEC = MapCodec.unit(AmberworldMethanePondFeature::new);
+
 	private static final int MAX_EXTENT = 28;
 	private static final int CELL = 64;
 	private static final double POND_CHANCE = 0.28;
@@ -22,13 +25,15 @@ public class AmberworldMethanePondFeature extends Feature<NoneFeatureConfigurati
 	private static final int SEA_LEVEL = 63;
 
 	public AmberworldMethanePondFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		BlockPos origin = context.origin();
+	public MapCodec<AmberworldMethanePondFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		long seed = world.getSeed() + 77123L;

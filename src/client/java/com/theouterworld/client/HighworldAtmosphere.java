@@ -3,6 +3,7 @@ package com.theouterworld.client;
 import com.theouterworld.world.HighworldLayers;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
+import org.joml.Vector3fc;
 
 /**
  * Highworld (Jupiter) lightning / fog / depth-light helpers.
@@ -51,7 +52,7 @@ public final class HighworldAtmosphere {
 	}
 
 	/** Dim the amber haze so depth darkening is visible through fog, not only on the hand. */
-	public static int depthFogColor(int baseColor, double y) {
+	public static Vector3fc depthFogColor(Vector3fc baseColor, double y) {
 		float factor = naturalSkyFactor(y);
 		if (factor >= 0.999F) {
 			return baseColor;
@@ -61,11 +62,11 @@ public final class HighworldAtmosphere {
 		return ARGB.scaleRGB(baseColor, mix);
 	}
 
-	public static int depthSkyColor(int baseColor, double y) {
+	public static Vector3fc depthSkyColor(Vector3fc baseColor, double y) {
 		return depthFogColor(baseColor, y);
 	}
 
-	public static int depthAmbientColor(int baseColor, double y) {
+	public static Vector3fc depthAmbientColor(Vector3fc baseColor, double y) {
 		float factor = naturalSkyFactor(y);
 		if (factor >= 0.999F) {
 			return baseColor;

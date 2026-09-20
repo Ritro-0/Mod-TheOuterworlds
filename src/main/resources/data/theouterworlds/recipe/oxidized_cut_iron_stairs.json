@@ -1,16 +1,16 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"category": "building",
-	"pattern": [
-		"#  ",
-		"## ",
-		"###"
-	],
-	"key": {
-		"#": "theouterworlds:oxidized_cut_iron"
-	},
-	"result": {
-		"id": "theouterworlds:oxidized_cut_iron_stairs",
-		"count": 4
-	}
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": "theouterworlds:oxidized_cut_iron"
+  },
+  "result": {
+    "id": "theouterworlds:oxidized_cut_iron_stairs",
+    "count": 4
+  }
 }

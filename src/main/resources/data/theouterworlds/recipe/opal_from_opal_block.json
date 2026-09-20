@@ -1,10 +1,10 @@
 {
-	"type": "minecraft:crafting_shapeless",
-	"ingredients": [
-		"theouterworlds:opal_block"
-	],
-	"result": {
-		"id": "theouterworlds:opal",
-		"count": 9
-	}
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "theouterworlds:opal_block"
+  ],
+  "result": {
+    "id": "theouterworlds:opal",
+    "count": 9
+  }
 }

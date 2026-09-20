@@ -8,23 +8,26 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 /**
  * Irregular graphite mounds that breach the Innerworld surface like weathered
  * ore boulders — not flat floor stains.
  */
-public class GraphiteBoulderFeature extends Feature<NoneFeatureConfiguration> {
+public class GraphiteBoulderFeature implements Feature {
+	public static final MapCodec<GraphiteBoulderFeature> CODEC = MapCodec.unit(GraphiteBoulderFeature::new);
+
 	public GraphiteBoulderFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		BlockPos origin = context.origin();
-		RandomSource random = context.random();
+	public MapCodec<GraphiteBoulderFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		BlockState graphite = ModBlocks.GRAPHITE.defaultBlockState();
 		BlockState fill = ModBlocks.KOMATIITE.defaultBlockState();
 

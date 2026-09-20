@@ -7,19 +7,22 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
-public class BasaltBoulderClusterFeature extends Feature<NoneFeatureConfiguration> {
+public class BasaltBoulderClusterFeature implements Feature {
+	public static final MapCodec<BasaltBoulderClusterFeature> CODEC = MapCodec.unit(BasaltBoulderClusterFeature::new);
+
 	public BasaltBoulderClusterFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		BlockPos origin = context.origin();
-		RandomSource random = context.random();
+	public MapCodec<BasaltBoulderClusterFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		BlockState basalt = ModBlocks.OXIDIZED_BASALT.defaultBlockState();
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;

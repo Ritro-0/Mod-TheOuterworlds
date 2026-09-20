@@ -11,27 +11,30 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 /**
  * Rare, large subsurface ice caverns for Wanderlands — carved ellipsoids painted with packed ice.
  */
-public class WanderlandsIceCavernFeature extends Feature<NoneFeatureConfiguration> {
+public class WanderlandsIceCavernFeature implements Feature {
+	public static final MapCodec<WanderlandsIceCavernFeature> CODEC = MapCodec.unit(WanderlandsIceCavernFeature::new);
+
 	private static final int MAX_EXTENT = 48;
 	private static final int CELL = 288;
 	private static final double SPAWN_CHANCE = 0.085;
 	private static final int JITTER = 40;
 
 	public WanderlandsIceCavernFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		RandomSource random = context.random();
-		BlockPos origin = context.origin();
+	public MapCodec<WanderlandsIceCavernFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		int maxX = minX + 15;

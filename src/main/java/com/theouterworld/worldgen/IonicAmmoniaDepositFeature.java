@@ -8,27 +8,30 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.FluidState;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 /**
  * Rare thin ionic-ammonia lenses floating a few blocks above the iron/nickel crust
  * inside the liquid-ammonia ocean (size 1–3, at most 12 above metal top).
  */
-public class IonicAmmoniaDepositFeature extends Feature<NoneFeatureConfiguration> {
+public class IonicAmmoniaDepositFeature implements Feature {
+	public static final MapCodec<IonicAmmoniaDepositFeature> CODEC = MapCodec.unit(IonicAmmoniaDepositFeature::new);
+
 	private static final int MIN_ABOVE_METAL = 3;
 	private static final int MAX_ABOVE_METAL = 12;
 
 	public IonicAmmoniaDepositFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		RandomSource random = context.random();
-		BlockPos origin = context.origin();
+	public MapCodec<IonicAmmoniaDepositFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
 
 		int x = origin.getX() + random.nextInt(16);

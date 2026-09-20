@@ -1,7 +1,4 @@
 {
-	"type": "minecraft:flat_cache",
-	"argument": {
-		"type": "minecraft:constant",
-		"argument": -64
-	}
+	"type": "minecraft:cache",
+	"input": -64
 }

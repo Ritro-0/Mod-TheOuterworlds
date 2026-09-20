@@ -1,16 +1,16 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"pattern": [
-		"N",
-		"S",
-		"S"
-	],
-	"key": {
-		"N": "theouterworlds:opaline_nickel",
-		"S": "#theouterworlds:sticks"
-	},
-	"result": {
-		"id": "theouterworlds:opaline_nickel_flail",
-		"count": 1
-	}
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "N",
+    "S",
+    "S"
+  ],
+  "key": {
+    "N": "theouterworlds:opaline_nickel",
+    "S": "#theouterworlds:sticks"
+  },
+  "result": {
+    "id": "theouterworlds:opaline_nickel_flail",
+    "count": 1
+  }
 }

@@ -1,7 +1,8 @@
 {
-	"parent": "minecraft:block/template_farmland",
+	"parent": "minecraft:block/template_cube_bottom_top_indented",
 	"textures": {
-		"dirt": "theouterworlds:block/regolith",
+		"bottom": "theouterworlds:block/regolith",
+		"side": "theouterworlds:block/regolith",
 		"top": "theouterworlds:block/regolith_farmland"
 	}
 }

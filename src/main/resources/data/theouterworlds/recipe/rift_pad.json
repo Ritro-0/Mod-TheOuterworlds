@@ -1,19 +1,19 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"pattern": [
-		" O ",
-		"KPK",
-		"NRN"
-	],
-	"key": {
-		"O": "theouterworlds:opal",
-		"K": "theouterworlds:kharax_chitin",
-		"P": "theouterworlds:perchlorate_crystal",
-		"N": "minecraft:netherite_ingot",
-		"R": "theouterworlds:redsteel_ingot"
-	},
-	"result": {
-		"id": "theouterworlds:rift_pad",
-		"count": 1
-	}
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " O ",
+    "KPK",
+    "NRN"
+  ],
+  "key": {
+    "O": "theouterworlds:opal",
+    "K": "theouterworlds:kharax_chitin",
+    "P": "theouterworlds:perchlorate_crystal",
+    "N": "minecraft:netherite_ingot",
+    "R": "theouterworlds:redsteel_ingot"
+  },
+  "result": {
+    "id": "theouterworlds:rift_pad",
+    "count": 1
+  }
 }

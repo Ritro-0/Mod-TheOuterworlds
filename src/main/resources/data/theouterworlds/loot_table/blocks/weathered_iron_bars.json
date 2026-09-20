@@ -9,12 +9,9 @@
           "name": "theouterworlds:weathered_iron_bars"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ]
 }
-

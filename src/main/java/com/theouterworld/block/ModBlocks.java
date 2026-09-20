@@ -4,14 +4,13 @@ import com.theouterworld.OuterWorldMod;
 import com.theouterworld.registry.ModFluids;
 import com.theouterworld.registry.ModTrimMaterials;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
-import net.fabricmc.fabric.api.registry.TillableBlockRegistry;
+import net.fabricmc.fabric.api.item.v1.BlockTransformerHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
@@ -78,7 +77,7 @@ public class ModBlocks {
 				.mapColor(MapColor.TERRACOTTA_ORANGE)
 				.strength(0.25f)
 				.sound(SoundType.SUSPICIOUS_SAND)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 		)
 	);
 
@@ -265,7 +264,7 @@ public class ModBlocks {
 				.sound(SoundType.AMETHYST_CLUSTER)
 				.strength(1.5f, 1200.0f)
 				.lightLevel(state -> 1)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 		)
 	);
 
@@ -282,7 +281,7 @@ public class ModBlocks {
 				.sound(SoundType.AMETHYST_CLUSTER)
 				.strength(1.5f, 1200.0f)
 				.lightLevel(state -> 2)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 		)
 	);
 
@@ -299,7 +298,7 @@ public class ModBlocks {
 				.sound(SoundType.AMETHYST_CLUSTER)
 				.strength(1.5f, 1200.0f)
 				.lightLevel(state -> 5)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 		),
 		properties -> properties.trimMaterial(ModTrimMaterials.OLIVINE)
 	);
@@ -314,7 +313,7 @@ public class ModBlocks {
 				.instabreak()
 				.lightLevel(state -> 14)
 				.sound(SoundType.WOOD)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 		)
 	);
 
@@ -328,7 +327,7 @@ public class ModBlocks {
 				.instabreak()
 				.lightLevel(state -> 14)
 				.sound(SoundType.WOOD)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 				.overrideDescription("block.theouterworlds.olivine_torch")
 		)
 	);
@@ -374,7 +373,7 @@ public class ModBlocks {
 				.sound(SoundType.STONE)
 				.requiresCorrectToolForDrops()
 				.noOcclusion()
-				.isViewBlocking((state, level, pos) -> false)
+				.isViewBlocking((state, level, pos, nearPlane) -> false)
 				.isSuffocating((state, level, pos) -> false)
 		)
 	);
@@ -588,7 +587,7 @@ public class ModBlocks {
 				.strength(1.5f, 3.0f)
 				.dynamicShape()
 				.offsetType(BlockBehaviour.OffsetType.XZ)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 				.isRedstoneConductor((state, world, pos) -> false)
 		)
 	);
@@ -627,7 +626,7 @@ public class ModBlocks {
 				.replaceable()
 				.noCollision()
 				.strength(100.0f)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 				.noLootTable()
 				.liquid()
 				.randomTicks()
@@ -645,7 +644,7 @@ public class ModBlocks {
 				.replaceable()
 				.noCollision()
 				.strength(100.0f)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 				.noLootTable()
 				.liquid()
 				.lightLevel(state -> 2)
@@ -663,7 +662,7 @@ public class ModBlocks {
 				.replaceable()
 				.noCollision()
 				.strength(100.0f)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 				.noLootTable()
 				.liquid()
 				.lightLevel(state -> 2)
@@ -681,7 +680,7 @@ public class ModBlocks {
 				.replaceable()
 				.noCollision()
 				.strength(100.0f)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 				.noLootTable()
 				.liquid()
 				.lightLevel(state -> 2)
@@ -698,10 +697,10 @@ public class ModBlocks {
 				.noCollision()
 				.noOcclusion()
 				.strength(0.5f, 0.5f)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 				.lightLevel(state -> 15)
 				.sound(SoundType.GLASS)
-				.isViewBlocking((state, level, pos) -> false)
+				.isViewBlocking((state, level, pos, nearPlane) -> false)
 				.isSuffocating((state, level, pos) -> false)
 		)
 	);
@@ -715,10 +714,10 @@ public class ModBlocks {
 				.noCollision()
 				.noOcclusion()
 				.strength(0.5f, 0.5f)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 				.lightLevel(state -> 15)
 				.sound(SoundType.GLASS)
-				.isViewBlocking((state, level, pos) -> false)
+				.isViewBlocking((state, level, pos, nearPlane) -> false)
 				.isSuffocating((state, level, pos) -> false)
 		)
 	);
@@ -758,10 +757,10 @@ public class ModBlocks {
 				.noCollision()
 				.noOcclusion()
 				.strength(0.5f, 0.5f)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 				.lightLevel(state -> 15)
 				.sound(SoundType.GLASS)
-				.isViewBlocking((state, level, pos) -> false)
+				.isViewBlocking((state, level, pos, nearPlane) -> false)
 				.isSuffocating((state, level, pos) -> false)
 		)
 	);
@@ -789,7 +788,7 @@ public class ModBlocks {
 				.replaceable()
 				.noCollision()
 				.strength(100.0f)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 				.noLootTable()
 				.liquid()
 				.lightLevel(state -> 2)
@@ -807,7 +806,7 @@ public class ModBlocks {
 				.replaceable()
 				.noCollision()
 				.strength(100.0f)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 				.noLootTable()
 				.liquid()
 				.lightLevel(state -> 15)
@@ -824,10 +823,10 @@ public class ModBlocks {
 				.noCollision()
 				.noOcclusion()
 				.strength(0.5f, 0.5f)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 				.lightLevel(state -> 15)
 				.sound(SoundType.GLASS)
-				.isViewBlocking((state, level, pos) -> false)
+				.isViewBlocking((state, level, pos, nearPlane) -> false)
 				.isSuffocating((state, level, pos) -> false)
 		)
 	);
@@ -857,7 +856,7 @@ public class ModBlocks {
 				.noCollision()
 				.noOcclusion()
 				.noLootTable()
-				.isViewBlocking((state, level, pos) -> false)
+				.isViewBlocking((state, level, pos, nearPlane) -> false)
 				.isSuffocating((state, level, pos) -> false),
 			0.88F,
 			0.028,
@@ -878,7 +877,7 @@ public class ModBlocks {
 				.noCollision()
 				.noOcclusion()
 				.noLootTable()
-				.isViewBlocking((state, level, pos) -> false)
+				.isViewBlocking((state, level, pos, nearPlane) -> false)
 				.isSuffocating((state, level, pos) -> false),
 			0.86F,
 			0.04,
@@ -899,7 +898,7 @@ public class ModBlocks {
 				.noCollision()
 				.noOcclusion()
 				.noLootTable()
-				.isViewBlocking((state, level, pos) -> false)
+				.isViewBlocking((state, level, pos, nearPlane) -> false)
 				.isSuffocating((state, level, pos) -> false),
 			0.86F,
 			0.04,
@@ -1205,7 +1204,7 @@ public class ModBlocks {
 				.sound(SoundType.GLASS)
 				.lightLevel(state -> 11)
 				.noOcclusion()
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 		)
 	);
 
@@ -1232,7 +1231,7 @@ public class ModBlocks {
 				.strength(-1.0f, 3600000.0f)
 				.lightLevel(state -> 11)
 				.sound(SoundType.GLASS)
-				.pushReaction(PushReaction.BLOCK)
+				.pushReaction(PushReaction.IMMOVEABLE)
 				.noLootTable()
 		)
 	);
@@ -1248,7 +1247,7 @@ public class ModBlocks {
 				.requiresCorrectToolForDrops()
 				.noOcclusion()
 				.lightLevel(state -> state.getValue(RiftChargeBlock.POWERED) ? 11 : 4)
-				.pushReaction(PushReaction.BLOCK)
+				.pushReaction(PushReaction.IMMOVEABLE)
 		)
 	);
 
@@ -1263,7 +1262,7 @@ public class ModBlocks {
 				.requiresCorrectToolForDrops()
 				.noOcclusion()
 				.lightLevel(state -> 8)
-				.pushReaction(PushReaction.BLOCK)
+				.pushReaction(PushReaction.IMMOVEABLE)
 		)
 	);
 
@@ -1277,7 +1276,7 @@ public class ModBlocks {
 				.sound(SoundType.AMETHYST)
 				.noOcclusion()
 				.lightLevel(state -> state.getValue(BeaconConcentratorBlock.ACTIVE) ? 11 : 0)
-				.pushReaction(PushReaction.DESTROY)
+				.pushReaction(PushReaction.POPPED)
 		)
 	);
 
@@ -1290,7 +1289,7 @@ public class ModBlocks {
 				.strength(-1.0f, 3600000.0f)
 				.noCollision()
 				.noOcclusion()
-				.pushReaction(PushReaction.BLOCK)
+				.pushReaction(PushReaction.IMMOVEABLE)
 		)
 	);
 
@@ -2442,11 +2441,7 @@ public class ModBlocks {
 	public static void registerModBlocks() {
 		OuterWorldMod.LOGGER.info("Registering blocks for {}", OuterWorldMod.MOD_ID);
 
-		TillableBlockRegistry.register(
-			REGOLITH,
-			HoeItem::onlyIfAirAbove,
-			REGOLITH_FARMLAND.defaultBlockState()
-		);
+		BlockTransformerHelper.registerTilling(REGOLITH, REGOLITH_FARMLAND);
 
 		if (ICE instanceof AgingIceBlock ice) {
 			ice.setNextStage(PACKED_ICE);

@@ -1,21 +1,19 @@
 {
-	"type": "minecraft:block",
-	"pools": [
-		{
-			"bonus_rolls": 0.0,
-			"rolls": 1.0,
-			"entries": [
-				{
-					"type": "minecraft:item",
-					"name": "theouterworlds:corroded_weathered_iron_grate"
-				}
-			],
-			"conditions": [
-				{
-					"condition": "minecraft:survives_explosion"
-				}
-			]
-		}
-	],
-	"random_sequence": "theouterworlds:blocks/corroded_weathered_iron_grate"
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "theouterworlds:corroded_weathered_iron_grate"
+        }
+      ],
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
+    }
+  ],
+  "random_sequence": "theouterworlds:blocks/corroded_weathered_iron_grate"
 }

@@ -152,7 +152,7 @@ public class KnappingTableScreenHandler extends AbstractContainerMenu {
             
             slot2.onTake(player, slotStack);
             if (slot == 0) {
-                player.drop(slotStack, false);
+                player.drop(slotStack, false, net.minecraft.util.Prediction.SERVER_ONLY);
             }
         }
         

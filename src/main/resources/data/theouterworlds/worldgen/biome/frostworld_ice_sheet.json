@@ -1,44 +1,51 @@
 {
-	"carvers": [],
-	"downfall": 0,
-	"effects": {
-		"fog_color": 24,
-		"sky_color": 10,
-		"water_color": 4159204,
-		"water_fog_color": 2767434,
-		"particle": {
-			"options": {
-				"type": "minecraft:white_ash"
-			},
-			"probability": 0.0015
-		}
-	},
-	"features": [
-		[],
-		[],
-		[],
-		[],
-		[],
-		[],
-		[],
-		[],
-		[],
-		[
-			"theouterworlds:frostworld_ice_crack"
-		],
-		[]
-	],
-	"has_precipitation": false,
-	"spawn_costs": {},
-	"spawners": {
-		"ambient": [],
-		"axolotls": [],
-		"creature": [],
-		"misc": [],
-		"monster": [],
-		"underground_water_creature": [],
-		"water_ambient": [],
-		"water_creature": []
-	},
-	"temperature": -0.7
+  "attributes": {
+    "minecraft:visual/fog_color": "#000018",
+    "minecraft:visual/sky_color": "#00000a",
+    "minecraft:visual/water_fog_color": "#2a3a4a",
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "ambient": [],
+          "axolotls": [],
+          "creature": [],
+          "misc": [],
+          "monster": [],
+          "underground_water_creature": [],
+          "water_ambient": [],
+          "water_creature": []
+        }
+      },
+      "modifier": "overlay"
+    }
+  },
+  "carvers": [],
+  "downfall": 0,
+  "effects": {
+    "water_color": "#3f76e4",
+    "particle": {
+      "options": {
+        "type": "minecraft:white_ash"
+      },
+      "probability": 0.0015
+    }
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "theouterworlds:frostworld_ice_crack"
+    ],
+    []
+  ],
+  "has_precipitation": false,
+  "temperature": -0.7
 }

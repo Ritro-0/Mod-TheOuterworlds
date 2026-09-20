@@ -1,9 +1,9 @@
 {
-	"type": "minecraft:smithing_transform",
-	"template": "theouterworlds:orbit_smithing_template",
-	"base": "minecraft:netherite_chestplate",
-	"addition": "theouterworlds:iridium_ingot",
-	"result": {
-		"id": "theouterworlds:iridium_chestplate"
-	}
+  "type": "minecraft:smithing_transform",
+  "template": "theouterworlds:orbit_smithing_template",
+  "base": "minecraft:netherite_chestplate",
+  "addition": "theouterworlds:iridium_ingot",
+  "result": {
+    "id": "theouterworlds:iridium_chestplate"
+  }
 }

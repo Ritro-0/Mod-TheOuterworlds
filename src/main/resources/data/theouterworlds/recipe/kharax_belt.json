@@ -1,14 +1,14 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"category": "equipment",
-	"pattern": [
-		"XXX"
-	],
-	"key": {
-		"X": "theouterworlds:kharax_chitin"
-	},
-	"result": {
-		"id": "theouterworlds:kharax_belt",
-		"count": 1
-	}
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "XXX"
+  ],
+  "key": {
+    "X": "theouterworlds:kharax_chitin"
+  },
+  "result": {
+    "id": "theouterworlds:kharax_belt",
+    "count": 1
+  }
 }

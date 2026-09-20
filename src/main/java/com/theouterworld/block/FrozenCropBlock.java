@@ -1,6 +1,7 @@
 package com.theouterworld.block;
 
-import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.block.BonemealSource;
+
 import com.theouterworld.OuterWorldMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,20 +18,12 @@ import net.minecraft.world.level.block.state.BlockState;
  * A crop that has already frozen. It keeps its current age and does not grow further.
  */
 public class FrozenCropBlock extends CropBlock {
-	public static final MapCodec<FrozenCropBlock> CODEC = simpleCodec(properties ->
-		new FrozenCropBlock(properties, "frozen_wheat_seeds")
-	);
 
 	private final String seedId;
 
 	public FrozenCropBlock(Properties properties, String seedId) {
 		super(properties);
 		this.seedId = seedId;
-	}
-
-	@Override
-	public MapCodec<? extends CropBlock> codec() {
-		return CODEC;
 	}
 
 	@Override
@@ -43,7 +36,7 @@ public class FrozenCropBlock extends CropBlock {
 	}
 
 	@Override
-	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, BonemealSource source) {
 		return false;
 	}
 

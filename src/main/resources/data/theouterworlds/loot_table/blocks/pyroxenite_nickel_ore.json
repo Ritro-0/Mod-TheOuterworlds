@@ -1,66 +1,50 @@
 {
-	"type": "minecraft:block",
-	"pools": [
-		{
-			"bonus_rolls": 0.0,
-			"rolls": 1.0,
-			"entries": [
-				{
-					"type": "minecraft:alternatives",
-					"children": [
-						{
-							"type": "minecraft:item",
-							"name": "theouterworlds:pyroxenite_nickel_ore",
-							"conditions": [
-								{
-									"condition": "minecraft:match_tool",
-									"predicate": {
-										"predicates": {
-											"minecraft:enchantments": [
-												{
-													"enchantments": "minecraft:silk_touch",
-													"levels": {
-														"min": 1
-													}
-												}
-											]
-										}
-									}
-								}
-							]
-						},
-						{
-							"type": "minecraft:item",
-							"name": "theouterworlds:raw_nickel",
-							"functions": [
-								{
-									"function": "minecraft:set_count",
-									"count": {
-										"type": "minecraft:uniform",
-										"min": 2.0,
-										"max": 3.0
-									}
-								},
-								{
-									"function": "minecraft:apply_bonus",
-									"enchantment": "minecraft:fortune",
-									"formula": "minecraft:ore_drops"
-								},
-								{
-									"function": "minecraft:limit_count",
-									"limit": {
-										"max": 8
-									}
-								},
-								{
-									"function": "minecraft:explosion_decay"
-								}
-							]
-						}
-					]
-				}
-			]
-		}
-	],
-	"random_sequence": "theouterworlds:blocks/pyroxenite_nickel_ore"
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "theouterworlds:pyroxenite_nickel_ore",
+              "condition": "minecraft:tool/can_silk_touch"
+            },
+            {
+              "type": "minecraft:item",
+              "name": "theouterworlds:raw_nickel",
+              "modifier": [
+                {
+                  "type": "minecraft:set_count",
+                  "count": {
+                    "type": "minecraft:uniform",
+                    "min": 2.0,
+                    "max": 3.0
+                  }
+                },
+                {
+                  "type": "minecraft:apply_bonus",
+                  "enchantment": "minecraft:fortune",
+                  "formula": "minecraft:ore_drops"
+                },
+                {
+                  "type": "minecraft:limit_count",
+                  "limit": {
+                    "max": 8
+                  }
+                },
+                {
+                  "type": "minecraft:explosion_decay"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "random_sequence": "theouterworlds:blocks/pyroxenite_nickel_ore"
 }

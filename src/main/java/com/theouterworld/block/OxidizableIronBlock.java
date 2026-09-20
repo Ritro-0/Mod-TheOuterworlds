@@ -1,5 +1,7 @@
 package com.theouterworld.block;
 
+import net.minecraft.tags.ItemTags;
+
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -8,7 +10,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -94,14 +95,14 @@ public class OxidizableIronBlock extends Block implements WeatheringCopper {
         }
         
         // Right-click with axe to de-oxidize one stage (scrape)
-        if (stack.getItem() instanceof AxeItem) {
+        if (stack.is(ItemTags.AXES)) {
             // Get the previous (less oxidized) stage
             Optional<Block> previousBlock = WeatheringCopper.getPrevious(state.getBlock());
             if (previousBlock.isPresent()) {
                 if (!world.isClientSide()) {
                     world.setBlockAndUpdate(pos, previousBlock.get().withPropertiesOf(state));
                     world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(state));
-                    world.playSound(null, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                    world.playSound(null, pos, SoundEvents.AXE_SCRAPE.value(), SoundSource.BLOCKS, 1.0f, 1.0f);
                     
                     // Damage the axe
                     if (!player.isCreative()) {

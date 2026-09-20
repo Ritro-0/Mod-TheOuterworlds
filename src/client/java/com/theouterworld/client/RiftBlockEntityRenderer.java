@@ -66,8 +66,8 @@ public class RiftBlockEntityRenderer implements BlockEntityRenderer<RiftBlockEnt
 		poseStack.pushPose();
 		poseStack.translate(swayX, bob - 0.18F, swayZ);
 		poseStack.translate(0.5, pivotY, 0.5);
-		poseStack.mulPose(Axis.ZP.rotationDegrees(tiltZ));
-		poseStack.mulPose(Axis.XP.rotationDegrees(tiltX));
+		poseStack.rotateDegrees(Axis.ZP, tiltZ);
+		poseStack.rotateDegrees(Axis.XP, tiltX);
 		poseStack.translate(-0.5, -pivotY, -0.5);
 		queue.submitMovingBlock(poseStack, state.movingBlock, 0);
 		poseStack.popPose();

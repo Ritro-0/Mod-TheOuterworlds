@@ -1,15 +1,15 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"pattern": [
-		"###",
-		"###",
-		"###"
-	],
-	"key": {
-		"#": "theouterworlds:perchlorate_crystal"
-	},
-	"result": {
-		"id": "theouterworlds:raw_perchlorate",
-		"count": 1
-	}
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": "theouterworlds:perchlorate_crystal"
+  },
+  "result": {
+    "id": "theouterworlds:raw_perchlorate",
+    "count": 1
+  }
 }

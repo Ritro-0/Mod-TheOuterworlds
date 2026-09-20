@@ -9,30 +9,34 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.synth.ImprovedNoise;
+import net.minecraft.world.level.levelgen.synth.PerlinNoise;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 /**
  * Dense, large billowy cloud banks — thick enough that falling through is uncommon.
  */
-public class HighworldCloudDeckFeature extends Feature<NoneFeatureConfiguration> {
+public class HighworldCloudDeckFeature implements Feature {
+	public static final MapCodec<HighworldCloudDeckFeature> CODEC = MapCodec.unit(HighworldCloudDeckFeature::new);
+
 	public HighworldCloudDeckFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel level = context.level();
-		BlockPos origin = context.origin();
-		RandomSource random = context.random();
+	public MapCodec<HighworldCloudDeckFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
+		WorldGenLevel level = world;
 		ChunkAccess chunk = level.getChunk(origin);
 		int minX = chunk.getPos().getMinBlockX();
 		int minZ = chunk.getPos().getMinBlockZ();
 		long seed = level.getSeed();
 
-		ImprovedNoise sulfideNoise = new ImprovedNoise(RandomSource.create(seed ^ 0x51F10E5L));
-		ImprovedNoise ammoniaNoise = new ImprovedNoise(RandomSource.create(seed ^ 0xA33041A1L));
+		PerlinNoise sulfideNoise = new PerlinNoise(RandomSource.create(seed ^ 0x51F10E5L));
+		PerlinNoise ammoniaNoise = new PerlinNoise(RandomSource.create(seed ^ 0xA33041A1L));
 
 		BlockState sulfide = ModBlocks.SULFIDE_CLOUD.defaultBlockState();
 		BlockState ammonia = ModBlocks.AMMONIA_CLOUD.defaultBlockState();
@@ -71,7 +75,7 @@ public class HighworldCloudDeckFeature extends Feature<NoneFeatureConfiguration>
 	private static void paintBand(
 		WorldGenLevel level,
 		RandomSource random,
-		ImprovedNoise noise,
+		PerlinNoise noise,
 		int minX,
 		int minZ,
 		int y0,
@@ -85,7 +89,7 @@ public class HighworldCloudDeckFeature extends Feature<NoneFeatureConfiguration>
 			for (int dz = 0; dz < 16; dz++) {
 				int x = minX + dx;
 				int z = minZ + dz;
-				double bank = noise.noise(x * xzScale, 0.0, z * xzScale);
+				double bank = noise.get(x * xzScale, 0.0, z * xzScale);
 				if (bank < threshold) {
 					continue;
 				}
@@ -97,7 +101,7 @@ public class HighworldCloudDeckFeature extends Feature<NoneFeatureConfiguration>
 
 				for (int y = base; y < base + puffHeight; y++) {
 					double vertical = 1.0 - Math.abs((y - (base + puffHeight * 0.5)) / (puffHeight * 0.55));
-					double detail = noise.noise(x * xzScale * 2.4, y * 0.08, z * xzScale * 2.4);
+					double detail = noise.get(x * xzScale * 2.4, y * 0.08, z * xzScale * 2.4);
 					if (vertical * edge + detail * 0.25 < 0.18) {
 						continue;
 					}

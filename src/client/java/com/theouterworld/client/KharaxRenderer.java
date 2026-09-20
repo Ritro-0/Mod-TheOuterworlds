@@ -47,7 +47,7 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 	@Override
 	public void submit(KharaxRenderState state, PoseStack poseStack, SubmitNodeCollector queue, CameraRenderState camera) {
 		poseStack.pushPose();
-		poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - state.bodyRot));
+		poseStack.rotateDegrees(Axis.YP, 180.0F - state.bodyRot);
 
 		float speed = state.walkAnimationSpeed;
 		float cycle = state.walkAnimationPos * 0.7F;
@@ -67,9 +67,9 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 		float headShake = state.warning ? Mth.sin(state.ageInTicks * 2.6F) * 22.0F : 0.0F;
 
 		poseStack.translate(0.0F, hop * 0.18F + idle + warn * 0.22F, 0.0F);
-		poseStack.mulPose(Axis.XP.rotationDegrees(
+		poseStack.rotateDegrees(Axis.XP,
 			hop * 14.0F - plant * 8.0F - warn * 18.0F + launch * 16.0F
-		));
+		);
 
 		int light = state.lightCoords;
 		int overlay = OverlayTexture.pack(0.0F, state.hasRedOverlay);
@@ -215,10 +215,10 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 	private static void rotateAround(PoseStack poseStack, float x, float y, float z, float rotXDeg, float rotZDeg) {
 		poseStack.translate(x, y, z);
 		if (rotXDeg != 0.0F) {
-			poseStack.mulPose(Axis.XP.rotationDegrees(rotXDeg));
+			poseStack.rotateDegrees(Axis.XP, rotXDeg);
 		}
 		if (rotZDeg != 0.0F) {
-			poseStack.mulPose(Axis.ZP.rotationDegrees(rotZDeg));
+			poseStack.rotateDegrees(Axis.ZP, rotZDeg);
 		}
 		poseStack.translate(-x, -y, -z);
 	}

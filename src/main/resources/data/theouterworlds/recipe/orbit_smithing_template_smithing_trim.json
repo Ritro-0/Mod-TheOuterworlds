@@ -1,7 +1,7 @@
 {
-	"type": "minecraft:smithing_trim",
-	"addition": "#minecraft:trim_materials",
-	"base": "#minecraft:trimmable_armor",
-	"pattern": "theouterworlds:orbit",
-	"template": "theouterworlds:orbit_smithing_template"
+  "type": "minecraft:smithing_trim",
+  "addition": "#minecraft:trim_materials",
+  "base": "#minecraft:trimmable_armor",
+  "pattern": "theouterworlds:orbit",
+  "template": "theouterworlds:orbit_smithing_template"
 }

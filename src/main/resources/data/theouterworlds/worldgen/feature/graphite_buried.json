@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:ore",
+	"discard_chance_on_air_exposure": 0.7,
+	"size": 20,
+	"targets": [
+		{
+			"state": "theouterworlds:graphite",
+			"target": {
+				"predicate_type": "minecraft:tag_match",
+				"tag": "theouterworlds:graphite_ore_replaceables"
+			}
+		}
+	]
+}

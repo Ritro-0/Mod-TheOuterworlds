@@ -1,4 +1,4 @@
 {
-	"type": "minecraft:flat_cache",
-	"argument": "theouterworlds:nearworld/terrain_height"
+	"type": "minecraft:cache",
+	"input": "theouterworlds:nearworld/terrain_height"
 }

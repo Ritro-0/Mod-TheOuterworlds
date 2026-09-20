@@ -1,8 +1,9 @@
 package com.theouterworld.mixin.client;
 
-import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.renderpearl.api.buffers.GpuBuffer;
+import com.mojang.renderpearl.api.commands.RenderPass;
 import com.theouterworld.OuterWorldMod;
 import com.theouterworld.client.AmberworldAtmosphere;
 import com.theouterworld.client.DeepworldAtmosphere;
@@ -12,6 +13,7 @@ import com.theouterworld.client.FarworldAtmosphere;
 import com.theouterworld.client.FrostworldAtmosphere;
 import com.theouterworld.client.HighworldAtmosphere;
 import com.theouterworld.client.NearworldAtmosphere;
+import com.theouterworld.client.OuterworldAtmosphere;
 import com.theouterworld.client.SkyCelestialReloader;
 import com.theouterworld.registry.ModDimensions;
 import com.theouterworld.world.EmberworldDayCycle;
@@ -28,8 +30,10 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.model.sprite.AtlasManager;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.MoonPhase;
+import org.joml.Vector4f;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -62,6 +66,7 @@ public abstract class SkyRenderingMixin {
 	private static final int CELESTIALS_SPINLANDS = 16;
 	private static final int CELESTIALS_SCARLETLANDS = 17;
 	private static final int CELESTIALS_LONELANDS = 18;
+	private static final int CELESTIALS_SUN = 19;
 
 	/** Celestial angle 0 is noon / zenith (radians). */
 	private static final float MOON_SURFACE_MOON_ANGLE = 0.0F;
@@ -74,6 +79,8 @@ public abstract class SkyRenderingMixin {
 	/** Same near-black as the Moon — no daytime orange wash. */
 	private static final int INNERWORLD_SKY_COLOR = 0x00000A;
 	private static final float INNERWORLD_STAR_BRIGHTNESS = 0.55F;
+	/** Disable sunrise/sunset disc (alpha 0). */
+	private static final Vector4f NO_SUNRISE_SUNSET = new Vector4f(0.0F, 0.0F, 0.0F, 0.0F);
 
 	@Shadow
 	@Final
@@ -274,71 +281,74 @@ public abstract class SkyRenderingMixin {
 		if (world.dimension().equals(ModDimensions.MOON_WORLD_KEY)) {
 			state.moonAngle = MOON_SURFACE_MOON_ANGLE;
 			state.starBrightness = Math.max(state.starBrightness, MOON_STAR_BRIGHTNESS);
-			state.skyColor = MOON_NIGHT_SKY_COLOR;
-			state.sunriseAndSunsetColor = 0;
+			state.skyColor = ARGB.vector3fFromRGB24(MOON_NIGHT_SKY_COLOR);
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 			this.theouterworlds$sunAngle = state.sunAngle;
 		} else if (world.dimension().equals(ModDimensions.INNERWORLD_WORLD_KEY)) {
 			float sunAngle = InnerworldDayCycle.sunAngleRadians(world, tickDelta);
 			state.sunAngle = sunAngle;
 			// Permanent night sky: keep stars up even while the sun disc is visible.
 			state.starBrightness = Math.max(state.starBrightness, INNERWORLD_STAR_BRIGHTNESS);
-			state.skyColor = INNERWORLD_SKY_COLOR;
-			state.sunriseAndSunsetColor = 0;
+			state.skyColor = ARGB.vector3fFromRGB24(INNERWORLD_SKY_COLOR);
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 			this.theouterworlds$sunAngle = sunAngle;
+		} else if (world.dimension().equals(ModDimensions.OUTERWORLD_WORLD_KEY)) {
+			state.skyColor = ARGB.vector3fFromRGB24(OuterworldAtmosphere.SKY_COLOR);
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 		} else if (world.dimension().equals(ModDimensions.NEARWORLD_WORLD_KEY)) {
-			state.skyColor = NearworldAtmosphere.HAZE_COLOR;
+			state.skyColor = ARGB.vector3fFromRGB24(NearworldAtmosphere.HAZE_COLOR);
 			state.starBrightness = 0.0F;
-			state.sunriseAndSunsetColor = 0;
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 		} else if (ModDimensions.isAmberworld(world.dimension())) {
 			// Nearworld-style haze, but muted; sun stays on the day arc, Saturn offset 90°.
-			state.skyColor = AmberworldAtmosphere.HAZE_COLOR;
+			state.skyColor = ARGB.vector3fFromRGB24(AmberworldAtmosphere.HAZE_COLOR);
 			state.starBrightness = 0.0F;
-			state.sunriseAndSunsetColor = 0;
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 			float sun = theouterworlds$forceAboveHorizon(state.sunAngle);
 			state.sunAngle = sun;
 			state.moonAngle = theouterworlds$amberworldSaturnAngle(sun);
 			this.theouterworlds$sunAngle = sun;
 		} else if (ModDimensions.isHighworld(world.dimension())) {
-			state.skyColor = HighworldAtmosphere.HAZE_COLOR;
+			state.skyColor = ARGB.vector3fFromRGB24(HighworldAtmosphere.HAZE_COLOR);
 			state.starBrightness = 0.0F;
-			state.sunriseAndSunsetColor = 0;
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 		} else if (ModDimensions.isDeepworld(world.dimension())) {
-			state.skyColor = DeepworldAtmosphere.HAZE_COLOR;
+			state.skyColor = ARGB.vector3fFromRGB24(DeepworldAtmosphere.HAZE_COLOR);
 			state.starBrightness = 0.0F;
-			state.sunriseAndSunsetColor = 0;
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 		} else if (ModDimensions.isFarworld(world.dimension())) {
-			state.skyColor = FarworldAtmosphere.HAZE_COLOR;
+			state.skyColor = ARGB.vector3fFromRGB24(FarworldAtmosphere.HAZE_COLOR);
 			state.starBrightness = 0.0F;
-			state.sunriseAndSunsetColor = 0;
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 		} else if (ModDimensions.isEdgeworld(world.dimension())) {
-			state.skyColor = EdgeworldAtmosphere.HAZE_COLOR;
+			state.skyColor = ARGB.vector3fFromRGB24(EdgeworldAtmosphere.HAZE_COLOR);
 			state.starBrightness = 0.0F;
-			state.sunriseAndSunsetColor = 0;
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 		} else if (ModDimensions.isEmberworld(world.dimension())) {
 			state.moonAngle = EmberworldDayCycle.moonAngleRadians(world, tickDelta);
 			state.starBrightness = Math.max(state.starBrightness, EmberworldAtmosphere.STAR_BRIGHTNESS);
-			state.skyColor = EmberworldAtmosphere.skyColor(EmberworldDayCycle.isSunUp(world));
-			state.sunriseAndSunsetColor = 0;
+			state.skyColor = ARGB.vector3fFromRGB24(EmberworldAtmosphere.skyColor(EmberworldDayCycle.isSunUp(world)));
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 			this.theouterworlds$sunAngle = state.sunAngle;
 		} else if (ModDimensions.isFrostworld(world.dimension())) {
 			state.moonAngle = EmberworldDayCycle.moonAngleRadians(world, tickDelta);
 			state.starBrightness = Math.max(state.starBrightness, FrostworldAtmosphere.STAR_BRIGHTNESS);
-			state.skyColor = FrostworldAtmosphere.skyColor(EmberworldDayCycle.isSunUp(world));
-			state.sunriseAndSunsetColor = 0;
+			state.skyColor = ARGB.vector3fFromRGB24(FrostworldAtmosphere.skyColor(EmberworldDayCycle.isSunUp(world)));
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 			this.theouterworlds$sunAngle = state.sunAngle;
 		} else if (ModDimensions.isSpongeworld(world.dimension())) {
 			state.moonAngle = theouterworlds$amberworldSaturnAngle(
 				theouterworlds$forceAboveHorizon(state.sunAngle)
 			);
 			state.starBrightness = Math.max(state.starBrightness, FrostworldAtmosphere.STAR_BRIGHTNESS);
-			state.skyColor = FrostworldAtmosphere.skyColor(EmberworldDayCycle.isSunUp(world));
-			state.sunriseAndSunsetColor = 0;
+			state.skyColor = ARGB.vector3fFromRGB24(FrostworldAtmosphere.skyColor(EmberworldDayCycle.isSunUp(world)));
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 			state.sunAngle = theouterworlds$forceAboveHorizon(state.sunAngle);
 			this.theouterworlds$sunAngle = state.sunAngle;
 		} else if (ModDimensions.isPotatoworlds(world.dimension())) {
 			state.starBrightness = Math.max(state.starBrightness, FrostworldAtmosphere.STAR_BRIGHTNESS);
-			state.skyColor = FrostworldAtmosphere.skyColor(EmberworldDayCycle.isSunUp(world));
-			state.sunriseAndSunsetColor = 0;
+			state.skyColor = ARGB.vector3fFromRGB24(FrostworldAtmosphere.skyColor(EmberworldDayCycle.isSunUp(world)));
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 			this.theouterworlds$sunAngle = state.sunAngle;
 		} else if (ModDimensions.isWanderlands(world.dimension())
 			|| ModDimensions.isBeyondlands(world.dimension())
@@ -346,17 +356,22 @@ public abstract class SkyRenderingMixin {
 			|| ModDimensions.isScarletlands(world.dimension())
 			|| ModDimensions.isLonelands(world.dimension())) {
 			state.starBrightness = Math.max(state.starBrightness, MOON_STAR_BRIGHTNESS);
-			state.skyColor = MOON_NIGHT_SKY_COLOR;
-			state.sunriseAndSunsetColor = 0;
+			state.skyColor = ARGB.vector3fFromRGB24(MOON_NIGHT_SKY_COLOR);
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 			this.theouterworlds$sunAngle = state.sunAngle;
 		} else if (ModDimensions.isSpinlands(world.dimension())) {
 			float sunAngle = SpinlandsDayCycle.sunAngleRadians(world, tickDelta);
 			state.sunAngle = sunAngle;
 			state.moonAngle = SpinlandsDayCycle.moonAngleRadians(world, tickDelta);
 			state.starBrightness = Math.max(state.starBrightness, MOON_STAR_BRIGHTNESS);
-			state.skyColor = MOON_NIGHT_SKY_COLOR;
-			state.sunriseAndSunsetColor = 0;
+			state.skyColor = ARGB.vector3fFromRGB24(MOON_NIGHT_SKY_COLOR);
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 			this.theouterworlds$sunAngle = sunAngle;
+		} else if (ModDimensions.isSun(world.dimension())) {
+			// Standing on the sun — no separate sun/moon disc in the sky.
+			state.starBrightness = 0.0F;
+			state.skyColor = ARGB.vector3fFromRGB24(0xFFCC33);
+			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 		}
 	}
 
@@ -440,13 +455,16 @@ public abstract class SkyRenderingMixin {
 		if (ModDimensions.LONELANDS_WORLD_KEY.equals(dimension)) {
 			return CELESTIALS_LONELANDS;
 		}
+		if (ModDimensions.SUN_WORLD_KEY.equals(dimension)) {
+			return CELESTIALS_SUN;
+		}
 		return CELESTIALS_VANILLA;
 	}
 
 	@Inject(method = "renderSun", at = @At("HEAD"), cancellable = true)
-	private void theouterworlds$hideSunBehindMoon(float alpha, PoseStack poseStack, CallbackInfo ci) {
+	private void theouterworlds$hideSunBehindMoon(RenderPass renderPass, float alpha, PoseStack poseStack, CallbackInfo ci) {
 		int mode = theouterworlds$celestialMode();
-		if (mode == CELESTIALS_HIGHWORLD || mode == CELESTIALS_DEEPWORLD || mode == CELESTIALS_FARWORLD || mode == CELESTIALS_EDGEWORLD) {
+		if (mode == CELESTIALS_HIGHWORLD || mode == CELESTIALS_DEEPWORLD || mode == CELESTIALS_FARWORLD || mode == CELESTIALS_EDGEWORLD || mode == CELESTIALS_SUN) {
 			ci.cancel();
 			return;
 		}
@@ -462,10 +480,10 @@ public abstract class SkyRenderingMixin {
 	}
 
 	@Inject(method = "renderMoon", at = @At("HEAD"), cancellable = true)
-	private void theouterworlds$hideOrScaleMoon(MoonPhase moonPhase, float alpha, PoseStack poseStack, CallbackInfo ci) {
+	private void theouterworlds$hideOrScaleMoon(RenderPass renderPass, MoonPhase moonPhase, float alpha, PoseStack poseStack, CallbackInfo ci) {
 		this.theouterworlds$scaledCustomMoon = false;
 		int mode = theouterworlds$celestialMode();
-		if (mode == CELESTIALS_INNERWORLD || mode == CELESTIALS_HIGHWORLD || mode == CELESTIALS_DEEPWORLD || mode == CELESTIALS_FARWORLD || mode == CELESTIALS_EDGEWORLD || mode == CELESTIALS_WANDERLANDS) {
+		if (mode == CELESTIALS_INNERWORLD || mode == CELESTIALS_HIGHWORLD || mode == CELESTIALS_DEEPWORLD || mode == CELESTIALS_FARWORLD || mode == CELESTIALS_EDGEWORLD || mode == CELESTIALS_WANDERLANDS || mode == CELESTIALS_SUN) {
 			ci.cancel();
 			return;
 		}
@@ -493,7 +511,7 @@ public abstract class SkyRenderingMixin {
 	}
 
 	@Inject(method = "renderMoon", at = @At("RETURN"))
-	private void theouterworlds$unscaleEmberMoon(MoonPhase moonPhase, float alpha, PoseStack poseStack, CallbackInfo ci) {
+	private void theouterworlds$unscaleEmberMoon(RenderPass renderPass, MoonPhase moonPhase, float alpha, PoseStack poseStack, CallbackInfo ci) {
 		if (this.theouterworlds$scaledCustomMoon) {
 			poseStack.popPose();
 			this.theouterworlds$scaledCustomMoon = false;
@@ -505,7 +523,7 @@ public abstract class SkyRenderingMixin {
 		at = @At(
 			value = "FIELD",
 			opcode = Opcodes.GETFIELD,
-			target = "Lnet/minecraft/client/renderer/SkyRenderer;sunBuffer:Lcom/mojang/blaze3d/buffers/GpuBuffer;"
+			target = "Lnet/minecraft/client/renderer/SkyRenderer;sunBuffer:Lcom/mojang/renderpearl/api/buffers/GpuBuffer;"
 		)
 	)
 	private GpuBuffer theouterworlds$selectSunBuffer(SkyRenderer instance) {
@@ -533,7 +551,7 @@ public abstract class SkyRenderingMixin {
 		at = @At(
 			value = "FIELD",
 			opcode = Opcodes.GETFIELD,
-			target = "Lnet/minecraft/client/renderer/SkyRenderer;moonBuffer:Lcom/mojang/blaze3d/buffers/GpuBuffer;"
+			target = "Lnet/minecraft/client/renderer/SkyRenderer;moonBuffer:Lcom/mojang/renderpearl/api/buffers/GpuBuffer;"
 		)
 	)
 	private GpuBuffer theouterworlds$selectMoonBuffer(SkyRenderer instance) {

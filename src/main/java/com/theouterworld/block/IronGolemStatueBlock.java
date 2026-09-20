@@ -1,8 +1,9 @@
 package com.theouterworld.block;
 
+import net.minecraft.tags.ItemTags;
+
 import com.theouterworld.entity.OxidizableIronGolemEntity;
 import com.theouterworld.registry.ModEntities;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -13,7 +14,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -33,16 +33,8 @@ import java.util.Optional;
  */
 public class IronGolemStatueBlock extends AbstractIronGolemStatueBlock implements WeatheringCopper {
 
-	public static final MapCodec<IronGolemStatueBlock> CODEC = simpleCodec(settings ->
-		new IronGolemStatueBlock(WeatherState.UNAFFECTED, settings));
-
 	private final WeatherState oxidationLevel;
 	private Block waxedVersion;
-
-	@Override
-	protected MapCodec<? extends net.minecraft.world.level.block.BaseEntityBlock> codec() {
-		return CODEC;
-	}
 
 	public IronGolemStatueBlock(WeatherState oxidationLevel, Properties settings) {
 		super(settings);
@@ -101,7 +93,7 @@ public class IronGolemStatueBlock extends AbstractIronGolemStatueBlock implement
 			return InteractionResult.SUCCESS;
 		}
 
-		if (stack.getItem() instanceof AxeItem) {
+		if (stack.is(ItemTags.AXES)) {
 			if (this.oxidationLevel == WeatherState.UNAFFECTED) {
 				if (!world.isClientSide() && world instanceof ServerLevel serverWorld) {
 					reanimateGolem(serverWorld, pos, state);
@@ -118,7 +110,7 @@ public class IronGolemStatueBlock extends AbstractIronGolemStatueBlock implement
 				if (!world.isClientSide()) {
 					replaceBothHalves(world, pos, state, previousBlock.get());
 					world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(state));
-					world.playSound(null, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
+					world.playSound(null, pos, SoundEvents.AXE_SCRAPE.value(), SoundSource.BLOCKS, 1.0f, 1.0f);
 
 					if (world instanceof ServerLevel serverWorld) {
 						BlockPos lower = lowerPos(pos, state);

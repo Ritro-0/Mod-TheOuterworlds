@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:ore",
+	"discard_chance_on_air_exposure": 0.2,
+	"size": 8,
+	"targets": [
+		{
+			"state": "theouterworlds:raw_perchlorate",
+			"target": {
+				"predicate_type": "minecraft:tag_match",
+				"tag": "theouterworlds:deepslate_ore_replaceables"
+			}
+		}
+	]
+}

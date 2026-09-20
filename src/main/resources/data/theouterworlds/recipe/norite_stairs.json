@@ -1,15 +1,15 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"pattern": [
-		"#  ",
-		"## ",
-		"###"
-	],
-	"key": {
-		"#": "theouterworlds:norite"
-	},
-	"result": {
-		"id": "theouterworlds:norite_stairs",
-		"count": 4
-	}
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": "theouterworlds:norite"
+  },
+  "result": {
+    "id": "theouterworlds:norite_stairs",
+    "count": 4
+  }
 }

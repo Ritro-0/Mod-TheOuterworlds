@@ -158,7 +158,7 @@ public class OpalineNickelFlailEntity extends ThrowableProjectile {
 			float damage = this.computeDamage(living, dist);
 			DamageSource source = this.damageSource();
 			if (this.returning) {
-				living.invulnerableTime = 0;
+				living.setInvulnerableTime(0);
 			}
 			boolean hit = living.hurtServer(serverLevel, source, damage);
 			if (hit) {

@@ -46,7 +46,7 @@ public final class PlantFreeze {
 	}
 
 	public static boolean inCold(Level level) {
-		return !level.isClientSide() && ModDimensions.isColdClimate(level.dimension());
+		return !level.isClientSide() && ModDimensions.shouldFreezePlants(level.dimension());
 	}
 
 	public static boolean tryFreezeSapling(ServerLevel level, BlockPos pos, BlockState state) {
@@ -210,11 +210,11 @@ public final class PlantFreeze {
 	}
 
 	private static boolean rollSapling(Level level) {
-		return level.getRandom().nextInt(SAPLING_CHANCE) == 0;
+		return ModDimensions.isAirless(level.dimension()) || level.getRandom().nextInt(SAPLING_CHANCE) == 0;
 	}
 
 	private static boolean roll(Level level) {
-		return level.getRandom().nextInt(CropFreeze.DEFAULT_CHANCE) == 0;
+		return ModDimensions.isAirless(level.dimension()) || level.getRandom().nextInt(CropFreeze.DEFAULT_CHANCE) == 0;
 	}
 
 	private static boolean isAlreadyFrozen(Block block) {

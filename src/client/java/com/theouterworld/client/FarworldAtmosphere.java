@@ -3,6 +3,7 @@ package com.theouterworld.client;
 import com.theouterworld.world.FarworldLayers;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
+import org.joml.Vector3fc;
 
 /**
  * Farworld lightning / fog / depth-light helpers.
@@ -48,7 +49,7 @@ public final class FarworldAtmosphere {
 		return Mth.lerp(t, 0.0F, 0.28F);
 	}
 
-	public static int depthFogColor(int baseColor, double y) {
+	public static Vector3fc depthFogColor(Vector3fc baseColor, double y) {
 		float factor = naturalSkyFactor(y);
 		if (factor >= 0.999F) {
 			return baseColor;
@@ -57,11 +58,11 @@ public final class FarworldAtmosphere {
 		return ARGB.scaleRGB(baseColor, mix);
 	}
 
-	public static int depthSkyColor(int baseColor, double y) {
+	public static Vector3fc depthSkyColor(Vector3fc baseColor, double y) {
 		return depthFogColor(baseColor, y);
 	}
 
-	public static int depthAmbientColor(int baseColor, double y) {
+	public static Vector3fc depthAmbientColor(Vector3fc baseColor, double y) {
 		float factor = naturalSkyFactor(y);
 		if (factor >= 0.999F) {
 			return baseColor;

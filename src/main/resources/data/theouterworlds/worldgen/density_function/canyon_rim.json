@@ -3,16 +3,44 @@
 	"spline": {
 		"coordinate": {
 			"type": "minecraft:abs",
-			"argument": "theouterworlds:climate/ridges"
+			"input": "theouterworlds:climate/ridges"
 		},
 		"points": [
-			{ "location": 0.0, "derivative": 0.0, "value": 0.0 },
-			{ "location": 0.12, "derivative": 0.0, "value": 0.0 },
-			{ "location": 0.16, "derivative": 120.0, "value": 28.0 },
-			{ "location": 0.20, "derivative": 40.0, "value": 70.0 },
-			{ "location": 0.24, "derivative": 0.0, "value": 72.0 },
-			{ "location": 0.30, "derivative": -80.0, "value": 8.0 },
-			{ "location": 0.40, "derivative": 0.0, "value": 0.0 }
+			{
+				"location": 0.0,
+				"derivative": 0.0,
+				"value": 0.0
+			},
+			{
+				"location": 0.12,
+				"derivative": 0.0,
+				"value": 0.0
+			},
+			{
+				"location": 0.16,
+				"derivative": 120.0,
+				"value": 28.0
+			},
+			{
+				"location": 0.2,
+				"derivative": 40.0,
+				"value": 70.0
+			},
+			{
+				"location": 0.24,
+				"derivative": 0.0,
+				"value": 72.0
+			},
+			{
+				"location": 0.3,
+				"derivative": -80.0,
+				"value": 8.0
+			},
+			{
+				"location": 0.4,
+				"derivative": 0.0,
+				"value": 0.0
+			}
 		]
 	}
 }

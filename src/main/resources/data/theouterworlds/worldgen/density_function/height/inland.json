@@ -1,25 +1,33 @@
 {
 	"type": "minecraft:add",
-	"argument1": "theouterworlds:height/non_canyon",
-	"argument2": {
+	"left": "theouterworlds:height/non_canyon",
+	"right": {
 		"type": "minecraft:mul",
-		"argument1": {
+		"left": {
 			"type": "minecraft:spline",
 			"spline": {
 				"coordinate": "theouterworlds:climate/erosion",
 				"points": [
-					{ "location": 0.18, "derivative": 0.0, "value": 0.0 },
-					{ "location": 0.42, "derivative": 0.0, "value": 1.0 }
+					{
+						"location": 0.18,
+						"derivative": 0.0,
+						"value": 0.0
+					},
+					{
+						"location": 0.42,
+						"derivative": 0.0,
+						"value": 1.0
+					}
 				]
 			}
 		},
-		"argument2": {
+		"right": {
 			"type": "minecraft:add",
-			"argument1": "theouterworlds:height/canyonlands",
-			"argument2": {
+			"left": "theouterworlds:height/canyonlands",
+			"right": {
 				"type": "minecraft:mul",
-				"argument1": -1,
-				"argument2": "theouterworlds:height/non_canyon"
+				"left": -1,
+				"right": "theouterworlds:height/non_canyon"
 			}
 		}
 	}

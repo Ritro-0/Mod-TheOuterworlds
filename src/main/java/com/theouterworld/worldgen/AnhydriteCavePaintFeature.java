@@ -9,27 +9,30 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 /**
  * Paints anhydrite patches onto sulfur-cave walls, with smaller accents on
  * ceilings near corners (air below + two solid neighbors). Never touches the
  * surface or sulfuric basalt crust.
  */
-public class AnhydriteCavePaintFeature extends Feature<NoneFeatureConfiguration> {
+public class AnhydriteCavePaintFeature implements Feature {
+	public static final MapCodec<AnhydriteCavePaintFeature> CODEC = MapCodec.unit(AnhydriteCavePaintFeature::new);
+
 	private static final int MIN_DEPTH_BELOW_SURFACE = 12;
 	private static final Direction[] HORIZONTAL = Direction.Plane.HORIZONTAL.stream().toArray(Direction[]::new);
 
 	public AnhydriteCavePaintFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		RandomSource random = context.random();
-		BlockPos origin = context.origin();
+	public MapCodec<AnhydriteCavePaintFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
 		BlockState anhydrite = ModBlocks.ANHYDRITE.defaultBlockState();
 		boolean placed = false;

@@ -9,12 +9,9 @@
           "name": "theouterworlds:waxed_weathered_iron_grate"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ]
 }
-

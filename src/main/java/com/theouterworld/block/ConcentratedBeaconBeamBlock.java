@@ -1,6 +1,5 @@
 package com.theouterworld.block;
 
-import com.mojang.serialization.MapCodec;
 import com.theouterworld.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -17,15 +16,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class ConcentratedBeaconBeamBlock extends BaseEntityBlock {
-	public static final MapCodec<ConcentratedBeaconBeamBlock> CODEC = simpleCodec(ConcentratedBeaconBeamBlock::new);
 
 	public ConcentratedBeaconBeamBlock(Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	protected MapCodec<? extends BaseEntityBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

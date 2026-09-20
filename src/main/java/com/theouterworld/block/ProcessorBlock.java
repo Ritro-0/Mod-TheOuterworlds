@@ -1,6 +1,5 @@
 package com.theouterworld.block;
 
-import com.mojang.serialization.MapCodec;
 import com.theouterworld.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -22,7 +21,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ProcessorBlock extends BaseEntityBlock {
-    public static final MapCodec<ProcessorBlock> CODEC = simpleCodec(ProcessorBlock::new);
     
     // Custom shape based on the blockbench model
     private static final VoxelShape SHAPE = Shapes.or(
@@ -35,11 +33,6 @@ public class ProcessorBlock extends BaseEntityBlock {
 
     public ProcessorBlock(Properties settings) {
         super(settings);
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
     }
 
     @Override

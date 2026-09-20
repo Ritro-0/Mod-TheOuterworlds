@@ -1,52 +1,36 @@
 {
-	"type": "minecraft:block",
-	"pools": [
-		{
-			"bonus_rolls": 0.0,
-			"rolls": 1.0,
-			"entries": [
-				{
-					"type": "minecraft:alternatives",
-					"children": [
-						{
-							"type": "minecraft:item",
-							"name": "theouterworlds:anorthosite_oxidized_iron_ore",
-							"conditions": [
-								{
-									"condition": "minecraft:match_tool",
-									"predicate": {
-										"predicates": {
-											"minecraft:enchantments": [
-												{
-													"enchantments": "minecraft:silk_touch",
-													"levels": {
-														"min": 1
-													}
-												}
-											]
-										}
-									}
-								}
-							]
-						},
-						{
-							"type": "minecraft:item",
-							"name": "theouterworlds:raw_oxidized_iron",
-							"functions": [
-								{
-									"function": "minecraft:apply_bonus",
-									"enchantment": "minecraft:fortune",
-									"formula": "minecraft:ore_drops"
-								},
-								{
-									"function": "minecraft:explosion_decay"
-								}
-							]
-						}
-					]
-				}
-			]
-		}
-	],
-	"random_sequence": "theouterworlds:blocks/anorthosite_oxidized_iron_ore"
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "theouterworlds:anorthosite_oxidized_iron_ore",
+              "condition": "minecraft:tool/can_silk_touch"
+            },
+            {
+              "type": "minecraft:item",
+              "name": "theouterworlds:raw_oxidized_iron",
+              "modifier": [
+                {
+                  "type": "minecraft:apply_bonus",
+                  "enchantment": "minecraft:fortune",
+                  "formula": "minecraft:ore_drops"
+                },
+                {
+                  "type": "minecraft:explosion_decay"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "random_sequence": "theouterworlds:blocks/anorthosite_oxidized_iron_ore"
 }

@@ -229,7 +229,7 @@ public class KharaxEntity extends PathfinderMob {
 		// Deliberately not setJumping: vanilla's jump would overwrite the solved launch speed
 		// with a fixed 0.42, which is exactly the gravity-blind behaviour this replaces.
 		this.setDeltaMovement(dirX * push, launchSpeed, dirZ * push);
-		this.hurtMarked = true;
+		this.syncVelocity = true;
 		// Only the ground recovery is returned: the next leap also waits on landing, so a hop cut
 		// short by a wall or a rise chains straight into the next one instead of idling.
 		return HOP_RECOVERY_TICKS;

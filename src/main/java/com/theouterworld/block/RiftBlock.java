@@ -1,6 +1,5 @@
 package com.theouterworld.block;
 
-import com.mojang.serialization.MapCodec;
 import com.theouterworld.registry.ModDimensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -45,7 +44,6 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 public class RiftBlock extends BaseEntityBlock {
-	public static final MapCodec<RiftBlock> CODEC = simpleCodec(RiftBlock::new);
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 
@@ -72,11 +70,6 @@ public class RiftBlock extends BaseEntityBlock {
 		this.registerDefaultState(this.stateDefinition.any()
 			.setValue(FACING, Direction.NORTH)
 			.setValue(HALF, DoubleBlockHalf.LOWER));
-	}
-
-	@Override
-	protected MapCodec<? extends BaseEntityBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

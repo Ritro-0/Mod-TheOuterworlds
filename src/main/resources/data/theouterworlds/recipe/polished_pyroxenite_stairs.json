@@ -1,15 +1,15 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"pattern": [
-		"#  ",
-		"## ",
-		"###"
-	],
-	"key": {
-		"#": "theouterworlds:polished_pyroxenite"
-	},
-	"result": {
-		"id": "theouterworlds:polished_pyroxenite_stairs",
-		"count": 4
-	}
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": "theouterworlds:polished_pyroxenite"
+  },
+  "result": {
+    "id": "theouterworlds:polished_pyroxenite_stairs",
+    "count": 4
+  }
 }

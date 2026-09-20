@@ -1,8 +1,8 @@
 {
-	"type": "minecraft:stonecutting",
-	"ingredient": "theouterworlds:komatiite",
-	"result": {
-		"id": "theouterworlds:komatiite_stairs",
-		"count": 1
-	}
+  "type": "minecraft:stonecutting",
+  "ingredient": "theouterworlds:komatiite",
+  "result": {
+    "id": "theouterworlds:komatiite_stairs",
+    "count": 1
+  }
 }

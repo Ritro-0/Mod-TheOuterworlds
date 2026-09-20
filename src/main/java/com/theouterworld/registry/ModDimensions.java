@@ -417,6 +417,16 @@ public class ModDimensions {
 			|| isLonelands(dimension);
 	}
 
+	/** No atmosphere at all. Crops freeze on the first growth stage here. */
+	public static boolean isAirless(ResourceKey<Level> dimension) {
+		return atmosphereDensity(dimension) <= 0.0;
+	}
+
+	/** Crops and saplings can freeze: cold-climate worlds, plus every vacuum world. */
+	public static boolean shouldFreezePlants(ResourceKey<Level> dimension) {
+		return isAirless(dimension) || isColdClimate(dimension);
+	}
+
 	/** Melt ice/water on contact, snuff fire — Innerworld (Mercury) and gas giants. */
 	public static boolean isHotClimate(ResourceKey<Level> dimension) {
 		return isInnerworld(dimension)

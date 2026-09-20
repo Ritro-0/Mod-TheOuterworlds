@@ -26,7 +26,7 @@ public class NearworldRainTextureMixin {
 	private static final Identifier DIAMOND_RAIN = OuterWorldMod.id("textures/environment/diamond_rain.png");
 
 	@Redirect(
-		method = "render",
+		method = "prepare",
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/renderer/texture/TextureManager;getTexture(Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/texture/AbstractTexture;"

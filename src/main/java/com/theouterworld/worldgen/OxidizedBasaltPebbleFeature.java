@@ -5,18 +5,23 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.util.RandomSource;
 
-public class OxidizedBasaltPebbleFeature extends Feature<NoneFeatureConfiguration> {
+public class OxidizedBasaltPebbleFeature implements Feature {
+	public static final MapCodec<OxidizedBasaltPebbleFeature> CODEC = MapCodec.unit(OxidizedBasaltPebbleFeature::new);
+
     public OxidizedBasaltPebbleFeature() {
-        super(NoneFeatureConfiguration.CODEC);
     }
 
+	@Override
+	public MapCodec<OxidizedBasaltPebbleFeature> codec() {
+		return CODEC;
+	}
+
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        WorldGenLevel world = context.level();
-        BlockPos origin = context.origin();
+    public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 
         int surfaceY = world.getHeight(
             net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,

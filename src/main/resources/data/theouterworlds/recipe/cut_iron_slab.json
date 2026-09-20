@@ -1,14 +1,14 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"category": "building",
-	"pattern": [
-		"###"
-	],
-	"key": {
-		"#": "theouterworlds:cut_iron"
-	},
-	"result": {
-		"id": "theouterworlds:cut_iron_slab",
-		"count": 6
-	}
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": "theouterworlds:cut_iron"
+  },
+  "result": {
+    "id": "theouterworlds:cut_iron_slab",
+    "count": 6
+  }
 }

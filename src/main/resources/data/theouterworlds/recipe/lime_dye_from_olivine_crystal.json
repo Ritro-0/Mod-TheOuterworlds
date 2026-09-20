@@ -1,10 +1,10 @@
 {
-	"type": "minecraft:crafting_shapeless",
-	"ingredients": [
-		"theouterworlds:olivine_crystal_2"
-	],
-	"result": {
-		"id": "minecraft:lime_dye",
-		"count": 1
-	}
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "theouterworlds:olivine_crystal_2"
+  ],
+  "result": {
+    "id": "minecraft:lime_dye",
+    "count": 1
+  }
 }

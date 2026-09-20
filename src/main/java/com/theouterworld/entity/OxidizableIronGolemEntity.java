@@ -1,5 +1,7 @@
 package com.theouterworld.entity;
 
+import net.minecraft.tags.ItemTags;
+
 import com.theouterworld.block.AbstractIronGolemStatueBlock;
 import com.theouterworld.block.IronGolemStatueBlockEntity;
 import com.theouterworld.block.ModBlocks;
@@ -23,7 +25,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.gamerules.GameRules;
@@ -198,7 +199,7 @@ public class OxidizableIronGolemEntity extends IronGolem {
             setOxidationLevel(getOxidationLevel() + 1);
             // Play oxidation sound
             level().playSound(null, getX(), getY(), getZ(), 
-                SoundEvents.AXE_SCRAPE, SoundSource.NEUTRAL, 1.0f, 0.8f);
+                SoundEvents.AXE_SCRAPE.value(), SoundSource.NEUTRAL, 1.0f, 0.8f);
         }
     }
 
@@ -270,13 +271,13 @@ public class OxidizableIronGolemEntity extends IronGolem {
         }
         
         // Axe interactions
-        if (stack.getItem() instanceof AxeItem) {
+        if (stack.is(ItemTags.AXES)) {
             // If waxed, remove wax first
             if (isWaxed()) {
                 if (!world.isClientSide()) {
                     setWaxed(false);
                     world.playSound(null, getX(), getY(), getZ(), 
-                        SoundEvents.AXE_WAX_OFF, SoundSource.NEUTRAL, 1.0f, 1.0f);
+                        SoundEvents.AXE_WAX_OFF.value(), SoundSource.NEUTRAL, 1.0f, 1.0f);
                     
                     // Spawn wax off particles
                     if (world instanceof ServerLevel serverWorld) {
@@ -301,7 +302,7 @@ public class OxidizableIronGolemEntity extends IronGolem {
                 if (!world.isClientSide()) {
                     setOxidationLevel(getOxidationLevel() - 1);
                     world.playSound(null, getX(), getY(), getZ(), 
-                        SoundEvents.AXE_SCRAPE, SoundSource.NEUTRAL, 1.0f, 1.0f);
+                        SoundEvents.AXE_SCRAPE.value(), SoundSource.NEUTRAL, 1.0f, 1.0f);
                     
                     // Spawn scrape particles
                     if (world instanceof ServerLevel serverWorld) {

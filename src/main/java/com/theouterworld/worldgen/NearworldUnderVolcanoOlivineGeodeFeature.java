@@ -11,35 +11,37 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 /**
  * Places Outerworld olivine geodes in the Nearworld, but only in columns under
  * the shared Nearworld volcano footprint.
  */
-public class NearworldUnderVolcanoOlivineGeodeFeature extends Feature<NoneFeatureConfiguration> {
-	private static final ResourceKey<ConfiguredFeature<?, ?>> OLIVINE_GEODE =
-		ResourceKey.create(Registries.CONFIGURED_FEATURE, OuterWorldMod.id("olivine_geode"));
+public class NearworldUnderVolcanoOlivineGeodeFeature implements Feature {
+	public static final MapCodec<NearworldUnderVolcanoOlivineGeodeFeature> CODEC = MapCodec.unit(NearworldUnderVolcanoOlivineGeodeFeature::new);
+
+	private static final ResourceKey<Feature> OLIVINE_GEODE =
+		ResourceKey.create(Registries.FEATURE, OuterWorldMod.id("olivine_geode"));
 
 	public NearworldUnderVolcanoOlivineGeodeFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		RandomSource random = context.random();
-		BlockPos origin = context.origin();
+	public MapCodec<NearworldUnderVolcanoOlivineGeodeFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 
 		if (random.nextInt(18) != 0) {
 			return false;
 		}
 
-		Holder.Reference<ConfiguredFeature<?, ?>> geode = world.registryAccess()
-			.lookupOrThrow(Registries.CONFIGURED_FEATURE)
+		Holder.Reference<Feature> geode = world.registryAccess()
+			.lookupOrThrow(Registries.FEATURE)
 			.get(OLIVINE_GEODE)
 			.orElse(null);
 		if (geode == null) {
@@ -64,7 +66,7 @@ public class NearworldUnderVolcanoOlivineGeodeFeature extends Feature<NoneFeatur
 			if (!isHost(world.getBlockState(pos))) {
 				continue;
 			}
-			return geode.value().place(world, context.chunkGenerator(), random, pos);
+			return geode.value().place(world, chunkGenerator, random, pos);
 		}
 		return false;
 	}

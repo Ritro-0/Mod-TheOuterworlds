@@ -1,6 +1,5 @@
 package com.theouterworld.block;
 
-import com.mojang.serialization.MapCodec;
 import com.theouterworld.registry.ModFluids;
 import com.theouterworld.world.DimensionClimate;
 import net.minecraft.core.BlockPos;
@@ -17,16 +16,10 @@ import net.minecraft.world.level.block.state.BlockState;
  * Solid mercury that melts into liquid when a block light source is nearby.
  */
 public class MercuryBlock extends Block {
-	public static final MapCodec<MercuryBlock> CODEC = simpleCodec(MercuryBlock::new);
 	private static final int CHECK_DELAY = 8;
 
 	public MercuryBlock(Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	protected MapCodec<? extends Block> codec() {
-		return CODEC;
 	}
 
 	@Override

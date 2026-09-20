@@ -1,6 +1,5 @@
 package com.theouterworld.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -24,7 +23,6 @@ import org.jetbrains.annotations.Nullable;
  * Blocks light the same way as tinted glass.
  */
 public class ReinforcedTintedGlassPaneBlock extends TransparentBlock {
-	public static final MapCodec<ReinforcedTintedGlassPaneBlock> CODEC = simpleCodec(ReinforcedTintedGlassPaneBlock::new);
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 
 	/** Matches the model pane at Z 7–9 (north/south). */
@@ -35,11 +33,6 @@ public class ReinforcedTintedGlassPaneBlock extends TransparentBlock {
 	public ReinforcedTintedGlassPaneBlock(BlockBehaviour.Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
-	}
-
-	@Override
-	protected MapCodec<? extends ReinforcedTintedGlassPaneBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

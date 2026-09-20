@@ -13,13 +13,14 @@
 			"heightmap": "OCEAN_FLOOR_WG"
 		},
 		{
-			"type": "minecraft:random_offset",
-			"xz_spread": 0,
-			"y_spread": {
+			"type": "minecraft:offset",
+			"x": 0,
+			"y": {
 				"type": "minecraft:uniform",
 				"min_inclusive": -9,
 				"max_inclusive": -5
-			}
+			},
+			"z": 0
 		},
 		{
 			"type": "minecraft:biome"

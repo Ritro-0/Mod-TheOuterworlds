@@ -1,7 +1,6 @@
 package com.theouterworld.block;
 
 import com.theouterworld.entity.PrimedPerchlorateCharge;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -30,17 +29,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class PerchlorateChargeBlock extends Block {
-	public static final MapCodec<PerchlorateChargeBlock> CODEC = simpleCodec(PerchlorateChargeBlock::new);
 	public static final BooleanProperty UNSTABLE = BlockStateProperties.UNSTABLE;
 
 	public PerchlorateChargeBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.defaultBlockState().setValue(UNSTABLE, false));
-	}
-
-	@Override
-	protected MapCodec<? extends Block> codec() {
-		return CODEC;
 	}
 
 	@Override

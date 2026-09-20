@@ -1,17 +1,17 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"pattern": [
-		" A ",
-		"AOA",
-		" S "
-	],
-	"key": {
-		"A": "theouterworlds:anhydrite",
-		"O": "theouterworlds:opaline_nickel",
-		"S": "#theouterworlds:aerostat_balloon_string"
-	},
-	"result": {
-		"id": "theouterworlds:aerostat_balloon",
-		"count": 1
-	}
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "AOA",
+    " S "
+  ],
+  "key": {
+    "A": "theouterworlds:anhydrite",
+    "O": "theouterworlds:opaline_nickel",
+    "S": "#theouterworlds:aerostat_balloon_string"
+  },
+  "result": {
+    "id": "theouterworlds:aerostat_balloon",
+    "count": 1
+  }
 }

@@ -1,11 +1,12 @@
 {
 	"type": "minecraft:add",
-	"argument1": {
-		"type": "minecraft:y_clamped_gradient",
+	"left": {
+		"type": "minecraft:gradient",
 		"from_value": 1.5,
-		"from_y": -64,
 		"to_value": -1.5,
-		"to_y": 320
+		"axis": "y",
+		"from_coordinate": -64,
+		"to_coordinate": 320
 	},
-	"argument2": "theouterworlds:climate/offset"
+	"right": "theouterworlds:climate/offset"
 }

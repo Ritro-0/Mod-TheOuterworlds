@@ -6,36 +6,42 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.util.RandomSource;
+import net.minecraft.core.BlockPos;
 
 /**
  * Places the olivine geode configured feature only in Outerworld. Other dimensions
  * (ice dwarfs especially) must never grow olivine, even if a host block matches.
  */
-public class OuterworldOlivineGeodeFeature extends Feature<NoneFeatureConfiguration> {
-	private static final ResourceKey<ConfiguredFeature<?, ?>> OLIVINE_GEODE =
-		ResourceKey.create(Registries.CONFIGURED_FEATURE, OuterWorldMod.id("olivine_geode"));
+public class OuterworldOlivineGeodeFeature implements Feature {
+	public static final MapCodec<OuterworldOlivineGeodeFeature> CODEC = MapCodec.unit(OuterworldOlivineGeodeFeature::new);
+
+	private static final ResourceKey<Feature> OLIVINE_GEODE =
+		ResourceKey.create(Registries.FEATURE, OuterWorldMod.id("olivine_geode"));
 
 	public OuterworldOlivineGeodeFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
+	public MapCodec<OuterworldOlivineGeodeFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		if (!ModDimensions.isOuterworld(world.getLevel().dimension())) {
 			return false;
 		}
-		Holder.Reference<ConfiguredFeature<?, ?>> geode = world.registryAccess()
-			.lookupOrThrow(Registries.CONFIGURED_FEATURE)
+		Holder.Reference<Feature> geode = world.registryAccess()
+			.lookupOrThrow(Registries.FEATURE)
 			.get(OLIVINE_GEODE)
 			.orElse(null);
 		if (geode == null) {
 			return false;
 		}
-		return geode.value().place(world, context.chunkGenerator(), context.random(), context.origin());
+		return geode.value().place(world, chunkGenerator, random, origin);
 	}
 }

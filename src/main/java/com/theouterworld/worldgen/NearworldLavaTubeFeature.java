@@ -5,23 +5,26 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 /**
  * Nearworld tube caves that stay buried (no floor lava). Same carving style as
  * {@link NearworldTubeCaveFeature}, kept as a separate feature for placement density.
  */
-public class NearworldLavaTubeFeature extends Feature<NoneFeatureConfiguration> {
+public class NearworldLavaTubeFeature implements Feature {
+	public static final MapCodec<NearworldLavaTubeFeature> CODEC = MapCodec.unit(NearworldLavaTubeFeature::new);
+
 	public NearworldLavaTubeFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		RandomSource random = context.random();
-		BlockPos origin = context.origin();
+	public MapCodec<NearworldLavaTubeFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		int maxX = minX + 15;

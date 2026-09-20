@@ -8,22 +8,25 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 /**
  * Occasional anorthosite surface blobs on BEYONDLANDS (Pluto) tholin crust.
  */
-public class BeyondlandsAnorthositeBlobFeature extends Feature<NoneFeatureConfiguration> {
+public class BeyondlandsAnorthositeBlobFeature implements Feature {
+	public static final MapCodec<BeyondlandsAnorthositeBlobFeature> CODEC = MapCodec.unit(BeyondlandsAnorthositeBlobFeature::new);
+
 	public BeyondlandsAnorthositeBlobFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		RandomSource random = context.random();
-		BlockPos origin = context.origin();
+	public MapCodec<BeyondlandsAnorthositeBlobFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		if (random.nextFloat() > 0.22F) {
 			return false;
 		}

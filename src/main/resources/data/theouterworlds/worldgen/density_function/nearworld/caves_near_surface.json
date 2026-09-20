@@ -2,20 +2,21 @@
 	"type": "minecraft:clamp",
 	"input": {
 		"type": "minecraft:add",
-		"argument1": 0.95,
-		"argument2": {
+		"left": 0.95,
+		"right": {
 			"type": "minecraft:mul",
-			"argument1": -0.042,
-			"argument2": {
+			"left": -0.042,
+			"right": {
 				"type": "minecraft:add",
-				"argument1": {
-					"type": "minecraft:y_clamped_gradient",
+				"left": {
+					"type": "minecraft:gradient",
 					"from_value": 64,
-					"from_y": -64,
 					"to_value": -320,
-					"to_y": 320
+					"axis": "y",
+					"from_coordinate": -64,
+					"to_coordinate": 320
 				},
-				"argument2": "theouterworlds:nearworld/surface_height"
+				"right": "theouterworlds:nearworld/surface_height"
 			}
 		}
 	},

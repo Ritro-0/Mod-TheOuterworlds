@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:ore",
+	"discard_chance_on_air_exposure": 0.75,
+	"size": 9,
+	"targets": [
+		{
+			"state": "theouterworlds:raw_hematite",
+			"target": {
+				"predicate_type": "minecraft:tag_match",
+				"tag": "theouterworlds:stone_ore_replaceables"
+			}
+		},
+		{
+			"state": "theouterworlds:raw_hematite",
+			"target": {
+				"predicate_type": "minecraft:tag_match",
+				"tag": "theouterworlds:deepslate_ore_replaceables"
+			}
+		}
+	]
+}

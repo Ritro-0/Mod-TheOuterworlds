@@ -1,16 +1,16 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"pattern": [
-		"X",
-		"#",
-		"#"
-	],
-	"key": {
-		"X": "theouterworlds:nickel_ingot",
-		"#": "#theouterworlds:sticks"
-	},
-	"result": {
-		"id": "theouterworlds:nickel_shovel",
-		"count": 1
-	}
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "#",
+    "#"
+  ],
+  "key": {
+    "X": "theouterworlds:nickel_ingot",
+    "#": "#theouterworlds:sticks"
+  },
+  "result": {
+    "id": "theouterworlds:nickel_shovel",
+    "count": 1
+  }
 }

@@ -9,6 +9,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.CookingFuel;
+import net.minecraft.world.level.storage.loot.providers.number.floats.ContextFloatProviders;
+import net.minecraft.world.level.storage.loot.providers.number.floats.ResolvableFloat;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ResolvableInt;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -17,15 +21,12 @@ import net.minecraft.util.Util;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.FireworkRocketItem;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SmithingTemplateItem;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
@@ -138,7 +139,7 @@ public class ModItems {
 
 	public static final Item REDSTEEL_SHOVEL = registerItem(
 		"redsteel_shovel",
-		key -> new ShovelItem(ModToolMaterials.REDSTEEL, 1.5F, -3.0F, new Item.Properties().setId(key))
+		key -> new Item(new Item.Properties().setId(key).shovel(ModToolMaterials.REDSTEEL, 1.5F, -3.0F))
 	);
 
 	public static final Item REDSTEEL_PICKAXE = registerItem(
@@ -148,12 +149,12 @@ public class ModItems {
 
 	public static final Item REDSTEEL_AXE = registerItem(
 		"redsteel_axe",
-		key -> new AxeItem(ModToolMaterials.REDSTEEL, 6.0F, -3.1F, new Item.Properties().setId(key))
+		key -> new Item(new Item.Properties().setId(key).axe(ModToolMaterials.REDSTEEL, 6.0F, -3.1F))
 	);
 
 	public static final Item REDSTEEL_HOE = registerItem(
 		"redsteel_hoe",
-		key -> new HoeItem(ModToolMaterials.REDSTEEL, -2.0F, -1.0F, new Item.Properties().setId(key))
+		key -> new Item(new Item.Properties().setId(key).hoe(ModToolMaterials.REDSTEEL, -2.0F, -1.0F))
 	);
 
 	public static final Item REDSTEEL_HELMET = registerItem(
@@ -203,7 +204,7 @@ public class ModItems {
 
 	public static final Item NICKEL_SHOVEL = registerItem(
 		"nickel_shovel",
-		key -> new ShovelItem(ModToolMaterials.NICKEL, 1.5F, -3.0F, new Item.Properties().setId(key))
+		key -> new Item(new Item.Properties().setId(key).shovel(ModToolMaterials.NICKEL, 1.5F, -3.0F))
 	);
 
 	public static final Item NICKEL_PICKAXE = registerItem(
@@ -213,12 +214,12 @@ public class ModItems {
 
 	public static final Item NICKEL_AXE = registerItem(
 		"nickel_axe",
-		key -> new AxeItem(ModToolMaterials.NICKEL, 6.0F, -3.1F, new Item.Properties().setId(key))
+		key -> new Item(new Item.Properties().setId(key).axe(ModToolMaterials.NICKEL, 6.0F, -3.1F))
 	);
 
 	public static final Item NICKEL_HOE = registerItem(
 		"nickel_hoe",
-		key -> new HoeItem(ModToolMaterials.NICKEL, -2.0F, -1.0F, new Item.Properties().setId(key))
+		key -> new Item(new Item.Properties().setId(key).hoe(ModToolMaterials.NICKEL, -2.0F, -1.0F))
 	);
 
 	public static final Item NICKEL_HELMET = registerItem(
@@ -371,7 +372,7 @@ public class ModItems {
 
 	public static final Item JAROSITE = registerItem(
 		"jarosite",
-		key -> new Item(new Item.Properties().setId(key).fireResistant().trimMaterial(ModTrimMaterials.JAROSITE))
+		key -> new Item(new Item.Properties().setId(key).fireResistant().trimMaterial(ModTrimMaterials.JAROSITE).component(DataComponents.COOKING_FUEL, new CookingFuel(new ResolvableInt.Constant(10000), ResolvableFloat.fromKey(ContextFloatProviders.COOKING_DEFAULT_SPEED_MULTIPLIER))))
 	);
 
 	public static final Item GRAPHITE_SHARD = registerItem(
@@ -497,7 +498,7 @@ public class ModItems {
 
 	public static final Item ROVER_POTTERY_SHERD = registerItem(
 		"rover_pottery_sherd",
-		key -> new Item(new Item.Properties().setId(key).rarity(Rarity.UNCOMMON))
+		key -> new Item(new Item.Properties().setId(key).rarity(Rarity.UNCOMMON).potPattern(com.theouterworld.registry.ModDecoratedPotPatterns.ROVER))
 	);
 
 	public static final Item ORBIT_SMITHING_TEMPLATE = registerItem(

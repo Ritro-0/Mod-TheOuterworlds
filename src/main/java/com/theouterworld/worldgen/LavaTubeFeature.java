@@ -9,23 +9,26 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 /**
  * Ancient lava tubes: long, sparse tunnels with obsidian flow-banding.
  * Rarely breach the surface; usually stay buried or meet deeper caves.
  */
-public class LavaTubeFeature extends Feature<NoneFeatureConfiguration> {
+public class LavaTubeFeature implements Feature {
+	public static final MapCodec<LavaTubeFeature> CODEC = MapCodec.unit(LavaTubeFeature::new);
+
 	public LavaTubeFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		BlockPos origin = context.origin();
-		RandomSource random = context.random();
+	public MapCodec<LavaTubeFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		int maxX = minX + 15;

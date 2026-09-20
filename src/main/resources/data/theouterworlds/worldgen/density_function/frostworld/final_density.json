@@ -1,46 +1,51 @@
 {
 	"type": "minecraft:interpolated",
-	"argument": {
+	"input": {
 		"type": "minecraft:max",
-		"argument1": {
-			"type": "minecraft:y_clamped_gradient",
+		"left": {
+			"type": "minecraft:gradient",
 			"from_value": 12,
-			"from_y": -64,
 			"to_value": -8,
-			"to_y": -50
+			"axis": "y",
+			"from_coordinate": -64,
+			"to_coordinate": -58
 		},
-		"argument2": {
+		"right": {
 			"type": "minecraft:mul",
-			"argument1": 2.5,
-			"argument2": {
+			"left": 2.5,
+			"right": {
 				"type": "minecraft:min",
-				"argument1": {
+				"left": {
 					"type": "minecraft:add",
-					"argument1": {
-						"type": "minecraft:y_clamped_gradient",
+					"left": {
+						"type": "minecraft:gradient",
 						"from_value": -64,
-						"from_y": -64,
 						"to_value": 320,
-						"to_y": 320
+						"axis": "y",
+						"from_coordinate": -64,
+						"to_coordinate": 320
 					},
-					"argument2": -91
+					"right": -91
 				},
-				"argument2": {
+				"right": {
 					"type": "minecraft:add",
-					"argument1": "theouterworlds:frostworld/surface_height",
-					"argument2": {
+					"left": "theouterworlds:frostworld/surface_height",
+					"right": {
 						"type": "minecraft:mul",
-						"argument1": -1,
-						"argument2": {
-							"type": "minecraft:y_clamped_gradient",
+						"left": -1,
+						"right": {
+							"type": "minecraft:gradient",
 							"from_value": -64,
-							"from_y": -64,
 							"to_value": 320,
-							"to_y": 320
+							"axis": "y",
+							"from_coordinate": -64,
+							"to_coordinate": 320
 						}
 					}
 				}
 			}
 		}
-	}
+	},
+	"cell_size_xz": 4,
+	"cell_size_y": 8
 }

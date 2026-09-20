@@ -21,15 +21,15 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
  * Frozen plants stop growing and drop frozen produce.
  */
 public final class CropFreeze {
-	public static final int DEFAULT_CHANCE = 5;
-	public static final int WHEAT_CHANCE = 10;
-	public static final int TORCHFLOWER_CHANCE = 3;
+	public static final int DEFAULT_CHANCE = 2;
+	public static final int WHEAT_CHANCE = 2;
+	public static final int TORCHFLOWER_CHANCE = 2;
 
 	private CropFreeze() {
 	}
 
 	public static BlockState maybeFreeze(CropBlock crop, Level level, BlockState from, BlockState vanillaTo) {
-		if (level.isClientSide() || !ModDimensions.isColdClimate(level.dimension())) {
+		if (level.isClientSide() || !ModDimensions.shouldFreezePlants(level.dimension())) {
 			return vanillaTo;
 		}
 		if (!isVanillaCrop(crop)) {
@@ -38,9 +38,10 @@ public final class CropFreeze {
 
 		int fromAge = crop.getAge(from);
 		int toAge = effectiveAge(crop, vanillaTo);
+		boolean always = ModDimensions.isAirless(level.dimension());
 		int chance = freezeChance(crop);
 		for (int age = fromAge + 1; age <= toAge; age++) {
-			if (level.getRandom().nextInt(chance) == 0) {
+			if (always || level.getRandom().nextInt(chance) == 0) {
 				return frozenState(crop, age);
 			}
 		}
@@ -48,7 +49,7 @@ public final class CropFreeze {
 	}
 
 	public static boolean tryFreezePitcherGrowth(ServerLevel level, BlockState state, BlockPos pos, int increase) {
-		if (level.isClientSide() || !ModDimensions.isColdClimate(level.dimension())) {
+		if (level.isClientSide() || !ModDimensions.shouldFreezePlants(level.dimension())) {
 			return false;
 		}
 		if (!(state.getBlock() instanceof PitcherCropBlock) || state.getBlock() instanceof FrozenPitcherCropBlock) {
@@ -61,7 +62,7 @@ public final class CropFreeze {
 			if (!canPitcherGrowTo(level, pos, age)) {
 				return false;
 			}
-			if (level.getRandom().nextInt(DEFAULT_CHANCE) == 0) {
+			if (ModDimensions.isAirless(level.dimension()) || level.getRandom().nextInt(DEFAULT_CHANCE) == 0) {
 				placeFrozenPitcher(level, pos, age);
 				return true;
 			}

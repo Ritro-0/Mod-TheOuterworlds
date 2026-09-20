@@ -1,50 +1,54 @@
 {
 	"type": "minecraft:min",
-	"argument1": {
+	"left": {
 		"type": "minecraft:squeeze",
-		"argument": {
+		"input": {
 			"type": "minecraft:interpolated",
-			"argument": {
+			"input": {
 				"type": "minecraft:mul",
-				"argument1": 0.64,
-				"argument2": {
+				"left": 0.64,
+				"right": {
 					"type": "minecraft:add",
-					"argument1": 0.1171875,
-					"argument2": {
+					"left": 0.1171875,
+					"right": {
 						"type": "minecraft:mul",
-						"argument1": {
-							"type": "minecraft:y_clamped_gradient",
+						"left": {
+							"type": "minecraft:gradient",
 							"from_value": 0.0,
-							"from_y": -64,
 							"to_value": 1.0,
-							"to_y": -40
+							"axis": "y",
+							"from_coordinate": -64,
+							"to_coordinate": -40
 						},
-						"argument2": {
+						"right": {
 							"type": "minecraft:add",
-							"argument1": -0.1171875,
-							"argument2": {
+							"left": -0.1171875,
+							"right": {
 								"type": "minecraft:min",
-								"argument1": {
-									"type": "minecraft:cache_once",
-									"argument": {
+								"left": {
+									"type": "minecraft:cache",
+									"input": {
 										"type": "minecraft:add",
-										"argument1": {
-											"type": "minecraft:y_clamped_gradient",
+										"left": {
+											"type": "minecraft:gradient",
 											"from_value": 64,
-											"from_y": -64,
 											"to_value": -320,
-											"to_y": 320
+											"axis": "y",
+											"from_coordinate": -64,
+											"to_coordinate": 320
 										},
-										"argument2": "theouterworlds:nearworld/surface_height"
+										"right": "theouterworlds:nearworld/surface_height"
 									}
 								},
-								"argument2": "theouterworlds:nearworld/caves"
+								"right": "theouterworlds:nearworld/caves"
 							}
 						}
 					}
 				}
-			}
+			},
+			"cell_size_xz": 4,
+			"cell_size_y": 8
 		}
 	},
-	"argument2": "minecraft:overworld/caves/noodle"
+	"right": "minecraft:overworld/caves/noodle"
 }

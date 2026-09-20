@@ -13,10 +13,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.util.RandomSource;
 
-public class ErgDuneFeature extends Feature<NoneFeatureConfiguration> {
+public class ErgDuneFeature implements Feature {
+	public static final MapCodec<ErgDuneFeature> CODEC = MapCodec.unit(ErgDuneFeature::new);
+
 	private static final double WIND = Math.toRadians(18.0);
 	/**
 	 * Probed at roughly the erg surface, where depth reads near zero. Surface biomes are all
@@ -30,13 +33,15 @@ public class ErgDuneFeature extends Feature<NoneFeatureConfiguration> {
 	);
 
 	public ErgDuneFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		BlockPos origin = context.origin();
+	public MapCodec<ErgDuneFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		long seed = world.getSeed();
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;

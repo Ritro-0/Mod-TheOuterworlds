@@ -1,54 +1,53 @@
 {
-	"type": "minecraft:block",
-	"functions": [
-		{
-			"function": "minecraft:explosion_decay"
-		}
-	],
-	"pools": [
-		{
-			"entries": [
-				{
-					"type": "minecraft:alternatives",
-					"children": [
-						{
-							"type": "minecraft:item",
-							"conditions": [
-								{
-									"block": "theouterworlds:frozen_pitcher_crop",
-									"condition": "minecraft:block_state_property",
-									"properties": {
-										"age": "4"
-									}
-								},
-								{
-									"block": "theouterworlds:frozen_pitcher_crop",
-									"condition": "minecraft:block_state_property",
-									"properties": {
-										"half": "lower"
-									}
-								}
-							],
-							"name": "theouterworlds:frozen_pitcher_plant"
-						},
-						{
-							"type": "minecraft:item",
-							"conditions": [
-								{
-									"block": "theouterworlds:frozen_pitcher_crop",
-									"condition": "minecraft:block_state_property",
-									"properties": {
-										"half": "lower"
-									}
-								}
-							],
-							"name": "theouterworlds:frozen_pitcher_pod"
-						}
-					]
-				}
-			],
-			"rolls": 1.0
-		}
-	],
-	"random_sequence": "theouterworlds:blocks/frozen_pitcher_crop"
+  "type": "minecraft:block",
+  "modifier": {
+    "type": "minecraft:explosion_decay"
+  },
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "condition": {
+                "type": "minecraft:all_of",
+                "terms": [
+                  {
+                    "type": "minecraft:match_block",
+                    "blocks": "theouterworlds:frozen_pitcher_crop",
+                    "state": {
+                      "age": "4"
+                    }
+                  },
+                  {
+                    "type": "minecraft:match_block",
+                    "blocks": "theouterworlds:frozen_pitcher_crop",
+                    "state": {
+                      "half": "lower"
+                    }
+                  }
+                ]
+              },
+              "name": "theouterworlds:frozen_pitcher_plant"
+            },
+            {
+              "type": "minecraft:item",
+              "condition": {
+                "type": "minecraft:match_block",
+                "blocks": "theouterworlds:frozen_pitcher_crop",
+                "state": {
+                  "half": "lower"
+                }
+              },
+              "name": "theouterworlds:frozen_pitcher_pod"
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "theouterworlds:blocks/frozen_pitcher_crop"
 }

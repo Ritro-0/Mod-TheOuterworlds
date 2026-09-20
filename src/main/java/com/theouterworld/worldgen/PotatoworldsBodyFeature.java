@@ -6,28 +6,33 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.util.RandomSource;
 
 /**
  * Places Phobos and Deimos as solid potato bodies in Potatoworlds empty space.
  * Phobos: bedrock core, thin anorthosite, 1-block regolith (bald patches + craters bare).
  * Deimos: same stack with tholin veneer and no impact craters.
  */
-public class PotatoworldsBodyFeature extends Feature<NoneFeatureConfiguration> {
+public class PotatoworldsBodyFeature implements Feature {
+	public static final MapCodec<PotatoworldsBodyFeature> CODEC = MapCodec.unit(PotatoworldsBodyFeature::new);
+
 	private static final BlockState BEDROCK = Blocks.BEDROCK.defaultBlockState();
 	private static final BlockState ANORTHOSITE = ModBlocks.ANORTHOSITE.defaultBlockState();
 	private static final BlockState REGOLITH = ModBlocks.REGOLITH.defaultBlockState();
 	private static final BlockState THOLIN = ModBlocks.THOLIN.defaultBlockState();
 
 	public PotatoworldsBodyFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		BlockPos origin = context.origin();
+	public MapCodec<PotatoworldsBodyFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		if (!PotatoworldsShape.chunkMayIntersect(minX, minZ)) {

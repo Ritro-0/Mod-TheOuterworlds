@@ -113,7 +113,7 @@ public class AerostatBalloonItem extends Item {
 		}
 		player.setDeltaMovement(after);
 		player.resetFallDistance();
-		player.hurtMarked = true;
+		player.syncVelocity = true;
 	}
 
 	@Override

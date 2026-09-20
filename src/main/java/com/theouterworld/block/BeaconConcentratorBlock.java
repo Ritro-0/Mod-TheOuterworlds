@@ -1,6 +1,5 @@
 package com.theouterworld.block;
 
-import com.mojang.serialization.MapCodec;
 import com.theouterworld.mixin.BeaconBlockEntityAccessor;
 import com.theouterworld.registry.ModBlockEntities;
 import com.theouterworld.world.BeaconConcentratorPortals;
@@ -29,7 +28,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class BeaconConcentratorBlock extends FallingBlock implements EntityBlock {
-	public static final MapCodec<BeaconConcentratorBlock> CODEC = simpleCodec(BeaconConcentratorBlock::new);
 	public static final BooleanProperty ACTIVE = BlockStateProperties.POWERED;
 
 	private static final VoxelShape SHAPE = Shapes.or(
@@ -42,11 +40,6 @@ public class BeaconConcentratorBlock extends FallingBlock implements EntityBlock
 	public BeaconConcentratorBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, false));
-	}
-
-	@Override
-	protected MapCodec<? extends FallingBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

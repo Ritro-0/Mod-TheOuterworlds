@@ -1,15 +1,15 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"pattern": [
-		"#  ",
-		"## ",
-		"###"
-	],
-	"key": {
-		"#": "theouterworlds:komatiite"
-	},
-	"result": {
-		"id": "theouterworlds:komatiite_stairs",
-		"count": 4
-	}
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": "theouterworlds:komatiite"
+  },
+  "result": {
+    "id": "theouterworlds:komatiite_stairs",
+    "count": 4
+  }
 }

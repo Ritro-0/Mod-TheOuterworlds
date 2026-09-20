@@ -1,6 +1,5 @@
 package com.theouterworld.block;
 
-import com.mojang.serialization.MapCodec;
 import com.theouterworld.world.ColdDimensionLights;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -13,15 +12,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class UnlitTorchBlock extends BaseTorchBlock {
-	public static final MapCodec<UnlitTorchBlock> CODEC = simpleCodec(UnlitTorchBlock::new);
 
 	public UnlitTorchBlock(Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	protected MapCodec<? extends BaseTorchBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

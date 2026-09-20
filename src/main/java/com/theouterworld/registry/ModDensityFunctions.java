@@ -13,7 +13,7 @@ public final class ModDensityFunctions {
 		Registry.register(
 			BuiltInRegistries.DENSITY_FUNCTION_TYPE,
 			OuterWorldMod.id("stretch_z"),
-			StretchZDensityFunction.CODEC.codec()
+			StretchZDensityFunction.CODEC
 		);
 		OuterWorldMod.LOGGER.info("Registered density functions for {}", OuterWorldMod.MOD_ID);
 	}

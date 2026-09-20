@@ -8,27 +8,32 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.util.RandomSource;
 
 /**
  * Noisy cave-like breaches through Frostworld's ice crust into the subsurface ocean.
  * Soft bowl entrances at the surface taper into irregular shafts rather than clean cuts.
  */
-public class FrostworldIceCrackFeature extends Feature<NoneFeatureConfiguration> {
+public class FrostworldIceCrackFeature implements Feature {
+	public static final MapCodec<FrostworldIceCrackFeature> CODEC = MapCodec.unit(FrostworldIceCrackFeature::new);
+
 	private static final int MAX_EXTENT = 18;
 	private static final int CELL = 110;
 	private static final double SPAWN_CHANCE = 0.18;
 	private static final int OCEAN_TOP_Y = 91;
 
 	public FrostworldIceCrackFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		BlockPos origin = context.origin();
+	public MapCodec<FrostworldIceCrackFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		return applyGrid(world, world.getSeed() + 44027L, minX, minZ, minX + 15, minZ + 15);

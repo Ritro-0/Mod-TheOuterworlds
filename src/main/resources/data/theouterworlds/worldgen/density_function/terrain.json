@@ -1,11 +1,12 @@
 {
 	"type": "minecraft:add",
-	"argument1": {
-		"type": "minecraft:y_clamped_gradient",
+	"left": {
+		"type": "minecraft:gradient",
 		"from_value": 64,
-		"from_y": -64,
 		"to_value": -320,
-		"to_y": 320
+		"axis": "y",
+		"from_coordinate": -64,
+		"to_coordinate": 320
 	},
-	"argument2": "theouterworlds:surface_height"
+	"right": "theouterworlds:surface_height"
 }

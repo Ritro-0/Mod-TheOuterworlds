@@ -1,14 +1,14 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"pattern": [
-		"###",
-		"###"
-	],
-	"key": {
-		"#": "theouterworlds:komatiite"
-	},
-	"result": {
-		"id": "theouterworlds:komatiite_wall",
-		"count": 6
-	}
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": "theouterworlds:komatiite"
+  },
+  "result": {
+    "id": "theouterworlds:komatiite_wall",
+    "count": 6
+  }
 }

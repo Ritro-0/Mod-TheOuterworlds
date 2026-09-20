@@ -1,35 +1,42 @@
 {
-	"type": "minecraft:flat_cache",
-	"argument": {
+	"type": "minecraft:cache",
+	"input": {
 		"type": "minecraft:add",
-		"argument1": "theouterworlds:nearworld/plains_height",
-		"argument2": {
+		"left": "theouterworlds:nearworld/plains_height",
+		"right": {
 			"type": "minecraft:mul",
-			"argument1": {
+			"left": {
 				"type": "minecraft:spline",
 				"spline": {
 					"coordinate": {
-						"type": "minecraft:shifted_noise",
+						"type": "minecraft:noise",
 						"noise": "minecraft:temperature",
 						"shift_x": 0.0,
-						"shift_y": 0.0,
 						"shift_z": 0.0,
 						"xz_scale": 0.25,
 						"y_scale": 0.0
 					},
 					"points": [
-						{ "location": 0.05, "derivative": 0.0, "value": 0.0 },
-						{ "location": 0.25, "derivative": 0.0, "value": 1.0 }
+						{
+							"location": 0.05,
+							"derivative": 0.0,
+							"value": 0.0
+						},
+						{
+							"location": 0.25,
+							"derivative": 0.0,
+							"value": 1.0
+						}
 					]
 				}
 			},
-			"argument2": {
+			"right": {
 				"type": "minecraft:add",
-				"argument1": "theouterworlds:nearworld/tessera_height",
-				"argument2": {
+				"left": "theouterworlds:nearworld/tessera_height",
+				"right": {
 					"type": "minecraft:mul",
-					"argument1": -1,
-					"argument2": "theouterworlds:nearworld/plains_height"
+					"left": -1,
+					"right": "theouterworlds:nearworld/plains_height"
 				}
 			}
 		}

@@ -1,156 +1,134 @@
 {
-	"type": "minecraft:block",
-	"pools": [
-		{
-			"rolls": 1.0,
-			"entries": [
-				{
-					"type": "minecraft:alternatives",
-					"children": [
-						{
-							"type": "minecraft:item",
-							"name": "theouterworlds:olivine_crystal_2",
-							"conditions": [
-								{
-									"condition": "minecraft:match_tool",
-									"predicate": {
-										"predicates": {
-											"minecraft:enchantments": [
-												{
-													"enchantments": "minecraft:silk_touch",
-													"levels": {
-														"min": 1
-													}
-												}
-											]
-										}
-									}
-								}
-							]
-						},
-						{
-							"type": "minecraft:item",
-							"name": "theouterworlds:olivine_crystal_2",
-							"conditions": [
-								{
-									"condition": "minecraft:match_tool",
-									"predicate": {
-										"predicates": {
-											"minecraft:enchantments": [
-												{
-													"enchantments": "minecraft:fortune",
-													"levels": {
-														"min": 3
-													}
-												}
-											]
-										}
-									}
-								}
-							],
-							"functions": [
-								{
-									"function": "minecraft:set_count",
-									"count": {
-										"type": "minecraft:uniform",
-										"min": 8.0,
-										"max": 12.0
-									}
-								},
-								{
-									"function": "minecraft:explosion_decay"
-								}
-							]
-						},
-						{
-							"type": "minecraft:item",
-							"name": "theouterworlds:olivine_crystal_2",
-							"conditions": [
-								{
-									"condition": "minecraft:match_tool",
-									"predicate": {
-										"predicates": {
-											"minecraft:enchantments": [
-												{
-													"enchantments": "minecraft:fortune",
-													"levels": {
-														"min": 2
-													}
-												}
-											]
-										}
-									}
-								}
-							],
-							"functions": [
-								{
-									"function": "minecraft:set_count",
-									"count": {
-										"type": "minecraft:uniform",
-										"min": 5.0,
-										"max": 10.0
-									}
-								},
-								{
-									"function": "minecraft:explosion_decay"
-								}
-							]
-						},
-						{
-							"type": "minecraft:item",
-							"name": "theouterworlds:olivine_crystal_2",
-							"conditions": [
-								{
-									"condition": "minecraft:match_tool",
-									"predicate": {
-										"predicates": {
-											"minecraft:enchantments": [
-												{
-													"enchantments": "minecraft:fortune",
-													"levels": {
-														"min": 1
-													}
-												}
-											]
-										}
-									}
-								}
-							],
-							"functions": [
-								{
-									"function": "minecraft:set_count",
-									"count": {
-										"type": "minecraft:uniform",
-										"min": 3.0,
-										"max": 8.0
-									}
-								},
-								{
-									"function": "minecraft:explosion_decay"
-								}
-							]
-						},
-						{
-							"type": "minecraft:item",
-							"name": "theouterworlds:olivine_crystal_2",
-							"functions": [
-								{
-									"function": "minecraft:set_count",
-									"count": {
-										"type": "minecraft:uniform",
-										"min": 1.0,
-										"max": 6.0
-									}
-								},
-								{
-									"function": "minecraft:explosion_decay"
-								}
-							]
-						}
-					]
-				}
-			]
-		}
-	],
-	"random_sequence": "theouterworlds:blocks/olivine_crystal_2"
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "theouterworlds:olivine_crystal_2",
+              "condition": "minecraft:tool/can_silk_touch"
+            },
+            {
+              "type": "minecraft:item",
+              "name": "theouterworlds:olivine_crystal_2",
+              "condition": {
+                "type": "minecraft:match_tool",
+                "predicate": {
+                  "predicates": {
+                    "minecraft:enchantments": [
+                      {
+                        "enchantments": "minecraft:fortune",
+                        "levels": {
+                          "min": 3
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "modifier": [
+                {
+                  "type": "minecraft:set_count",
+                  "count": {
+                    "type": "minecraft:uniform",
+                    "min": 8.0,
+                    "max": 12.0
+                  }
+                },
+                {
+                  "type": "minecraft:explosion_decay"
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "theouterworlds:olivine_crystal_2",
+              "condition": {
+                "type": "minecraft:match_tool",
+                "predicate": {
+                  "predicates": {
+                    "minecraft:enchantments": [
+                      {
+                        "enchantments": "minecraft:fortune",
+                        "levels": {
+                          "min": 2
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "modifier": [
+                {
+                  "type": "minecraft:set_count",
+                  "count": {
+                    "type": "minecraft:uniform",
+                    "min": 5.0,
+                    "max": 10.0
+                  }
+                },
+                {
+                  "type": "minecraft:explosion_decay"
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "theouterworlds:olivine_crystal_2",
+              "condition": {
+                "type": "minecraft:match_tool",
+                "predicate": {
+                  "predicates": {
+                    "minecraft:enchantments": [
+                      {
+                        "enchantments": "minecraft:fortune",
+                        "levels": {
+                          "min": 1
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "modifier": [
+                {
+                  "type": "minecraft:set_count",
+                  "count": {
+                    "type": "minecraft:uniform",
+                    "min": 3.0,
+                    "max": 8.0
+                  }
+                },
+                {
+                  "type": "minecraft:explosion_decay"
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "theouterworlds:olivine_crystal_2",
+              "modifier": [
+                {
+                  "type": "minecraft:set_count",
+                  "count": {
+                    "type": "minecraft:uniform",
+                    "min": 1.0,
+                    "max": 6.0
+                  }
+                },
+                {
+                  "type": "minecraft:explosion_decay"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "random_sequence": "theouterworlds:blocks/olivine_crystal_2"
 }

@@ -8,26 +8,31 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.util.RandomSource;
 
 /**
  * Occasional very large impact craters for Wanderlands (Ceres), with salt deposits on the floor.
  */
-public class WanderlandsCraterFeature extends Feature<NoneFeatureConfiguration> {
+public class WanderlandsCraterFeature implements Feature {
+	public static final MapCodec<WanderlandsCraterFeature> CODEC = MapCodec.unit(WanderlandsCraterFeature::new);
+
 	private static final int MAX_EXTENT = 96;
 	private static final int CELL = 192;
 	private static final double SPAWN_CHANCE = 0.42;
 	private static final int JITTER = 28;
 
 	public WanderlandsCraterFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		BlockPos origin = context.origin();
+	public MapCodec<WanderlandsCraterFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		int maxX = minX + 15;

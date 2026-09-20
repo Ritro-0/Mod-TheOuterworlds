@@ -1,8 +1,8 @@
 {
-	"type": "minecraft:stonecutting",
-	"ingredient": "theouterworlds:enstatite",
-	"result": {
-		"id": "theouterworlds:enstatite_wall",
-		"count": 1
-	}
+  "type": "minecraft:stonecutting",
+  "ingredient": "theouterworlds:enstatite",
+  "result": {
+    "id": "theouterworlds:enstatite_wall",
+    "count": 1
+  }
 }

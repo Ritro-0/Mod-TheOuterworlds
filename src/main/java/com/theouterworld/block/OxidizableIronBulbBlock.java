@@ -1,5 +1,7 @@
 package com.theouterworld.block;
 
+import net.minecraft.tags.ItemTags;
+
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -9,7 +11,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -171,7 +172,7 @@ public class OxidizableIronBulbBlock extends Block implements WeatheringCopper {
             return InteractionResult.SUCCESS;
         }
         
-        if (stack.getItem() instanceof AxeItem) {
+        if (stack.is(ItemTags.AXES)) {
             Optional<Block> previousBlock = WeatheringCopper.getPrevious(state.getBlock());
             if (previousBlock.isPresent()) {
                 if (!world.isClientSide()) {
@@ -179,7 +180,7 @@ public class OxidizableIronBulbBlock extends Block implements WeatheringCopper {
                     BlockState newState = previousBlock.get().withPropertiesOf(state);
                     world.setBlockAndUpdate(pos, newState);
                     world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(state));
-                    world.playSound(null, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                    world.playSound(null, pos, SoundEvents.AXE_SCRAPE.value(), SoundSource.BLOCKS, 1.0f, 1.0f);
                     
                     if (!player.isCreative()) {
                         stack.hurtAndBreak(1, player, player.getUsedItemHand());

@@ -173,8 +173,6 @@ public class OuterWorldMod implements ModInitializer {
 		});
 
 		CommandRegistrationCallback.EVENT.register(DustStormCommand::register);
-		// TEMP VIDEO FEATURE — delete com.theouterworld.video.patrick + this line to remove
-		com.theouterworld.video.patrick.PatrickVideo.register();
 	}
 
 	public static Identifier id(String path) {

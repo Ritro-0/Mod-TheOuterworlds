@@ -22,24 +22,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(LightningBoltRenderer.class)
 public class NearworldLightningColorMixin {
-	@Inject(method = "quad", at = @At("HEAD"), cancellable = true, require = 0)
+	@Inject(method = "quad", at = @At("HEAD"), cancellable = true)
 	private static void theouterworlds$tintLightning(
 		Matrix4fc pose,
 		VertexConsumer buffer,
-		float xo0,
-		float zo0,
-		int h,
-		float xo1,
-		float zo1,
-		float boltRed,
-		float boltGreen,
-		float boltBlue,
-		float rr1,
-		float rr2,
-		boolean px1,
-		boolean pz1,
-		boolean px2,
-		boolean pz2,
+		float segmentStartX,
+		float segmentStartZ,
+		float segmentEndX,
+		float segmentEndZ,
+		int currentSegment,
+		float topRadius,
+		float bottomRadius,
+		boolean rightXPositive,
+		boolean rightZPositive,
+		boolean leftXPositive,
+		boolean leftZPositive,
 		CallbackInfo ci
 	) {
 		Level level = Minecraft.getInstance().level;
@@ -74,10 +71,30 @@ public class NearworldLightningColorMixin {
 			return;
 		}
 
-		buffer.addVertex(pose, xo0 + (px1 ? rr2 : -rr2), h * 16, zo0 + (pz1 ? rr2 : -rr2)).setColor(r, g, b, 0.3F);
-		buffer.addVertex(pose, xo1 + (px1 ? rr1 : -rr1), (h + 1) * 16, zo1 + (pz1 ? rr1 : -rr1)).setColor(r, g, b, 0.3F);
-		buffer.addVertex(pose, xo1 + (px2 ? rr1 : -rr1), (h + 1) * 16, zo1 + (pz2 ? rr1 : -rr1)).setColor(r, g, b, 0.3F);
-		buffer.addVertex(pose, xo0 + (px2 ? rr2 : -rr2), h * 16, zo0 + (pz2 ? rr2 : -rr2)).setColor(r, g, b, 0.3F);
+		buffer.addVertex(
+			pose,
+			segmentStartX + (rightXPositive ? bottomRadius : -bottomRadius),
+			currentSegment * 16,
+			segmentStartZ + (rightZPositive ? bottomRadius : -bottomRadius)
+		).setColor(r, g, b, 0.3F);
+		buffer.addVertex(
+			pose,
+			segmentEndX + (rightXPositive ? topRadius : -topRadius),
+			(currentSegment + 1) * 16,
+			segmentEndZ + (rightZPositive ? topRadius : -topRadius)
+		).setColor(r, g, b, 0.3F);
+		buffer.addVertex(
+			pose,
+			segmentEndX + (leftXPositive ? topRadius : -topRadius),
+			(currentSegment + 1) * 16,
+			segmentEndZ + (leftZPositive ? topRadius : -topRadius)
+		).setColor(r, g, b, 0.3F);
+		buffer.addVertex(
+			pose,
+			segmentStartX + (leftXPositive ? bottomRadius : -bottomRadius),
+			currentSegment * 16,
+			segmentStartZ + (leftZPositive ? bottomRadius : -bottomRadius)
+		).setColor(r, g, b, 0.3F);
 		ci.cancel();
 	}
 }

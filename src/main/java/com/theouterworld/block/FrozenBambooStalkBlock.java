@@ -1,5 +1,7 @@
 package com.theouterworld.block;
 
+import net.minecraft.world.level.block.BonemealSource;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -32,17 +34,17 @@ public class FrozenBambooStalkBlock extends BambooStalkBlock {
 	}
 
 	@Override
-	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, BonemealSource source) {
 		return false;
 	}
 
 	@Override
-	public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
+	public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state, BonemealSource source) {
 		return false;
 	}
 
 	@Override
-	public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
+	public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state, BonemealSource source) {
 	}
 
 	@Override

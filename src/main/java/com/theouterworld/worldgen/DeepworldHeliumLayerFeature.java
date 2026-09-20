@@ -8,22 +8,29 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.FluidState;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.util.RandomSource;
 
 /**
  * Replaces the bottom liquid-hydrogen column with liquid helium sources in Deepworld.
  */
-public class DeepworldHeliumLayerFeature extends Feature<NoneFeatureConfiguration> {
+public class DeepworldHeliumLayerFeature implements Feature {
+	public static final MapCodec<DeepworldHeliumLayerFeature> CODEC = MapCodec.unit(DeepworldHeliumLayerFeature::new);
+
 	public DeepworldHeliumLayerFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel level = context.level();
-		ChunkAccess chunk = level.getChunk(context.origin());
+	public MapCodec<DeepworldHeliumLayerFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
+		WorldGenLevel level = world;
+		ChunkAccess chunk = level.getChunk(origin);
 		int minX = chunk.getPos().getMinBlockX();
 		int minZ = chunk.getPos().getMinBlockZ();
 		BlockState helium = ModBlocks.LIQUID_HELIUM.defaultBlockState();

@@ -6,26 +6,31 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.util.RandomSource;
 
 /**
  * Fills each intersecting chunk with Hyperion's ovular icy sponge body.
  * Materials follow geology: ice bulk, carbonic deposits, tholin crater floors.
  */
-public class SpongeworldBodyFeature extends Feature<NoneFeatureConfiguration> {
+public class SpongeworldBodyFeature implements Feature {
+	public static final MapCodec<SpongeworldBodyFeature> CODEC = MapCodec.unit(SpongeworldBodyFeature::new);
+
 	private static final BlockState PACKED_ICE = Blocks.PACKED_ICE.defaultBlockState();
 	private static final BlockState CARBONIC_ICE = ModBlocks.CARBONIC_ICE.defaultBlockState();
 	private static final BlockState THOLIN = ModBlocks.THOLIN.defaultBlockState();
 
 	public SpongeworldBodyFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		BlockPos origin = context.origin();
+	public MapCodec<SpongeworldBodyFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		if (!SpongeworldShape.chunkMayIntersect(minX, minZ)) {

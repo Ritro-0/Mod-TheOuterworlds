@@ -1,0 +1,61 @@
+{
+	"type": "minecraft:geode",
+	"blocks": {
+		"alternate_inner_layer_provider": {
+			"id": "theouterworlds:raw_olivine_bud"
+		},
+		"cannot_replace": "#minecraft:features_cannot_replace",
+		"filling_provider": {
+			"id": "minecraft:air"
+		},
+		"inner_layer_provider": {
+			"id": "theouterworlds:raw_olivine"
+		},
+		"inner_placements": [
+			{
+				"id": "theouterworlds:olivine_crystal_0",
+				"properties": {
+					"facing": "up",
+					"waterlogged": "false"
+				}
+			},
+			{
+				"id": "theouterworlds:olivine_crystal_1",
+				"properties": {
+					"facing": "up",
+					"waterlogged": "false"
+				}
+			},
+			{
+				"id": "theouterworlds:olivine_crystal_2",
+				"properties": {
+					"facing": "up",
+					"waterlogged": "false"
+				}
+			}
+		],
+		"invalid_blocks": "#theouterworlds:olivine_geode_invalid_blocks",
+		"middle_layer_provider": {
+			"id": "theouterworlds:raw_olivine"
+		},
+		"outer_layer_provider": {
+			"id": "theouterworlds:raw_olivine"
+		}
+	},
+	"crack": {
+		"generate_crack_chance": 0.28
+	},
+	"invalid_blocks_threshold": 1,
+	"layers": {
+		"filling": 1.4,
+		"inner_layer": 1.9,
+		"middle_layer": 2.5,
+		"outer_layer": 3.1
+	},
+	"outer_wall_distance": {
+		"type": "minecraft:uniform",
+		"max_inclusive": 4,
+		"min_inclusive": 3
+	},
+	"use_alternate_layer0_chance": 0.22
+}

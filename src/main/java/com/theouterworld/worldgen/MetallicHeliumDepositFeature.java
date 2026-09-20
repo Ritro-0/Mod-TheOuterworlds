@@ -8,27 +8,30 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.FluidState;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 /**
  * Rare thin metallic-helium lenses floating a few blocks above the iron/nickel crust
  * inside the liquid-helium ocean (size 1–3, at most 12 above metal top).
  */
-public class MetallicHeliumDepositFeature extends Feature<NoneFeatureConfiguration> {
+public class MetallicHeliumDepositFeature implements Feature {
+	public static final MapCodec<MetallicHeliumDepositFeature> CODEC = MapCodec.unit(MetallicHeliumDepositFeature::new);
+
 	private static final int MIN_ABOVE_METAL = 3;
 	private static final int MAX_ABOVE_METAL = 12;
 
 	public MetallicHeliumDepositFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		RandomSource random = context.random();
-		BlockPos origin = context.origin();
+	public MapCodec<MetallicHeliumDepositFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
 
 		int x = origin.getX() + random.nextInt(16);

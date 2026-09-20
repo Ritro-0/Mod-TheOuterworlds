@@ -1,6 +1,5 @@
 package com.theouterworld.block;
 
-import com.mojang.serialization.MapCodec;
 import com.theouterworld.screen.ForgePlateMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,7 +27,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class ForgePlateBlock extends Block {
-	public static final MapCodec<ForgePlateBlock> CODEC = simpleCodec(ForgePlateBlock::new);
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 	private static final Component TITLE = Component.translatable("container.upgrade");
 	private static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 14.0, 16.0);
@@ -36,11 +34,6 @@ public class ForgePlateBlock extends Block {
 	public ForgePlateBlock(BlockBehaviour.Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
-	}
-
-	@Override
-	protected MapCodec<? extends Block> codec() {
-		return CODEC;
 	}
 
 	@Override

@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:ore",
+	"discard_chance_on_air_exposure": 0.82,
+	"size": 5,
+	"targets": [
+		{
+			"state": "theouterworlds:raw_jarosite",
+			"target": {
+				"predicate_type": "minecraft:tag_match",
+				"tag": "theouterworlds:regolith_ore_replaceables"
+			}
+		}
+	]
+}

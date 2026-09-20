@@ -1,25 +1,33 @@
 {
 	"type": "minecraft:add",
-	"argument1": "theouterworlds:height/lowlands",
-	"argument2": {
+	"left": "theouterworlds:height/lowlands",
+	"right": {
 		"type": "minecraft:mul",
-		"argument1": {
+		"left": {
 			"type": "minecraft:spline",
 			"spline": {
 				"coordinate": "theouterworlds:climate/continents",
 				"points": [
-					{ "location": 0.25, "derivative": 0.0, "value": 0.0 },
-					{ "location": 0.45, "derivative": 0.0, "value": 1.0 }
+					{
+						"location": 0.25,
+						"derivative": 0.0,
+						"value": 0.0
+					},
+					{
+						"location": 0.45,
+						"derivative": 0.0,
+						"value": 1.0
+					}
 				]
 			}
 		},
-		"argument2": {
+		"right": {
 			"type": "minecraft:add",
-			"argument1": "theouterworlds:height/mons",
-			"argument2": {
+			"left": "theouterworlds:height/mons",
+			"right": {
 				"type": "minecraft:mul",
-				"argument1": -1,
-				"argument2": "theouterworlds:height/lowlands"
+				"left": -1,
+				"right": "theouterworlds:height/lowlands"
 			}
 		}
 	}

@@ -1,13 +1,13 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"pattern": [
-		"###"
-	],
-	"key": {
-		"#": "theouterworlds:norite"
-	},
-	"result": {
-		"id": "theouterworlds:norite_slab",
-		"count": 6
-	}
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": "theouterworlds:norite"
+  },
+  "result": {
+    "id": "theouterworlds:norite_slab",
+    "count": 6
+  }
 }

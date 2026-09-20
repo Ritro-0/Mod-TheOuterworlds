@@ -1,20 +1,18 @@
 {
-	"type": "minecraft:block",
-	"pools": [
-		{
-			"conditions": [
-				{
-					"condition": "minecraft:survives_explosion"
-				}
-			],
-			"entries": [
-				{
-					"type": "minecraft:item",
-					"name": "theouterworlds:frozen_birch_sapling"
-				}
-			],
-			"rolls": 1.0
-		}
-	],
-	"random_sequence": "theouterworlds:blocks/frozen_birch_sapling"
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "theouterworlds:frozen_birch_sapling"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "theouterworlds:blocks/frozen_birch_sapling"
 }

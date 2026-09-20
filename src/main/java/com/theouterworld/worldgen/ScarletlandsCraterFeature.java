@@ -8,27 +8,32 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.util.RandomSource;
 
 /**
  * Spaced impact craters of mixed sizes on SCARLETLANDS (Makemake).
  * Floors expose blue ice; rims stay methane ice with occasional tholin.
  */
-public class ScarletlandsCraterFeature extends Feature<NoneFeatureConfiguration> {
+public class ScarletlandsCraterFeature implements Feature {
+	public static final MapCodec<ScarletlandsCraterFeature> CODEC = MapCodec.unit(ScarletlandsCraterFeature::new);
+
 	private static final int MAX_EXTENT = 112;
 	private static final int CELL = 280;
 	private static final double SPAWN_CHANCE = 0.16;
 	private static final int JITTER = 36;
 
 	public ScarletlandsCraterFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		BlockPos origin = context.origin();
+	public MapCodec<ScarletlandsCraterFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		int maxX = minX + 15;

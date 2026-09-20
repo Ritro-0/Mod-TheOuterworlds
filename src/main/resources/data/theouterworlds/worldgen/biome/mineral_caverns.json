@@ -1,59 +1,66 @@
 {
-	"carvers": [],
-	"downfall": 0,
-	"effects": {
-		"fog_color": 13814204,
-		"sky_color": 13752118,
-		"water_color": 10053171,
-		"water_fog_color": 6697730
-	},
-	"features": [
-		[],
-		[],
-		[
-			"theouterworlds:gypsum_cluster"
-		],
-		[],
-		[],
-		[],
-		[
-			"theouterworlds:anorthosite_oxidized_iron_ore",
-			"theouterworlds:anorthosite_oxidized_iron_ore_middle",
-			"theouterworlds:anorthosite_oxidized_iron_ore_extra_deep",
-			"theouterworlds:anorthosite_copper_ore",
-			"theouterworlds:anorthosite_gold_ore",
-			"theouterworlds:anorthosite_redstone_ore",
-			"theouterworlds:anorthosite_redstone_ore_lower",
-			"theouterworlds:raw_hematite",
-			"theouterworlds:olivine_geode",
-			"theouterworlds:raw_perchlorate",
-			"theouterworlds:oxidized_basalt_opal_ore",
-			"theouterworlds:anorthosite_opal_ore",
-			"theouterworlds:anorthosite_nickel_ore",
-			"theouterworlds:anorthosite_nickel_ore_buried",
-			"theouterworlds:raw_jarosite"
-		],
-		[
-			"theouterworlds:small_gypsum_cluster",
-			"theouterworlds:gypsum_spike",
-			"theouterworlds:lava_tube",
-			"theouterworlds:kharax_pillar"
-		],
-		[],
-		[],
-		[]
-	],
-	"has_precipitation": false,
-	"spawn_costs": {},
-	"spawners": {
-		"ambient": [],
-		"axolotls": [],
-		"creature": [],
-		"misc": [],
-		"monster": [],
-		"underground_water_creature": [],
-		"water_ambient": [],
-		"water_creature": []
-	},
-	"temperature": 0.6
+  "attributes": {
+    "minecraft:visual/fog_color": "#d2c9bc",
+    "minecraft:visual/sky_color": "#d15736",
+    "minecraft:visual/water_fog_color": "#663302",
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "ambient": [],
+          "axolotls": [],
+          "creature": [],
+          "misc": [],
+          "monster": [],
+          "underground_water_creature": [],
+          "water_ambient": [],
+          "water_creature": []
+        }
+      },
+      "modifier": "overlay"
+    }
+  },
+  "carvers": [],
+  "downfall": 0,
+  "effects": {
+    "water_color": "#996633"
+  },
+  "features": [
+    [],
+    [],
+    [
+      "theouterworlds:gypsum_cluster"
+    ],
+    [],
+    [],
+    [],
+    [
+      "theouterworlds:anorthosite_oxidized_iron_ore",
+      "theouterworlds:anorthosite_oxidized_iron_ore_middle",
+      "theouterworlds:anorthosite_oxidized_iron_ore_extra_deep",
+      "theouterworlds:anorthosite_copper_ore",
+      "theouterworlds:anorthosite_gold_ore",
+      "theouterworlds:anorthosite_redstone_ore",
+      "theouterworlds:anorthosite_redstone_ore_lower",
+      "theouterworlds:raw_hematite",
+      "theouterworlds:olivine_geode",
+      "theouterworlds:raw_perchlorate",
+      "theouterworlds:oxidized_basalt_opal_ore",
+      "theouterworlds:anorthosite_opal_ore",
+      "theouterworlds:anorthosite_nickel_ore",
+      "theouterworlds:anorthosite_nickel_ore_buried",
+      "theouterworlds:raw_jarosite"
+    ],
+    [
+      "theouterworlds:small_gypsum_cluster",
+      "theouterworlds:gypsum_spike",
+      "theouterworlds:lava_tube",
+      "theouterworlds:kharax_pillar"
+    ],
+    [],
+    [],
+    []
+  ],
+  "has_precipitation": false,
+  "temperature": 0.6
 }

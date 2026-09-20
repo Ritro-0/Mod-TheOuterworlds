@@ -49,7 +49,7 @@ public class AstralTelescopeRenderer implements BlockEntityRenderer<AstralTelesc
 		poseStack.pushPose();
 		poseStack.translate(0.5F, 0.0F, 0.5F);
 		// Align OBJ (NW) → north, then rotate so FACING is the look direction.
-		poseStack.mulPose(Axis.YP.rotationDegrees(-state.facing.toYRot() + 180.0F + MODEL_YAW_OFFSET));
+		poseStack.rotateDegrees(Axis.YP, -state.facing.toYRot() + 180.0F + MODEL_YAW_OFFSET);
 
 		int light = state.lightCoords;
 		int overlay = OverlayTexture.NO_OVERLAY;

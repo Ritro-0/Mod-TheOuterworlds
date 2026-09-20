@@ -1,5 +1,7 @@
 package com.theouterworld.block;
 
+import net.minecraft.world.level.block.BonemealSource;
+
 import com.theouterworld.OuterWorldMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -26,7 +28,7 @@ public class FrozenTorchflowerCropBlock extends TorchflowerCropBlock {
 	}
 
 	@Override
-	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, BonemealSource source) {
 		return false;
 	}
 

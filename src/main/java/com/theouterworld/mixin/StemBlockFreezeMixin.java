@@ -9,7 +9,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.StemBlock;
+import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -56,7 +58,7 @@ public class StemBlockFreezeMixin {
 		cancellable = true,
 		require = 1
 	)
-	private void theouterworlds$freezeStemBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state, CallbackInfo ci) {
+	private void theouterworlds$freezeStemBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state, BonemealSource source, CallbackInfo ci) {
 		if (!PlantFreeze.inCold(level) || (Object) this instanceof FrozenStemBlock) {
 			return;
 		}

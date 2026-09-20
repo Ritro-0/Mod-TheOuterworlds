@@ -39,8 +39,8 @@ public class OpalineNickelFlailRenderer extends EntityRenderer<OpalineNickelFlai
 	}
 
 	@Override
-	protected AABB getBoundingBoxForCulling(OpalineNickelFlailEntity entity) {
-		AABB box = super.getBoundingBoxForCulling(entity);
+	protected AABB getBoundingBoxForCulling(OpalineNickelFlailEntity entity, float partialTicks) {
+		AABB box = super.getBoundingBoxForCulling(entity, partialTicks);
 		Entity owner = entity.getOwner();
 		if (owner != null) {
 			return box.minmax(owner.getBoundingBox());
@@ -94,7 +94,7 @@ public class OpalineNickelFlailRenderer extends EntityRenderer<OpalineNickelFlai
 
 		HumanoidArm arm = getHoldingArm(player, thrownHand);
 		float armSign = arm == HumanoidArm.RIGHT ? 1.0F : -1.0F;
-		float swing = player.getAttackAnim(tickProgress);
+		float swing = player.getSwingAnimation(tickProgress);
 		float bob = Mth.sin(Mth.sqrt(swing) * (float) Math.PI);
 
 		Minecraft minecraft = Minecraft.getInstance();
@@ -141,9 +141,9 @@ public class OpalineNickelFlailRenderer extends EntityRenderer<OpalineNickelFlai
 	@Override
 	public void submit(FlailRenderState state, PoseStack poseStack, SubmitNodeCollector queue, CameraRenderState camera) {
 		poseStack.pushPose();
-		poseStack.mulPose(Axis.YP.rotationDegrees(-state.yRot));
-		poseStack.mulPose(Axis.XP.rotationDegrees(state.xRot));
-		poseStack.mulPose(Axis.YP.rotationDegrees(state.spin));
+		poseStack.rotateDegrees(Axis.YP, -state.yRot);
+		poseStack.rotateDegrees(Axis.XP, state.xRot);
+		poseStack.rotateDegrees(Axis.YP, state.spin);
 		poseStack.translate(0.0F, -0.15F, 0.0F);
 		poseStack.scale(1.6F, 1.6F, 1.6F);
 

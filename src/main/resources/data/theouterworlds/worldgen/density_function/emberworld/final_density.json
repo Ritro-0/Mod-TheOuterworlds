@@ -1,35 +1,36 @@
 {
 	"type": "minecraft:interpolated",
-	"argument": {
+	"input": {
 		"type": "minecraft:add",
-		"argument1": {
-			"type": "minecraft:y_clamped_gradient",
+		"left": {
+			"type": "minecraft:gradient",
 			"from_value": 64,
-			"from_y": -64,
 			"to_value": -320,
-			"to_y": 320
+			"axis": "y",
+			"from_coordinate": -64,
+			"to_coordinate": 320
 		},
-		"argument2": {
-			"type": "minecraft:flat_cache",
-			"argument": {
+		"right": {
+			"type": "minecraft:cache",
+			"input": {
 				"type": "minecraft:add",
-				"argument1": 70,
-				"argument2": {
+				"left": 70,
+				"right": {
 					"type": "minecraft:add",
-					"argument1": {
+					"left": {
 						"type": "minecraft:mul",
-						"argument1": 10,
-						"argument2": {
+						"left": 10,
+						"right": {
 							"type": "minecraft:noise",
 							"noise": "minecraft:surface",
 							"xz_scale": 0.28,
 							"y_scale": 0.0
 						}
 					},
-					"argument2": {
+					"right": {
 						"type": "minecraft:mul",
-						"argument1": 4,
-						"argument2": {
+						"left": 4,
+						"right": {
 							"type": "minecraft:noise",
 							"noise": "minecraft:erosion",
 							"xz_scale": 0.42,
@@ -39,5 +40,7 @@
 				}
 			}
 		}
-	}
+	},
+	"cell_size_xz": 4,
+	"cell_size_y": 8
 }

@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.level.GameType;
 
 import java.util.HashMap;
@@ -89,10 +90,24 @@ public final class SunDeathSequence {
 
 		if (ticks >= KILL_AT) {
 			TICKS_ON_SUN.remove(player.getUUID());
-			player.hurtServer(level, player.damageSources().source(ModDamageTypes.SOLAR_DISSOLUTION), Float.MAX_VALUE);
-			if (player.isAlive()) {
-				player.kill(level);
-			}
+			dissolve(player, level);
+		}
+	}
+
+	/**
+	 * Dimension-change / client-load invulnerability blocks {@code hurtServer} after a portal
+	 * hop, so punchline can show while the player never dies. Clear that window and force death.
+	 */
+	private static void dissolve(ServerPlayer player, ServerLevel level) {
+		if (player.isChangingDimension()) {
+			player.hasChangedDimension();
+		}
+		player.setInvulnerableTime(0);
+		DamageSource source = player.damageSources().source(ModDamageTypes.SOLAR_DISSOLUTION);
+		player.hurtServer(level, source, Float.MAX_VALUE);
+		if (player.isAlive()) {
+			player.setHealth(0.0F);
+			player.die(source);
 		}
 	}
 }

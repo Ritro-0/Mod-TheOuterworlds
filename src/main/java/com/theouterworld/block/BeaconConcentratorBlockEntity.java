@@ -166,7 +166,7 @@ public class BeaconConcentratorBlockEntity extends BlockEntity {
 			Vec3 velocity = player.getDeltaMovement();
 			player.setDeltaMovement(velocity.x * 0.55, Math.max(velocity.y, LAUNCH_SPEED), velocity.z * 0.55);
 			player.resetFallDistance();
-			player.hurtMarked = true;
+			player.syncVelocity = true;
 
 			double targetY = ride.highEntry ? ride.entryY + HIGH_ENTRY_EXTRA_Y : DEFAULT_TARGET_Y;
 			if (player.getY() >= targetY) {

@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:ore",
+	"discard_chance_on_air_exposure": 0.0,
+	"size": 10,
+	"targets": [
+		{
+			"state": "theouterworlds:enstatite_diamond_ore",
+			"target": {
+				"predicate_type": "minecraft:block_match",
+				"block": "theouterworlds:enstatite"
+			}
+		},
+		{
+			"state": "theouterworlds:komatiite_diamond_ore",
+			"target": {
+				"predicate_type": "minecraft:block_match",
+				"block": "theouterworlds:komatiite"
+			}
+		}
+	]
+}

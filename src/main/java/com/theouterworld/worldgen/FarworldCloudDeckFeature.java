@@ -9,31 +9,35 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.synth.ImprovedNoise;
+import net.minecraft.world.level.levelgen.synth.PerlinNoise;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 /**
  * Farworld: methane-only layered decks — sparse below, denser mid, dense on top.
  */
-public class FarworldCloudDeckFeature extends Feature<NoneFeatureConfiguration> {
+public class FarworldCloudDeckFeature implements Feature {
+	public static final MapCodec<FarworldCloudDeckFeature> CODEC = MapCodec.unit(FarworldCloudDeckFeature::new);
+
 	public FarworldCloudDeckFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel level = context.level();
-		BlockPos origin = context.origin();
-		RandomSource random = context.random();
+	public MapCodec<FarworldCloudDeckFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
+		WorldGenLevel level = world;
 		ChunkAccess chunk = level.getChunk(origin);
 		int minX = chunk.getPos().getMinBlockX();
 		int minZ = chunk.getPos().getMinBlockZ();
 		long seed = level.getSeed();
 
-		ImprovedNoise lowerNoise = new ImprovedNoise(RandomSource.create(seed ^ 0xF4A1C0DEL));
-		ImprovedNoise midNoise = new ImprovedNoise(RandomSource.create(seed ^ 0xA33041F4L));
-		ImprovedNoise upperNoise = new ImprovedNoise(RandomSource.create(seed ^ 0xC10D07F4L));
+		PerlinNoise lowerNoise = new PerlinNoise(RandomSource.create(seed ^ 0xF4A1C0DEL));
+		PerlinNoise midNoise = new PerlinNoise(RandomSource.create(seed ^ 0xA33041F4L));
+		PerlinNoise upperNoise = new PerlinNoise(RandomSource.create(seed ^ 0xC10D07F4L));
 
 		BlockState methane = ModBlocks.METHANE_CLOUD.defaultBlockState();
 
@@ -55,7 +59,7 @@ public class FarworldCloudDeckFeature extends Feature<NoneFeatureConfiguration> 
 	private static void paintBand(
 		WorldGenLevel level,
 		RandomSource random,
-		ImprovedNoise noise,
+		PerlinNoise noise,
 		int minX,
 		int minZ,
 		int y0,
@@ -69,7 +73,7 @@ public class FarworldCloudDeckFeature extends Feature<NoneFeatureConfiguration> 
 			for (int dz = 0; dz < 16; dz++) {
 				int x = minX + dx;
 				int z = minZ + dz;
-				double bank = noise.noise(x * xzScale, 0.0, z * xzScale);
+				double bank = noise.get(x * xzScale, 0.0, z * xzScale);
 				if (bank < threshold) {
 					continue;
 				}
@@ -80,7 +84,7 @@ public class FarworldCloudDeckFeature extends Feature<NoneFeatureConfiguration> 
 
 				for (int y = base; y < base + puffHeight; y++) {
 					double vertical = 1.0 - Math.abs((y - (base + puffHeight * 0.5)) / (puffHeight * 0.55));
-					double detail = noise.noise(x * xzScale * 2.4, y * 0.08, z * xzScale * 2.4);
+					double detail = noise.get(x * xzScale * 2.4, y * 0.08, z * xzScale * 2.4);
 					if (vertical * edge + detail * 0.25 < 0.15) {
 						continue;
 					}

@@ -8,14 +8,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.util.RandomSource;
 
 /**
  * Impact craters for the Innerworld (Mercury) highlands.
  * Radii 5–50, non-overlapping, with subdued rims rather than lunar walls.
  */
-public class InnerworldCraterFeature extends Feature<NoneFeatureConfiguration> {
+public class InnerworldCraterFeature implements Feature {
+	public static final MapCodec<InnerworldCraterFeature> CODEC = MapCodec.unit(InnerworldCraterFeature::new);
+
 	private static final int MAX_EXTENT = 64;
 	/** Denser crater field; radius is clamped so bowls never overlap. */
 	private static final int CELL = 100;
@@ -23,13 +26,15 @@ public class InnerworldCraterFeature extends Feature<NoneFeatureConfiguration> {
 	private static final int JITTER = 5;
 
 	public InnerworldCraterFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		BlockPos origin = context.origin();
+	public MapCodec<InnerworldCraterFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		int maxX = minX + 15;

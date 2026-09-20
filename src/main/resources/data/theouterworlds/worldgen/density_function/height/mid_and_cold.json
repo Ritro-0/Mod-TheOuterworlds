@@ -1,25 +1,33 @@
 {
 	"type": "minecraft:add",
-	"argument1": "theouterworlds:height/inland",
-	"argument2": {
+	"left": "theouterworlds:height/inland",
+	"right": {
 		"type": "minecraft:mul",
-		"argument1": {
+		"left": {
 			"type": "minecraft:spline",
 			"spline": {
 				"coordinate": "theouterworlds:climate/temperature",
 				"points": [
-					{ "location": -0.52, "derivative": 0.0, "value": 1.0 },
-					{ "location": -0.28, "derivative": 0.0, "value": 0.0 }
+					{
+						"location": -0.52,
+						"derivative": 0.0,
+						"value": 1.0
+					},
+					{
+						"location": -0.28,
+						"derivative": 0.0,
+						"value": 0.0
+					}
 				]
 			}
 		},
-		"argument2": {
+		"right": {
 			"type": "minecraft:add",
-			"argument1": "theouterworlds:height/cryocaps",
-			"argument2": {
+			"left": "theouterworlds:height/cryocaps",
+			"right": {
 				"type": "minecraft:mul",
-				"argument1": -1,
-				"argument2": "theouterworlds:height/inland"
+				"left": -1,
+				"right": "theouterworlds:height/inland"
 			}
 		}
 	}

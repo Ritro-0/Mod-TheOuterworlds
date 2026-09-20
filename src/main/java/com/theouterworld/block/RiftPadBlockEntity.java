@@ -7,6 +7,7 @@ import com.theouterworld.world.EdgeworldLayers;
 import com.theouterworld.world.FarworldLayers;
 import com.theouterworld.world.HighworldLayers;
 import com.theouterworld.world.RiftPadLinksSavedData;
+import com.theouterworld.world.SunArrival;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
@@ -167,6 +168,9 @@ public class RiftPadBlockEntity extends BlockEntity {
 			TeleportTransition.PLAY_PORTAL_SOUND
 		));
 		destWorld.playSound(null, destPadPos, SoundEvents.BEACON_DEACTIVATE, SoundSource.BLOCKS, 0.9F, 1.2F);
+		if (ModDimensions.isSun(destKey)) {
+			SunArrival.onArrived(player);
+		}
 	}
 
 	private static BlockPos placeDestinationPad(ServerLevel destWorld, BlockPos sourcePos, Direction facing) {

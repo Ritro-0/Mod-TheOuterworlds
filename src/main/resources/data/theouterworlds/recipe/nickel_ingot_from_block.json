@@ -1,10 +1,10 @@
 {
-	"type": "minecraft:crafting_shapeless",
-	"ingredients": [
-		"theouterworlds:nickel_block"
-	],
-	"result": {
-		"id": "theouterworlds:nickel_ingot",
-		"count": 9
-	}
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "theouterworlds:nickel_block"
+  ],
+  "result": {
+    "id": "theouterworlds:nickel_ingot",
+    "count": 9
+  }
 }

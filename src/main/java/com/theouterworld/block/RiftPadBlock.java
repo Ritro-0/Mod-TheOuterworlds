@@ -1,6 +1,5 @@
 package com.theouterworld.block;
 
-import com.mojang.serialization.MapCodec;
 import com.theouterworld.registry.ModBlockEntities;
 import com.theouterworld.registry.ModDimensions;
 import com.theouterworld.screen.RiftPadMenu;
@@ -33,7 +32,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class RiftPadBlock extends BaseEntityBlock {
-	public static final MapCodec<RiftPadBlock> CODEC = simpleCodec(RiftPadBlock::new);
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 	private static final Component TITLE = Component.translatable("container.theouterworlds.rift_pad");
 	private static final Component WRONG_DIMENSION = Component.translatable("gui.theouterworlds.rift_pad.wrong_dimension");
@@ -47,11 +45,6 @@ public class RiftPadBlock extends BaseEntityBlock {
 	public RiftPadBlock(Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
-	}
-
-	@Override
-	protected MapCodec<? extends BaseEntityBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

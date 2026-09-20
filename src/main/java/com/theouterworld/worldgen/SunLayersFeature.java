@@ -7,25 +7,30 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.util.RandomSource;
 
 /**
  * Flat solar crust: bedrock → 200 lava → 50 solar plasma (source), forever.
  */
-public class SunLayersFeature extends Feature<NoneFeatureConfiguration> {
+public class SunLayersFeature implements Feature {
+	public static final MapCodec<SunLayersFeature> CODEC = MapCodec.unit(SunLayersFeature::new);
+
 	private static final BlockState BEDROCK = Blocks.BEDROCK.defaultBlockState();
 	private static final BlockState LAVA = Blocks.LAVA.defaultBlockState();
 	private static final BlockState PLASMA = ModBlocks.SOLAR_PLASMA.defaultBlockState();
 
 	public SunLayersFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		BlockPos origin = context.origin();
+	public MapCodec<SunLayersFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		int minY = world.getMinY();

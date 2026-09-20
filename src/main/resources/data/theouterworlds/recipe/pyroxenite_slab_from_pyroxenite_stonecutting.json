@@ -1,8 +1,8 @@
 {
-	"type": "minecraft:stonecutting",
-	"ingredient": "theouterworlds:pyroxenite",
-	"result": {
-		"id": "theouterworlds:pyroxenite_slab",
-		"count": 2
-	}
+  "type": "minecraft:stonecutting",
+  "ingredient": "theouterworlds:pyroxenite",
+  "result": {
+    "id": "theouterworlds:pyroxenite_slab",
+    "count": 2
+  }
 }

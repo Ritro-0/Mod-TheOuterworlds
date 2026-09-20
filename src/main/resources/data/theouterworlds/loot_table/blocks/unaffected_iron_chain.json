@@ -6,15 +6,12 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:chain"
+          "name": "minecraft:iron_chain"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ]
 }
-

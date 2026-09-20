@@ -1,21 +1,24 @@
 {
 	"type": "minecraft:min",
-	"argument1": {
+	"left": {
 		"type": "minecraft:interpolated",
-		"argument": {
+		"input": {
 			"type": "minecraft:add",
-			"argument1": {
-				"type": "minecraft:y_clamped_gradient",
+			"left": {
+				"type": "minecraft:gradient",
 				"from_value": 64,
-				"from_y": -64,
 				"to_value": -320,
-				"to_y": 320
+				"axis": "y",
+				"from_coordinate": -64,
+				"to_coordinate": 320
 			},
-			"argument2": {
-				"type": "minecraft:flat_cache",
-				"argument": "theouterworlds:innerworld/terrain_height"
+			"right": {
+				"type": "minecraft:cache",
+				"input": "theouterworlds:innerworld/terrain_height"
 			}
-		}
+		},
+		"cell_size_xz": 4,
+		"cell_size_y": 8
 	},
-	"argument2": "minecraft:overworld/caves/noodle"
+	"right": "minecraft:overworld/caves/noodle"
 }

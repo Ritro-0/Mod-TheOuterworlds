@@ -1,7 +1,7 @@
 {
-	"asset_name": "olivine",
 	"description": {
 		"color": "#0F7228",
 		"translate": "trim_material.theouterworlds.olivine"
-	}
+	},
+	"palette_id": "theouterworlds:trim/olivine"
 }

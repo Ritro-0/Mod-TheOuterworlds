@@ -1,7 +1,7 @@
 {
-	"asset_name": "jarosite",
 	"description": {
 		"color": "#C4A028",
 		"translate": "trim_material.theouterworlds.jarosite"
-	}
+	},
+	"palette_id": "theouterworlds:trim/jarosite"
 }

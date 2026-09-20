@@ -1,11 +1,11 @@
 {
 	"type": "minecraft:add",
-	"argument1": {
+	"left": {
 		"type": "minecraft:clamp",
 		"input": {
 			"type": "minecraft:add",
-			"argument1": 0.22,
-			"argument2": {
+			"left": 0.22,
+			"right": {
 				"type": "minecraft:noise",
 				"noise": "minecraft:cave_cheese",
 				"xz_scale": 0.5,
@@ -15,24 +15,25 @@
 		"max": 1.0,
 		"min": -1.0
 	},
-	"argument2": {
+	"right": {
 		"type": "minecraft:clamp",
 		"input": {
 			"type": "minecraft:add",
-			"argument1": 1.5,
-			"argument2": {
+			"left": 1.5,
+			"right": {
 				"type": "minecraft:mul",
-				"argument1": -0.64,
-				"argument2": {
+				"left": -0.64,
+				"right": {
 					"type": "minecraft:add",
-					"argument1": {
-						"type": "minecraft:y_clamped_gradient",
+					"left": {
+						"type": "minecraft:gradient",
 						"from_value": 64,
-						"from_y": -64,
 						"to_value": -320,
-						"to_y": 320
+						"axis": "y",
+						"from_coordinate": -64,
+						"to_coordinate": 320
 					},
-					"argument2": "theouterworlds:nearworld/surface_height"
+					"right": "theouterworlds:nearworld/surface_height"
 				}
 			}
 		},

@@ -1,20 +1,18 @@
 {
-	"type": "minecraft:block",
-	"functions": [
-		{
-			"function": "minecraft:explosion_decay"
-		}
-	],
-	"pools": [
-		{
-			"entries": [
-				{
-					"type": "minecraft:item",
-					"name": "theouterworlds:frozen_torchflower_seeds"
-				}
-			],
-			"rolls": 1.0
-		}
-	],
-	"random_sequence": "theouterworlds:blocks/frozen_torchflower_crop"
+  "type": "minecraft:block",
+  "modifier": {
+    "type": "minecraft:explosion_decay"
+  },
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "theouterworlds:frozen_torchflower_seeds"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "theouterworlds:blocks/frozen_torchflower_crop"
 }

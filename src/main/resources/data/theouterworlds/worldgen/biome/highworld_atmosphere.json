@@ -1,46 +1,53 @@
 {
-	"carvers": [],
-	"downfall": 0,
-	"effects": {
-		"fog_color": 13214247,
-		"sky_color": 9136404,
-		"water_color": 11056127,
-		"water_fog_color": 329011,
-		"particle": {
-			"options": {
-				"type": "minecraft:cloud"
-			},
-			"probability": 0.002
-		}
-	},
-	"features": [
-		[
-			"theouterworlds:highworld_cloud_deck"
-		],
-		[],
-		[],
-		[],
-		[],
-		[],
-		[],
-		[
-			"theouterworlds:metallic_hydrogen_deposit"
-		],
-		[],
-		[],
-		[]
-	],
-	"has_precipitation": false,
-	"spawn_costs": {},
-	"spawners": {
-		"ambient": [],
-		"axolotls": [],
-		"creature": [],
-		"misc": [],
-		"monster": [],
-		"underground_water_creature": [],
-		"water_ambient": [],
-		"water_creature": []
-	},
-	"temperature": 0.2
+  "attributes": {
+    "minecraft:visual/fog_color": "#c9a227",
+    "minecraft:visual/sky_color": "#8b6914",
+    "minecraft:visual/water_fog_color": "#050533",
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "ambient": [],
+          "axolotls": [],
+          "creature": [],
+          "misc": [],
+          "monster": [],
+          "underground_water_creature": [],
+          "water_ambient": [],
+          "water_creature": []
+        }
+      },
+      "modifier": "overlay"
+    }
+  },
+  "carvers": [],
+  "downfall": 0,
+  "effects": {
+    "water_color": "#a8b3ff",
+    "particle": {
+      "options": {
+        "type": "minecraft:cloud"
+      },
+      "probability": 0.002
+    }
+  },
+  "features": [
+    [
+      "theouterworlds:highworld_cloud_deck"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "theouterworlds:metallic_hydrogen_deposit"
+    ],
+    [],
+    [],
+    []
+  ],
+  "has_precipitation": false,
+  "temperature": 0.2
 }

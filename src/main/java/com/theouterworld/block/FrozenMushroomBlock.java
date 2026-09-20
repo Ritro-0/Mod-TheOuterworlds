@@ -1,5 +1,7 @@
 package com.theouterworld.block;
 
+import net.minecraft.world.level.block.BonemealSource;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -8,10 +10,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.MushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 
 public class FrozenMushroomBlock extends MushroomBlock {
-	public FrozenMushroomBlock(ResourceKey<ConfiguredFeature<?, ?>> feature, Properties properties) {
+	public FrozenMushroomBlock(ResourceKey<Feature> feature, Properties properties) {
 		super(feature, properties);
 	}
 
@@ -30,16 +32,16 @@ public class FrozenMushroomBlock extends MushroomBlock {
 	}
 
 	@Override
-	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, BonemealSource source) {
 		return false;
 	}
 
 	@Override
-	public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
+	public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state, BonemealSource source) {
 		return false;
 	}
 
 	@Override
-	public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
+	public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state, BonemealSource source) {
 	}
 }

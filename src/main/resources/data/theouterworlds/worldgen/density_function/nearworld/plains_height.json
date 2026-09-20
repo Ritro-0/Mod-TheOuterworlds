@@ -1,22 +1,22 @@
 {
 	"type": "minecraft:add",
-	"argument1": 70,
-	"argument2": {
+	"left": 70,
+	"right": {
 		"type": "minecraft:add",
-		"argument1": {
+		"left": {
 			"type": "minecraft:mul",
-			"argument1": 10.0,
-			"argument2": {
+			"left": 10.0,
+			"right": {
 				"type": "minecraft:noise",
 				"noise": "theouterworlds:nearworld_plains",
 				"xz_scale": 0.72,
 				"y_scale": 0.0
 			}
 		},
-		"argument2": {
+		"right": {
 			"type": "minecraft:mul",
-			"argument1": 4.0,
-			"argument2": {
+			"left": 4.0,
+			"right": {
 				"type": "minecraft:noise",
 				"noise": "minecraft:surface",
 				"xz_scale": 1.15,

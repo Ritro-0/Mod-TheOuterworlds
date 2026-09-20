@@ -7,23 +7,21 @@
         {
           "type": "minecraft:item",
           "name": "theouterworlds:waxed_weathered_cut_iron_slab",
-          "functions": [
+          "modifier": [
             {
-              "function": "minecraft:set_count",
-              "conditions": [
-                {
-                  "condition": "minecraft:block_state_property",
-                  "block": "theouterworlds:waxed_weathered_cut_iron_slab",
-                  "properties": {
-                    "type": "double"
-                  }
+              "type": "minecraft:set_count",
+              "condition": {
+                "type": "minecraft:match_block",
+                "blocks": "theouterworlds:waxed_weathered_cut_iron_slab",
+                "state": {
+                  "type": "double"
                 }
-              ],
+              },
               "count": 2,
               "add": false
             },
             {
-              "function": "minecraft:explosion_decay"
+              "type": "minecraft:explosion_decay"
             }
           ]
         }
@@ -31,4 +29,3 @@
     }
   ]
 }
-

@@ -1,12 +1,12 @@
 {
-	"type": "minecraft:crafting_shapeless",
-	"category": "equipment",
-	"ingredients": [
-		"theouterworlds:broken_emergency_return_pod",
-		"theouterworlds:opaline_nickel"
-	],
-	"result": {
-		"id": "theouterworlds:emergency_return_pod",
-		"count": 1
-	}
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "theouterworlds:broken_emergency_return_pod",
+    "theouterworlds:opaline_nickel"
+  ],
+  "result": {
+    "id": "theouterworlds:emergency_return_pod",
+    "count": 1
+  }
 }

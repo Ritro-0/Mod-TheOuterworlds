@@ -1,9 +1,9 @@
 {
-	"type": "minecraft:smithing_transform",
-	"template": "theouterworlds:orbit_smithing_template",
-	"base": "minecraft:netherite_helmet",
-	"addition": "theouterworlds:iridium_ingot",
-	"result": {
-		"id": "theouterworlds:iridium_helmet"
-	}
+  "type": "minecraft:smithing_transform",
+  "template": "theouterworlds:orbit_smithing_template",
+  "base": "minecraft:netherite_helmet",
+  "addition": "theouterworlds:iridium_ingot",
+  "result": {
+    "id": "theouterworlds:iridium_helmet"
+  }
 }

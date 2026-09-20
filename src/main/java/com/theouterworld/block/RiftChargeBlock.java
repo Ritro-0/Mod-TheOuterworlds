@@ -1,6 +1,5 @@
 package com.theouterworld.block;
 
-import com.mojang.serialization.MapCodec;
 import com.theouterworld.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,7 +25,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class RiftChargeBlock extends BaseEntityBlock {
-	public static final MapCodec<RiftChargeBlock> CODEC = simpleCodec(RiftChargeBlock::new);
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
@@ -44,11 +42,6 @@ public class RiftChargeBlock extends BaseEntityBlock {
 		this.registerDefaultState(this.stateDefinition.any()
 			.setValue(FACING, Direction.NORTH)
 			.setValue(POWERED, false));
-	}
-
-	@Override
-	protected MapCodec<? extends BaseEntityBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

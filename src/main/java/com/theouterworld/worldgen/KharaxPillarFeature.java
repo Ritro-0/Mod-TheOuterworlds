@@ -13,32 +13,35 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import org.jspecify.annotations.Nullable;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 /**
  * Paints a compact Kharax den (cluster of shed pillars + spores) onto an existing
  * underground cave. Chunk-local only; does not carve new chambers.
  */
-public class KharaxPillarFeature extends Feature<NoneFeatureConfiguration> {
+public class KharaxPillarFeature implements Feature {
+	public static final MapCodec<KharaxPillarFeature> CODEC = MapCodec.unit(KharaxPillarFeature::new);
+
 	private static final int MIN_CAVE_HEIGHT = 5;
 	private static final int MAX_PILLAR_HEIGHT = 18;
 	private static final int MIN_DEPTH_BELOW_SURFACE = 12;
 	private static final int DEN_RADIUS = 6;
 
 	public KharaxPillarFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
+	public MapCodec<KharaxPillarFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		if (!ModDimensions.isOuterworld(world.getLevel().dimension())) {
 			return false;
 		}
-		RandomSource random = context.random();
-		BlockPos origin = context.origin();
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		int maxX = minX + 15;

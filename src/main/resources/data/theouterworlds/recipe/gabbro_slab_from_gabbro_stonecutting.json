@@ -1,8 +1,8 @@
 {
-	"type": "minecraft:stonecutting",
-	"ingredient": "theouterworlds:gabbro",
-	"result": {
-		"id": "theouterworlds:gabbro_slab",
-		"count": 2
-	}
+  "type": "minecraft:stonecutting",
+  "ingredient": "theouterworlds:gabbro",
+  "result": {
+    "id": "theouterworlds:gabbro_slab",
+    "count": 2
+  }
 }

@@ -1,6 +1,5 @@
 package com.theouterworld.block;
 
-import com.mojang.serialization.MapCodec;
 import com.theouterworld.screen.KnappingTableScreenHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -19,7 +18,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class KnappingTableBlock extends Block {
-    public static final MapCodec<KnappingTableBlock> CODEC = simpleCodec(KnappingTableBlock::new);
     private static final Component TITLE = Component.translatable("container.knapping_table");
     
     // Half-slab shape (8 pixels tall)
@@ -27,11 +25,6 @@ public class KnappingTableBlock extends Block {
 
     public KnappingTableBlock(BlockBehaviour.Properties settings) {
         super(settings);
-    }
-
-    @Override
-    protected MapCodec<? extends Block> codec() {
-        return CODEC;
     }
 
     @Override

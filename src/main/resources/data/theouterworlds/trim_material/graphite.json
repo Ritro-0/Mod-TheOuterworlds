@@ -1,7 +1,7 @@
 {
-	"asset_name": "graphite",
 	"description": {
 		"color": "#4A4A4A",
 		"translate": "trim_material.theouterworlds.graphite"
-	}
+	},
+	"palette_id": "theouterworlds:trim/graphite"
 }

@@ -7,18 +7,14 @@
         {
           "type": "minecraft:item",
           "name": "theouterworlds:oxidized_basalt_pebble",
-          "functions": [
-            {
-              "function": "minecraft:explosion_decay"
-            }
-          ]
+          "modifier": {
+            "type": "minecraft:explosion_decay"
+          }
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ]
 }

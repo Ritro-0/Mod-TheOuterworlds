@@ -2,30 +2,34 @@ package com.theouterworld.worldgen;
 
 import com.theouterworld.block.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.Fluids;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 /**
  * Single-block Raw Osmium patches directly beneath floor lava pools in Nearworld sulfur caves.
  * Only targets the underside of an open lava surface (air above), never wall veins.
  */
-public class NearworldOsmiumUnderLavaFeature extends Feature<NoneFeatureConfiguration> {
+public class NearworldOsmiumUnderLavaFeature implements Feature {
+	public static final MapCodec<NearworldOsmiumUnderLavaFeature> CODEC = MapCodec.unit(NearworldOsmiumUnderLavaFeature::new);
+
 	public NearworldOsmiumUnderLavaFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		RandomSource random = context.random();
-		BlockPos origin = context.origin();
+	public MapCodec<NearworldOsmiumUnderLavaFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
 		boolean placed = false;
 		int minY = world.getMinY() + 1;
@@ -42,8 +46,7 @@ public class NearworldOsmiumUnderLavaFeature extends Feature<NoneFeatureConfigur
 				if (!isLava(world, cursor)) {
 					continue;
 				}
-				// Pool surface only — skip lava sealed inside walls / ceilings.
-				if (!world.getBlockState(cursor.above()).isAir()) {
+				if (!isOpenCavePoolSurface(world, cursor)) {
 					continue;
 				}
 				BlockPos below = cursor.below();
@@ -65,6 +68,23 @@ public class NearworldOsmiumUnderLavaFeature extends Feature<NoneFeatureConfigur
 	private static boolean isLava(WorldGenLevel world, BlockPos pos) {
 		BlockState state = world.getBlockState(pos);
 		return state.is(Blocks.LAVA) || state.getFluidState().is(Fluids.LAVA);
+	}
+
+	/** Floor pool: tall air above, and at least two open horizontal sides so wall blobs are skipped. */
+	private static boolean isOpenCavePoolSurface(WorldGenLevel world, BlockPos lava) {
+		for (int dy = 1; dy <= 3; dy++) {
+			if (!world.getBlockState(lava.above(dy)).isAir()) {
+				return false;
+			}
+		}
+		int openSides = 0;
+		for (Direction dir : Direction.Plane.HORIZONTAL.stream().toArray(Direction[]::new)) {
+			BlockState neighbor = world.getBlockState(lava.relative(dir));
+			if (neighbor.isAir() || isLava(world, lava.relative(dir))) {
+				openSides++;
+			}
+		}
+		return openSides >= 2;
 	}
 
 	private static boolean isOsmiumReplaceable(BlockState state) {

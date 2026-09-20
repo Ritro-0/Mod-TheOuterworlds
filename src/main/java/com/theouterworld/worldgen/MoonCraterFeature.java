@@ -8,27 +8,32 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.util.RandomSource;
 
 /**
  * Large, evenly spaced impact craters for the Moon (lunar highlands).
  * Unlike Outerworld crater fields, these are all large bowls with raised rims.
  */
-public class MoonCraterFeature extends Feature<NoneFeatureConfiguration> {
+public class MoonCraterFeature implements Feature {
+	public static final MapCodec<MoonCraterFeature> CODEC = MapCodec.unit(MoonCraterFeature::new);
+
 	private static final int MAX_EXTENT = 80;
 	private static final int CELL = 128;
 	private static final double SPAWN_CHANCE = 0.86;
 	private static final int JITTER = 14;
 
 	public MoonCraterFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel world = context.level();
-		BlockPos origin = context.origin();
+	public MapCodec<MoonCraterFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		int maxX = minX + 15;

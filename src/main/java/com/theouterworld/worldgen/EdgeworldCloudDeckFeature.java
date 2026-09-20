@@ -9,31 +9,35 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.synth.ImprovedNoise;
+import net.minecraft.world.level.levelgen.synth.PerlinNoise;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 /**
  * Edgeworld: methane-only decks starting near Highworld height, thinner/sparser than Farworld.
  */
-public class EdgeworldCloudDeckFeature extends Feature<NoneFeatureConfiguration> {
+public class EdgeworldCloudDeckFeature implements Feature {
+	public static final MapCodec<EdgeworldCloudDeckFeature> CODEC = MapCodec.unit(EdgeworldCloudDeckFeature::new);
+
 	public EdgeworldCloudDeckFeature() {
-		super(NoneFeatureConfiguration.CODEC);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-		WorldGenLevel level = context.level();
-		BlockPos origin = context.origin();
-		RandomSource random = context.random();
+	public MapCodec<EdgeworldCloudDeckFeature> codec() {
+		return CODEC;
+	}
+
+	@Override
+	public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
+		WorldGenLevel level = world;
 		ChunkAccess chunk = level.getChunk(origin);
 		int minX = chunk.getPos().getMinBlockX();
 		int minZ = chunk.getPos().getMinBlockZ();
 		long seed = level.getSeed();
 
-		ImprovedNoise lowerNoise = new ImprovedNoise(RandomSource.create(seed ^ 0xED6E401L));
-		ImprovedNoise midNoise = new ImprovedNoise(RandomSource.create(seed ^ 0xED6E402L));
-		ImprovedNoise upperNoise = new ImprovedNoise(RandomSource.create(seed ^ 0xED6E403L));
+		PerlinNoise lowerNoise = new PerlinNoise(RandomSource.create(seed ^ 0xED6E401L));
+		PerlinNoise midNoise = new PerlinNoise(RandomSource.create(seed ^ 0xED6E402L));
+		PerlinNoise upperNoise = new PerlinNoise(RandomSource.create(seed ^ 0xED6E403L));
 
 		BlockState methane = ModBlocks.METHANE_CLOUD.defaultBlockState();
 
@@ -52,7 +56,7 @@ public class EdgeworldCloudDeckFeature extends Feature<NoneFeatureConfiguration>
 	private static void paintBand(
 		WorldGenLevel level,
 		RandomSource random,
-		ImprovedNoise noise,
+		PerlinNoise noise,
 		int minX,
 		int minZ,
 		int y0,
@@ -66,7 +70,7 @@ public class EdgeworldCloudDeckFeature extends Feature<NoneFeatureConfiguration>
 			for (int dz = 0; dz < 16; dz++) {
 				int x = minX + dx;
 				int z = minZ + dz;
-				double bank = noise.noise(x * xzScale, 0.0, z * xzScale);
+				double bank = noise.get(x * xzScale, 0.0, z * xzScale);
 				if (bank < threshold) {
 					continue;
 				}
@@ -77,7 +81,7 @@ public class EdgeworldCloudDeckFeature extends Feature<NoneFeatureConfiguration>
 
 				for (int y = base; y < base + puffHeight; y++) {
 					double vertical = 1.0 - Math.abs((y - (base + puffHeight * 0.5)) / (puffHeight * 0.55));
-					double detail = noise.noise(x * xzScale * 2.4, y * 0.08, z * xzScale * 2.4);
+					double detail = noise.get(x * xzScale * 2.4, y * 0.08, z * xzScale * 2.4);
 					if (vertical * edge + detail * 0.25 < 0.18) {
 						continue;
 					}

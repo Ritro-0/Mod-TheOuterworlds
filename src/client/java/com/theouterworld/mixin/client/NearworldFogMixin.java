@@ -8,6 +8,8 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.fog.FogData;
 import net.minecraft.client.renderer.fog.environment.AtmosphericFogEnvironment;
+import net.minecraft.util.ARGB;
+import org.joml.Vector3fc;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -26,17 +28,17 @@ public class NearworldFogMixin {
 		Camera camera,
 		int renderDistance,
 		float partialTicks,
-		CallbackInfoReturnable<Integer> cir
+		CallbackInfoReturnable<Vector3fc> cir
 	) {
 		if (level == null) {
 			return;
 		}
 		if (ModDimensions.isAmberworld(level.dimension())) {
-			cir.setReturnValue(AmberworldAtmosphere.HAZE_COLOR);
+			cir.setReturnValue(ARGB.vector3fFromRGB24(AmberworldAtmosphere.HAZE_COLOR));
 			return;
 		}
 		if (ModDimensions.isNearworld(level.dimension())) {
-			cir.setReturnValue(NearworldAtmosphere.HAZE_COLOR);
+			cir.setReturnValue(ARGB.vector3fFromRGB24(NearworldAtmosphere.HAZE_COLOR));
 		}
 	}
 

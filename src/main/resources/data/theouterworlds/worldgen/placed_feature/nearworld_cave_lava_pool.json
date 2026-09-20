@@ -3,7 +3,7 @@
 	"placement": [
 		{
 			"type": "minecraft:count",
-			"count": 28
+			"count": 8
 		},
 		{
 			"type": "minecraft:in_square"
@@ -19,26 +19,6 @@
 					"absolute": -40
 				}
 			}
-		},
-		{
-			"type": "minecraft:block_predicate_filter",
-			"predicate": {
-				"type": "minecraft:solid"
-			}
-		},
-		{
-			"type": "minecraft:environment_scan",
-			"direction_of_search": "up",
-			"max_steps": 24,
-			"target_condition": {
-				"type": "minecraft:matching_block_tag",
-				"tag": "minecraft:air"
-			}
-		},
-		{
-			"type": "minecraft:random_offset",
-			"xz_spread": 0,
-			"y_spread": -1
 		},
 		{
 			"type": "minecraft:biome"

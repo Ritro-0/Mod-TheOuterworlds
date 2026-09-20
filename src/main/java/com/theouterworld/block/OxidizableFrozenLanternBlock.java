@@ -1,6 +1,5 @@
 package com.theouterworld.block;
 
-import com.mojang.serialization.MapCodec;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -10,7 +9,6 @@ import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class OxidizableFrozenLanternBlock extends FrozenLanternBlock implements WeatheringCopper {
-	public static final MapCodec<OxidizableFrozenLanternBlock> CODEC = simpleCodec(OxidizableFrozenLanternBlock::new);
 
 	private final WeatheringCopper.WeatherState degradationLevel;
 	private final OxidizableLanternAging.Kind kind;
@@ -27,11 +25,6 @@ public class OxidizableFrozenLanternBlock extends FrozenLanternBlock implements 
 		super(properties);
 		this.degradationLevel = degradationLevel;
 		this.kind = kind;
-	}
-
-	@Override
-	public MapCodec<? extends LanternBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

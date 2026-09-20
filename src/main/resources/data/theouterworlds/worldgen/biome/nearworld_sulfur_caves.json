@@ -1,50 +1,57 @@
 {
-	"carvers": [],
-	"downfall": 0,
-	"effects": {
-		"fog_color": 16759839,
-		"sky_color": 16759839,
-		"water_color": 8542208,
-		"water_fog_color": 12102175
-	},
-	"features": [
-		[],
-		[
-			"theouterworlds:nearworld_cave_lava_pool"
-		],
-		[],
-		[],
-		[],
-		[],
-		[],
-		[
-			"minecraft:sulfur_spike_cluster",
-			"minecraft:sulfur_spike",
-			"theouterworlds:nearworld_tube_cave",
-			"theouterworlds:nearworld_lava_tube",
-			"theouterworlds:anhydrite_cave_paint"
-		],
-		[
-			"theouterworlds:nearworld_volcano",
-			"theouterworlds:anhydrite_patch"
-		],
-		[
-			"theouterworlds:nearworld_osmium_under_lava",
-			"theouterworlds:nearworld_under_volcano_olivine_geode"
-		],
-		[]
-	],
-	"has_precipitation": false,
-	"spawn_costs": {},
-	"spawners": {
-		"ambient": [],
-		"axolotls": [],
-		"creature": [],
-		"misc": [],
-		"monster": [],
-		"underground_water_creature": [],
-		"water_ambient": [],
-		"water_creature": []
-	},
-	"temperature": 2.0
+  "attributes": {
+    "minecraft:visual/fog_color": "#ffbc1f",
+    "minecraft:visual/sky_color": "#ffbc1f",
+    "minecraft:visual/water_fog_color": "#b8aa1f",
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "ambient": [],
+          "axolotls": [],
+          "creature": [],
+          "misc": [],
+          "monster": [],
+          "underground_water_creature": [],
+          "water_ambient": [],
+          "water_creature": []
+        }
+      },
+      "modifier": "overlay"
+    }
+  },
+  "carvers": [],
+  "downfall": 0,
+  "effects": {
+    "water_color": "#825800"
+  },
+  "features": [
+    [],
+    [
+      "theouterworlds:nearworld_cave_lava_pool"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:sulfur_spike_cluster",
+      "minecraft:sulfur_spike",
+      "theouterworlds:nearworld_tube_cave",
+      "theouterworlds:nearworld_lava_tube",
+      "theouterworlds:anhydrite_cave_paint"
+    ],
+    [
+      "theouterworlds:nearworld_volcano",
+      "theouterworlds:anhydrite_patch"
+    ],
+    [
+      "theouterworlds:nearworld_osmium_under_lava",
+      "theouterworlds:nearworld_under_volcano_olivine_geode"
+    ],
+    []
+  ],
+  "has_precipitation": false,
+  "temperature": 2.0
 }
