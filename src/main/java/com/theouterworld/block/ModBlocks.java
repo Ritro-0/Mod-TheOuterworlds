@@ -129,6 +129,69 @@ public class ModBlocks {
 		)
 	);
 
+	/** Woven tholin cordage — the structural material of every Weaver Anchor. */
+	public static final Block THOLIN_FIBER = registerBlock(
+		"tholin_fiber",
+		key -> new TholinFiberBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_ORANGE)
+				.strength(0.7f)
+				.sound(SoundType.MANGROVE_ROOTS)
+				.noOcclusion()
+				.isSuffocating((state, level, pos) -> false)
+				.ignitedByLava()
+		)
+	);
+
+	/** Landing at each pod door. Cutout weave, so it must not hide the blocks around it. */
+	public static final Block THOLIN_FIBER_HOME_PLATE = registerBlock(
+		"tholin_fiber_home_plate",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_ORANGE)
+				.strength(0.7f)
+				.sound(SoundType.MANGROVE_ROOTS)
+				.noOcclusion()
+				.isViewBlocking((state, level, pos, nearPlane) -> false)
+				.isSuffocating((state, level, pos) -> false)
+				.ignitedByLava()
+		)
+	);
+
+	/**
+	 * A Weaver's own bunk. Players may sleep here, but it never sets their spawn,
+	 * never breaks, and remembers which Weaver it belongs to.
+	 */
+	public static final Block WEAVER_PAD = registerFireproofBlock(
+		"weaver_pad",
+		key -> new WeaverPadBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_YELLOW)
+				.strength(-1.0f, 3600000.0f)
+				.sound(SoundType.GRASS)
+				.noOcclusion()
+				.pushReaction(PushReaction.IMMOVEABLE)
+		)
+	);
+
+	/** Hanging Weaver net — a loose cobweb the Weavers also stash things in. */
+	public static final Block WEAVER_NET = registerBlock(
+		"weaver_net",
+		key -> new WeaverNetBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.TERRACOTTA_ORANGE)
+				.sound(SoundType.COBWEB)
+				.noCollision()
+				.noOcclusion()
+				.strength(1.2f)
+				.pushReaction(PushReaction.POPPED)
+		)
+	);
+
 	public static final Block OXIDIZED_BASALT_PEBBLE = registerBlock(
 		"oxidized_basalt_pebble",
 		key -> new OxidizedBasaltPebbleBlock(

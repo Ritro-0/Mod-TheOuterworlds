@@ -64,9 +64,14 @@ public class OuterWorldClient implements ClientModInitializer {
 		EntityRendererRegistry.register(ModEntities.PRIMED_PERCHLORATE_CHARGE, net.minecraft.client.renderer.entity.TntRenderer::new);
 		EntityRendererRegistry.register(ModEntities.OPALINE_NICKEL_FLAIL, com.theouterworld.client.OpalineNickelFlailRenderer::new);
 		EntityRendererRegistry.register(ModEntities.KHARAX, com.theouterworld.client.KharaxRenderer::new);
+		EntityRendererRegistry.register(ModEntities.WEAVER, com.theouterworld.client.WeaverRenderer::new);
 		net.minecraft.client.renderer.blockentity.BlockEntityRenderers.register(
 			com.theouterworld.registry.ModBlockEntities.RIFT,
 			com.theouterworld.client.RiftBlockEntityRenderer::new
+		);
+		net.minecraft.client.renderer.blockentity.BlockEntityRenderers.register(
+			com.theouterworld.registry.ModBlockEntities.WEAVER_NET,
+			com.theouterworld.client.WeaverNetRenderer::new
 		);
 		net.minecraft.client.renderer.blockentity.BlockEntityRenderers.register(
 			com.theouterworld.registry.ModBlockEntities.BEACON_CONCENTRATOR,

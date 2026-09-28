@@ -38,7 +38,9 @@
     [
       "theouterworlds:amberworld_methane_pond"
     ],
-    []
+    [
+      "theouterworlds:amberworld_anchor"
+    ]
   ],
   "has_precipitation": false,
   "temperature": 0.5

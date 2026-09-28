@@ -1,0 +1,12 @@
+{
+	"replace": false,
+	"values": [
+		"theouterworlds:tholin_fiber",
+		"theouterworlds:tholin_fiber_home_plate",
+		"theouterworlds:weaver_pad",
+		"theouterworlds:weaver_net",
+		"minecraft:straw_bed",
+		"minecraft:iron_chain",
+		"minecraft:lantern"
+	]
+}

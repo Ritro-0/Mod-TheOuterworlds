@@ -2,6 +2,7 @@ package com.theouterworld.registry;
 
 import com.mojang.serialization.MapCodec;
 import com.theouterworld.OuterWorldMod;
+import com.theouterworld.worldgen.AmberworldAnchorFeature;
 import com.theouterworld.worldgen.AmberworldMethanePondFeature;
 import com.theouterworld.worldgen.AnhydriteCavePaintFeature;
 import com.theouterworld.worldgen.BasaltBoulderClusterFeature;
@@ -77,6 +78,7 @@ public class ModFeatures {
 	public static final MapCodec<EmberworldLavaPondFeature> EMBERWORLD_LAVA_POND = register("emberworld_lava_pond", EmberworldLavaPondFeature.CODEC);
 	public static final MapCodec<FrostworldIceCrackFeature> FROSTWORLD_ICE_CRACK = register("frostworld_ice_crack", FrostworldIceCrackFeature.CODEC);
 	public static final MapCodec<AmberworldMethanePondFeature> AMBERWORLD_METHANE_POND = register("amberworld_methane_pond", AmberworldMethanePondFeature.CODEC);
+	public static final MapCodec<AmberworldAnchorFeature> AMBERWORLD_ANCHOR = register("amberworld_anchor", AmberworldAnchorFeature.CODEC);
 	public static final MapCodec<SpongeworldBodyFeature> SPONGEWORLD_BODY = register("spongeworld_body", SpongeworldBodyFeature.CODEC);
 	public static final MapCodec<PotatoworldsBodyFeature> POTATOWORLDS_BODY = register("potatoworlds_body", PotatoworldsBodyFeature.CODEC);
 	public static final MapCodec<WanderlandsCraterFeature> WANDERLANDS_CRATER = register("wanderlands_crater", WanderlandsCraterFeature.CODEC);

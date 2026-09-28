@@ -2,7 +2,7 @@ package com.theouterworld.registry;
 
 import com.theouterworld.OuterWorldMod;
 import com.theouterworld.entity.KharaxEntity;
-import com.theouterworld.registry.ModDimensions;
+import com.theouterworld.entity.WeaverEntity;
 import com.theouterworld.entity.OpalineNickelFlailEntity;
 import com.theouterworld.entity.OxidizableIronGolemEntity;
 import com.theouterworld.entity.PrimedPerchlorateCharge;
@@ -59,6 +59,16 @@ public class ModEntities {
 			.build(ResourceKey.create(Registries.ENTITY_TYPE, OuterWorldMod.id("kharax")))
 	);
 
+	public static final EntityType<WeaverEntity> WEAVER = Registry.register(
+		BuiltInRegistries.ENTITY_TYPE,
+		OuterWorldMod.id("weaver"),
+		EntityType.Builder.of(WeaverEntity::new, MobCategory.CREATURE)
+			.sized(0.9f, 2.15f)
+			.eyeHeight(1.75f)
+			.clientTrackingRange(10)
+			.build(ResourceKey.create(Registries.ENTITY_TYPE, OuterWorldMod.id("weaver")))
+	);
+
 	public static void registerModEntities() {
 		OuterWorldMod.LOGGER.info("Registering entities for {}", OuterWorldMod.MOD_ID);
 		FabricDefaultAttributeRegistry.register(
@@ -66,8 +76,17 @@ public class ModEntities {
 			OxidizableIronGolemEntity.createOxidizableIronGolemAttributes()
 		);
 		FabricDefaultAttributeRegistry.register(KHARAX, KharaxEntity.createAttributes());
+		FabricDefaultAttributeRegistry.register(WEAVER, WeaverEntity.createAttributes());
 		SpawnPlacements.register(
 			KHARAX,
+			SpawnPlacementTypes.ON_GROUND,
+			Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+			(type, world, reason, pos, random) ->
+				ModDimensions.isOuterworld(world.getLevel().dimension())
+					&& Mob.checkMobSpawnRules(type, world, reason, pos, random)
+		);
+		SpawnPlacements.register(
+			WEAVER,
 			SpawnPlacementTypes.ON_GROUND,
 			Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
 			(type, world, reason, pos, random) ->

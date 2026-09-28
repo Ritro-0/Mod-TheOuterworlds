@@ -1,0 +1,33 @@
+{
+	"replace": false,
+	"values": [
+		"#minecraft:coal_ores",
+		"#minecraft:copper_ores",
+		"#minecraft:diamond_ores",
+		"#minecraft:emerald_ores",
+		"#minecraft:gold_ores",
+		"#minecraft:iron_ores",
+		"#minecraft:lapis_ores",
+		"#minecraft:redstone_ores",
+		"#minecraft:candles",
+		"#minecraft:flowers",
+		"minecraft:amethyst_block",
+		"minecraft:amethyst_cluster",
+		"minecraft:beacon",
+		"minecraft:bell",
+		"minecraft:budding_amethyst",
+		"minecraft:copper_block",
+		"minecraft:diamond_block",
+		"minecraft:emerald_block",
+		"minecraft:glowstone",
+		"minecraft:gold_block",
+		"minecraft:iron_block",
+		"minecraft:lapis_block",
+		"minecraft:netherite_block",
+		"minecraft:redstone_block",
+		"minecraft:sea_lantern",
+		"minecraft:shroomlight",
+		"minecraft:soul_lantern",
+		"minecraft:torch"
+	]
+}

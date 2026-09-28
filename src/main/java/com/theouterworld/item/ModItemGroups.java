@@ -29,6 +29,10 @@ public class ModItemGroups {
 				entries.accept(ModBlocks.SULFURIC_BASALT);
 				entries.accept(ModBlocks.THOLIN);
 				entries.accept(ModBlocks.THOLINIC_REGOLITH);
+				entries.accept(ModBlocks.THOLIN_FIBER);
+				entries.accept(ModBlocks.THOLIN_FIBER_HOME_PLATE);
+				entries.accept(ModBlocks.WEAVER_PAD);
+				entries.accept(ModBlocks.WEAVER_NET);
 				entries.accept(ModBlocks.OXIDIZED_BASALT_PEBBLE);
 				entries.accept(ModBlocks.ANORTHOSITE);
 				entries.accept(ModBlocks.ANORTHOSITE_COPPER_ORE);
@@ -191,6 +195,7 @@ public class ModItemGroups {
 				entries.accept(ModItems.KHARAX_CHITIN);
 				entries.accept(ModItems.KHARAX_BELT);
 				entries.accept(ModItems.KHARAX_SPAWN_EGG);
+				entries.accept(ModItems.WEAVER_SPAWN_EGG);
 				entries.accept(ModBlocks.FROZEN_NETHER_PORTAL);
 				entries.accept(ModBlocks.FROZEN_MAGMA);
 				entries.accept(ModItems.FROZEN_WHEAT_SEEDS);

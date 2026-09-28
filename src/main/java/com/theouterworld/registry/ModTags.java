@@ -14,6 +14,10 @@ public class ModTags {
 	public static final TagKey<Block> GYPSUM_REPLACEABLE = TagKey.create(Registries.BLOCK, OuterWorldMod.id("gypsum_replaceable_blocks"));
 	public static final TagKey<Block> LAVA_TUBE_REPLACEABLE = TagKey.create(Registries.BLOCK, OuterWorldMod.id("lava_tube_replaceable"));
 	public static final TagKey<Block> CONVERTS_MERCURY_TO_CINNABAR = TagKey.create(Registries.BLOCK, OuterWorldMod.id("converts_mercury_to_cinnabar"));
+	/** Blocks a Weaver decides are worth keeping once it has inspected them. */
+	public static final TagKey<Block> WEAVER_CURIOSITIES = TagKey.create(Registries.BLOCK, OuterWorldMod.id("weaver_curiosities"));
+	/** Everything an Anchor is built from — Weavers leave these alone. */
+	public static final TagKey<Block> WEAVER_ANCHOR_PARTS = TagKey.create(Registries.BLOCK, OuterWorldMod.id("weaver_anchor_parts"));
 	public static final TagKey<Fluid> MERCURY = TagKey.create(Registries.FLUID, OuterWorldMod.id("mercury"));
 	public static final TagKey<Fluid> LIQUID_HYDROGEN = TagKey.create(Registries.FLUID, OuterWorldMod.id("liquid_hydrogen"));
 	public static final TagKey<Fluid> LIQUID_HELIUM = TagKey.create(Registries.FLUID, OuterWorldMod.id("liquid_helium"));

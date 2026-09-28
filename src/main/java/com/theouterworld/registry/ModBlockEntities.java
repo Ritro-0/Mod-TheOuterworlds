@@ -9,6 +9,8 @@ import com.theouterworld.block.ProcessorBlockEntity;
 import com.theouterworld.block.RiftBlockEntity;
 import com.theouterworld.block.RiftChargeBlockEntity;
 import com.theouterworld.block.RiftPadBlockEntity;
+import com.theouterworld.block.WeaverNetBlockEntity;
+import com.theouterworld.block.WeaverPadBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityType;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -75,6 +77,24 @@ public class ModBlockEntities {
 		net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.<ProcessorBlockEntity>create(
 			ProcessorBlockEntity::new,
 			ModBlocks.PROCESSOR
+		).build()
+	);
+
+	public static final BlockEntityType<WeaverPadBlockEntity> WEAVER_PAD = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE,
+		OuterWorldMod.id("weaver_pad"),
+		net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.<WeaverPadBlockEntity>create(
+			WeaverPadBlockEntity::new,
+			ModBlocks.WEAVER_PAD
+		).build()
+	);
+
+	public static final BlockEntityType<WeaverNetBlockEntity> WEAVER_NET = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE,
+		OuterWorldMod.id("weaver_net"),
+		net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.<WeaverNetBlockEntity>create(
+			WeaverNetBlockEntity::new,
+			ModBlocks.WEAVER_NET
 		).build()
 	);
 

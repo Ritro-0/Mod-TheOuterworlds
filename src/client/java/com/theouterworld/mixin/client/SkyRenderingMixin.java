@@ -293,7 +293,14 @@ public abstract class SkyRenderingMixin {
 			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 			this.theouterworlds$sunAngle = sunAngle;
 		} else if (world.dimension().equals(ModDimensions.OUTERWORLD_WORLD_KEY)) {
-			state.skyColor = ARGB.vector3fFromRGB24(OuterworldAtmosphere.SKY_COLOR);
+			float haze = OuterworldAtmosphere.dayHaze(state.sunAngle);
+			state.skyColor = ARGB.vector3fFromRGB24(OuterworldAtmosphere.skyColor(state.sunAngle));
+			if (haze < 0.45F) {
+				state.starBrightness = Math.max(
+					state.starBrightness,
+					OuterworldAtmosphere.STAR_BRIGHTNESS * (1.0F - haze)
+				);
+			}
 			state.sunriseAndSunsetColor = NO_SUNRISE_SUNSET;
 		} else if (world.dimension().equals(ModDimensions.NEARWORLD_WORLD_KEY)) {
 			state.skyColor = ARGB.vector3fFromRGB24(NearworldAtmosphere.HAZE_COLOR);

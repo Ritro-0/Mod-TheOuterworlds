@@ -529,6 +529,13 @@ public class ModItems {
 		)
 	);
 
+	public static final Item WEAVER_SPAWN_EGG = registerItem(
+		"weaver_spawn_egg",
+		key -> new SpawnEggItem(
+			new Item.Properties().setId(key).spawnEgg(com.theouterworld.registry.ModEntities.WEAVER)
+		)
+	);
+
 	public static final Item KHARAX_CHITIN = registerItem(
 		"kharax_chitin",
 		key -> new Item(new Item.Properties().setId(key))

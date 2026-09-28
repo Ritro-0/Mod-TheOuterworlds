@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/cube_column",
+	"render_type": "cutout",
+	"textures": {
+		"end": "theouterworlds:block/tholin_fiber_home_plate_top",
+		"side": "theouterworlds:block/tholin_fiber_home_plate_side"
+	}
+}

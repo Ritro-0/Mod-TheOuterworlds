@@ -41,7 +41,8 @@
 		"BambooSaplingBlockFreezeMixin",
 		"BambooStalkBlockFreezeMixin",
 		"SunExistenceMixin",
-		"FrostworldFluidPickerMixin"
+		"FrostworldFluidPickerMixin",
+		"WeaverStrawBedMixin"
 	],
 	"injectors": {
 		"defaultRequire": 0

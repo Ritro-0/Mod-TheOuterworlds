@@ -9,6 +9,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.util.RandomSource;
 
 /**
@@ -37,12 +38,59 @@ public class AmberworldMethanePondFeature implements Feature {
 		int minX = origin.getX() & ~15;
 		int minZ = origin.getZ() & ~15;
 		long seed = world.getSeed() + 77123L;
-		boolean placed = applyPondGrid(world, seed, minX, minZ, minX + 15, minZ + 15);
-		placed |= applyRiverGrid(world, seed + 99L, minX, minZ, minX + 15, minZ + 15);
+		RandomState noise = world.getLevel().getChunkSource().randomState();
+		boolean placed = applyPondGrid(world, chunkGenerator, noise, seed, minX, minZ, minX + 15, minZ + 15);
+		placed |= applyRiverGrid(world, chunkGenerator, noise, seed + 99L, minX, minZ, minX + 15, minZ + 15);
 		return placed;
 	}
 
-	private static boolean applyPondGrid(WorldGenLevel world, long seed, int minX, int minZ, int maxX, int maxZ) {
+	/** Noise surface. Reading the chunk heightmap here reaches into chunks that are still generating. */
+	private static int surfaceAt(ChunkGenerator chunkGenerator, RandomState noise, WorldGenLevel world, int x, int z) {
+		return chunkGenerator.getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, world, noise);
+	}
+
+	/**
+	 * Pond centres are pure hash math, so anything that wants to sit "near a methane lake"
+	 * can ask without reading terrain it is not allowed to touch during generation. The
+	 * high-ground rejection in {@link #placePond} is not replayed here, so a hit only means
+	 * a pond was rolled for that cell.
+	 */
+	public static boolean hasPondCenterNear(long worldSeed, int x, int z, int radius) {
+		long seed = worldSeed + 77123L;
+		int reach = radius + CELL / 2;
+		int cellMinX = Math.floorDiv(x - reach, CELL);
+		int cellMaxX = Math.floorDiv(x + reach, CELL);
+		int cellMinZ = Math.floorDiv(z - reach, CELL);
+		int cellMaxZ = Math.floorDiv(z + reach, CELL);
+		for (int cellX = cellMinX; cellX <= cellMaxX; cellX++) {
+			for (int cellZ = cellMinZ; cellZ <= cellMaxZ; cellZ++) {
+				if (WorldgenNoise.hash(seed + 13, cellX, cellZ) > POND_CHANCE) {
+					continue;
+				}
+				int centerX = cellX * CELL + CELL / 2
+					+ (int) (WorldgenNoise.signed(WorldgenNoise.hash(seed + 79, cellX, cellZ)) * 12.0);
+				int centerZ = cellZ * CELL + CELL / 2
+					+ (int) (WorldgenNoise.signed(WorldgenNoise.hash(seed + 97, cellX, cellZ)) * 12.0);
+				int dx = centerX - x;
+				int dz = centerZ - z;
+				if (dx * dx + dz * dz <= radius * radius) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private static boolean applyPondGrid(
+		WorldGenLevel world,
+		ChunkGenerator chunkGenerator,
+		RandomState noise,
+		long seed,
+		int minX,
+		int minZ,
+		int maxX,
+		int maxZ
+	) {
 		int cellMinX = Math.floorDiv(minX - MAX_EXTENT, CELL);
 		int cellMaxX = Math.floorDiv(maxX + MAX_EXTENT, CELL);
 		int cellMinZ = Math.floorDiv(minZ - MAX_EXTENT, CELL);
@@ -50,7 +98,7 @@ public class AmberworldMethanePondFeature implements Feature {
 		boolean placed = false;
 		for (int cellX = cellMinX; cellX <= cellMaxX; cellX++) {
 			for (int cellZ = cellMinZ; cellZ <= cellMaxZ; cellZ++) {
-				if (placePond(world, seed, cellX, cellZ, minX, minZ, maxX, maxZ)) {
+				if (placePond(world, chunkGenerator, noise, seed, cellX, cellZ, minX, minZ, maxX, maxZ)) {
 					placed = true;
 				}
 			}
@@ -60,6 +108,8 @@ public class AmberworldMethanePondFeature implements Feature {
 
 	private static boolean placePond(
 		WorldGenLevel world,
+		ChunkGenerator chunkGenerator,
+		RandomState noise,
 		long seed,
 		int cellX,
 		int cellZ,
@@ -78,14 +128,23 @@ public class AmberworldMethanePondFeature implements Feature {
 			+ (int) (WorldgenNoise.signed(WorldgenNoise.hash(seed + 79, cellX, cellZ)) * 12.0);
 		int centerZ = cellZ * CELL + CELL / 2
 			+ (int) (WorldgenNoise.signed(WorldgenNoise.hash(seed + 97, cellX, cellZ)) * 12.0);
-		int surfaceY = world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, centerX, centerZ);
+		int surfaceY = surfaceAt(chunkGenerator, noise, world, centerX, centerZ);
 		if (surfaceY <= SEA_LEVEL + 2) {
 			return false;
 		}
-		return carveBasin(world, centerX, centerZ, radiusX, radiusZ, depth, minX, minZ, maxX, maxZ, true);
+		return carveBasin(world, chunkGenerator, noise, centerX, centerZ, radiusX, radiusZ, depth, minX, minZ, maxX, maxZ, true);
 	}
 
-	private static boolean applyRiverGrid(WorldGenLevel world, long seed, int minX, int minZ, int maxX, int maxZ) {
+	private static boolean applyRiverGrid(
+		WorldGenLevel world,
+		ChunkGenerator chunkGenerator,
+		RandomState noise,
+		long seed,
+		int minX,
+		int minZ,
+		int maxX,
+		int maxZ
+	) {
 		int cellMinX = Math.floorDiv(minX - MAX_EXTENT, CELL * 2);
 		int cellMaxX = Math.floorDiv(maxX + MAX_EXTENT, CELL * 2);
 		int cellMinZ = Math.floorDiv(minZ - MAX_EXTENT, CELL * 2);
@@ -93,7 +152,7 @@ public class AmberworldMethanePondFeature implements Feature {
 		boolean placed = false;
 		for (int cellX = cellMinX; cellX <= cellMaxX; cellX++) {
 			for (int cellZ = cellMinZ; cellZ <= cellMaxZ; cellZ++) {
-				if (placeRiver(world, seed, cellX, cellZ, minX, minZ, maxX, maxZ)) {
+				if (placeRiver(world, chunkGenerator, noise, seed, cellX, cellZ, minX, minZ, maxX, maxZ)) {
 					placed = true;
 				}
 			}
@@ -103,6 +162,8 @@ public class AmberworldMethanePondFeature implements Feature {
 
 	private static boolean placeRiver(
 		WorldGenLevel world,
+		ChunkGenerator chunkGenerator,
+		RandomState noise,
 		long seed,
 		int cellX,
 		int cellZ,
@@ -118,7 +179,7 @@ public class AmberworldMethanePondFeature implements Feature {
 			+ (int) (WorldgenNoise.signed(WorldgenNoise.hash(seed + 17, cellX, cellZ)) * 18.0);
 		int startZ = cellZ * CELL * 2 + CELL
 			+ (int) (WorldgenNoise.signed(WorldgenNoise.hash(seed + 29, cellX, cellZ)) * 18.0);
-		int startY = world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, startX, startZ);
+		int startY = surfaceAt(chunkGenerator, noise, world, startX, startZ);
 		if (startY <= SEA_LEVEL + 4) {
 			return false;
 		}
@@ -135,7 +196,7 @@ public class AmberworldMethanePondFeature implements Feature {
 			z += Math.sin(angle) * 1.6;
 			int ix = (int) Math.round(x);
 			int iz = (int) Math.round(z);
-			int surface = world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, ix, iz);
+			int surface = surfaceAt(chunkGenerator, noise, world, ix, iz);
 			int waterY = Math.max(SEA_LEVEL, surface - 2);
 			int halfWidth = 1 + (step % 5 == 0 ? 1 : 0);
 			for (int dx = -halfWidth; dx <= halfWidth; dx++) {
@@ -148,7 +209,7 @@ public class AmberworldMethanePondFeature implements Feature {
 					if (cx < minX || cx > maxX || cz < minZ || cz > maxZ) {
 						continue;
 					}
-					int top = world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, cx, cz);
+					int top = surfaceAt(chunkGenerator, noise, world, cx, cz);
 					for (int y = top; y >= waterY; y--) {
 						cursor.set(cx, y, cz);
 						if (y > waterY) {
@@ -169,6 +230,8 @@ public class AmberworldMethanePondFeature implements Feature {
 
 	private static boolean carveBasin(
 		WorldGenLevel world,
+		ChunkGenerator chunkGenerator,
+		RandomState noise,
 		int centerX,
 		int centerZ,
 		int radiusX,
@@ -197,7 +260,7 @@ public class AmberworldMethanePondFeature implements Feature {
 				if (dist > 1.05) {
 					continue;
 				}
-				int top = world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z);
+				int top = surfaceAt(chunkGenerator, noise, world, x, z);
 				int floor = top - depth;
 				for (int y = top; y >= floor; y--) {
 					cursor.set(x, y, z);
