@@ -1,34 +1,31 @@
 {
 	"variants": {
 		"facing=east,part=foot": {
-			"model": "minecraft:block/straw_bed_foot",
-			"y": 270
+			"model": "theouterworlds:block/weaver_pad",
+			"y": 90
 		},
 		"facing=east,part=head": {
-			"model": "minecraft:block/straw_bed_head",
-			"y": 270
+			"model": "theouterworlds:block/weaver_pad_head"
 		},
 		"facing=north,part=foot": {
-			"model": "minecraft:block/straw_bed_foot",
-			"y": 180
+			"model": "theouterworlds:block/weaver_pad"
 		},
 		"facing=north,part=head": {
-			"model": "minecraft:block/straw_bed_head",
-			"y": 180
+			"model": "theouterworlds:block/weaver_pad_head"
 		},
 		"facing=south,part=foot": {
-			"model": "minecraft:block/straw_bed_foot"
+			"model": "theouterworlds:block/weaver_pad",
+			"y": 180
 		},
 		"facing=south,part=head": {
-			"model": "minecraft:block/straw_bed_head"
+			"model": "theouterworlds:block/weaver_pad_head"
 		},
 		"facing=west,part=foot": {
-			"model": "minecraft:block/straw_bed_foot",
-			"y": 90
+			"model": "theouterworlds:block/weaver_pad",
+			"y": 270
 		},
 		"facing=west,part=head": {
-			"model": "minecraft:block/straw_bed_head",
-			"y": 90
+			"model": "theouterworlds:block/weaver_pad_head"
 		}
 	}
 }

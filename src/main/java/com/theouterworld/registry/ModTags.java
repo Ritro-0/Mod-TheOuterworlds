@@ -16,6 +16,10 @@ public class ModTags {
 	public static final TagKey<Block> CONVERTS_MERCURY_TO_CINNABAR = TagKey.create(Registries.BLOCK, OuterWorldMod.id("converts_mercury_to_cinnabar"));
 	/** Blocks a Weaver decides are worth keeping once it has inspected them. */
 	public static final TagKey<Block> WEAVER_CURIOSITIES = TagKey.create(Registries.BLOCK, OuterWorldMod.id("weaver_curiosities"));
+	/** Curiosities that count more toward a colony's gift. */
+	public static final TagKey<Item> WEAVER_CURIOSITY_FINE = TagKey.create(Registries.ITEM, OuterWorldMod.id("weaver_curiosity_fine"));
+	/** The rarest curiosities. A few of these are worth a late-game offering. */
+	public static final TagKey<Item> WEAVER_CURIOSITY_PRECIOUS = TagKey.create(Registries.ITEM, OuterWorldMod.id("weaver_curiosity_precious"));
 	/** Everything an Anchor is built from — Weavers leave these alone. */
 	public static final TagKey<Block> WEAVER_ANCHOR_PARTS = TagKey.create(Registries.BLOCK, OuterWorldMod.id("weaver_anchor_parts"));
 	public static final TagKey<Fluid> MERCURY = TagKey.create(Registries.FLUID, OuterWorldMod.id("mercury"));

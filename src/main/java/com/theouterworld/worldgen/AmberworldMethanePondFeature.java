@@ -55,6 +55,113 @@ public class AmberworldMethanePondFeature implements Feature {
 	 * high-ground rejection in {@link #placePond} is not replayed here, so a hit only means
 	 * a pond was rolled for that cell.
 	 */
+	/**
+	 * Little ponds and the short channels that drain them. Ocean shoreline is not an inlet
+	 * unless one of those channels actually runs through it.
+	 */
+	public static boolean isLittleInlet(
+		ChunkGenerator chunkGenerator,
+		RandomState noise,
+		WorldGenLevel world,
+		int x,
+		int z
+	) {
+		long worldSeed = world.getSeed();
+		return nearPondShore(chunkGenerator, noise, world, worldSeed, x, z)
+			|| nearRiver(chunkGenerator, noise, world, worldSeed, x, z);
+	}
+
+	public static boolean nearPondShore(
+		ChunkGenerator chunkGenerator,
+		RandomState noise,
+		WorldGenLevel world,
+		long worldSeed,
+		int x,
+		int z
+	) {
+		long seed = worldSeed + 77123L;
+		int reach = 24 + CELL / 2;
+		int cellMinX = Math.floorDiv(x - reach, CELL);
+		int cellMaxX = Math.floorDiv(x + reach, CELL);
+		int cellMinZ = Math.floorDiv(z - reach, CELL);
+		int cellMaxZ = Math.floorDiv(z + reach, CELL);
+		for (int cellX = cellMinX; cellX <= cellMaxX; cellX++) {
+			for (int cellZ = cellMinZ; cellZ <= cellMaxZ; cellZ++) {
+				if (WorldgenNoise.hash(seed + 13, cellX, cellZ) > POND_CHANCE) {
+					continue;
+				}
+				int centerX = cellX * CELL + CELL / 2
+					+ (int) (WorldgenNoise.signed(WorldgenNoise.hash(seed + 79, cellX, cellZ)) * 12.0);
+				int centerZ = cellZ * CELL + CELL / 2
+					+ (int) (WorldgenNoise.signed(WorldgenNoise.hash(seed + 97, cellX, cellZ)) * 12.0);
+				int surfaceY = surfaceAt(chunkGenerator, noise, world, centerX, centerZ);
+				if (surfaceY <= SEA_LEVEL + 2) {
+					continue;
+				}
+				int radiusX = 3 + (int) (WorldgenNoise.hash(seed + 41, cellX, cellZ) * 6.0) + 6;
+				int radiusZ = 3 + (int) (WorldgenNoise.hash(seed + 53, cellX, cellZ) * 5.0) + 6;
+				double nx = (x - centerX) / (double) Math.max(1, radiusX);
+				double nz = (z - centerZ) / (double) Math.max(1, radiusZ);
+				if (nx * nx + nz * nz <= 1.0) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private static boolean nearRiver(
+		ChunkGenerator chunkGenerator,
+		RandomState noise,
+		WorldGenLevel world,
+		long worldSeed,
+		int x,
+		int z
+	) {
+		long seed = worldSeed + 77123L + 99L;
+		int cell = CELL * 2;
+		int reach = 96;
+		int cellMinX = Math.floorDiv(x - reach, cell);
+		int cellMaxX = Math.floorDiv(x + reach, cell);
+		int cellMinZ = Math.floorDiv(z - reach, cell);
+		int cellMaxZ = Math.floorDiv(z + reach, cell);
+		for (int cellX = cellMinX; cellX <= cellMaxX; cellX++) {
+			for (int cellZ = cellMinZ; cellZ <= cellMaxZ; cellZ++) {
+				if (WorldgenNoise.hash(seed + 7, cellX, cellZ) > RIVER_CHANCE) {
+					continue;
+				}
+				int startX = cellX * cell + CELL
+					+ (int) (WorldgenNoise.signed(WorldgenNoise.hash(seed + 17, cellX, cellZ)) * 18.0);
+				int startZ = cellZ * cell + CELL
+					+ (int) (WorldgenNoise.signed(WorldgenNoise.hash(seed + 29, cellX, cellZ)) * 18.0);
+				int startY = surfaceAt(chunkGenerator, noise, world, startX, startZ);
+				if (startY <= SEA_LEVEL + 4) {
+					continue;
+				}
+				double angle = WorldgenNoise.hash(seed + 37, cellX, cellZ) * Math.PI * 2.0;
+				double rx = startX;
+				double rz = startZ;
+				for (int step = 0; step < 48; step++) {
+					angle += WorldgenNoise.signed(WorldgenNoise.hash(seed + 47 + step, cellX, cellZ)) * 0.35;
+					rx += Math.cos(angle) * 1.6;
+					rz += Math.sin(angle) * 1.6;
+					double dx = rx - x;
+					double dz = rz - z;
+					if (dx * dx + dz * dz <= 36.0) {
+						return true;
+					}
+					int ix = (int) Math.round(rx);
+					int iz = (int) Math.round(rz);
+					int surface = surfaceAt(chunkGenerator, noise, world, ix, iz);
+					if (Math.max(SEA_LEVEL, surface - 2) <= SEA_LEVEL) {
+						break;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	public static boolean hasPondCenterNear(long worldSeed, int x, int z, int radius) {
 		long seed = worldSeed + 77123L;
 		int reach = radius + CELL / 2;

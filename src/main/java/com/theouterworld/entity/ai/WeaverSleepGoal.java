@@ -27,7 +27,6 @@ public class WeaverSleepGoal extends Goal {
 	private static final double REACH_SQR = 6.25;
 	private static final double APPROACH_SQR = (double) WeaverHomeLeap.APPROACH_XZ * WeaverHomeLeap.APPROACH_XZ;
 	private static final double UNDER_PLATE_SQR = 6.25;
-	private static final int TRAVEL_TIMEOUT = 1200;
 	private static final double WALK_SPEED = 1.05;
 
 	private final WeaverEntity weaver;
@@ -36,6 +35,7 @@ public class WeaverSleepGoal extends Goal {
 	private int ticks;
 	private int leapCooldown;
 	private boolean onDeck;
+	private boolean leftGround;
 
 	public WeaverSleepGoal(WeaverEntity weaver) {
 		this.weaver = weaver;
@@ -44,13 +44,17 @@ public class WeaverSleepGoal extends Goal {
 
 	@Override
 	public boolean canUse() {
-		if (weaver.isAggressive() || weaver.isRetreating() || !weaver.getCarriedItem().isEmpty()) {
+		if (weaver.isAggressive() || weaver.isRetreating()) {
 			return false;
 		}
 		if (weaver.isSleeping()) {
+			if (!WeaverSchedule.isBedtime(weaver.level())) {
+				weaver.stopSleeping();
+				return false;
+			}
 			return true;
 		}
-		if (!weaver.level().isDarkOutside()) {
+		if (!WeaverSchedule.isBedtime(weaver.level())) {
 			return false;
 		}
 		bed = resolveBed();
@@ -63,9 +67,9 @@ public class WeaverSleepGoal extends Goal {
 			return false;
 		}
 		if (weaver.isSleeping()) {
-			return weaver.level().isDarkOutside();
+			return WeaverSchedule.isBedtime(weaver.level());
 		}
-		return weaver.level().isDarkOutside() && (weaver.isHomeLeaping() || ticks < TRAVEL_TIMEOUT);
+		return WeaverSchedule.isBedtime(weaver.level()) && bed != null;
 	}
 
 	@Override
@@ -88,7 +92,7 @@ public class WeaverSleepGoal extends Goal {
 		if (weaver.isHomeLeaping()) {
 			weaver.endHomeLeap();
 		}
-		if (weaver.isSleeping() && weaver.level().isBrightOutside()) {
+		if (weaver.isSleeping() && !WeaverSchedule.isBedtime(weaver.level())) {
 			weaver.stopSleeping();
 		}
 		bed = null;
@@ -104,7 +108,7 @@ public class WeaverSleepGoal extends Goal {
 	public void tick() {
 		ticks++;
 		if (weaver.isSleeping()) {
-			if (weaver.level().isBrightOutside()) {
+			if (!WeaverSchedule.isBedtime(weaver.level())) {
 				weaver.stopSleeping();
 			}
 			return;
@@ -118,68 +122,51 @@ public class WeaverSleepGoal extends Goal {
 		weaver.getLookControl().setLookAt(bunk.getX() + 0.5, bunk.getY() + 0.2, bunk.getZ() + 0.5);
 
 		BlockPos plate = resolvePlate(bunk);
-		if (plate == null) {
-			walkIntoBed(bunk);
-			return;
+		BlockPos landing = plate != null ? plate : bunk;
+		if (weaver.isHomeLeaping() && !weaver.isHomePlateLeap()) {
+			weaver.endHomeLeap();
 		}
-
-		if (weaver.isHomeLeaping()) {
-			if (!weaver.onGround()) {
-				weaver.steerHomeLeap(plate);
+		if (onDeck) {
+			if (plate != null && weaver.getY() < plate.getY()) {
+				onDeck = false;
+				leftGround = false;
+				weaver.releaseDeck();
+				weaver.endHomeLeap();
+				weaver.beginHomeLeap(plate);
 				return;
 			}
-			weaver.endHomeLeap();
-			leapCooldown = 10;
-			weaver.bindToDeck(bunk);
-			onDeck = true;
-		}
-
-		if (weaver.isDeckBound()) {
 			walkTheDeck(bunk);
 			return;
 		}
-
-		if (standingOn(plate) || closeEnoughToSleep(bunk)) {
-			walkIntoBed(bunk);
-			return;
-		}
-		if (leapCooldown > 0) {
-			leapCooldown--;
-			return;
-		}
-
-		double dx = plate.getX() + 0.5 - weaver.getX();
-		double dz = plate.getZ() + 0.5 - weaver.getZ();
-		if (dx * dx + dz * dz > APPROACH_SQR) {
-			sky = null;
-			double ox = bunk.getX() - plate.getX();
-			double oz = bunk.getZ() - plate.getZ();
-			double len = Math.sqrt(ox * ox + oz * oz);
-			if (len < 0.5) {
-				ox = 1.0;
-				oz = 0.0;
-				len = 1.0;
+		if (weaver.isHomePlateLeap()) {
+			weaver.steerHomeLeap(landing);
+			if (!weaver.onGround()) {
+				leftGround = true;
+				return;
 			}
-			walk(plate.getX() + 0.5 + ox / len * 8.0, weaver.getY(), plate.getZ() + 0.5 + oz / len * 8.0);
-			return;
-		}
-
-		if (sky == null || ticks % 30 == 0 || !hasSkylight(sky)) {
-			BlockPos found = findSkylight(plate);
-			if (found != null) {
-				sky = found;
+			if (!leftGround) {
+				return;
 			}
-		}
-		if (sky != null && atPad(sky, plate)) {
-			weaver.beginHomeLeap(plate);
-			sky = null;
+			if (stillAbovePlate(plate)) {
+				weaver.setDeltaMovement(0.0, Math.min(weaver.getDeltaMovement().y, -0.08), 0.0);
+				return;
+			}
+			weaver.endHomeLeap();
+			leftGround = false;
+			if (atLanding(landing)) {
+				onDeck = true;
+				walkTheDeck(bunk);
+			}
 			return;
 		}
-		if (sky != null) {
-			walk(sky.getX() + 0.5, sky.getY(), sky.getZ() + 0.5);
+		if (atLanding(landing)) {
+			onDeck = true;
+			walkTheDeck(bunk);
 			return;
 		}
-		stepOutFromUnder(plate);
+		leftGround = false;
+		weaver.getNavigation().stop();
+		weaver.beginHomeLeap(landing);
 	}
 
 	private void walkIntoBed(BlockPos bunk) {
@@ -200,6 +187,24 @@ public class WeaverSleepGoal extends Goal {
 		settleInto(bunk);
 	}
 
+	/** Fibre above the plate used to catch the fall. Stay in the leap so that fibre stays passable. */
+	private boolean stillAbovePlate(BlockPos plate) {
+		if (plate == null || weaver.getY() <= plate.getY() + 1.6) {
+			return false;
+		}
+		BlockPos under = BlockPos.containing(weaver.getX(), weaver.getY() - 0.2, weaver.getZ());
+		return weaver.level().getBlockState(under).is(ModBlocks.THOLIN_FIBER)
+			|| weaver.level().getBlockState(under.below()).is(ModBlocks.THOLIN_FIBER);
+	}
+
+	private boolean atLanding(BlockPos target) {
+		double dx = target.getX() + 0.5 - weaver.getX();
+		double dz = target.getZ() + 0.5 - weaver.getZ();
+		return weaver.onGround()
+			&& dx * dx + dz * dz <= 16.0
+			&& Math.abs(weaver.getY() - (target.getY() + 1.0)) <= 3.0;
+	}
+
 	/** Lie down only in a bunk this Weaver owns, and never on top of someone already there. */
 	private void settleInto(BlockPos bunk) {
 		Level level = weaver.level();
@@ -208,10 +213,6 @@ public class WeaverSleepGoal extends Goal {
 		if (!(state.getBlock() instanceof StrawBedBlock)
 			|| !WeaverPadBlock.availableTo(level, bunk, weaver.getUUID())
 			|| (!pad && WeaverEntity.isBedClaimed(level, bunk, weaver))) {
-			weaver.releaseDeck();
-			onDeck = false;
-			weaver.releaseHome();
-			bed = null;
 			return;
 		}
 		if (state.getValue(AbstractBedBlock.OCCUPIED)) {
@@ -334,20 +335,8 @@ public class WeaverSleepGoal extends Goal {
 	}
 
 	private @Nullable BlockPos resolveBed() {
-		if (weaver.isHomeReachable()) {
-			BlockPos home = weaver.getHomePosition();
-			Level level = weaver.level();
-			if (!level.isLoaded(home)) {
-				return home;
-			}
-			BlockState state = level.getBlockState(home);
-			boolean pad = state.getBlock() instanceof WeaverPadBlock;
-			if (state.getBlock() instanceof StrawBedBlock
-				&& WeaverPadBlock.availableTo(level, home, weaver.getUUID())
-				&& (pad || !WeaverEntity.isBedClaimed(level, home, weaver))) {
-				return home;
-			}
-			weaver.releaseHome();
+		if (weaver.hasHomeHere()) {
+			return weaver.getHomePosition();
 		}
 		return findUnclaimedBed();
 	}
@@ -386,37 +375,10 @@ public class WeaverSleepGoal extends Goal {
 	}
 
 	private @Nullable BlockPos findUnclaimedBed() {
-		Level level = weaver.level();
-		BlockPos origin = weaver.blockPosition();
-		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
-		BlockPos best = null;
-		double bestDist = Double.MAX_VALUE;
-		for (int dx = -SEARCH_XZ; dx <= SEARCH_XZ; dx++) {
-			for (int dy = -SEARCH_Y; dy <= SEARCH_Y; dy++) {
-				for (int dz = -SEARCH_XZ; dz <= SEARCH_XZ; dz++) {
-					cursor.set(origin.getX() + dx, origin.getY() + dy, origin.getZ() + dz);
-					BlockState state = level.getBlockState(cursor);
-					if (!(state.getBlock() instanceof StrawBedBlock)) {
-						continue;
-					}
-					if (state.hasProperty(BlockStateProperties.BED_PART)
-						&& state.getValue(BlockStateProperties.BED_PART) != BedPart.FOOT) {
-						continue;
-					}
-					if (!WeaverPadBlock.availableTo(level, cursor, weaver.getUUID())) {
-						continue;
-					}
-					if (!(state.getBlock() instanceof WeaverPadBlock) && WeaverEntity.isBedClaimed(level, cursor, weaver)) {
-						continue;
-					}
-					double dist = weaver.distanceToSqr(cursor.getX() + 0.5, cursor.getY(), cursor.getZ() + 0.5);
-					if (dist < bestDist) {
-						bestDist = dist;
-						best = cursor.immutable();
-					}
-				}
-			}
+		if (!(weaver.level() instanceof net.minecraft.server.level.ServerLevel level)) {
+			return null;
 		}
+		BlockPos best = WeaverHomes.nearestFreePad(level, weaver);
 		if (best != null && weaver.claimBed(best, findHomePlate(level, best))) {
 			return best;
 		}

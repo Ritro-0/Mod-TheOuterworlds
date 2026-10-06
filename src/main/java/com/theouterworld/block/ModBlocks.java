@@ -117,6 +117,25 @@ public class ModBlocks {
 		)
 	);
 
+	/**
+	 * Amberworld reed. Grows beside methane the way sugar cane grows beside water,
+	 * then ripens a third-block tip that is the only part worth cutting.
+	 */
+	public static final Block THOLIN_STALK = registerBlock(
+		"tholin_stalk",
+		key -> new TholinStalkBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_ORANGE)
+				.instabreak()
+				.sound(SoundType.GRASS)
+				.noCollision()
+				.noOcclusion()
+				.randomTicks()
+				.pushReaction(PushReaction.POPPED)
+		)
+	);
+
 	/** Soft tholin dust / soil covering Amberworld's surface. */
 	public static final Block THOLINIC_REGOLITH = registerBlock(
 		"tholinic_regolith",
@@ -147,7 +166,7 @@ public class ModBlocks {
 	/** Landing at each pod door. Cutout weave, so it must not hide the blocks around it. */
 	public static final Block THOLIN_FIBER_HOME_PLATE = registerBlock(
 		"tholin_fiber_home_plate",
-		key -> new Block(
+		key -> new TholinFiberHomePlateBlock(
 			BlockBehaviour.Properties.of()
 				.setId(key)
 				.mapColor(MapColor.COLOR_ORANGE)
@@ -2094,6 +2113,11 @@ public class ModBlocks {
 		Blocks.COPPER_LANTERN.weathering().oxidized()
 	);
 	public static final Block WAXED_LANTERN = registerWaxedLantern("waxed_lantern", Blocks.LANTERN);
+	/** Anchor light. Looks like a lantern and does not drop one when broken by hand. */
+	public static final Block POD_LANTERN = registerBlockOnly(
+		"pod_lantern",
+		key -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).setId(key).noLootTable())
+	);
 	public static final Block WAXED_EXPOSED_LANTERN = registerWaxedLantern("waxed_exposed_lantern", Blocks.COPPER_LANTERN.weathering().exposed());
 	public static final Block WAXED_WEATHERED_LANTERN = registerWaxedLantern("waxed_weathered_lantern", Blocks.COPPER_LANTERN.weathering().weathered());
 	public static final Block WAXED_OXIDIZED_LANTERN = registerWaxedLantern("waxed_oxidized_lantern", Blocks.COPPER_LANTERN.weathering().oxidized());

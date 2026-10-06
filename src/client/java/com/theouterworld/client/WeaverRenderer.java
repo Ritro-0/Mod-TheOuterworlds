@@ -50,13 +50,15 @@ public class WeaverRenderer extends EntityRenderer<WeaverEntity, WeaverRenderer.
 		state.walkAnimationPos = entity.walkAnimation.position(tickProgress);
 		state.walkAnimationSpeed = entity.walkAnimation.speed(tickProgress);
 		state.hasRedOverlay = entity.hurtTime > 0 || entity.deathTime > 0;
-		state.shadowRadius = 0.55F;
 		state.ageInTicks = entity.tickCount + tickProgress;
 		state.leapPose = entity.getLeapPose(tickProgress);
 		state.airborneAmount = entity.getAirborneAmount(tickProgress);
 		state.aggressive = entity.isClientAggressive();
 		state.inspectAmount = entity.getInspectAmount(tickProgress);
 		state.sleeping = entity.isSleeping();
+		state.baby = entity.isBaby();
+		state.flipProgress = entity.getFlipProgress();
+		state.shadowRadius = entity.isBaby() ? 0.3F : 0.55F;
 		this.itemModelResolver.updateForTopItem(
 			state.carriedItem,
 			entity.getCarriedItem(),
@@ -71,6 +73,12 @@ public class WeaverRenderer extends EntityRenderer<WeaverEntity, WeaverRenderer.
 	public void submit(WeaverRenderState state, PoseStack poseStack, SubmitNodeCollector queue, CameraRenderState camera) {
 		poseStack.pushPose();
 		poseStack.rotateDegrees(Axis.YP, 180.0F - state.bodyRot);
+		if (state.flipProgress > 0.001F) {
+			rotateAround(poseStack, 0.0F, 0.85F, 0.0F, -360.0F * state.flipProgress, 0.0F, 0.0F);
+		}
+		if (state.baby) {
+			poseStack.scale(0.5F, 0.5F, 0.5F);
+		}
 		if (state.sleeping) {
 			// The body already leans about 40° forward. This pitch lays that axis
 			// flat on the mattress, shell down, head at one end.
@@ -361,6 +369,8 @@ public class WeaverRenderer extends EntityRenderer<WeaverEntity, WeaverRenderer.
 		public float airborneAmount;
 		public float inspectAmount;
 		public boolean sleeping;
+		public boolean baby;
+		public float flipProgress;
 		public final ItemStackRenderState carriedItem = new ItemStackRenderState();
 	}
 }

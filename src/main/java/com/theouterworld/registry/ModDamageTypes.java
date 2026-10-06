@@ -26,6 +26,11 @@ public final class ModDamageTypes {
 		OuterWorldMod.id("solar_dissolution")
 	);
 
+	public static final ResourceKey<DamageType> HYDRA_CONSUME = ResourceKey.create(
+		Registries.DAMAGE_TYPE,
+		OuterWorldMod.id("hydra_consume")
+	);
+
 	private ModDamageTypes() {
 	}
 }

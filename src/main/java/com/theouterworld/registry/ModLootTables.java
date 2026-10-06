@@ -10,6 +10,10 @@ public class ModLootTables {
 		Registries.LOOT_TABLE,
 		OuterWorldMod.id("archaeology/suspicious_regolith")
 	);
+	public static final ResourceKey<LootTable> WEAVER_COLONY_GIFT = ResourceKey.create(
+		Registries.LOOT_TABLE,
+		OuterWorldMod.id("gameplay/weaver_colony_gift")
+	);
 
 	private ModLootTables() {
 	}

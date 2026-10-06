@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"mature=false,wild=false": {
+			"model": "theouterworlds:block/tholin_stalk"
+		},
+		"mature=false,wild=true": {
+			"model": "theouterworlds:block/tholin_stalk"
+		},
+		"mature=true,wild=false": {
+			"model": "theouterworlds:block/tholin_stalk_mature"
+		},
+		"mature=true,wild=true": {
+			"model": "theouterworlds:block/tholin_stalk_mature"
+		}
+	}
+}

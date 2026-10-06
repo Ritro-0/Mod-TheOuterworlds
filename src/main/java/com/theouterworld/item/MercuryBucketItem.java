@@ -2,8 +2,11 @@ package com.theouterworld.item;
 
 import com.theouterworld.block.ModBlocks;
 import com.theouterworld.world.DimensionClimate;
+import com.theouterworld.world.WeaverColonyHarm;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -46,6 +49,9 @@ public class MercuryBucketItem extends BucketItem {
 			return false;
 		}
 		this.playEmptySound(user, level, pos);
+		if (user instanceof Player player && level instanceof ServerLevel server) {
+			WeaverColonyHarm.onPlayerFluid(player, server, pos, this.getContent());
+		}
 		return true;
 	}
 }

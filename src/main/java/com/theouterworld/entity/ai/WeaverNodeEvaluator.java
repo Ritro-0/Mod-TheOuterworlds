@@ -1,13 +1,16 @@
 package com.theouterworld.entity.ai;
 
+import com.theouterworld.block.ModBlocks;
 import com.theouterworld.entity.WeaverEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.PathNavigationRegion;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.level.pathfinder.PathfindingContext;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 
 /**
@@ -25,6 +28,27 @@ public class WeaverNodeEvaluator extends WalkNodeEvaluator {
 
 	public boolean flatApproach() {
 		return this.mob instanceof WeaverEntity weaver && weaver.isFlatApproach();
+	}
+
+	/**
+	 * Fibre is a wall. It is walkable only while the Weaver is already inside it,
+	 * and only near their body, so the path can leave. It is not a corridor.
+	 */
+	@Override
+	public PathType getPathType(PathfindingContext context, int x, int y, int z) {
+		BlockState state = context.getBlockState(new BlockPos(x, y, z));
+		// Nets have no collision, but a door jamb net leads into the shell, not out of the pod.
+		if (state.is(ModBlocks.WEAVER_NET) && this.mob instanceof WeaverEntity) {
+			return PathType.BLOCKED;
+		}
+		if (state.is(ModBlocks.THOLIN_FIBER) && this.mob instanceof WeaverEntity weaver) {
+			if (weaver.isDeckBound() || weaver.isHomeLeaping()
+				|| (weaver.isEmbeddedInFiber() && weaver.blockPosition().distSqr(new BlockPos(x, y, z)) <= 12.0 * 12.0)) {
+				return PathType.WALKABLE;
+			}
+			return PathType.BLOCKED;
+		}
+		return super.getPathType(context, x, y, z);
 	}
 
 	@Override

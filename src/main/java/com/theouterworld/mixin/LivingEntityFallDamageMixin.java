@@ -1,5 +1,6 @@
 package com.theouterworld.mixin;
 
+import com.theouterworld.config.OuterworldConfig;
 import com.theouterworld.registry.ModDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -17,6 +18,10 @@ public class LivingEntityFallDamageMixin {
 			return fallDistance;
 		}
 		double gravity = ModDimensions.gravityMultiplier(level.dimension());
+		// Titan-weight worlds and anything lighter: the fall is real, the impact is not.
+		if (gravity <= OuterworldConfig.AMBERWORLD_GRAVITY_MULTIPLIER) {
+			return 0.0;
+		}
 		if (gravity >= 1.0) {
 			return fallDistance;
 		}

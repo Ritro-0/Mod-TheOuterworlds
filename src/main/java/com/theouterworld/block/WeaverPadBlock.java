@@ -1,7 +1,11 @@
 package com.theouterworld.block;
 
 import com.theouterworld.entity.WeaverEntity;
+import com.theouterworld.entity.ai.WeaverColonies;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.resources.Identifier;
@@ -13,6 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.StrawBedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,6 +34,9 @@ import java.util.UUID;
  * that already belongs to another, and waking up does not give the bunk away.
  */
 public class WeaverPadBlock extends StrawBedBlock implements EntityBlock {
+	/** The pod mesh is eight pixels tall and fills the block, not a straw-bed mattress. */
+	private static final VoxelShape POD = Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
+
 	private static final BedRule RULE = new BedRule(
 		BedRule.Rule.WHEN_DARK,
 		BedRule.Rule.NEVER,
@@ -39,6 +47,21 @@ public class WeaverPadBlock extends StrawBedBlock implements EntityBlock {
 
 	public WeaverPadBlock(Properties properties) {
 		super(properties);
+	}
+
+	@Override
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return POD;
+	}
+
+	@Override
+	protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return POD;
+	}
+
+	@Override
+	protected VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos) {
+		return POD;
 	}
 
 	@Override
@@ -63,6 +86,13 @@ public class WeaverPadBlock extends StrawBedBlock implements EntityBlock {
 
 	@Override
 	protected void destroyOnLeave(Level level, BlockPos pos) {
+	}
+
+	@Override
+	public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+		BlockState result = super.playerWillDestroy(level, pos, state, player);
+		WeaverColonies.noteBroken(level, pos, player, true);
+		return result;
 	}
 
 	@Override

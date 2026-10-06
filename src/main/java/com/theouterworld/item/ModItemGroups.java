@@ -28,6 +28,7 @@ public class ModItemGroups {
 				entries.accept(ModBlocks.OXIDIZED_BASALT);
 				entries.accept(ModBlocks.SULFURIC_BASALT);
 				entries.accept(ModBlocks.THOLIN);
+				entries.accept(ModBlocks.THOLIN_STALK);
 				entries.accept(ModBlocks.THOLINIC_REGOLITH);
 				entries.accept(ModBlocks.THOLIN_FIBER);
 				entries.accept(ModBlocks.THOLIN_FIBER_HOME_PLATE);
@@ -196,6 +197,10 @@ public class ModItemGroups {
 				entries.accept(ModItems.KHARAX_BELT);
 				entries.accept(ModItems.KHARAX_SPAWN_EGG);
 				entries.accept(ModItems.WEAVER_SPAWN_EGG);
+				entries.accept(ModItems.FEEDER_SPAWN_EGG);
+				entries.accept(ModItems.DRIFTMITE_SPAWN_EGG);
+				entries.accept(ModItems.FROSTWORLD_JELLY_SPAWN_EGG);
+				entries.accept(ModItems.STRAND_HYDRA_SPAWN_EGG);
 				entries.accept(ModBlocks.FROZEN_NETHER_PORTAL);
 				entries.accept(ModBlocks.FROZEN_MAGMA);
 				entries.accept(ModItems.FROZEN_WHEAT_SEEDS);

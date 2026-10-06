@@ -12,7 +12,6 @@ import java.util.EnumSet;
  * Closes on the attacker in leaps, lands one hit, then hands off to retreat.
  */
 public class WeaverLeapAttackGoal extends Goal {
-	private static final double LEAP_RANGE_SQR = 64.0;
 	private static final double STRIKE_RANGE_SQR = 6.25;
 
 	private final WeaverEntity weaver;
@@ -26,7 +25,10 @@ public class WeaverLeapAttackGoal extends Goal {
 
 	@Override
 	public boolean canUse() {
-		return weaver.isAggressive() && weaver.getTarget() != null && weaver.getTarget().isAlive();
+		return !weaver.isVengeanceLeaping()
+			&& weaver.isAggressive()
+			&& weaver.getTarget() != null
+			&& weaver.getTarget().isAlive();
 	}
 
 	@Override
@@ -58,24 +60,33 @@ public class WeaverLeapAttackGoal extends Goal {
 		}
 		weaver.getLookControl().setLookAt(target, 40.0F, 40.0F);
 		double distSq = weaver.distanceToSqr(target);
+		if (weaver.holdsBloodFeud(target) && distSq > 96.0 * 96.0) {
+			weaver.dropFeudChase();
+			return;
+		}
 		leapCooldown--;
 
 		if (distSq <= STRIKE_RANGE_SQR) {
 			if (weaver.level() instanceof ServerLevel serverLevel && weaver.doHurtTarget(serverLevel, target)) {
+				if (weaver.holdsBloodFeud(target)) {
+					leapCooldown = 8;
+					return;
+				}
 				hasStruck = true;
 				weaver.beginRetreat(target);
 			}
 			return;
 		}
 
-		if (leapCooldown <= 0 && weaver.onGround() && distSq <= LEAP_RANGE_SQR) {
-			Vec3 toTarget = target.position().subtract(weaver.position());
-			double horizontal = Math.sqrt(toTarget.x * toTarget.x + toTarget.z * toTarget.z);
-			if (horizontal > 1.0E-4) {
-				leapCooldown = weaver.launchLeap(toTarget.x / horizontal, toTarget.z / horizontal, horizontal);
+		Vec3 toTarget = target.position().subtract(weaver.position());
+		double horizontal = Math.sqrt(toTarget.x * toTarget.x + toTarget.z * toTarget.z);
+		double rise = target.getY() - weaver.getY();
+		if (leapCooldown <= 0 && weaver.onGround() && horizontal > 1.0E-4 && rise > weaver.maxUpStep() + 0.35) {
+			leapCooldown = weaver.hopToward(toTarget.x / horizontal, toTarget.z / horizontal, horizontal, rise);
+			if (leapCooldown > 0) {
 				return;
 			}
 		}
-		weaver.getNavigation().moveTo(target, 1.45);
+		weaver.getNavigation().moveTo(target, 1.15);
 	}
 }

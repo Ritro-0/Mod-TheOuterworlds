@@ -25,6 +25,7 @@ public class WeaverNetBlockEntity extends BlockEntity implements Container {
 	public static final int SIZE = 5;
 
 	private final NonNullList<ItemStack> items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
+	private long colonyId;
 
 	public WeaverNetBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlockEntities.WEAVER_NET, pos, state);
@@ -56,6 +57,18 @@ public class WeaverNetBlockEntity extends BlockEntity implements Container {
 			this.markUpdated();
 		}
 		return remainder;
+	}
+
+	public long getColonyId() {
+		return this.colonyId;
+	}
+
+	public void setColonyId(long colonyId) {
+		if (colonyId == 0L || this.colonyId == colonyId) {
+			return;
+		}
+		this.colonyId = colonyId;
+		this.setChanged();
 	}
 
 	public boolean hasRoomFor(ItemStack stack) {
@@ -144,6 +157,9 @@ public class WeaverNetBlockEntity extends BlockEntity implements Container {
 	protected void saveAdditional(ValueOutput output) {
 		super.saveAdditional(output);
 		ContainerHelper.saveAllItems(output, this.items, false);
+		if (this.colonyId != 0L) {
+			output.putLong("ColonyId", this.colonyId);
+		}
 	}
 
 	@Override
@@ -151,6 +167,7 @@ public class WeaverNetBlockEntity extends BlockEntity implements Container {
 		super.loadAdditional(input);
 		this.items.clear();
 		ContainerHelper.loadAllItems(input, this.items);
+		this.colonyId = input.getLongOr("ColonyId", 0L);
 	}
 
 	@Override

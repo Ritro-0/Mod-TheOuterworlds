@@ -536,6 +536,34 @@ public class ModItems {
 		)
 	);
 
+	public static final Item FEEDER_SPAWN_EGG = registerItem(
+		"feeder_spawn_egg",
+		key -> new SpawnEggItem(
+			new Item.Properties().setId(key).spawnEgg(com.theouterworld.registry.ModEntities.FEEDER)
+		)
+	);
+
+	public static final Item DRIFTMITE_SPAWN_EGG = registerItem(
+		"driftmite_spawn_egg",
+		key -> new SpawnEggItem(
+			new Item.Properties().setId(key).spawnEgg(com.theouterworld.registry.ModEntities.DRIFTMITE)
+		)
+	);
+
+	public static final Item FROSTWORLD_JELLY_SPAWN_EGG = registerItem(
+		"frostworld_jelly_spawn_egg",
+		key -> new SpawnEggItem(
+			new Item.Properties().setId(key).spawnEgg(com.theouterworld.registry.ModEntities.FROSTWORLD_JELLY)
+		)
+	);
+
+	public static final Item STRAND_HYDRA_SPAWN_EGG = registerItem(
+		"strand_hydra_spawn_egg",
+		key -> new SpawnEggItem(
+			new Item.Properties().setId(key).spawnEgg(com.theouterworld.registry.ModEntities.STRAND_HYDRA)
+		)
+	);
+
 	public static final Item KHARAX_CHITIN = registerItem(
 		"kharax_chitin",
 		key -> new Item(new Item.Properties().setId(key))

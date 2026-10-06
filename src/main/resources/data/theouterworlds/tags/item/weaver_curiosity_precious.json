@@ -1,0 +1,10 @@
+{
+	"replace": false,
+	"values": [
+		"minecraft:beacon",
+		"minecraft:budding_amethyst",
+		"minecraft:diamond_block",
+		"minecraft:emerald_block",
+		"minecraft:netherite_block"
+	]
+}

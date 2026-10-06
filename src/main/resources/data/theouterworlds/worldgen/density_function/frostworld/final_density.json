@@ -3,12 +3,16 @@
 	"input": {
 		"type": "minecraft:max",
 		"left": {
-			"type": "minecraft:gradient",
-			"from_value": 12,
-			"to_value": -8,
-			"axis": "y",
-			"from_coordinate": -64,
-			"to_coordinate": -58
+			"type": "minecraft:max",
+			"left": {
+				"type": "minecraft:gradient",
+				"from_value": 6,
+				"to_value": -18,
+				"axis": "y",
+				"from_coordinate": -64,
+				"to_coordinate": -60
+			},
+			"right": "theouterworlds:frostworld/ocean_floor"
 		},
 		"right": {
 			"type": "minecraft:mul",
@@ -46,6 +50,6 @@
 			}
 		}
 	},
-	"cell_size_xz": 4,
-	"cell_size_y": 8
+	"cell_size_xz": 2,
+	"cell_size_y": 4
 }

@@ -56,12 +56,15 @@ public class OuterWorldMod implements ModInitializer {
 		ModScreenHandlers.registerModScreenHandlers();
 		com.theouterworld.registry.ModSounds.registerModSounds();
 		com.theouterworld.registry.ModEntities.registerModEntities();
+		com.theouterworld.entity.StrandHydraEntity.register();
+		com.theouterworld.world.FrostworldFaunaSpawner.register();
 		VanillaIronReplacementListener.register();
 		com.theouterworld.world.PlantFreeze.register();
 		com.theouterworld.world.ColdDimensionLights.register();
 		GlassHelmetUtil.register();
 		com.theouterworld.world.OuterworldWorldType.register();
 		com.theouterworld.world.BeaconConcentratorPortals.register();
+		com.theouterworld.world.WeaverColonyHarm.register();
 
 		PayloadTypeRegistry.clientboundPlay().register(DustStormSyncPacket.ID, DustStormSyncPacket.CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(

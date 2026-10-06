@@ -2,8 +2,10 @@ package com.theouterworld.worldgen;
 
 import com.mojang.serialization.MapCodec;
 import com.theouterworld.block.ModBlocks;
+import com.theouterworld.block.WeaverNetBlockEntity;
 import com.theouterworld.block.WeaverPadBlock;
 import com.theouterworld.entity.WeaverEntity;
+import com.theouterworld.entity.ai.WeaverColonies;
 import com.theouterworld.registry.ModDimensions;
 import com.theouterworld.registry.ModEntities;
 import net.minecraft.core.BlockPos;
@@ -41,9 +43,9 @@ import java.util.Set;
 public class AmberworldAnchorFeature implements Feature {
 	public static final MapCodec<AmberworldAnchorFeature> CODEC = MapCodec.unit(AmberworldAnchorFeature::new);
 
-	private static final int CELL = 416;
-	private static final int JITTER = 96;
-	private static final int RADIUS = 52;
+	private static final int CELL = WeaverColonies.CELL;
+	private static final int JITTER = WeaverColonies.JITTER;
+	private static final int RADIUS = WeaverColonies.RADIUS;
 	private static final int SEA_LEVEL = 63;
 	private static final int HILL_HEIGHT = SEA_LEVEL + 9;
 	/** How far inland an Anchor may sit and still count as coastal. */
@@ -69,7 +71,7 @@ public class AmberworldAnchorFeature implements Feature {
 		int minZ = origin.getZ() & ~15;
 		int maxX = minX + 15;
 		int maxZ = minZ + 15;
-		long seed = world.getSeed() + 5514011L;
+		long seed = world.getSeed() + WeaverColonies.SEED_SALT;
 		RandomState noise = world.getLevel().getChunkSource().randomState();
 
 		int reach = RADIUS + JITTER + CELL / 2;
@@ -125,9 +127,55 @@ public class AmberworldAnchorFeature implements Feature {
 		RandomSource rng = RandomSource.create(
 			seed ^ ((long) cellX * 341873128712L) ^ ((long) cellZ * 132897987541L)
 		);
-		Painter painter = new Painter(world, minX, minZ, maxX, maxZ);
+		Painter painter = new Painter(
+			world,
+			minX,
+			minZ,
+			maxX,
+			maxZ,
+			WeaverColonies.id(world.getSeed(), cellX, cellZ)
+		);
 		buildAnchor(painter, rng, centerX, baseY, centerZ);
 		return painter.placed;
+	}
+
+	/**
+	 * Shore within shouting distance of an Anchor that this seed actually builds.
+	 * The spire footprint itself is excluded so stalks stay on the bank, not in the weave.
+	 */
+	public static boolean boostsStalks(
+		ChunkGenerator chunkGenerator,
+		RandomState noise,
+		WorldGenLevel world,
+		int x,
+		int z
+	) {
+		long seed = world.getSeed() + WeaverColonies.SEED_SALT;
+		int cellX = Math.floorDiv(x, CELL);
+		int cellZ = Math.floorDiv(z, CELL);
+		for (int cx = cellX - 1; cx <= cellX + 1; cx++) {
+			for (int cz = cellZ - 1; cz <= cellZ + 1; cz++) {
+				int centerX = cx * CELL + CELL / 2
+					+ (int) (WorldgenNoise.signed(WorldgenNoise.hash(seed + 3, cx, cz)) * JITTER);
+				int centerZ = cz * CELL + CELL / 2
+					+ (int) (WorldgenNoise.signed(WorldgenNoise.hash(seed + 5, cx, cz)) * JITTER);
+				long dx = (long) x - centerX;
+				long dz = (long) z - centerZ;
+				long dist = dx * dx + dz * dz;
+				if (dist < 18L * 18L || dist > 78L * 78L) {
+					continue;
+				}
+				int baseY = chunkGenerator.getBaseHeight(centerX, centerZ, Heightmap.Types.WORLD_SURFACE_WG, world, noise);
+				if (baseY <= SEA_LEVEL + 1 || !nearMethane(chunkGenerator, noise, world, centerX, centerZ)) {
+					continue;
+				}
+				double chance = BASE_CHANCE + (baseY >= HILL_HEIGHT ? HILL_BONUS : 0.0);
+				if (WorldgenNoise.hash(seed + 11, cx, cz) <= chance) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/** True when the methane ocean, not a surface pond, is within {@link #OCEAN_REACH}. */
@@ -213,15 +261,28 @@ public class AmberworldAnchorFeature implements Feature {
 		}
 
 		int netCount = 5 + rng.nextInt(5);
+		int netColumns = 0;
+		Set<Long> netSites = new HashSet<>();
 		for (int i = 0; i < netCount; i++) {
 			Pod pod = pods[rng.nextInt(podCount)];
 			double t = 0.25 + rng.nextDouble() * 0.5;
-			int[] point = sampleWalkway(cx, cz, pod, t);
-			Direction side = towards(cx, cz, pod.x(), pod.z()).getClockWise();
-			if ((i & 1) == 1) {
-				side = side.getOpposite();
+			WalkSample sample = sampleCourse(cx, cz, pod, t);
+			if (placeReachableNet(painter, sample, pods, cx, cz, netSites)) {
+				netColumns++;
 			}
-			placeReachableNet(painter, point[0], point[1], point[2], side);
+		}
+		if (netColumns < 3) {
+			placeSpiralCoreNets(
+				painter,
+				cx,
+				baseY,
+				cz,
+				topFloor + 4,
+				spireRadius + 4.2,
+				phase,
+				twist,
+				3 - netColumns
+			);
 		}
 
 		int lampCount = 8 + rng.nextInt(6);
@@ -231,6 +292,7 @@ public class AmberworldAnchorFeature implements Feature {
 			int[] point = sampleWalkway(cx, cz, pod, t);
 			placeHangingLantern(painter, point[0], point[1], point[2], 2 + rng.nextInt(4));
 		}
+		painter.clearLivingSpace();
 	}
 
 	/** Splayed fibre stilts that plant the colony on hills, slopes, and methane shores. */
@@ -403,6 +465,9 @@ public class AmberworldAnchorFeature implements Feature {
 				for (int dz = -ir; dz <= ir; dz++) {
 					if (Math.sqrt(dx * dx + dz * dz) <= inner) {
 						painter.carve(px + dx, y, pz + dz);
+						if (living && y <= floorY + 3) {
+							painter.hollow(px + dx, y, pz + dz);
+						}
 					}
 				}
 			}
@@ -414,6 +479,7 @@ public class AmberworldAnchorFeature implements Feature {
 			for (int dz = -floorR; dz <= floorR; dz++) {
 				if (dx * dx + dz * dz <= floorR * floorR) {
 					painter.fiber(px + dx, floorY - 1, pz + dz);
+					painter.floor(px + dx, floorY - 1, pz + dz);
 				}
 			}
 		}
@@ -430,9 +496,14 @@ public class AmberworldAnchorFeature implements Feature {
 				for (int up = 0; up <= 4; up++) {
 					painter.carve(x, floorY + up, z);
 					painter.keep(x, floorY + up, z);
+					if (up <= 3) {
+						painter.hollow(x, floorY + up, z);
+					}
 				}
+				painter.floor(x, floorY - 1, z);
 			}
 		}
+		placeDoorFrame(painter, px, pz, floorY, inward, side, floorShell);
 
 		int windowCount = 3 + rng.nextInt(3);
 		for (int i = 0; i < windowCount; i++) {
@@ -452,13 +523,16 @@ public class AmberworldAnchorFeature implements Feature {
 		int standX = px + side.getStepX();
 		int standZ = pz + side.getStepZ();
 		painter.fiber(standX, floorY - 1, standZ);
+		painter.floor(standX, floorY - 1, standZ);
 		for (int up = 0; up <= 3; up++) {
 			painter.carve(standX, floorY + up, standZ);
+			painter.hollow(standX, floorY + up, standZ);
 		}
 		painter.spawnResident(standX, floorY, standZ, new BlockPos(px, floorY, pz), plate);
 		int ceiling = painter.findFiberSupport(px, floorY + 3, pz, 8);
 		if (ceiling != Integer.MIN_VALUE) {
-			placeHangingLantern(painter, px, ceiling, pz, 1);
+			// Three air blocks between the pad and the lantern, or no lantern.
+			placeHangingLantern(painter, px, ceiling, pz, 1, floorY + 4);
 		}
 	}
 
@@ -497,6 +571,29 @@ public class AmberworldAnchorFeature implements Feature {
 			placeWalkway(painter, cx, cz, tipY, x, z, tipY - 1, 0.4, false);
 			Pod nest = new Pod(x, z, tipY - 1, 5, 10, false, 0.3);
 			placeTeardropPod(painter, rng, nest, cx, cz, tipY - 1, 0.0, 0.0, 0.0, 0);
+		}
+	}
+
+	/**
+	 * Jambs and lintel of the pod door become nets. The floor and the landing stay fiber.
+	 * Kept so a later seal or walkway cannot pave them back over.
+	 */
+	private static void placeDoorFrame(Painter painter, int px, int pz, int floorY, Direction inward, Direction side, double floorShell) {
+		int minDepth = Math.max(1, Mth.floor(floorShell) - 2);
+		int maxDepth = Mth.ceil(floorShell) + 1;
+		for (int depth = minDepth; depth <= maxDepth; depth++) {
+			for (int lateral : new int[] {-2, 3}) {
+				int x = px + inward.getStepX() * depth + side.getStepX() * lateral;
+				int z = pz + inward.getStepZ() * depth + side.getStepZ() * lateral;
+				for (int up = 0; up <= 4; up++) {
+					painter.frameNet(x, floorY + up, z);
+				}
+			}
+			for (int lateral = -1; lateral <= 2; lateral++) {
+				int x = px + inward.getStepX() * depth + side.getStepX() * lateral;
+				int z = pz + inward.getStepZ() * depth + side.getStepZ() * lateral;
+				painter.frameNet(x, floorY + 5, z);
+			}
 		}
 	}
 
@@ -542,6 +639,14 @@ public class AmberworldAnchorFeature implements Feature {
 			int x = px + inward.getStepX() * depth;
 			int z = pz + inward.getStepZ() * depth;
 			layDeck(painter, x, plateY, z, side);
+			for (int lateral = 0; lateral <= 1; lateral++) {
+				int wx = x + side.getStepX() * lateral;
+				int wz = z + side.getStepZ() * lateral;
+				painter.floor(wx, plateY, wz);
+				for (int up = 1; up <= 4; up++) {
+					painter.hollow(wx, plateY + up, wz);
+				}
+			}
 		}
 		painter.reserveColumn(plateX, plateZ, plateY);
 
@@ -685,35 +790,151 @@ public class AmberworldAnchorFeature implements Feature {
 	}
 
 	/**
-	 * A net hung just off a deck, with three blocks of clear air on that deck.
-	 * A Weaver stands on the deck and reaches the weave; the weave is not the floor.
+	 * A net hung one block past the outer plank of a walkway, with three blocks of clear
+	 * air on that deck. The weave is not the floor, and it does not sit in the headroom.
 	 */
-	private static void placeReachableNet(Painter painter, int x, int floorY, int z, Direction side) {
+	private static boolean placeReachableNet(
+		Painter painter,
+		WalkSample sample,
+		Pod[] pods,
+		int cx,
+		int cz,
+		Set<Long> sites
+	) {
+		int x = sample.x();
+		int floorY = sample.y();
+		int z = sample.z();
+		double px = sample.px();
+		double pz = sample.pz();
+		int outerX = x + Mth.floor(px + 0.25);
+		int outerZ = z + Mth.floor(pz + 0.25);
+		int stepX = (int) Math.signum(px);
+		int stepZ = (int) Math.signum(pz);
+		if (stepX == 0 && stepZ == 0) {
+			return false;
+		}
+		int netX = outerX + stepX;
+		int netZ = outerZ + stepZ;
+		if ((netX == x && netZ == z) || (netX == outerX && netZ == outerZ)) {
+			return false;
+		}
+		if (!netSiteClear(cx, cz, pods, x, z) || !netSiteClear(cx, cz, pods, netX, netZ)) {
+			return false;
+		}
+		int reach = Math.max(Math.abs(netX - outerX), Math.abs(netZ - outerZ));
+		if (reach < 1 || reach > 2) {
+			return false;
+		}
+		if (!sites.add(BlockPos.asLong(netX, floorY + 1, netZ))) {
+			return false;
+		}
+
 		painter.fiber(x, floorY, z);
+		painter.fiber(outerX, floorY, outerZ);
 		for (int up = 1; up <= 3; up++) {
 			painter.carve(x, floorY + up, z);
+			painter.carve(outerX, floorY + up, outerZ);
 		}
-		int hx = x + side.getStepX();
-		int hz = z + side.getStepZ();
-		painter.fiber(hx, floorY + 3, hz);
-		painter.net(hx, floorY + 2, hz);
-		painter.net(hx, floorY + 1, hz);
+		painter.fiber(netX, floorY + 3, netZ);
+		painter.net(netX, floorY + 2, netZ);
+		painter.net(netX, floorY + 1, netZ);
+		return true;
+	}
+
+	/** Outside the coil, and outside every pod shell, so the stand is actually a walkway. */
+	private static boolean netSiteClear(int cx, int cz, Pod[] pods, int x, int z) {
+		int dx = x - cx;
+		int dz = z - cz;
+		if (dx * dx + dz * dz < 11 * 11) {
+			return false;
+		}
+		for (Pod pod : pods) {
+			int px = x - pod.x();
+			int pz = z - pod.z();
+			int limit = pod.radius() + 2;
+			if (px * px + pz * pz < limit * limit) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * When the walkways cannot host three nets, hang them on the inner face of the spiral
+	 * so they dangle in the open core, one block from a tread a Weaver can stand on.
+	 * The first column is the large one.
+	 */
+	private static void placeSpiralCoreNets(
+		Painter painter,
+		int cx,
+		int baseY,
+		int cz,
+		int topY,
+		double stairRadius,
+		double phase,
+		double twist,
+		int count
+	) {
+		if (count <= 0 || stairRadius < 1.0) {
+			return;
+		}
+		int low = baseY + 8;
+		int high = Math.max(low + 4, (baseY + topY) / 2);
+		double step = 1.2 / stairRadius;
+		double turn = Math.signum(twist == 0.0 ? 1.0 : twist);
+		for (int i = 0; i < count; i++) {
+			int y = count == 1 ? low + (high - low) / 2 : low + (high - low) * i / (count - 1);
+			double angle = phase + Math.PI * 0.5 + (y - (baseY + 1)) * step * turn;
+			int sx = cx + Mth.floor(Math.cos(angle) * stairRadius + 0.5);
+			int sz = cz + Mth.floor(Math.sin(angle) * stairRadius + 0.5);
+			double inwardX = cx - sx;
+			double inwardZ = cz - sz;
+			double len = Math.sqrt(inwardX * inwardX + inwardZ * inwardZ);
+			if (len < 0.5) {
+				continue;
+			}
+			int nx = sx + (int) Math.signum(inwardX);
+			int nz = sz + (int) Math.signum(inwardZ);
+			if (nx == sx && nz == sz) {
+				continue;
+			}
+			int tall = i == 0 ? 4 : 2;
+			for (int up = 1; up <= 3; up++) {
+				painter.carve(sx, y + up, sz);
+			}
+			painter.fiber(nx, y + tall + 1, nz);
+			for (int h = 1; h <= tall; h++) {
+				painter.net(nx, y + h, nz);
+			}
+		}
 	}
 
 	private static void placeHangingLantern(Painter painter, int x, int supportY, int z, int chainLength) {
+		placeHangingLantern(painter, x, supportY, z, chainLength, Integer.MIN_VALUE);
+	}
+
+	private static void placeHangingLantern(Painter painter, int x, int supportY, int z, int chainLength, int minLanternY) {
 		int attachY = painter.findFiberSupport(x, supportY, z, 3);
 		if (attachY == Integer.MIN_VALUE) {
 			return;
 		}
 		int y = attachY - 1;
-		for (int i = 0; i < chainLength; i++, y--) {
-			painter.set(x, y, z, Blocks.IRON_CHAIN.defaultBlockState());
+		if (y - chainLength < minLanternY) {
+			return;
 		}
-		painter.set(x, y, z, Blocks.LANTERN.defaultBlockState().setValue(LanternBlock.HANGING, true));
+		for (int i = 0; i < chainLength; i++, y--) {
+			painter.set(x, y, z, ModBlocks.UNAFFECTED_IRON_CHAIN.defaultBlockState());
+		}
+		painter.set(x, y, z, ModBlocks.POD_LANTERN.defaultBlockState().setValue(LanternBlock.HANGING, true));
 	}
 
 	/** Point along the same sagging walkway the pod uses, so hung things actually attach. */
 	private static int[] sampleWalkway(int cx, int cz, Pod pod, double t) {
+		WalkSample sample = sampleCourse(cx, cz, pod, t);
+		return new int[] {sample.x(), sample.y(), sample.z()};
+	}
+
+	private static WalkSample sampleCourse(int cx, int cz, Pod pod, double t) {
 		double ang = Math.atan2(pod.z() - cz, pod.x() - cx);
 		int x0 = cx + Mth.floor(Math.cos(ang) * 9.0 + 0.5);
 		int z0 = cz + Mth.floor(Math.sin(ang) * 9.0 + 0.5);
@@ -731,11 +952,13 @@ public class AmberworldAnchorFeature implements Feature {
 		double bow = pod.sway() * Math.min(5.5, horiz * 0.12);
 		double dip = Math.sin(t * Math.PI) * sag;
 		double curve = Math.sin(t * Math.PI) * bow;
-		return new int[] {
+		return new WalkSample(
 			x0 + Mth.floor(dx * t + px * curve + 0.5),
 			y0 + Mth.floor(dy * t + 0.5) - Mth.floor(dip),
-			z0 + Mth.floor(dz * t + pz * curve + 0.5)
-		};
+			z0 + Mth.floor(dz * t + pz * curve + 0.5),
+			px,
+			pz
+		);
 	}
 
 	private static Direction towards(int fromX, int fromZ, int toX, int toZ) {
@@ -749,6 +972,8 @@ public class AmberworldAnchorFeature implements Feature {
 
 	private record Pod(int x, int z, int floorY, int radius, int height, boolean child, double sway) {}
 
+	private record WalkSample(int x, int y, int z, double px, double pz) {}
+
 	/** Clamps every write to the chunk currently being generated. */
 	private static final class Painter {
 		private final WorldGenLevel world;
@@ -760,14 +985,18 @@ public class AmberworldAnchorFeature implements Feature {
 		private final List<Shaft> shafts = new ArrayList<>();
 		/** Door decks and plates. Later stairs and shells must not erase them. */
 		private final Set<Long> kept = new HashSet<>();
+		private final Set<Long> hollows = new HashSet<>();
+		private final Set<Long> floors = new HashSet<>();
+		private final long colonyId;
 		private boolean placed;
 
-		private Painter(WorldGenLevel world, int minX, int minZ, int maxX, int maxZ) {
+		private Painter(WorldGenLevel world, int minX, int minZ, int maxX, int maxZ, long colonyId) {
 			this.world = world;
 			this.minX = minX;
 			this.minZ = minZ;
 			this.maxX = maxX;
 			this.maxZ = maxZ;
+			this.colonyId = colonyId;
 		}
 
 		private boolean inChunk(int x, int y, int z) {
@@ -784,6 +1013,53 @@ public class AmberworldAnchorFeature implements Feature {
 
 		void keep(int x, int y, int z) {
 			kept.add(BlockPos.asLong(x, y, z));
+		}
+
+		/** Pod living space and the plate-to-pad walk. Cleared after everything else is built. */
+		void hollow(int x, int y, int z) {
+			hollows.add(BlockPos.asLong(x, y, z));
+		}
+
+		/** Ground under that walk. Filled after everything else is built. */
+		void floor(int x, int y, int z) {
+			floors.add(BlockPos.asLong(x, y, z));
+		}
+
+		/**
+		 * Later pods, hanging pods, nets, and lanterns can paint into an earlier pod.
+		 * This runs last: the walk from the plate to the pad is open and has a floor.
+		 */
+		void clearLivingSpace() {
+			for (long packed : floors) {
+				int x = BlockPos.getX(packed);
+				int y = BlockPos.getY(packed);
+				int z = BlockPos.getZ(packed);
+				if (!inChunk(x, y, z) || hollows.contains(packed)) {
+					continue;
+				}
+				cursor.set(x, y, z);
+				BlockState state = world.getBlockState(cursor);
+				if (state.isAir() || state.getCollisionShape(world, cursor).isEmpty()) {
+					write(x, y, z, ModBlocks.THOLIN_FIBER.defaultBlockState());
+				}
+			}
+			for (long packed : hollows) {
+				int x = BlockPos.getX(packed);
+				int y = BlockPos.getY(packed);
+				int z = BlockPos.getZ(packed);
+				if (!inChunk(x, y, z)) {
+					continue;
+				}
+				cursor.set(x, y, z);
+				BlockState state = world.getBlockState(cursor);
+				if (state.isAir()
+					|| state.is(ModBlocks.WEAVER_PAD)
+					|| state.is(Blocks.STRAW_BED)
+					|| state.is(ModBlocks.THOLIN_FIBER_HOME_PLATE)) {
+					continue;
+				}
+				write(x, y, z, Blocks.AIR.defaultBlockState());
+			}
 		}
 
 		/** Pod shell, floor, and bed. Later walkway carves cannot open these cells. */
@@ -884,6 +1160,7 @@ public class AmberworldAnchorFeature implements Feature {
 			}
 			weaver.snapTo(x + 0.5, y, z + 0.5, 0.0F, 0.0F);
 			weaver.setPersistenceRequired();
+			weaver.assignColony(colonyId);
 			weaver.assignGeneratedHome(bed, plate);
 			claimPad(bed, weaver);
 			world.addFreshEntity(weaver);
@@ -917,6 +1194,29 @@ public class AmberworldAnchorFeature implements Feature {
 
 		void net(int x, int y, int z) {
 			set(x, y, z, ModBlocks.WEAVER_NET.defaultBlockState());
+			if (!inChunk(x, y, z)) {
+				return;
+			}
+			cursor.set(x, y, z);
+			if (world.getBlockEntity(cursor) instanceof WeaverNetBlockEntity net) {
+				net.setColonyId(colonyId);
+			}
+		}
+
+		/** Replaces a fiber door rim with a net and holds it against later paving. */
+		void frameNet(int x, int y, int z) {
+			if (!inChunk(x, y, z)) {
+				return;
+			}
+			cursor.set(x, y, z);
+			if (!world.getBlockState(cursor).is(ModBlocks.THOLIN_FIBER)) {
+				return;
+			}
+			net(x, y, z);
+			cursor.set(x, y, z);
+			if (world.getBlockState(cursor).is(ModBlocks.WEAVER_NET)) {
+				keep(x, y, z);
+			}
 		}
 
 		void carve(int x, int y, int z) {

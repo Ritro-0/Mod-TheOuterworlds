@@ -1,0 +1,121 @@
+{
+	"type": "minecraft:add",
+	"left": {
+		"type": "minecraft:min",
+		"left": 78,
+		"right": {
+			"type": "minecraft:add",
+			"left": {
+				"type": "minecraft:mul",
+				"left": {
+					"type": "minecraft:add",
+					"left": {
+						"type": "minecraft:add",
+						"left": 28,
+						"right": {
+							"type": "minecraft:mul",
+							"left": 46,
+							"right": {
+								"type": "minecraft:noise",
+								"noise": "minecraft:surface",
+								"xz_scale": 0.01,
+								"y_scale": 0
+							}
+						}
+					},
+					"right": {
+						"type": "minecraft:add",
+						"left": {
+							"type": "minecraft:mul",
+							"left": 20,
+							"right": {
+								"type": "minecraft:noise",
+								"noise": "minecraft:surface",
+								"xz_scale": 0.032,
+								"y_scale": 0
+							}
+						},
+						"right": {
+							"type": "minecraft:mul",
+							"left": 9,
+							"right": {
+								"type": "minecraft:noise",
+								"noise": "minecraft:erosion",
+								"xz_scale": 0.07,
+								"y_scale": 0
+							}
+						}
+					}
+				},
+				"right": {
+					"type": "minecraft:add",
+					"left": 1,
+					"right": {
+						"type": "minecraft:mul",
+						"left": -1,
+						"right": {
+							"type": "minecraft:clamp",
+							"min": 0,
+							"max": 1,
+							"input": {
+								"type": "minecraft:add",
+								"left": 1,
+								"right": {
+									"type": "minecraft:mul",
+									"left": -14,
+									"right": {
+										"type": "minecraft:abs",
+										"input": {
+											"type": "minecraft:noise",
+											"noise": "minecraft:erosion",
+											"xz_scale": 0.005,
+											"y_scale": 0
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"right": {
+				"type": "minecraft:mul",
+				"left": 46,
+				"right": {
+					"type": "minecraft:clamp",
+					"min": 0,
+					"max": 1,
+					"input": {
+						"type": "minecraft:add",
+						"left": 1,
+						"right": {
+							"type": "minecraft:mul",
+							"left": -14,
+							"right": {
+								"type": "minecraft:abs",
+								"input": {
+									"type": "minecraft:noise",
+									"noise": "minecraft:erosion",
+									"xz_scale": 0.005,
+									"y_scale": 0
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"right": {
+		"type": "minecraft:mul",
+		"left": -1,
+		"right": {
+			"type": "minecraft:gradient",
+			"from_value": -64,
+			"to_value": 320,
+			"axis": "y",
+			"from_coordinate": -64,
+			"to_coordinate": 320
+		}
+	}
+}

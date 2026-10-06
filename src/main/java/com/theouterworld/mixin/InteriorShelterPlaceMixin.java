@@ -1,6 +1,9 @@
 package com.theouterworld.mixin;
 
 import com.theouterworld.weather.InteriorShelterTracker;
+import com.theouterworld.world.WeaverColonyHarm;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -28,6 +31,9 @@ public abstract class InteriorShelterPlaceMixin {
 	) {
 		if (!world.isClientSide()) {
 			InteriorShelterTracker.onBlockPlaced(world, pos, placer);
+			if (world instanceof ServerLevel server && placer instanceof Player player) {
+				WeaverColonyHarm.notePlaced(server, pos, player);
+			}
 		}
 	}
 }

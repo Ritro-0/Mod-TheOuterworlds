@@ -1,8 +1,13 @@
 package com.theouterworld.registry;
 
 import com.theouterworld.OuterWorldMod;
+import com.theouterworld.entity.DriftmiteEntity;
+import com.theouterworld.entity.FeederEntity;
+import com.theouterworld.entity.FrostworldJellyEntity;
 import com.theouterworld.entity.KharaxEntity;
+import com.theouterworld.entity.StrandHydraEntity;
 import com.theouterworld.entity.WeaverEntity;
+import com.theouterworld.entity.OceanVentEntity;
 import com.theouterworld.entity.OpalineNickelFlailEntity;
 import com.theouterworld.entity.OxidizableIronGolemEntity;
 import com.theouterworld.entity.PrimedPerchlorateCharge;
@@ -59,6 +64,56 @@ public class ModEntities {
 			.build(ResourceKey.create(Registries.ENTITY_TYPE, OuterWorldMod.id("kharax")))
 	);
 
+	public static final EntityType<FeederEntity> FEEDER = Registry.register(
+		BuiltInRegistries.ENTITY_TYPE,
+		OuterWorldMod.id("feeder"),
+		EntityType.Builder.of(FeederEntity::new, MobCategory.WATER_CREATURE)
+			.sized(0.8F, 0.35F)
+			.eyeHeight(0.2F)
+			.clientTrackingRange(8)
+			.build(ResourceKey.create(Registries.ENTITY_TYPE, OuterWorldMod.id("feeder")))
+	);
+
+	public static final EntityType<DriftmiteEntity> DRIFTMITE = Registry.register(
+		BuiltInRegistries.ENTITY_TYPE,
+		OuterWorldMod.id("driftmite"),
+		EntityType.Builder.of(DriftmiteEntity::new, MobCategory.WATER_CREATURE)
+			.sized(0.7F, 0.45F)
+			.eyeHeight(0.25F)
+			.clientTrackingRange(8)
+			.build(ResourceKey.create(Registries.ENTITY_TYPE, OuterWorldMod.id("driftmite")))
+	);
+
+	public static final EntityType<FrostworldJellyEntity> FROSTWORLD_JELLY = Registry.register(
+		BuiltInRegistries.ENTITY_TYPE,
+		OuterWorldMod.id("frostworld_jelly"),
+		EntityType.Builder.of(FrostworldJellyEntity::new, MobCategory.WATER_CREATURE)
+			.sized(0.7F, 1.6F)
+			.eyeHeight(1.1F)
+			.clientTrackingRange(8)
+			.build(ResourceKey.create(Registries.ENTITY_TYPE, OuterWorldMod.id("frostworld_jelly")))
+	);
+
+	public static final EntityType<StrandHydraEntity> STRAND_HYDRA = Registry.register(
+		BuiltInRegistries.ENTITY_TYPE,
+		OuterWorldMod.id("strand_hydra"),
+		EntityType.Builder.of(StrandHydraEntity::new, MobCategory.WATER_CREATURE)
+			.sized(1.0F, 2.6F)
+			.eyeHeight(1.3F)
+			.clientTrackingRange(10)
+			.build(ResourceKey.create(Registries.ENTITY_TYPE, OuterWorldMod.id("strand_hydra")))
+	);
+
+	public static final EntityType<OceanVentEntity> OCEAN_VENT = Registry.register(
+		BuiltInRegistries.ENTITY_TYPE,
+		OuterWorldMod.id("ocean_vent"),
+		EntityType.Builder.of(OceanVentEntity::new, MobCategory.MISC)
+			.sized(0.5F, 0.5F)
+			.clientTrackingRange(10)
+			.fireImmune()
+			.build(ResourceKey.create(Registries.ENTITY_TYPE, OuterWorldMod.id("ocean_vent")))
+	);
+
 	public static final EntityType<WeaverEntity> WEAVER = Registry.register(
 		BuiltInRegistries.ENTITY_TYPE,
 		OuterWorldMod.id("weaver"),
@@ -77,6 +132,10 @@ public class ModEntities {
 		);
 		FabricDefaultAttributeRegistry.register(KHARAX, KharaxEntity.createAttributes());
 		FabricDefaultAttributeRegistry.register(WEAVER, WeaverEntity.createAttributes());
+		FabricDefaultAttributeRegistry.register(FEEDER, FeederEntity.createAttributes());
+		FabricDefaultAttributeRegistry.register(DRIFTMITE, DriftmiteEntity.createAttributes());
+		FabricDefaultAttributeRegistry.register(FROSTWORLD_JELLY, FrostworldJellyEntity.createAttributes());
+		FabricDefaultAttributeRegistry.register(STRAND_HYDRA, StrandHydraEntity.createAttributes());
 		SpawnPlacements.register(
 			KHARAX,
 			SpawnPlacementTypes.ON_GROUND,

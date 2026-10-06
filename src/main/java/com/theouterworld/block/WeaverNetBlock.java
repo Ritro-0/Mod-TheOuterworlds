@@ -1,8 +1,11 @@
 package com.theouterworld.block;
 
+import com.theouterworld.entity.WeaverEntity;
+import com.theouterworld.entity.ai.WeaverColonies;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
@@ -40,7 +43,17 @@ public class WeaverNetBlock extends Block implements EntityBlock {
 		InsideBlockEffectApplier effectApplier,
 		boolean isPrecise
 	) {
+		if (entity instanceof WeaverEntity) {
+			return;
+		}
 		entity.makeStuckInBlock(state, DRAG);
+	}
+
+	@Override
+	public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+		BlockState result = super.playerWillDestroy(level, pos, state, player);
+		WeaverColonies.noteBroken(level, pos, player, true);
+		return result;
 	}
 
 	@Override

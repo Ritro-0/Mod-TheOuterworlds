@@ -13,6 +13,9 @@ public final class ModSounds {
 	public static final SoundEvent KHARAX_HURT = register("entity.kharax.hurt");
 	public static final SoundEvent KHARAX_DEATH = register("entity.kharax.death");
 	public static final SoundEvent KHARAX_CLICKS = register("entity.kharax.clicks");
+	public static final SoundEvent WEAVER_IDLE = register("entity.weaver.idle");
+	public static final SoundEvent WEAVER_HURT = register("entity.weaver.hurt");
+	public static final SoundEvent WEAVER_DEATH = register("entity.weaver.death");
 
 	private static SoundEvent register(String name) {
 		Identifier id = OuterWorldMod.id(name);

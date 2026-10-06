@@ -22,5 +22,23 @@
 		"sounds": [
 			"theouterworlds:entity/kharax/kharax_clicks"
 		]
+	},
+	"entity.weaver.idle": {
+		"subtitle": "subtitles.entity.theouterworlds.weaver.idle",
+		"sounds": [
+			"theouterworlds:entity/weaver/weaver_idle"
+		]
+	},
+	"entity.weaver.hurt": {
+		"subtitle": "subtitles.entity.theouterworlds.weaver.hurt",
+		"sounds": [
+			"theouterworlds:entity/weaver/weaver_hurt"
+		]
+	},
+	"entity.weaver.death": {
+		"subtitle": "subtitles.entity.theouterworlds.weaver.death",
+		"sounds": [
+			"theouterworlds:entity/weaver/weaver_dies"
+		]
 	}
 }

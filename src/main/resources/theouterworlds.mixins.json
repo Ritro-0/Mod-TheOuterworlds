@@ -42,7 +42,11 @@
 		"BambooStalkBlockFreezeMixin",
 		"SunExistenceMixin",
 		"FrostworldFluidPickerMixin",
-		"WeaverStrawBedMixin"
+		"WeaverStrawBedMixin",
+		"BucketItemAnchorMixin",
+		"FlowingFluidAnchorMixin",
+		"ServerExplosionAnchorMixin",
+		"WeaverFurnitureMixin"
 	],
 	"injectors": {
 		"defaultRequire": 0
