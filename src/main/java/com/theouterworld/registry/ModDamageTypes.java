@@ -31,6 +31,11 @@ public final class ModDamageTypes {
 		OuterWorldMod.id("hydra_consume")
 	);
 
+	public static final ResourceKey<DamageType> VENT_FUMES = ResourceKey.create(
+		Registries.DAMAGE_TYPE,
+		OuterWorldMod.id("vent_fumes")
+	);
+
 	private ModDamageTypes() {
 	}
 }

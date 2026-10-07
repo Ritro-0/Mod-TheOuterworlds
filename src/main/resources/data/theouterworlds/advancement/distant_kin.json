@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:strangely_hospitable",
+  "criteria": {
+    "done": {
+      "trigger": "theouterworlds:kharax_adopted"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:kharax_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.distant_kin.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.distant_kin.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "rewards": {
+    "experience": 50
+  }
+}

@@ -64,6 +64,7 @@ public class OuterWorldClient implements ClientModInitializer {
 		EntityRendererRegistry.register(ModEntities.PRIMED_PERCHLORATE_CHARGE, net.minecraft.client.renderer.entity.TntRenderer::new);
 		EntityRendererRegistry.register(ModEntities.OPALINE_NICKEL_FLAIL, com.theouterworld.client.OpalineNickelFlailRenderer::new);
 		EntityRendererRegistry.register(ModEntities.KHARAX, com.theouterworld.client.KharaxRenderer::new);
+		EntityRendererRegistry.register(ModEntities.KIN_KHARAX, com.theouterworld.client.KinKharaxRenderer::new);
 		EntityRendererRegistry.register(ModEntities.WEAVER, com.theouterworld.client.WeaverRenderer::new);
 		EntityRendererRegistry.register(ModEntities.FEEDER, com.theouterworld.client.FeederRenderer::new);
 		EntityRendererRegistry.register(ModEntities.DRIFTMITE, com.theouterworld.client.DriftmiteRenderer::new);
@@ -81,6 +82,10 @@ public class OuterWorldClient implements ClientModInitializer {
 		net.minecraft.client.renderer.blockentity.BlockEntityRenderers.register(
 			com.theouterworld.registry.ModBlockEntities.BEACON_CONCENTRATOR,
 			com.theouterworld.client.BeaconConcentratorRenderer::new
+		);
+		net.minecraft.client.renderer.blockentity.BlockEntityRenderers.register(
+			com.theouterworld.registry.ModBlockEntities.VENT_CLOVE,
+			com.theouterworld.client.VentCloveRenderer::new
 		);
 		net.minecraft.client.renderer.blockentity.BlockEntityRenderers.register(
 			com.theouterworld.registry.ModBlockEntities.ASTRAL_TELESCOPE,

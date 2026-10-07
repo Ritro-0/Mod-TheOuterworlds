@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Balloon: zero gravity while held, then apply dimension-independent lift.
+ * Balloon: zero gravity while held, then apply lift (half rate in Nearworld).
  * Clouds: tiny downward pull (quicksand) when not ballooning.
  */
 @Mixin(LivingEntity.class)

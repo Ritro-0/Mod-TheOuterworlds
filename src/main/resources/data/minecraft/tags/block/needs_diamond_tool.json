@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"theouterworlds:iridium_block",
 		"theouterworlds:hydrogen_crystal",
 		"theouterworlds:helium_crystal",
 		"theouterworlds:ionic_crystal",

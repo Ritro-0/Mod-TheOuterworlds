@@ -26,7 +26,8 @@ public class KharaxHopAttackGoal extends Goal {
 
 	@Override
 	public boolean canUse() {
-		return kharax.isAggressive() && kharax.getTarget() != null && kharax.getTarget().isAlive();
+		return kharax.isAggressive() && !kharax.isLeashCalm() && !kharax.isReceiving()
+			&& kharax.getTarget() != null && kharax.getTarget().isAlive();
 	}
 
 	@Override

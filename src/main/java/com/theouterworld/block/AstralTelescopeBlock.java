@@ -79,6 +79,9 @@ public class AstralTelescopeBlock extends BaseEntityBlock {
 	protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
 		if (!world.isClientSide()) {
 			player.openMenu(state.getMenuProvider(world, pos));
+			if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
+				com.theouterworld.advancement.ModAdvancements.onTelescopeUsed(serverPlayer);
+			}
 		}
 		return InteractionResult.SUCCESS;
 	}

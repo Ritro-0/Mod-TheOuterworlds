@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "innerworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:innerworld"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:magnesian_regolith"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.scorched_landing.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.scorched_landing.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

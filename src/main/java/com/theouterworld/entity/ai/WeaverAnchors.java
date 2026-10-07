@@ -52,6 +52,9 @@ public final class WeaverAnchors {
 		if (state.isAir() || state.is(ModTags.WEAVER_ANCHOR_PARTS) || isNativeGround(state)) {
 			return false;
 		}
+		if (state.is(ModBlocks.KHARAX_SHED) || state.is(ModBlocks.KHARAX_SPORE)) {
+			return false;
+		}
 		if (state.hasBlockEntity() && !hasScreen(state, level, pos)) {
 			return false;
 		}

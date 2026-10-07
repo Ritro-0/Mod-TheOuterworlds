@@ -2,6 +2,7 @@ package com.theouterworld.client;
 
 import com.theouterworld.OuterWorldMod;
 import com.theouterworld.network.RiftPadVisitPacket;
+import com.theouterworld.network.SunVisitCancelledPacket;
 import com.theouterworld.screen.RiftPadMenu;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -227,6 +228,7 @@ public class RiftPadScreen extends Screen implements MenuAccess<RiftPadMenu> {
 			if (this.selected == hit) {
 				closeDossierPanels();
 			} else {
+				cancelSunVisitIfConfirming();
 				this.selected = hit;
 				this.sunConfirmStep = SUN_CONFIRM_NONE;
 				updatePanelButtons();
@@ -366,9 +368,16 @@ public class RiftPadScreen extends Screen implements MenuAccess<RiftPadMenu> {
 	}
 
 	private void closeDossierPanels() {
+		cancelSunVisitIfConfirming();
 		this.selected = null;
 		this.sunConfirmStep = SUN_CONFIRM_NONE;
 		updatePanelButtons();
+	}
+
+	private void cancelSunVisitIfConfirming() {
+		if (this.sunConfirmStep > SUN_CONFIRM_NONE) {
+			ClientPlayNetworking.send(new SunVisitCancelledPacket());
+		}
 	}
 
 	private boolean isInsidePanel(int mouseX, int mouseY) {

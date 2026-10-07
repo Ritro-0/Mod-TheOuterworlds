@@ -4,6 +4,7 @@
 		"theouterworlds:vacuum",
 		"theouterworlds:solar_irradiation",
 		"theouterworlds:extreme_pressure",
-		"theouterworlds:solar_dissolution"
+		"theouterworlds:solar_dissolution",
+		"theouterworlds:vent_fumes"
 	]
 }

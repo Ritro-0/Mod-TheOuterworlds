@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "moon": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:moon"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:anorthositic_regolith"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.one_small_step.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.one_small_step.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

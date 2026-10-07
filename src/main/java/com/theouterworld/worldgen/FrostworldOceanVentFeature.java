@@ -1,10 +1,10 @@
 package com.theouterworld.worldgen;
 
 import com.mojang.serialization.MapCodec;
+import com.theouterworld.block.ModBlocks;
 import com.theouterworld.entity.OceanVentEntity;
 import com.theouterworld.registry.ModEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.WorldGenLevel;
@@ -14,7 +14,7 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
 
 /**
- * Round bowls in the Frostworld seabed, ringed with seagrass until a proper vent block exists.
+ * Round bowls in the Frostworld seabed, ringed with vent clove.
  * A marker entity in the bowl blows the black fog and hosts the feeder schools.
  */
 public class FrostworldOceanVentFeature implements Feature {
@@ -117,9 +117,11 @@ public class FrostworldOceanVentFeature implements Feature {
 					cursor.set(x, floor, z);
 					if (!world.getBlockState(cursor).is(Blocks.BEDROCK)) {
 						BlockPos plant = cursor.above();
-						if (world.getFluidState(plant).is(FluidTags.WATER)) {
-							world.setBlock(cursor, Blocks.SAND.defaultBlockState(), 2);
-							world.setBlock(plant, Blocks.SEAGRASS.defaultBlockState(), 2);
+						BlockState clove = ModBlocks.VENT_CLOVE.defaultBlockState();
+						if (world.getBlockState(plant).is(Blocks.WATER)
+							&& world.getFluidState(plant).isSource()
+							&& clove.canSurvive(world, plant)) {
+							world.setBlock(plant, clove, 2);
 							placed = true;
 						}
 					}

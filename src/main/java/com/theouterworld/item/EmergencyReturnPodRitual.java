@@ -180,6 +180,9 @@ public final class EmergencyReturnPodRitual {
 				? destination
 				: Vec3.atBottomCenterOf(entity.adjustSpawnLocation(overworld, spawnPos));
 			teleportToOverworldSpawn(entity, overworld, entityDestination, respawnData.yaw(), respawnData.pitch());
+			if (entity instanceof ServerPlayer returned) {
+				com.theouterworld.advancement.ModAdvancements.onEmergencyReturn(returned);
+			}
 		}
 
 		overworld.playSound(

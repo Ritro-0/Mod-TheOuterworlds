@@ -59,6 +59,11 @@ public class WeaverLeapAttackGoal extends Goal {
 			return;
 		}
 		weaver.getLookControl().setLookAt(target, 40.0F, 40.0F);
+		if (weaver.isPanicking()) {
+			weaver.getNavigation().stop();
+			weaver.setJumping(false);
+			return;
+		}
 		double distSq = weaver.distanceToSqr(target);
 		if (weaver.holdsBloodFeud(target) && distSq > 96.0 * 96.0) {
 			weaver.dropFeudChase();

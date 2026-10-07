@@ -2,6 +2,7 @@ package com.theouterworld.entity.ai;
 
 import com.theouterworld.block.ModBlocks;
 import com.theouterworld.block.WeaverPadBlock;
+import com.theouterworld.entity.KinKharaxEntity;
 import com.theouterworld.entity.WeaverEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -44,7 +45,10 @@ public class WeaverSleepGoal extends Goal {
 
 	@Override
 	public boolean canUse() {
-		if (weaver.isAggressive() || weaver.isRetreating()) {
+		if (weaver instanceof KinKharaxEntity) {
+			return false;
+		}
+		if (weaver.isBreeding() || weaver.isAggressive() || weaver.isRetreating()) {
 			return false;
 		}
 		if (weaver.isSleeping()) {

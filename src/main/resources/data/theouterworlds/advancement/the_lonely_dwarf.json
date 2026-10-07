@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "wanderlands": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:wanderlands"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:salt_block"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.the_lonely_dwarf.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.the_lonely_dwarf.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

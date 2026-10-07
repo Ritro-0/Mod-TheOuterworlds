@@ -6,12 +6,9 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -77,27 +74,7 @@ public final class BeaconConcentratorPortals {
 	}
 
 	public static Vec3 surfaceStandPos(ServerLevel level, int x, int z) {
-		LevelChunk chunk = loadedChunk(level, x >> 4, z >> 4);
-		if (chunk == null) {
-			level.getChunk(x >> 4, z >> 4);
-			chunk = loadedChunk(level, x >> 4, z >> 4);
-		}
-		int y = heightOn(chunk, level, x, z);
-		y = Mth.clamp(y, level.getMinY() + 1, level.getMaxY() - 1);
-		BlockPos feet = new BlockPos(x, y, z);
-		for (int i = 0; i < 24 && feet.getY() < level.getMaxY(); i++) {
-			if (isStandable(level, feet)) {
-				return new Vec3(x + 0.5, feet.getY(), z + 0.5);
-			}
-			feet = feet.above();
-		}
-		return new Vec3(x + 0.5, y, z + 0.5);
-	}
-
-	private static boolean isStandable(ServerLevel level, BlockPos feet) {
-		return feet.getY() < level.getMaxY()
-			&& level.getBlockState(feet).canBeReplaced()
-			&& level.getBlockState(feet.above()).canBeReplaced();
+		return Vec3.atBottomCenterOf(ArrivalLanding.playerFeet(level, x, z));
 	}
 
 	private static void onChunkLoad(ServerLevel world, LevelChunk chunk, boolean newChunk) {
@@ -154,7 +131,7 @@ public final class BeaconConcentratorPortals {
 			data.forgetInnerBeam(existing);
 		}
 
-		BlockPos placeAt = findBeamPos(moon, chunk, concentratorPos);
+		BlockPos placeAt = findBeamPos(moon, concentratorPos);
 		moon.setBlock(placeAt, ModBlocks.CONCENTRATED_BEACON_BEAM.defaultBlockState(), Block.UPDATE_CLIENTS);
 		data.rememberInnerBeam(placeAt);
 	}
@@ -185,33 +162,8 @@ public final class BeaconConcentratorPortals {
 		data.forgetInnerBeam(pos);
 	}
 
-	private static BlockPos findBeamPos(ServerLevel level, LevelChunk chunk, BlockPos hint) {
-		int x = hint.getX();
-		int z = hint.getZ();
-		int y = heightOn(chunk, level, x, z);
-		y = Mth.clamp(y, level.getMinY() + 1, level.getMaxY());
-		BlockPos at = new BlockPos(x, y, z);
-		if (level.getBlockState(at).is(ModBlocks.CONCENTRATED_BEACON_BEAM) || level.getBlockState(at).canBeReplaced()) {
-			return at;
-		}
-		for (int dy = 1; dy < 8; dy++) {
-			BlockPos up = at.above(dy);
-			if (up.getY() > level.getMaxY()) {
-				break;
-			}
-			BlockState state = level.getBlockState(up);
-			if (state.is(ModBlocks.CONCENTRATED_BEACON_BEAM) || state.canBeReplaced()) {
-				return up;
-			}
-		}
-		return at;
-	}
-
-	private static int heightOn(@Nullable LevelChunk chunk, ServerLevel level, int x, int z) {
-		if (chunk != null) {
-			return chunk.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
-		}
-		return level.getMinY() + 1;
+	private static BlockPos findBeamPos(ServerLevel level, BlockPos hint) {
+		return ArrivalLanding.playerFeet(level, hint.getX(), hint.getZ());
 	}
 
 	@Nullable

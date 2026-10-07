@@ -1,0 +1,50 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:directory",
+      "prefix": "block/",
+      "source": "block"
+    },
+    {
+      "type": "minecraft:directory",
+      "prefix": "entity/conduit/",
+      "source": "entity/conduit"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:entity/bell/bell_body"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:entity/enchantment/enchanting_table_book"
+    },
+    {
+      "type": "minecraft:paletted_permutations",
+      "palette_key": "minecraft:trim_base",
+      "permutations": {
+        "amethyst": "minecraft:trim/amethyst",
+        "copper": "minecraft:trim/copper",
+        "diamond": "minecraft:trim/diamond",
+        "emerald": "minecraft:trim/emerald",
+        "gold": "minecraft:trim/gold",
+        "iron": "minecraft:trim/iron",
+        "lapis": "minecraft:trim/lapis",
+        "netherite": "minecraft:trim/netherite",
+        "quartz": "minecraft:trim/quartz",
+        "redstone": "minecraft:trim/redstone",
+        "resin": "minecraft:trim/resin",
+        "olivine": "theouterworlds:trim/olivine",
+        "opal": "theouterworlds:trim/opal",
+        "jarosite": "theouterworlds:trim/jarosite",
+        "graphite": "theouterworlds:trim/graphite",
+        "nickel": "theouterworlds:trim/nickel",
+        "osmium": "theouterworlds:trim/osmium",
+        "iridium": "theouterworlds:trim/iridium",
+        "acid": "theouterworlds:trim/acid"
+      },
+      "textures": [
+        "theouterworlds:trims/entity/humanoid/glass/glass_grayscale"
+      ]
+    }
+  ]
+}

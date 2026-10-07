@@ -1,12 +1,12 @@
 package com.theouterworld.world;
 
 /**
- * Spinlands (Haumea) keeps the dimension clock, but celestial discs rotate on an
- * 8 real-minute cycle: 4 minutes of day, 4 minutes of night.
+ * Spinlands (Haumea) keeps the dimension clock, but celestial discs rotate on a
+ * 4 real-minute cycle: 2 minutes of day, 2 minutes of night.
  */
 public final class SpinlandsDayCycle {
-	/** 8 minutes at 20 TPS (4 min day + 4 min night). */
-	public static final long VISUAL_DAY_TICKS = 9_600L;
+	/** 4 minutes at 20 TPS (2 min day + 2 min night). */
+	public static final long VISUAL_DAY_TICKS = 4_800L;
 
 	private SpinlandsDayCycle() {
 	}

@@ -1,0 +1,12 @@
+{
+	"feature": "theouterworlds:nearworld_cloud_deck",
+	"placement": [
+		{
+			"type": "minecraft:count",
+			"count": 1
+		},
+		{
+			"type": "minecraft:biome"
+		}
+	]
+}

@@ -1,0 +1,22 @@
+{
+  "parent": "theouterworlds:oxidized_foundations",
+  "criteria": {
+    "brushed": {
+      "trigger": "theouterworlds:brush_suspicious_regolith"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:oxidized_coil_brush"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.crater_rewards.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.crater_rewards.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

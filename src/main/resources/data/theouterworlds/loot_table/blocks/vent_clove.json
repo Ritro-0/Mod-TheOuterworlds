@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "theouterworlds:vent_clove"
+        }
+      ],
+      "condition": "minecraft:tool/can_shear"
+    }
+  ],
+  "random_sequence": "theouterworlds:blocks/vent_clove"
+}

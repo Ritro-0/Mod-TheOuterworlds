@@ -1,0 +1,22 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "done": {
+      "trigger": "theouterworlds:enter_outerworld"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:regolith"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.red_horizon.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.red_horizon.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

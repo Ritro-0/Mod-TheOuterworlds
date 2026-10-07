@@ -1,8 +1,10 @@
 package com.theouterworld.screen;
 
+import com.theouterworld.advancement.ModAdvancements;
 import com.theouterworld.block.ProcessorBlockEntity;
 import com.theouterworld.registry.ModScreenHandlers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -43,10 +45,10 @@ public class ProcessorScreenHandler extends AbstractContainerMenu {
 
         // Add processor slots (positioned like brewing stand)
         // Primary input slot (ingredient slot - top center area)
-        this.addSlot(new Slot(inventory, ProcessorBlockEntity.PRIMARY_INPUT_SLOT, 79, 17));
+        this.addSlot(new InputSlot(inventory, ProcessorBlockEntity.PRIMARY_INPUT_SLOT, 79, 17, playerInventory.player));
         
         // Secondary input slot (fuel/catalyst slot - left side)
-        this.addSlot(new Slot(inventory, ProcessorBlockEntity.SECONDARY_INPUT_SLOT, 17, 17));
+        this.addSlot(new InputSlot(inventory, ProcessorBlockEntity.SECONDARY_INPUT_SLOT, 17, 17, playerInventory.player));
         
         // Output slot (bottom center)
         this.addSlot(new OutputSlot(inventory, ProcessorBlockEntity.OUTPUT_SLOT, 79, 58));
@@ -127,6 +129,8 @@ public class ProcessorScreenHandler extends AbstractContainerMenu {
         if (slot != null && slot.hasItem()) {
             ItemStack originalStack = slot.getItem();
             newStack = originalStack.copy();
+            boolean takingIron = slotIndex == ProcessorBlockEntity.OUTPUT_SLOT && originalStack.is(net.minecraft.world.item.Items.IRON_NUGGET);
+            int ironBefore = takingIron ? originalStack.getCount() : 0;
             
             // If clicking on processor slots (0-2)
             if (slotIndex < ProcessorBlockEntity.INVENTORY_SIZE) {
@@ -142,6 +146,11 @@ public class ProcessorScreenHandler extends AbstractContainerMenu {
                 }
             }
 
+            if (takingIron && player instanceof ServerPlayer serverPlayer) {
+                int ironAfter = originalStack.is(net.minecraft.world.item.Items.IRON_NUGGET) ? originalStack.getCount() : 0;
+                ModAdvancements.onProcessorIronTaken(serverPlayer, ironBefore - ironAfter);
+            }
+
             if (originalStack.isEmpty()) {
                 slot.setByPlayer(ItemStack.EMPTY);
             } else {
@@ -152,15 +161,46 @@ public class ProcessorScreenHandler extends AbstractContainerMenu {
         return newStack;
     }
 
+    private final class InputSlot extends Slot {
+        private final Player player;
+
+        private InputSlot(Container inventory, int index, int x, int y, Player player) {
+            super(inventory, index, x, y);
+            this.player = player;
+        }
+
+        @Override
+        public void set(ItemStack stack) {
+            boolean wasRunning = recipeRunning();
+            super.set(stack);
+            if (!wasRunning && recipeRunning() && !stack.isEmpty() && this.player instanceof ServerPlayer serverPlayer) {
+                ModAdvancements.onProcessorStarted(serverPlayer);
+            }
+        }
+
+        private boolean recipeRunning() {
+            return ProcessorScreenHandler.this.inventory instanceof ProcessorBlockEntity processor
+                && processor.hasActiveRecipe();
+        }
+    }
+
     // Output slot that doesn't accept items
-    private static class OutputSlot extends Slot {
-        public OutputSlot(Container inventory, int index, int x, int y) {
+    private static final class OutputSlot extends Slot {
+        private OutputSlot(Container inventory, int index, int x, int y) {
             super(inventory, index, x, y);
         }
 
         @Override
         public boolean mayPlace(ItemStack stack) {
             return false;
+        }
+
+        @Override
+        public void onTake(Player player, ItemStack stack) {
+            super.onTake(player, stack);
+            if (stack.is(net.minecraft.world.item.Items.IRON_NUGGET) && player instanceof ServerPlayer serverPlayer) {
+                ModAdvancements.onProcessorIronTaken(serverPlayer, stack.getCount());
+            }
         }
     }
 }

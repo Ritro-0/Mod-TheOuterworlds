@@ -189,7 +189,7 @@ public class ModItems {
 
 	public static final Item NICKEL_INGOT = registerItem(
 		"nickel_ingot",
-		key -> new Item(new Item.Properties().setId(key))
+		key -> new Item(new Item.Properties().setId(key).trimMaterial(ModTrimMaterials.NICKEL))
 	);
 
 	public static final Item NICKEL_NUGGET = registerItem(
@@ -254,12 +254,12 @@ public class ModItems {
 
 	public static final Item OSMIUM_FLAKE = registerItem(
 		"osmium_flake",
-		key -> new Item(new Item.Properties().setId(key))
+		key -> new Item(new Item.Properties().setId(key).trimMaterial(ModTrimMaterials.OSMIUM))
 	);
 
 	public static final Item IRIDIUM_INGOT = registerItem(
 		"iridium_ingot",
-		key -> new Item(new Item.Properties().setId(key).fireResistant())
+		key -> new Item(new Item.Properties().setId(key).fireResistant().trimMaterial(ModTrimMaterials.IRIDIUM))
 	);
 
 	public static final Item IRIDIUM_NUGGET = registerItem(
@@ -267,24 +267,44 @@ public class ModItems {
 		key -> new Item(new Item.Properties().setId(key).fireResistant())
 	);
 
+	public static final Item IRIDIUM_UPGRADE_SMITHING_TEMPLATE = registerItem(
+		"iridium_upgrade_smithing_template",
+		key -> new SmithingTemplateItem(
+			Component.translatable(Util.makeDescriptionId("item", OuterWorldMod.id("smithing_template.iridium_upgrade.applies_to")))
+				.withStyle(ChatFormatting.BLUE),
+			Component.translatable(Util.makeDescriptionId("item", OuterWorldMod.id("smithing_template.iridium_upgrade.ingredients")))
+				.withStyle(ChatFormatting.BLUE),
+			Component.translatable(Util.makeDescriptionId("item", OuterWorldMod.id("smithing_template.iridium_upgrade.base_slot_description"))),
+			Component.translatable(Util.makeDescriptionId("item", OuterWorldMod.id("smithing_template.iridium_upgrade.additions_slot_description"))),
+			List.of(
+				Identifier.withDefaultNamespace("container/slot/helmet"),
+				Identifier.withDefaultNamespace("container/slot/chestplate"),
+				Identifier.withDefaultNamespace("container/slot/leggings"),
+				Identifier.withDefaultNamespace("container/slot/boots")
+			),
+			List.of(Identifier.withDefaultNamespace("container/slot/ingot")),
+			new Item.Properties().setId(key).rarity(Rarity.UNCOMMON).fireResistant()
+		)
+	);
+
 	public static final Item IRIDIUM_HELMET = registerItem(
 		"iridium_helmet",
-		key -> new Item(new Item.Properties().setId(key).fireResistant().humanoidArmor(ModArmorMaterials.IRIDIUM, ArmorType.HELMET))
+		key -> new Item(new Item.Properties().setId(key).fireResistant().humanoidArmor(ModArmorMaterials.IRIDIUM, ArmorType.HELMET).enchantable(15))
 	);
 
 	public static final Item IRIDIUM_CHESTPLATE = registerItem(
 		"iridium_chestplate",
-		key -> new Item(new Item.Properties().setId(key).fireResistant().humanoidArmor(ModArmorMaterials.IRIDIUM, ArmorType.CHESTPLATE))
+		key -> new Item(new Item.Properties().setId(key).fireResistant().humanoidArmor(ModArmorMaterials.IRIDIUM, ArmorType.CHESTPLATE).enchantable(15))
 	);
 
 	public static final Item IRIDIUM_LEGGINGS = registerItem(
 		"iridium_leggings",
-		key -> new Item(new Item.Properties().setId(key).fireResistant().humanoidArmor(ModArmorMaterials.IRIDIUM, ArmorType.LEGGINGS))
+		key -> new Item(new Item.Properties().setId(key).fireResistant().humanoidArmor(ModArmorMaterials.IRIDIUM, ArmorType.LEGGINGS).enchantable(15))
 	);
 
 	public static final Item IRIDIUM_BOOTS = registerItem(
 		"iridium_boots",
-		key -> new Item(new Item.Properties().setId(key).fireResistant().humanoidArmor(ModArmorMaterials.IRIDIUM, ArmorType.BOOTS))
+		key -> new Item(new Item.Properties().setId(key).fireResistant().humanoidArmor(ModArmorMaterials.IRIDIUM, ArmorType.BOOTS).enchantable(15))
 	);
 
 	public static final Item EMERGENCY_RETURN_POD = registerItem(
@@ -330,6 +350,31 @@ public class ModItems {
 	public static final Item IONIC_METHANE = registerItem(
 		"ionic_methane",
 		key -> new IonicMethaneItem(new Item.Properties().setId(key).fireResistant())
+	);
+
+	public static final Item LIQUID_HYDROGEN = registerItem(
+		"liquid_hydrogen",
+		key -> new Item(new Item.Properties().setId(key))
+	);
+
+	public static final Item LIQUID_HELIUM = registerItem(
+		"liquid_helium",
+		key -> new Item(new Item.Properties().setId(key))
+	);
+
+	public static final Item LIQUID_METHANE = registerItem(
+		"liquid_methane",
+		key -> new Item(new Item.Properties().setId(key))
+	);
+
+	public static final Item SOLAR_PLASMA = registerItem(
+		"solar_plasma",
+		key -> new Item(new Item.Properties().setId(key))
+	);
+
+	public static final Item INNERWORLD_SUN = registerItem(
+		"innerworld_sun",
+		key -> new Item(new Item.Properties().setId(key))
 	);
 
 	public static final Item OPALINE_NICKEL_FLAIL = registerItem(
@@ -378,6 +423,11 @@ public class ModItems {
 	public static final Item GRAPHITE_SHARD = registerItem(
 		"graphite_shard",
 		key -> new Item(new Item.Properties().setId(key).fireResistant().trimMaterial(ModTrimMaterials.GRAPHITE))
+	);
+
+	public static final Item ACIDIC_MEMBRANE = registerItem(
+		"acidic_membrane",
+		key -> new Item(new Item.Properties().setId(key).trimMaterial(ModTrimMaterials.ACID))
 	);
 
 	/** Half of one hunger shank (1 / 20 of the hunger bar). */
@@ -519,6 +569,13 @@ public class ModItems {
 		key -> new BucketItem(
 			com.theouterworld.registry.ModFluids.LIQUID_METHANE,
 			new Item.Properties().setId(key).craftRemainder(net.minecraft.world.item.Items.BUCKET).stacksTo(1)
+		)
+	);
+
+	public static final Item SULFURIC_ACID_BUCKET = registerItem(
+		"sulfuric_acid_bucket",
+		key -> new SulfuricAcidBucketItem(
+			new Item.Properties().setId(key).stacksTo(1)
 		)
 	);
 

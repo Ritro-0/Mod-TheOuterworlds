@@ -21,9 +21,10 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
 /**
- * A pad opened by the morning head count sends one Weaver to a wild stalk
- * (or they wait where they picked stalks up). A different Weaver home-leaps
- * beside them, and only then do they share, spin, and backflip.
+ * Losing a Weaver — killed, gone to another dimension, or 512 blocks from home —
+ * picks one adult at random. That adult drops every other goal, harvests mature
+ * stalk tips within 350 loaded blocks until it is holding two, and a second adult hops
+ * to within 10 blocks. They walk to each other, then mate. Liquid is avoided.
  */
 public class WeaverBreedGoal extends Goal {
 	private static final int SHARE_TICKS = 28;
@@ -31,6 +32,13 @@ public class WeaverBreedGoal extends Goal {
 	private static final int FLIP_TIMEOUT = 50;
 	private static final int APPROACH_TIMEOUT = 800;
 	private static final double WALK_SPEED = 1.05;
+	private static final int STALK_SEARCH = 350;
+	/** The partner hops to within this many blocks, then walks the rest. */
+	private static final double HOP_RANGE = 10.0;
+	/** Horizontal distance that counts as having reached the other Weaver. */
+	private static final double COURT_REACH = 5.0;
+	/** A landing a couple of blocks above or below the harvester still counts. */
+	private static final double COURT_Y = 3.0;
 
 	private final WeaverEntity weaver;
 	private @Nullable WeaverEntity partner;
@@ -42,7 +50,6 @@ public class WeaverBreedGoal extends Goal {
 	private boolean leftGround;
 	private boolean launched;
 	private boolean consumed;
-	private int leapRetries;
 	private boolean harvestLeaped;
 	private boolean harvestLeftGround;
 	private static long seekStamp;
@@ -64,63 +71,47 @@ public class WeaverBreedGoal extends Goal {
 			}
 			return true;
 		}
-		if (this.weaver.isLeashed() || WeaverSchedule.isBedtime(this.weaver.level())) {
+		if (this.weaver.isBaby() || this.weaver.isLeashed()) {
 			return false;
 		}
 		if (this.scanPause > 0) {
 			this.scanPause--;
 			return false;
 		}
-		if (!freeToCourt(this.weaver) || !(this.weaver.level() instanceof ServerLevel level)) {
-			return false;
-		}
-		if (WeaverRollCall.isGathering(this.weaver.colonyId())) {
-			this.scanPause = 20;
+		if (!(this.weaver.level() instanceof ServerLevel level)) {
 			return false;
 		}
 		if (colonyAlreadyCourting(level, this.weaver)) {
 			this.scanPause = 20;
 			return false;
 		}
+		if (!WeaverReplacement.shouldLead(level, this.weaver)) {
+			return false;
+		}
 		WeaverHomes.Vacancy open = WeaverHomes.findVacancy(level, this.weaver);
 		if (open == null) {
+			WeaverReplacement.clear(this.weaver.colonyId());
 			this.scanPause = 40;
 			return false;
 		}
-		if (this.weaver.getStalkCount() < 2 && WeaverStalkPickupGoal.nearby(this.weaver, WeaverStalkPickupGoal.SEEK)) {
-			this.scanPause = 10;
-			return false;
-		}
-		if (colonyHasFood(level)) {
-			if (this.weaver.getStalkCount() < 2 || !isBestFed(level)) {
-				this.scanPause = 20;
+		boolean harvest = this.weaver.getStalkCount() < 2;
+		BlockPos tip = this.weaver.blockPosition();
+		if (harvest) {
+			TholinStalkBlock.WildStand stand = TholinStalkBlock.nearestLoadedWildSurface(level, this.weaver.blockPosition(), STALK_SEARCH);
+			if (stand == null || !stand.mature()) {
+				WeaverReplacement.clear(this.weaver.colonyId());
+				this.scanPause = 40;
 				return false;
 			}
-			if (!WeaverHomes.reserve(open.bed(), this.weaver.getUUID())) {
-				this.scanPause = 20;
-				return false;
-			}
-			this.vacancy = open;
-			this.stalk = this.weaver.blockPosition();
-			this.harvestTip = false;
-			return true;
-		}
-		TholinStalkBlock.WildStand stand = seekStand(level, this.weaver);
-		if (stand == null || !isClosestTo(level, stand.pos())) {
-			this.scanPause = 30;
-			return false;
-		}
-		if (!stand.mature() && this.weaver.getStalkCount() < 2) {
-			this.scanPause = 30;
-			return false;
+			tip = stand.pos();
 		}
 		if (!WeaverHomes.reserve(open.bed(), this.weaver.getUUID())) {
 			this.scanPause = 20;
 			return false;
 		}
 		this.vacancy = open;
-		this.stalk = stand.pos();
-		this.harvestTip = stand.mature();
+		this.stalk = tip;
+		this.harvestTip = harvest;
 		return true;
 	}
 
@@ -129,25 +120,13 @@ public class WeaverBreedGoal extends Goal {
 		return this.weaver.isBreeding() && !interrupted(this.weaver);
 	}
 
-	/**
-	 * A lead drags them, so courting stops instead of fighting it. Night sends
-	 * everyone home; only a dance already under way between two adjacent Weavers finishes.
-	 */
+	/** A lead drags them, so courting stops instead of fighting it. */
 	private static boolean interrupted(WeaverEntity weaver) {
 		if (weaver.isLeashed()) {
 			return true;
 		}
 		WeaverEntity partner = weaver.getBreedPartner();
-		if (partner != null && partner.isLeashed()) {
-			return true;
-		}
-		if (!WeaverSchedule.isBedtime(weaver.level())) {
-			return false;
-		}
-		int phase = weaver.getBreedPhase();
-		return phase != WeaverEntity.BREED_SHARE
-			&& phase != WeaverEntity.BREED_SPIN
-			&& phase != WeaverEntity.BREED_FLIP;
+		return partner != null && partner.isLeashed();
 	}
 
 	private static void abortPair(WeaverEntity weaver) {
@@ -170,6 +149,9 @@ public class WeaverBreedGoal extends Goal {
 			this.partner = this.weaver.getBreedPartner();
 			this.vacancy = this.weaver.getBreedVacancy();
 			this.stalk = this.weaver.getCourtStalk();
+			this.phaseTicks = 0;
+			this.leftGround = false;
+			this.lastPhase = this.weaver.getBreedPhase();
 			return;
 		}
 		WeaverHomes.Vacancy open = this.vacancy;
@@ -183,7 +165,6 @@ public class WeaverBreedGoal extends Goal {
 		this.leftGround = false;
 		this.launched = false;
 		this.consumed = false;
-		this.leapRetries = 0;
 		this.harvestLeaped = false;
 		this.harvestLeftGround = false;
 		this.weaver.beginStalkCourt(open, tip, this.harvestTip);
@@ -215,7 +196,7 @@ public class WeaverBreedGoal extends Goal {
 			this.lastPhase = phase;
 		}
 		if (!this.weaver.isBreedLeader()) {
-			tickArrival(level);
+			tickArrival();
 			return;
 		}
 		if (phase == WeaverEntity.BREED_APPROACH) {
@@ -235,25 +216,19 @@ public class WeaverBreedGoal extends Goal {
 		BlockPos tip = this.stalk != null ? this.stalk : this.weaver.getCourtStalk();
 		this.stalk = tip;
 		if (tip == null || !isWildTip(level, tip)) {
-			TholinStalkBlock.WildStand again = TholinStalkBlock.nearestWild(
-				level, this.weaver.blockPosition(), WeaverEntity.STALK_COURT_RANGE
+			TholinStalkBlock.WildStand again = TholinStalkBlock.nearestLoadedWildSurface(
+				level, this.weaver.blockPosition(), STALK_SEARCH
 			);
-			if (again == null) {
+			WeaverHomes.Vacancy open = this.weaver.getBreedVacancy();
+			if (again == null || !again.mature() || open == null) {
 				this.weaver.abortBreeding();
+				WeaverReplacement.clear(this.weaver.colonyId());
 				this.scanPause = 40;
 				return;
 			}
-			WeaverHomes.Vacancy open = this.weaver.getBreedVacancy();
-			if (open == null) {
-				this.weaver.abortBreeding();
-				return;
-			}
 			this.stalk = again.pos();
-			boolean harvest = again.mature() || this.weaver.getStalkCount() < 2;
-			this.weaver.beginStalkCourt(open, again.pos(), harvest);
-			if (!harvest) {
-				return;
-			}
+			this.harvestLeaped = false;
+			this.weaver.beginStalkCourt(open, again.pos(), true);
 			tip = again.pos();
 		}
 		double dx = tip.getX() + 0.5 - this.weaver.getX();
@@ -291,8 +266,17 @@ public class WeaverBreedGoal extends Goal {
 				this.weaver.addStalks(level, got);
 			}
 			if (this.weaver.getStalkCount() < 2) {
-				this.weaver.abortBreeding();
-				this.scanPause = 40;
+				TholinStalkBlock.WildStand next = TholinStalkBlock.nearestLoadedWildSurface(level, this.weaver.blockPosition(), STALK_SEARCH);
+				WeaverHomes.Vacancy open = this.weaver.getBreedVacancy();
+				if (next == null || !next.mature() || open == null) {
+					this.weaver.abortBreeding();
+					WeaverReplacement.clear(this.weaver.colonyId());
+					this.scanPause = 40;
+					return;
+				}
+				this.stalk = next.pos();
+				this.harvestLeaped = false;
+				this.weaver.beginStalkCourt(open, next.pos(), true);
 				return;
 			}
 			this.weaver.getNavigation().stop();
@@ -333,8 +317,20 @@ public class WeaverBreedGoal extends Goal {
 			return;
 		}
 		WeaverEntity leaper = nearestLeaper(level);
-		BlockPos landing = leaper == null ? null : findLanding(level, tip, leaper);
-		if (leaper == null || landing == null) {
+		if (leaper == null) {
+			return;
+		}
+		double dx = leaper.getX() - this.weaver.getX();
+		double dz = leaper.getZ() - this.weaver.getZ();
+		boolean withinHop = dx * dx + dz * dz <= HOP_RANGE * HOP_RANGE;
+		if (withinHop && leaper.onGround()) {
+			this.partner = leaper;
+			this.vacancy = open;
+			leaper.beginCourtApproach(this.weaver, open);
+			return;
+		}
+		BlockPos landing = landingBeside(level, this.weaver);
+		if (landing == null) {
 			return;
 		}
 		this.partner = leaper;
@@ -342,58 +338,78 @@ public class WeaverBreedGoal extends Goal {
 		leaper.beginCourtLeap(this.weaver, open, landing);
 	}
 
-	private void tickArrival(ServerLevel level) {
+	private void tickArrival() {
 		WeaverEntity lead = this.weaver.getBreedPartner();
-		if (lead == null || !lead.isAlive() || lead.level() != level) {
+		if (lead == null || !lead.isAlive() || lead.level() != this.weaver.level()) {
 			this.weaver.abortBreeding();
 			return;
 		}
 		int phase = this.weaver.getBreedPhase();
 		if (phase == WeaverEntity.BREED_LEAP) {
-			BlockPos landing = this.weaver.getCourtLanding();
-			if (landing == null) {
-				this.weaver.abortBreeding();
-				lead.abortBreeding();
+			this.weaver.getLookControl().setLookAt(lead, 40.0F, 40.0F);
+			double hopX = this.weaver.getX() - lead.getX();
+			double hopZ = this.weaver.getZ() - lead.getZ();
+			if (!this.weaver.isHomeLeaping() && this.weaver.onGround() && hopX * hopX + hopZ * hopZ <= HOP_RANGE * HOP_RANGE) {
+				if (besideEachOther(this.weaver, lead)) {
+					this.weaver.getNavigation().stop();
+					lead.getNavigation().stop();
+					lead.setBreedPhase(WeaverEntity.BREED_SHARE);
+					this.weaver.setBreedPhase(WeaverEntity.BREED_SHARE);
+					return;
+				}
+				if (++this.phaseTicks > APPROACH_TIMEOUT) {
+					this.weaver.abortBreeding();
+					lead.abortBreeding();
+					WeaverReplacement.clear(this.weaver.colonyId());
+					return;
+				}
+				this.weaver.getNavigation().moveTo(lead, WALK_SPEED);
 				return;
 			}
-			this.weaver.getNavigation().stop();
-			this.weaver.getLookControl().setLookAt(lead, 40.0F, 40.0F);
 			if (this.weaver.isHomeLeaping()) {
-				this.weaver.steerHomeLeap(landing);
+				BlockPos landing = this.weaver.getCourtLanding();
+				if (landing != null) {
+					this.weaver.steerHomeLeap(landing);
+				}
 				if (!this.weaver.onGround()) {
 					this.leftGround = true;
 				}
-				boolean landed = this.leftGround && this.weaver.onGround();
-				if (!landed && ++this.phaseTicks <= 400) {
+				if (this.leftGround && this.weaver.onGround()) {
+					this.weaver.endHomeLeap();
+					this.leftGround = true;
+					this.phaseTicks = 0;
+				} else {
+					int limit = this.leftGround ? 400 : 20;
+					if (++this.phaseTicks <= limit) {
+						return;
+					}
+					this.weaver.endHomeLeap();
+					this.leftGround = true;
+					this.phaseTicks = 0;
+				}
+			} else if (!this.leftGround) {
+				BlockPos landing = this.weaver.getCourtLanding();
+				if (landing != null && this.weaver.beginTravelLeap(landing)) {
 					return;
 				}
-				this.weaver.endHomeLeap();
-			}
-			if (!this.leftGround) {
-				if (!this.weaver.beginTravelLeap(landing)) {
-					this.weaver.abortBreeding();
-					lead.abortBreeding();
-				}
-				return;
+				this.leftGround = true;
 			}
 			if (!this.weaver.onGround()) {
 				return;
 			}
-			if (!besideEachOther(this.weaver, lead)) {
-				BlockPos again = landingBeside(level, lead);
-				if (again == null || this.leapRetries >= 3) {
-					this.weaver.abortBreeding();
-					lead.abortBreeding();
-					return;
-				}
-				this.leapRetries++;
-				this.leftGround = false;
-				this.phaseTicks = 0;
-				this.weaver.beginTravelLeap(again);
+			if (besideEachOther(this.weaver, lead)) {
+				this.weaver.getNavigation().stop();
+				lead.getNavigation().stop();
+				lead.setBreedPhase(WeaverEntity.BREED_SHARE);
+				this.weaver.setBreedPhase(WeaverEntity.BREED_SHARE);
 				return;
 			}
-			lead.setBreedPhase(WeaverEntity.BREED_SHARE);
-			this.weaver.setBreedPhase(WeaverEntity.BREED_SHARE);
+			if (++this.phaseTicks > APPROACH_TIMEOUT) {
+				this.weaver.abortBreeding();
+				lead.abortBreeding();
+				return;
+			}
+			this.weaver.getNavigation().moveTo(lead, WALK_SPEED);
 			return;
 		}
 		this.weaver.getNavigation().stop();
@@ -414,7 +430,7 @@ public class WeaverBreedGoal extends Goal {
 			this.weaver.abortBreeding();
 			return;
 		}
-		if (!besideEachOther(this.weaver, other)) {
+		if (!withinCourtRange(this.weaver, other)) {
 			this.weaver.abortBreeding();
 			other.abortBreeding();
 			return;
@@ -502,6 +518,9 @@ public class WeaverBreedGoal extends Goal {
 		level.sendParticles(ParticleTypes.EXPLOSION, x, y, z, 10, 0.5, 0.35, 0.5, 0.02);
 		WeaverHomes.Vacancy open = this.weaver.getBreedVacancy();
 		spawnBaby(level, x, this.weaver.getY(), z, open);
+		long colony = this.weaver.colonyId();
+		com.theouterworld.world.WeaverAbsence.get(level).pollOne(colony);
+		WeaverReplacement.clear(colony);
 		this.weaver.finishBreeding();
 		other.finishBreeding();
 	}
@@ -686,27 +705,30 @@ public class WeaverBreedGoal extends Goal {
 			&& level.getBlockState(tip.above()).isAir();
 	}
 
-	/** Close enough to hand food over: a few blocks apart and standing on the same level. */
+	/** On the ground and near enough to hand the stalks over. */
 	private static boolean besideEachOther(WeaverEntity a, WeaverEntity b) {
-		double dx = a.getX() - b.getX();
-		double dz = a.getZ() - b.getZ();
-		return a.onGround()
-			&& dx * dx + dz * dz <= 3.5 * 3.5
-			&& Math.abs(a.getY() - b.getY()) <= 1.5;
+		return a.onGround() && withinCourtRange(a, b);
 	}
 
-	/** Dry ground at the lead's own level, within two blocks of them. */
+	/** A few blocks apart, and within a couple of blocks of each other's height. */
+	private static boolean withinCourtRange(WeaverEntity a, WeaverEntity b) {
+		double dx = a.getX() - b.getX();
+		double dz = a.getZ() - b.getZ();
+		return dx * dx + dz * dz <= COURT_REACH * COURT_REACH && Math.abs(a.getY() - b.getY()) <= COURT_Y;
+	}
+
+	/** Dry ground beside the lead, preferring a place where both Weavers stand at the same height. */
 	private static @Nullable BlockPos landingBeside(ServerLevel level, WeaverEntity lead) {
 		BlockPos feet = lead.blockPosition();
 		BlockPos best = null;
 		double bestDist = Double.MAX_VALUE;
 		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
-		for (int dx = -2; dx <= 2; dx++) {
-			for (int dz = -2; dz <= 2; dz++) {
-				if (dx == 0 && dz == 0) {
+		for (int dx = -10; dx <= 10; dx++) {
+			for (int dz = -10; dz <= 10; dz++) {
+				if ((dx == 0 && dz == 0) || dx * dx + dz * dz > HOP_RANGE * HOP_RANGE) {
 					continue;
 				}
-				for (int dy = -2; dy <= 0; dy++) {
+				for (int dy = -3; dy <= 2; dy++) {
 					cursor.set(feet.getX() + dx, feet.getY() + dy, feet.getZ() + dz);
 					BlockState ground = level.getBlockState(cursor);
 					if (ground.is(ModBlocks.THOLIN_STALK) || ground.getCollisionShape(level, cursor).isEmpty()) {
@@ -720,7 +742,12 @@ public class WeaverBreedGoal extends Goal {
 						|| !level.getBlockState(stand.above()).getCollisionShape(level, stand.above()).isEmpty()) {
 						continue;
 					}
-					double dist = lead.distanceToSqr(stand.getX() + 0.5, stand.getY(), stand.getZ() + 0.5);
+					double horizontal = dx * dx + dz * dz;
+					double yOff = Math.abs(stand.getY() - lead.getY());
+					if (yOff > COURT_Y) {
+						continue;
+					}
+					double dist = horizontal + yOff * yOff * 4.0;
 					if (dist < bestDist) {
 						bestDist = dist;
 						best = cursor.immutable();

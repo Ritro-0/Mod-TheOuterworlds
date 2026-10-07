@@ -1,6 +1,6 @@
 {
 	"model": {
 		"type": "minecraft:model",
-		"model": "theouterworlds:block/weaver_pad"
+		"model": "theouterworlds:item/weaver_pad"
 	}
 }

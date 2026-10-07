@@ -13,8 +13,42 @@
           "misc": [],
           "monster": [],
           "underground_water_creature": [],
-          "water_ambient": [],
-          "water_creature": []
+          "water_ambient": [
+            {
+              "type": "theouterworlds:driftmite",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 3
+              },
+              "weight": 8
+            },
+            {
+              "type": "theouterworlds:frostworld_jelly",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 2
+            },
+            {
+              "type": "theouterworlds:feeder",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 2,
+                "max_inclusive": 4
+              },
+              "weight": 5
+            }
+          ],
+          "water_creature": [
+            {
+              "type": "theouterworlds:strand_hydra",
+              "count": 1,
+              "weight": 1
+            }
+          ]
         }
       },
       "modifier": "overlay"

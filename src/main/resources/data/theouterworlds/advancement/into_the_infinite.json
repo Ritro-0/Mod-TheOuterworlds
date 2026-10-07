@@ -1,0 +1,160 @@
+{
+  "criteria": {
+    "outerworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:outerworld"
+      }
+    },
+    "moon": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:moon"
+      }
+    },
+    "innerworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:innerworld"
+      }
+    },
+    "nearworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:nearworld"
+      }
+    },
+    "highworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:highworld"
+      }
+    },
+    "deepworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:deepworld"
+      }
+    },
+    "farworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:farworld"
+      }
+    },
+    "edgeworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:edgeworld"
+      }
+    },
+    "emberworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:emberworld"
+      }
+    },
+    "frostworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:frostworld"
+      }
+    },
+    "amberworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:amberworld"
+      }
+    },
+    "spongeworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:spongeworld"
+      }
+    },
+    "potatoworlds": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:potatoworlds"
+      }
+    },
+    "wanderlands": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:wanderlands"
+      }
+    },
+    "beyondlands": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:beyondlands"
+      }
+    },
+    "beyondlands_ii": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:beyondlands_ii"
+      }
+    },
+    "spinlands": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:spinlands"
+      }
+    },
+    "scarletlands": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:scarletlands"
+      }
+    },
+    "lonelands": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:lonelands"
+      }
+    },
+    "beacon": {
+      "trigger": "theouterworlds:power_beacon_concentrator"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:beacon_concentrator"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.into_the_infinite.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.into_the_infinite.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "background": "minecraft:gui/advancements/backgrounds/end"
+  },
+  "requirements": [
+    [
+      "outerworld",
+      "moon",
+      "innerworld",
+      "nearworld",
+      "highworld",
+      "deepworld",
+      "farworld",
+      "edgeworld",
+      "emberworld",
+      "frostworld",
+      "amberworld",
+      "spongeworld",
+      "potatoworlds",
+      "wanderlands",
+      "beyondlands",
+      "beyondlands_ii",
+      "spinlands",
+      "scarletlands",
+      "lonelands",
+      "beacon"
+    ]
+  ]
+}

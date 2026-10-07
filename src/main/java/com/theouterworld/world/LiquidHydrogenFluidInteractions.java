@@ -87,6 +87,11 @@ public final class LiquidHydrogenFluidInteractions {
 			}
 
 			@Override
+			public boolean canDrownInFluid(TagKey<Fluid> fluid, LivingEntity entity) {
+				return true;
+			}
+
+			@Override
 			public void onFluidEntered(TagKey<Fluid> fluid, Entity entity, boolean firstTick) {
 				baseBehavior.onFluidEntered(fluid, entity, firstTick);
 				burnEntity(entity);

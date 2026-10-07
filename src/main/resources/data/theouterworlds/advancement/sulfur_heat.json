@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "emberworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:emberworld"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "minecraft:sulfur"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.sulfur_heat.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.sulfur_heat.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

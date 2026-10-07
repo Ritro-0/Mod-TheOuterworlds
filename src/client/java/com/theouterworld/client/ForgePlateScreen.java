@@ -29,7 +29,9 @@ import org.joml.Vector3fc;
 
 public class ForgePlateScreen extends ItemCombinerScreen<ForgePlateMenu> {
 	private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(OuterWorldMod.MOD_ID, "textures/gui/container/forge_plate.png");
-	private static final Identifier ERROR_SPRITE = Identifier.withDefaultNamespace("container/smithing/error");
+	private static final Identifier ERROR_TEXTURE = Identifier.fromNamespaceAndPath(
+		OuterWorldMod.MOD_ID, "textures/gui/container/forge_plate_error.png"
+	);
 	private static final Identifier EMPTY_SLOT_SMITHING_TEMPLATE_ARMOR_TRIM = Identifier.withDefaultNamespace("container/slot/smithing_template_armor_trim");
 	private static final Identifier EMPTY_SLOT_SMITHING_TEMPLATE_NETHERITE_UPGRADE = Identifier.withDefaultNamespace(
 		"container/slot/smithing_template_netherite_upgrade"
@@ -138,7 +140,7 @@ public class ForgePlateScreen extends ItemCombinerScreen<ForgePlateMenu> {
 	@Override
 	protected void extractErrorIcon(GuiGraphicsExtractor graphics, int xo, int yo) {
 		if (this.menu.hasRecipeError()) {
-			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, ERROR_SPRITE, xo + 65, yo + 46, 28, 21);
+			graphics.blit(RenderPipelines.GUI_TEXTURED, ERROR_TEXTURE, xo + 65, yo + 46, 0.0F, 0.0F, 28, 21, 28, 21);
 		}
 	}
 

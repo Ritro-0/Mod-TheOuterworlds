@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "nearworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:nearworld"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:sulfuric_basalt"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.under_the_veil.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.under_the_veil.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

@@ -15,7 +15,8 @@
 		"LocalPlayerHydrogenSwimMixin",
 		"LivingEntityRendererHydrogenSwimMixin",
 		"HumanoidModelAerostatMixin",
-		"CreateWorldScreenOuterworldPresetMixin"
+		"CreateWorldScreenOuterworldPresetMixin",
+		"ClockTimeMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

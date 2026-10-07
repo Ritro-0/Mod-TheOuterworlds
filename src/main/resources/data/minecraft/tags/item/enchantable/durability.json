@@ -1,7 +1,12 @@
 {
 	"replace": false,
 	"values": [
+		"theouterworlds:iridium_helmet",
+		"theouterworlds:iridium_chestplate",
+		"theouterworlds:iridium_leggings",
+		"theouterworlds:iridium_boots",
 		"theouterworlds:opaline_nickel_flail",
-		"theouterworlds:oxidized_coil_brush"
+		"theouterworlds:oxidized_coil_brush",
+		"theouterworlds:aerostat_balloon"
 	]
 }

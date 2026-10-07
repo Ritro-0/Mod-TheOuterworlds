@@ -18,9 +18,15 @@ public class DustStormEffects {
 				ServerLevel serverWorld = (ServerLevel) player.level();
 				DustStormManager manager = DustStormTicker.getManager(serverWorld);
 
-				boolean exposed = manager != null
+				boolean inStorm = manager != null
 					&& manager.affectsEntity(serverWorld, player)
 					&& !player.isSpectator()
+					&& player.isAlive();
+				if (inStorm) {
+					com.theouterworld.advancement.ModAdvancements.onDustStorm(player);
+				}
+
+				boolean exposed = inStorm
 					&& !player.isCreative()
 					&& !GlassHelmetUtil.isWearingDustStormProtection(player);
 

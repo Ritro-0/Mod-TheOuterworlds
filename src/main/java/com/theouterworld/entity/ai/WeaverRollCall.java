@@ -5,8 +5,10 @@ import com.theouterworld.block.ModBlocks;
 import com.theouterworld.entity.WeaverEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -16,15 +18,16 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Once every morning, when the Weavers get up, the loaded colony leaps to open
- * ground around the helix, each Weaver on its own spot. The meeting does not run
- * when someone goes missing, and it does not run when the colony loads after the morning.
+ * Once each morning the loaded colony leaps to open ground around the helix.
+ * Weavers wake at day-time {@link WeaverSchedule#WAKE}. The leap goes out once,
+ * at day-time {@link #LEAP_TIME}, and the meeting is over at {@link #MEETING_END}.
+ * A colony that was not here for that morning does not meet.
  */
 public final class WeaverRollCall {
-	/** Long enough for a home-plate leap to climb, fall, and land, plus one retry. */
-	public static final int GATHER_TICKS = 600;
-	/** The meeting starts any time in the first part of the morning, so a skipped tick cannot miss it. */
-	private static final long MORNING_WINDOW = 3000L;
+	/** Day-time of the single leap. Wake is 10, so this is a short while after they are up. */
+	public static final long LEAP_TIME = 100L;
+	/** Day-time the meeting ends and ordinary goals resume. */
+	public static final long MEETING_END = 700L;
 
 	private static final Map<Long, Call> CALLS = new HashMap<>();
 
@@ -37,48 +40,82 @@ public final class WeaverRollCall {
 			return;
 		}
 		Call call = CALLS.computeIfAbsent(colony, id -> new Call());
-		if (WeaverSchedule.isBedtime(level)) {
-			if (call.gathering && !call.audited && call.center != null
-				&& level.getGameTime() - call.started >= GATHER_TICKS) {
+		long day = WeaverSchedule.dayIndex(level);
+		long time = WeaverSchedule.timeOfDay(level);
+		if (call.handledDay != day) {
+			boolean wokeWithThem = call.hereForMorning;
+			if (call.gathering && !call.audited && call.center != null) {
 				WeaverHomes.condemnAbsentees(level, colony, call.center);
-				call.audited = true;
 			}
+			call.handledDay = day;
 			call.gathering = false;
-			call.nightSeen = true;
+			call.audited = false;
+			call.hereForMorning = wokeWithThem;
+			call.center = null;
+			call.options = null;
+			call.spots.clear();
+			call.leaped.clear();
+		}
+		if (WeaverSchedule.isBedtime(level)) {
+			call.hereForMorning = true;
 			return;
 		}
-		if (!call.seen) {
-			call.seen = true;
-			// Loaded during the morning counts as waking up. Loaded later in the day does not.
-			if (WeaverSchedule.sinceWake(level) <= MORNING_WINDOW) {
-				call.nightSeen = true;
+		if (time < LEAP_TIME) {
+			call.hereForMorning = true;
+			return;
+		}
+		if (!call.gathering && !call.audited) {
+			if (!call.hereForMorning || time >= MEETING_END) {
+				call.audited = true;
+				return;
 			}
+			begin(level, weaver, call);
 		}
-		if (call.nightSeen) {
-			call.nightSeen = false;
-			call.gathering = true;
-			call.audited = false;
-			call.started = level.getGameTime();
-			call.spots.clear();
-			BlockPos hint = weaver.hasHomeHere() ? weaver.getHomePosition() : weaver.blockPosition();
-			BlockPos center = WeaverColonies.centerOf(level, colony, hint);
-			call.center = center != null ? center : hint;
-			call.options = findSpots(level, call.center);
-			OuterWorldMod.LOGGER.info(
-				"Weaver morning meeting: colony {} centre {} with {} meeting spots",
-				colony, call.center, call.options.size()
-			);
-		}
-		if (call.gathering && !call.audited && call.center != null && level.getGameTime() - call.started >= GATHER_TICKS) {
-			WeaverHomes.condemnAbsentees(level, colony, call.center);
+		if (call.gathering && !call.audited && time >= MEETING_END) {
+			if (call.center != null) {
+				WeaverHomes.condemnAbsentees(level, colony, call.center);
+			}
 			call.audited = true;
 			call.gathering = false;
 		}
 	}
 
+	private static void begin(ServerLevel level, WeaverEntity weaver, Call call) {
+		call.gathering = true;
+		call.audited = false;
+		call.spots.clear();
+		call.leaped.clear();
+		long colony = weaver.colonyId();
+		BlockPos hint = weaver.hasHomeHere() ? weaver.getHomePosition() : weaver.blockPosition();
+		BlockPos center = WeaverColonies.centerOf(level, colony, hint);
+		call.center = center != null ? center : hint;
+		call.options = findSpots(level, call.center);
+		OuterWorldMod.LOGGER.info(
+			"Weaver morning meeting: colony {} centre {} with {} meeting spots",
+			colony, call.center, call.options.size()
+		);
+	}
+
 	public static boolean isGathering(long colony) {
 		Call call = CALLS.get(colony);
-		return call != null && call.gathering && !call.audited && call.center != null;
+		return call != null && call.gathering && !call.audited;
+	}
+
+	public static boolean hasLeaped(WeaverEntity weaver) {
+		Call call = CALLS.get(weaver.colonyId());
+		return call != null && call.leaped.contains(weaver.getUUID());
+	}
+
+	public static void markLeaped(WeaverEntity weaver) {
+		Call call = CALLS.get(weaver.colonyId());
+		if (call != null) {
+			call.leaped.add(weaver.getUUID());
+		}
+	}
+
+	public static @Nullable BlockPos center(long colony) {
+		Call call = CALLS.get(colony);
+		return call == null ? null : call.center;
 	}
 
 	/** A different open patch of ground for each Weaver. Null when the morning has no safe spots. */
@@ -191,14 +228,14 @@ public final class WeaverRollCall {
 	}
 
 	private static final class Call {
-		private boolean seen;
-		/** The colony was seen in bed, so the next waking tick starts the meeting. */
-		private boolean nightSeen;
+		private long handledDay = Long.MIN_VALUE;
+		/** Loaded overnight, or awake in the wait between getting up and the leap. */
+		private boolean hereForMorning;
 		private boolean gathering;
 		private boolean audited;
-		private long started;
 		private @Nullable BlockPos center;
 		private @Nullable List<BlockPos> options;
 		private final Map<UUID, BlockPos> spots = new HashMap<>();
+		private final Set<UUID> leaped = new HashSet<>();
 	}
 }

@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "done": {
+      "trigger": "theouterworlds:moon_void_fall"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "minecraft:feather"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.gravity_assisted_plot_armor.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.gravity_assisted_plot_armor.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "rewards": {
+    "experience": 50
+  }
+}

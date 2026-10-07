@@ -278,6 +278,7 @@ public class RiftChargeBlockEntity extends BlockEntity {
 		phase = PHASE_ACTIVE;
 		phaseTicks = 0;
 		setChanged();
+		com.theouterworld.advancement.ModAdvancements.onRiftChargeActivated(world, pos);
 	}
 
 	private void beginClose(ServerLevel world, BlockPos pos) {

@@ -1,0 +1,22 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "done": {
+      "trigger": "theouterworlds:witness_rift_charge"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:rift_charge"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.tear_in_spacetime.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.tear_in_spacetime.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

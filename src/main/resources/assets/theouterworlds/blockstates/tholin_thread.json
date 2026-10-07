@@ -1,0 +1,22 @@
+{
+	"multipart": [
+		{ "when": { "axis": "y", "stem": "full" }, "apply": { "model": "theouterworlds:block/tholin_thread" } },
+		{ "when": { "axis": "y", "stem": "half" }, "apply": { "model": "theouterworlds:block/tholin_thread_stem_half" } },
+		{ "when": { "axis": "y", "stem": "half_top" }, "apply": { "model": "theouterworlds:block/tholin_thread_stem_half_top" } },
+
+		{ "when": { "axis": "z", "stem": "full" }, "apply": { "model": "theouterworlds:block/tholin_thread", "x": 270 } },
+		{ "when": { "axis": "z", "stem": "half" }, "apply": { "model": "theouterworlds:block/tholin_thread_stem_half", "x": 270 } },
+		{ "when": { "axis": "z", "stem": "half_top" }, "apply": { "model": "theouterworlds:block/tholin_thread_stem_half_top", "x": 270 } },
+
+		{ "when": { "axis": "x", "stem": "full" }, "apply": { "model": "theouterworlds:block/tholin_thread", "x": 90, "y": 90 } },
+		{ "when": { "axis": "x", "stem": "half" }, "apply": { "model": "theouterworlds:block/tholin_thread_stem_half", "x": 90, "y": 90 } },
+		{ "when": { "axis": "x", "stem": "half_top" }, "apply": { "model": "theouterworlds:block/tholin_thread_stem_half_top", "x": 90, "y": 90 } },
+
+		{ "when": { "up": "true" }, "apply": { "model": "theouterworlds:block/tholin_thread_arm_stub" } },
+		{ "when": { "down": "true" }, "apply": { "model": "theouterworlds:block/tholin_thread_arm_stub", "x": 180 } },
+		{ "when": { "north": "true" }, "apply": { "model": "theouterworlds:block/tholin_thread_arm_stub", "x": 90 } },
+		{ "when": { "south": "true" }, "apply": { "model": "theouterworlds:block/tholin_thread_arm_stub", "x": 270 } },
+		{ "when": { "east": "true" }, "apply": { "model": "theouterworlds:block/tholin_thread_arm_stub", "x": 90, "y": 90 } },
+		{ "when": { "west": "true" }, "apply": { "model": "theouterworlds:block/tholin_thread_arm_stub", "x": 90, "y": 270 } }
+	]
+}

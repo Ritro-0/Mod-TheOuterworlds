@@ -63,6 +63,7 @@ public final class SpongeworldVoidFall {
 		if (deepworld == null) {
 			return;
 		}
+		com.theouterworld.advancement.ModAdvancements.onMoonVoidFall(player);
 
 		double minY = deepworld.getMinY() + 1.0;
 		double maxY = deepworld.getMaxY() - 1.0;

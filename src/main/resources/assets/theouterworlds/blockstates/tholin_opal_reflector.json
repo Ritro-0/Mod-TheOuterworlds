@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"facing=up": { "model": "theouterworlds:block/tholin_opal_reflector" },
+		"facing=down": { "model": "theouterworlds:block/tholin_opal_reflector", "x": 180 },
+		"facing=north": { "model": "theouterworlds:block/tholin_opal_reflector", "x": 90 },
+		"facing=south": { "model": "theouterworlds:block/tholin_opal_reflector", "x": 90, "y": 180 },
+		"facing=west": { "model": "theouterworlds:block/tholin_opal_reflector", "x": 90, "y": 270 },
+		"facing=east": { "model": "theouterworlds:block/tholin_opal_reflector", "x": 90, "y": 90 }
+	}
+}

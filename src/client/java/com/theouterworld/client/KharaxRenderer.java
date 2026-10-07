@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -39,13 +40,24 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 		state.hasRedOverlay = entity.hurtTime > 0 || entity.deathTime > 0;
 		state.shadowRadius = 0.65F;
 		state.warning = entity.isWarning();
+		state.scared = entity.isScared();
 		state.ageInTicks = entity.tickCount + tickProgress;
 		state.hopPose = entity.getHopPose(tickProgress);
 		state.airborneAmount = entity.getAirborneAmount(tickProgress);
+		state.headRot = Mth.rotLerp(tickProgress, entity.yHeadRotO, entity.yHeadRot);
+		state.xRot = Mth.lerp(tickProgress, entity.xRotO, entity.getXRot());
+		state.inspectAmount = 0.0F;
+		state.carrying = false;
+		state.sleeping = false;
 	}
 
 	@Override
 	public void submit(KharaxRenderState state, PoseStack poseStack, SubmitNodeCollector queue, CameraRenderState camera) {
+		submitBody(state, poseStack, queue);
+		super.submit(state, poseStack, queue, camera);
+	}
+
+	public static void submitBody(KharaxRenderState state, PoseStack poseStack, SubmitNodeCollector queue) {
 		poseStack.pushPose();
 		poseStack.rotateDegrees(Axis.YP, 180.0F - state.bodyRot);
 
@@ -65,25 +77,44 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 		float warn = state.warning ? 1.0F : 0.0F;
 		float rub = state.warning ? Mth.sin(state.ageInTicks * 1.8F) : 0.0F;
 		float headShake = state.warning ? Mth.sin(state.ageInTicks * 2.6F) * 22.0F : 0.0F;
+		float inspect = state.inspectAmount;
+		float sleep = state.sleeping ? 1.0F : 0.0F;
 
-		poseStack.translate(0.0F, hop * 0.18F + idle + warn * 0.22F, 0.0F);
+		poseStack.translate(0.0F, hop * 0.18F + idle + warn * 0.22F - sleep * 0.14F, 0.0F);
 		poseStack.rotateDegrees(Axis.XP,
-			hop * 14.0F - plant * 8.0F - warn * 18.0F + launch * 16.0F
+			hop * 14.0F - plant * 8.0F - warn * 18.0F + launch * 16.0F + inspect * 8.0F + sleep * 16.0F
 		);
+		if (state.scared) {
+			poseStack.rotateDegrees(Axis.ZP, Mth.sin(state.ageInTicks * 1.65F) * 7.0F);
+			poseStack.rotateDegrees(Axis.XP, Mth.sin(state.ageInTicks * 2.2F) * 3.5F);
+		}
 
 		int light = state.lightCoords;
 		int overlay = OverlayTexture.pack(0.0F, state.hasRedOverlay);
 
 		submitMesh(poseStack, queue, KharaxModelData.BODY, light, overlay);
 
+		float netHeadYaw = Mth.wrapDegrees(state.headRot - state.bodyRot);
+		float headPitch = state.xRot + hop * 8.0F - plant * 12.0F + warn * 12.0F;
+		float headRoll = headShake;
+		if (inspect > 0.0F) {
+			netHeadYaw += Mth.sin(state.ageInTicks * 0.14F) * 10.0F * inspect;
+			headPitch += 16.0F * inspect;
+			headRoll += Mth.sin(state.ageInTicks * 0.22F) * 14.0F * inspect;
+		}
+		if (state.scared) {
+			netHeadYaw += Mth.sin(state.ageInTicks * 0.33F) * 28.0F;
+			headRoll += Mth.sin(state.ageInTicks * 1.7F) * 9.0F;
+		}
 		poseStack.pushPose();
 		rotateAround(
 			poseStack,
 			KharaxModelData.Pivot.HEAD_X,
 			KharaxModelData.Pivot.HEAD_Y,
 			KharaxModelData.Pivot.HEAD_Z,
-			hop * 8.0F - plant * 12.0F + warn * 12.0F,
-			headShake
+			headPitch,
+			netHeadYaw,
+			headRoll
 		);
 		submitMesh(poseStack, queue, KharaxModelData.HEAD, light, overlay);
 		poseStack.popPose();
@@ -123,10 +154,24 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 			overlay
 		);
 
-		float frontTricep = plant * 42.0F - hop * 22.0F + warn * (55.0F + rub * 18.0F) + tuck * 34.0F;
-		float frontArm = plant * 28.0F + hop * 8.0F + warn * (-40.0F + rub * -25.0F) + tuck * -30.0F;
-		float leftRubZ = warn * (rub * 28.0F);
-		float rightRubZ = warn * (-rub * 28.0F);
+		float probe = Mth.sin(state.ageInTicks * 0.19F) * 14.0F * inspect;
+		float frontTricep = plant * 42.0F - hop * 22.0F + warn * (55.0F + rub * 18.0F) + tuck * 34.0F
+			+ inspect * 26.0F + sleep * 20.0F;
+		float frontArm = plant * 28.0F + hop * 8.0F + warn * (-40.0F + rub * -25.0F) + tuck * -30.0F
+			- inspect * 12.0F + sleep * 18.0F;
+		float leftRubZ = warn * (rub * 28.0F) + probe;
+		float rightRubZ = warn * (-rub * 28.0F) - probe;
+		if (state.carrying) {
+			frontTricep = -42.0F;
+			frontArm = 28.0F;
+			leftRubZ = 16.0F;
+			rightRubZ = -16.0F;
+			poseStack.pushPose();
+			poseStack.translate(0.0F, 0.92F, -0.48F);
+			poseStack.scale(0.5F, 0.5F, 0.5F);
+			state.carriedItem.submit(poseStack, queue, light, OverlayTexture.NO_OVERLAY, 0);
+			poseStack.popPose();
+		}
 		submitLimb(
 			poseStack,
 			queue,
@@ -163,7 +208,6 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 		);
 
 		poseStack.popPose();
-		super.submit(state, poseStack, queue, camera);
 	}
 
 	private static void submitLimb(
@@ -213,7 +257,14 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 	}
 
 	private static void rotateAround(PoseStack poseStack, float x, float y, float z, float rotXDeg, float rotZDeg) {
+		rotateAround(poseStack, x, y, z, rotXDeg, 0.0F, rotZDeg);
+	}
+
+	private static void rotateAround(PoseStack poseStack, float x, float y, float z, float rotXDeg, float rotYDeg, float rotZDeg) {
 		poseStack.translate(x, y, z);
+		if (rotYDeg != 0.0F) {
+			poseStack.rotateDegrees(Axis.YP, rotYDeg);
+		}
 		if (rotXDeg != 0.0F) {
 			poseStack.rotateDegrees(Axis.XP, rotXDeg);
 		}
@@ -242,11 +293,18 @@ public class KharaxRenderer extends EntityRenderer<KharaxEntity, KharaxRenderer.
 
 	public static class KharaxRenderState extends EntityRenderState {
 		public float bodyRot;
+		public float headRot;
+		public float xRot;
 		public float walkAnimationPos;
 		public float walkAnimationSpeed;
 		public boolean hasRedOverlay;
 		public boolean warning;
+		public boolean scared;
+		public boolean carrying;
+		public boolean sleeping;
 		public float hopPose;
 		public float airborneAmount;
+		public float inspectAmount;
+		public final ItemStackRenderState carriedItem = new ItemStackRenderState();
 	}
 }

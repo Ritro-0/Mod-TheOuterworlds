@@ -33,7 +33,7 @@ public class NearworldVolcanoFeature implements Feature {
 	}
 
 	@Override
-	public MapCodec<NearworldVolcanoFeature> codec() 
+	public MapCodec<NearworldVolcanoFeature> codec() {
 		return CODEC;
 	}
 

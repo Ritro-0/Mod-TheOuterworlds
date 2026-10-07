@@ -1,0 +1,22 @@
+{
+  "parent": "theouterworlds:one_small_step",
+  "criteria": {
+    "done": {
+      "trigger": "theouterworlds:use_astral_telescope"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:astral_telescope"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.stargazer.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.stargazer.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

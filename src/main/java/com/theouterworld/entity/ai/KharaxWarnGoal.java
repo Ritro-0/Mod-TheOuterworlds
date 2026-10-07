@@ -24,7 +24,7 @@ public class KharaxWarnGoal extends Goal {
 
 	@Override
 	public boolean canUse() {
-		if (kharax.isAggressive() || kharax.isRetreating() || kharax.isSpooking()) {
+		if (kharax.isLeashCalm() || kharax.isReceiving() || kharax.isAggressive() || kharax.isRetreating() || kharax.isSpooking()) {
 			return false;
 		}
 		Player player = kharax.findThreateningPlayer(KharaxEntity.WARN_RANGE);

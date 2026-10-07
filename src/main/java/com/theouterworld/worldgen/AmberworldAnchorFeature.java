@@ -16,7 +16,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.AbstractBedBlock;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LanternBlock;
+import com.theouterworld.block.TholinOpalReflectorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BedPart;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -923,9 +923,14 @@ public class AmberworldAnchorFeature implements Feature {
 			return;
 		}
 		for (int i = 0; i < chainLength; i++, y--) {
-			painter.set(x, y, z, ModBlocks.UNAFFECTED_IRON_CHAIN.defaultBlockState());
+			painter.set(x, y, z, ModBlocks.THOLIN_THREAD.defaultBlockState());
 		}
-		painter.set(x, y, z, ModBlocks.POD_LANTERN.defaultBlockState().setValue(LanternBlock.HANGING, true));
+		painter.set(
+			x,
+			y,
+			z,
+			ModBlocks.THOLIN_OPAL_REFLECTOR.defaultBlockState().setValue(TholinOpalReflectorBlock.FACING, Direction.UP)
+		);
 	}
 
 	/** Point along the same sagging walkway the pod uses, so hung things actually attach. */

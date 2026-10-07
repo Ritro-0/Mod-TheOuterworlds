@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "highworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:highworld"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:liquid_hydrogen"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.brave_the_storm.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.brave_the_storm.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

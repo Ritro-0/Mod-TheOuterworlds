@@ -1,5 +1,6 @@
 package com.theouterworld.entity.ai;
 
+import com.theouterworld.block.KharaxShellBlock;
 import com.theouterworld.block.ModBlocks;
 import com.theouterworld.entity.WeaverEntity;
 import net.minecraft.core.BlockPos;
@@ -36,7 +37,14 @@ public class WeaverNodeEvaluator extends WalkNodeEvaluator {
 	 */
 	@Override
 	public PathType getPathType(PathfindingContext context, int x, int y, int z) {
-		BlockState state = context.getBlockState(new BlockPos(x, y, z));
+		BlockPos feet = new BlockPos(x, y, z);
+		if (this.mob instanceof WeaverEntity weaver && weaver.isBreeding()) {
+			if (!context.getBlockState(feet).getFluidState().isEmpty()
+				|| !context.getBlockState(feet.below()).getFluidState().isEmpty()) {
+				return PathType.BLOCKED;
+			}
+		}
+		BlockState state = context.getBlockState(feet);
 		// Nets have no collision, but a door jamb net leads into the shell, not out of the pod.
 		if (state.is(ModBlocks.WEAVER_NET) && this.mob instanceof WeaverEntity) {
 			return PathType.BLOCKED;
@@ -44,6 +52,13 @@ public class WeaverNodeEvaluator extends WalkNodeEvaluator {
 		if (state.is(ModBlocks.THOLIN_FIBER) && this.mob instanceof WeaverEntity weaver) {
 			if (weaver.isDeckBound() || weaver.isHomeLeaping()
 				|| (weaver.isEmbeddedInFiber() && weaver.blockPosition().distSqr(new BlockPos(x, y, z)) <= 12.0 * 12.0)) {
+				return PathType.WALKABLE;
+			}
+			return PathType.BLOCKED;
+		}
+		if (state.getBlock() instanceof KharaxShellBlock && this.mob instanceof WeaverEntity weaver) {
+			if (weaver.isDeckBound() || weaver.isHomeLeaping()
+				|| (KharaxShellBlock.embedded(weaver) && weaver.blockPosition().distSqr(new BlockPos(x, y, z)) <= 12.0 * 12.0)) {
 				return PathType.WALKABLE;
 			}
 			return PathType.BLOCKED;

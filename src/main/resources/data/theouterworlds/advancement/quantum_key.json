@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:tear_in_spacetime",
+  "criteria": {
+    "crafted": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipes": "theouterworlds:quantum_pod"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:quantum_pod"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.quantum_key.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.quantum_key.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

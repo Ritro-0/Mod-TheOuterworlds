@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "edgeworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:edgeworld"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:liquid_methane"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.the_dark_blue_edge.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.the_dark_blue_edge.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

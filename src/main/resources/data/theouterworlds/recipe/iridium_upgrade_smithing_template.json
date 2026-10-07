@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "RNR",
+    " K "
+  ],
+  "key": {
+    "I": "theouterworlds:iridium_ingot",
+    "R": "theouterworlds:iridium_nugget",
+    "N": "minecraft:netherite_upgrade_smithing_template",
+    "K": "theouterworlds:kharax_chitin"
+  },
+  "result": {
+    "id": "theouterworlds:iridium_upgrade_smithing_template",
+    "count": 1
+  }
+}

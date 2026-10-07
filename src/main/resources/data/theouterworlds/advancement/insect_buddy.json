@@ -1,0 +1,22 @@
+{
+  "parent": "theouterworlds:red_horizon",
+  "criteria": {
+    "done": {
+      "trigger": "theouterworlds:weaver_gift"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:weaver_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.insect_buddy.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.insect_buddy.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

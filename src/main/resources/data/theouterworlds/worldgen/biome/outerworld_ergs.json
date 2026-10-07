@@ -30,9 +30,7 @@
       "theouterworlds:erg_dune"
     ],
     [],
-    [
-      "theouterworlds:oxidized_basalt_pebble"
-    ],
+    [],
     [],
     [],
     [],
@@ -58,7 +56,9 @@
       "theouterworlds:lava_tube"
     ],
     [],
-    [],
+    [
+      "theouterworlds:oxidized_basalt_pebble"
+    ],
     []
   ],
   "has_precipitation": false,

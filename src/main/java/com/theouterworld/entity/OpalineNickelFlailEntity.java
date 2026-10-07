@@ -186,11 +186,9 @@ public class OpalineNickelFlailEntity extends ThrowableProjectile {
 
 	private float computeDamage(LivingEntity target, double dist) {
 		double clamped = Math.min(Math.max(dist, 0.0), MAX_RANGE);
-		float rangeFactor = (float) (clamped / MAX_RANGE);
-		float base = MIN_THROWN_DAMAGE + (MAX_THROWN_DAMAGE - MIN_THROWN_DAMAGE) * rangeFactor;
+		float base = MIN_THROWN_DAMAGE + (MAX_THROWN_DAMAGE - MIN_THROWN_DAMAGE) * (float) (clamped / MAX_RANGE);
 		if (this.level() instanceof ServerLevel serverLevel && !this.weapon.isEmpty()) {
 			DamageSource source = this.damageSource();
-			// Density V at ~35+ blocks ≈ 52 damage. Divisor 2.8 keeps 40-block hits near ~58.
 			base += EnchantmentHelper.modifyFallBasedDamage(serverLevel, this.weapon, target, source, 0.0F)
 				* (float) (clamped / 2.8);
 		}

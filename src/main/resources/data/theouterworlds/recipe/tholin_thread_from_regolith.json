@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "theouterworlds:tholinic_regolith"
+  ],
+  "result": {
+    "id": "theouterworlds:tholin_thread",
+    "count": 8
+  }
+}

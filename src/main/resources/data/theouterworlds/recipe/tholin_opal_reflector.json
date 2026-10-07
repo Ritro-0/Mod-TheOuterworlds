@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "D",
+    "O"
+  ],
+  "key": {
+    "D": "theouterworlds:tholin_thread",
+    "O": "theouterworlds:opal"
+  },
+  "result": {
+    "id": "theouterworlds:tholin_opal_reflector",
+    "count": 1
+  }
+}

@@ -25,7 +25,7 @@ public class KharaxReturnHomeGoal extends Goal {
 
 	@Override
 	public boolean canUse() {
-		if (kharax.isSpooking() || kharax.isWarning() || kharax.isAggressive() || kharax.isRetreating()) {
+		if (kharax.isLeashCalm() || kharax.isReceiving() || kharax.isSpooking() || kharax.isWarning() || kharax.isAggressive() || kharax.isRetreating()) {
 			return false;
 		}
 		BlockPos home = kharax.getHomePos();
@@ -39,6 +39,8 @@ public class KharaxReturnHomeGoal extends Goal {
 	public boolean canContinueToUse() {
 		BlockPos home = kharax.getHomePos();
 		return home != null
+			&& !kharax.isLeashCalm()
+			&& !kharax.isReceiving()
 			&& !kharax.isSpooking()
 			&& !kharax.isWarning()
 			&& !kharax.isAggressive()

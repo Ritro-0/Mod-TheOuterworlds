@@ -1,0 +1,22 @@
+{
+  "parent": "theouterworlds:red_horizon",
+  "criteria": {
+    "done": {
+      "trigger": "theouterworlds:dust_storm_exposure"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "minecraft:tinted_glass"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.dusty_lungs.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.dusty_lungs.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

@@ -264,7 +264,7 @@ public class RiftBlock extends BaseEntityBlock {
 		BlockPos lowerPos = state.getValue(HALF) == DoubleBlockHalf.UPPER ? pos.below() : pos;
 		Direction facing = state.getValue(FACING);
 		BlockPos landingPos = prepareDestinationRift(targetWorld, lowerPos, facing);
-		Vec3 destination = offsetInFront(landingPos, facing);
+		Vec3 destination = safeRiftStand(targetWorld, landingPos, facing);
 
 		setCooldown(entity, targetWorld);
 		Entity teleported = entity.teleport(new TeleportTransition(
@@ -294,7 +294,7 @@ public class RiftBlock extends BaseEntityBlock {
 			return existing;
 		}
 
-		BlockPos surface = findSurface(targetWorld, sourceLower.getX(), sourceLower.getZ());
+		BlockPos surface = com.theouterworld.world.ArrivalLanding.structureCell(targetWorld, sourceLower.getX(), sourceLower.getZ());
 		BlockState below = targetWorld.getBlockState(surface.below());
 		if (below.isAir() || !below.isCollisionShapeFullBlock(targetWorld, surface.below())) {
 			targetWorld.setBlockAndUpdate(surface.below(), riftFoundation(targetWorld));
@@ -324,22 +324,20 @@ public class RiftBlock extends BaseEntityBlock {
 		return null;
 	}
 
-	private static BlockPos findSurface(ServerLevel world, int x, int z) {
-		int top = world.getMaxY();
-		int bottom = world.getMinY();
-		for (int y = top; y >= bottom; y--) {
-			BlockPos ground = new BlockPos(x, y, z);
-			BlockState groundState = world.getBlockState(ground);
-			if (groundState.isAir() || !groundState.isCollisionShapeFullBlock(world, ground)) {
-				continue;
-			}
-			BlockPos lower = ground.above();
-			BlockPos upper = lower.above();
-			if (world.getBlockState(lower).canBeReplaced() && world.getBlockState(upper).canBeReplaced()) {
-				return lower;
-			}
+	private static Vec3 safeRiftStand(ServerLevel world, BlockPos riftLower, Direction facing) {
+		Vec3 inFront = offsetInFront(riftLower, facing);
+		BlockPos frontFeet = BlockPos.containing(inFront.x, riftLower.getY(), inFront.z);
+		if (com.theouterworld.world.ArrivalLanding.isStandOpen(world, frontFeet)) {
+			return inFront;
 		}
-		return new BlockPos(x, Math.max(bottom + 64, 64), z);
+		BlockPos onTop = riftLower.above(2);
+		if (!world.getBlockState(onTop).canBeReplaced()) {
+			world.setBlockAndUpdate(onTop, Blocks.AIR.defaultBlockState());
+		}
+		if (!world.getBlockState(onTop.above()).canBeReplaced()) {
+			world.setBlockAndUpdate(onTop.above(), Blocks.AIR.defaultBlockState());
+		}
+		return Vec3.atBottomCenterOf(onTop);
 	}
 
 	private static Vec3 offsetInFront(BlockPos riftLower, Direction facing) {

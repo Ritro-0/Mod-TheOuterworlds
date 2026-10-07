@@ -27,8 +27,8 @@ import java.util.UUID;
  * Scorching solar exposure in the Innerworld when the player has sky access during
  * the stretched daytime, and ambient heat in the Nearworld / Emberworld. Redsteel chest/legs/boots
  * each cut heat by one third; a full set (helmet slot reserved for glass/Opal Lens)
- * blocks all heat damage. Graphite trim (any 1 piece) or Iridium armor (any 1 piece)
- * also fully blocks heat.
+ * blocks all heat damage. Graphite trim (any 1 piece), Iridium trim on a piece that
+ * does not already block heat, or Iridium armor (any 1 piece) also fully blocks heat.
  */
 public final class SolarIrradiation {
 	/** Seconds of open sky to reach full intensity. */
@@ -93,8 +93,8 @@ public final class SolarIrradiation {
 		return count;
 	}
 
-	/** Remaining heat fraction after armor: iridium (any 1 piece) or graphite trim (any 1 piece)
-	 * fully blocks heat; otherwise redsteel chest/legs/boots each cut heat by one third. */
+	/** Remaining heat fraction after armor: iridium armor, graphite trim, or effective iridium
+	 * trim fully blocks heat; otherwise redsteel chest/legs/boots each cut heat by one third. */
 	public static float heatMultiplier(LivingEntity entity) {
 		if (IridiumProtection.hasIridiumArmor(entity)
 			|| GraphiteProtection.hasHeatShield(entity)) {

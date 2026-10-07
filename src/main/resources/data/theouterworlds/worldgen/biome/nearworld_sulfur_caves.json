@@ -26,7 +26,9 @@
     "water_color": "#825800"
   },
   "features": [
-    [],
+    [
+      "theouterworlds:nearworld_cloud_deck"
+    ],
     [
       "theouterworlds:nearworld_cave_lava_pool"
     ],

@@ -12,7 +12,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedServer;
-import net.minecraft.server.level.PlayerSpawnFinder;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,7 +19,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.LevelData;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.level.portal.TeleportTransition;
@@ -135,15 +133,9 @@ public final class OuterworldWorldType {
 
 		ServerChunkCache chunkSource = outerworld.getChunkSource();
 		ChunkPos originChunk = chunkSource.getGenerator().getOrigin(chunkSource.randomState());
-		BlockPos spawnPos = findSurfaceSpawn(outerworld, originChunk);
-		if (spawnPos == null) {
-			outerworld.getChunk(originChunk.x(), originChunk.z());
-			spawnPos = PlayerSpawnFinder.getSpawnPosInChunk(outerworld, originChunk);
-		}
-		if (spawnPos == null) {
-			int spawnHeight = chunkSource.getGenerator().getSpawnHeight(outerworld);
-			spawnPos = new BlockPos(originChunk.getMinBlockX() + 8, Math.max(spawnHeight, outerworld.getMinY() + 1), originChunk.getMinBlockZ() + 8);
-		}
+		int x = originChunk.getMinBlockX() + 8;
+		int z = originChunk.getMinBlockZ() + 8;
+		BlockPos spawnPos = ArrivalLanding.playerFeet(outerworld, x, z);
 
 		LevelData.RespawnData respawnData = LevelData.RespawnData.of(
 			ModDimensions.OUTERWORLD_WORLD_KEY,
@@ -154,67 +146,6 @@ public final class OuterworldWorldType {
 		server.setRespawnData(respawnData);
 		LOGGER.info("Established Outerworld world spawn at {}", spawnPos);
 		return true;
-	}
-
-	/**
-	 * {@link PlayerSpawnFinder} walks MOTION_BLOCKING down open cave shafts, so the
-	 * Outerworld preset was spawning inside sulfur/mineral caves. Prefer a true
-	 * sky-exposed surface column that is not a pit relative to its neighbors.
-	 */
-	private static BlockPos findSurfaceSpawn(ServerLevel level, ChunkPos originChunk) {
-		BlockPos best = null;
-		int bestY = Integer.MIN_VALUE;
-		for (int cx = -2; cx <= 2; cx++) {
-			for (int cz = -2; cz <= 2; cz++) {
-				ChunkPos chunkPos = new ChunkPos(originChunk.x() + cx, originChunk.z() + cz);
-				level.getChunk(chunkPos.x(), chunkPos.z());
-				for (int lx = 0; lx < 16; lx += 2) {
-					for (int lz = 0; lz < 16; lz += 2) {
-						int x = chunkPos.getMinBlockX() + lx;
-						int z = chunkPos.getMinBlockZ() + lz;
-						int y = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
-						if (y <= level.getMinY() + 8) {
-							continue;
-						}
-						BlockPos feet = new BlockPos(x, y, z);
-						if (!level.canSeeSky(feet)) {
-							continue;
-						}
-						if (!level.isEmptyBlock(feet) || !level.isEmptyBlock(feet.above())) {
-							continue;
-						}
-						BlockPos floor = feet.below();
-						if (level.isEmptyBlock(floor) || !level.getFluidState(floor).isEmpty()) {
-							continue;
-						}
-						if (isPitColumn(level, x, y, z)) {
-							continue;
-						}
-						if (y > bestY) {
-							bestY = y;
-							best = feet;
-						}
-					}
-				}
-				if (best != null && bestY >= 48 && Math.abs(cx) + Math.abs(cz) == 0) {
-					return best;
-				}
-			}
-		}
-		return best;
-	}
-
-	private static boolean isPitColumn(ServerLevel level, int x, int y, int z) {
-		int neighborMax = y;
-		for (int dx = -8; dx <= 8; dx += 8) {
-			for (int dz = -8; dz <= 8; dz += 8) {
-				if (dx == 0 && dz == 0) {
-					continue;
-				}
-				neighborMax = Math.max(neighborMax, level.getHeight(Heightmap.Types.WORLD_SURFACE, x + dx, z + dz));
-			}
-		}
-		return y < neighborMax - 8;
 	}
 
 	private static void onPlayerJoin(ServerPlayer player) {
@@ -235,9 +166,12 @@ public final class OuterworldWorldType {
 			return;
 		}
 
-		if (!ModDimensions.OUTERWORLD_WORLD_KEY.equals(player.level().dimension())) {
-			teleportToOuterworldSpawn(player, server);
+		boolean alreadyThere = ModDimensions.OUTERWORLD_WORLD_KEY.equals(player.level().dimension());
+		if (alreadyThere || server.getLevel(ModDimensions.OUTERWORLD_WORLD_KEY) != null) {
+			// Before the starter teleport, so that arrival is not a first visit.
+			com.theouterworld.advancement.ModAdvancements.markStartedInOuterworld(player);
 		}
+		teleportToOuterworldSpawn(player, server);
 
 		ItemStack existingHelmet = player.getItemBySlot(EquipmentSlot.HEAD);
 		ItemStack glass = new ItemStack(Items.TINTED_GLASS);
@@ -268,8 +202,7 @@ public final class OuterworldWorldType {
 		}
 
 		BlockPos spawnPos = spawn.pos();
-		outerworld.getChunk(spawnPos);
-		BlockPos safe = player.adjustSpawnLocation(outerworld, spawnPos);
+		BlockPos safe = ArrivalLanding.playerFeet(outerworld, spawnPos.getX(), spawnPos.getZ());
 		Vec3 destination = Vec3.atBottomCenterOf(safe);
 
 		player.teleport(new TeleportTransition(

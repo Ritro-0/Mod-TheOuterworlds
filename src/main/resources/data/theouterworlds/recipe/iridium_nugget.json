@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "theouterworlds:iridium_ingot"
+  ],
+  "result": {
+    "id": "theouterworlds:iridium_nugget",
+    "count": 9
+  }
+}

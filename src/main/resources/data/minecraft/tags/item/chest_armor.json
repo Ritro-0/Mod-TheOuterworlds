@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"theouterworlds:iridium_chestplate",
 		"theouterworlds:redsteel_chestplate",
 		"theouterworlds:nickel_chestplate"
 	]

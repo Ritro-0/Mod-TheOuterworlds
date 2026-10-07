@@ -1,0 +1,22 @@
+{
+  "parent": "theouterworlds:quantum_key",
+  "criteria": {
+    "done": {
+      "trigger": "theouterworlds:quantum_travel"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "minecraft:ender_pearl"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.solar_nomad.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.solar_nomad.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

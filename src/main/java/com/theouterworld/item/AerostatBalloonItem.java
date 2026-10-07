@@ -18,8 +18,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Handheld aerostat: cancels world gravity and lifts at a dimension-independent rate.
- * Works only in Nearworld and the gas/ice giants (High/Deep/Far/Edge).
+ * Handheld aerostat: cancels world gravity and lifts at a fixed rate.
+ * Works in Nearworld (half speed) and the gas/ice giants (High/Deep/Far/Edge).
  * Space speeds ascent; sneak descends at the same natural rate. Stops rising near build height.
  * Disabled while submerged in liquid helium (same climb struggle as liquid hydrogen, no bypass).
  * Horizontal WASD control is amplified so strafing while rising/falling feels free.
@@ -28,8 +28,9 @@ public class AerostatBalloonItem extends Item {
 	public static final int DURABILITY = 256;
 	/** Ticks of continuous hold between durability checks (~5 seconds). */
 	public static final int DURABILITY_INTERVAL_TICKS = 100;
-	/** Blocks/tick of natural lift — same feel in 0.16g and 2.5g once gravity is zeroed. */
+	/** Blocks/tick of natural lift on gas/ice giants. Nearworld uses half this. */
 	public static final double NATURAL_LIFT = 0.18;
+	private static final double NEARWORLD_LIFT_SCALE = 0.5;
 	private static final double BUILD_HEIGHT_STOP_MARGIN = 6.0;
 	/** Air-control strength while ballooning (blocks/tick^2 scale via moveRelative). */
 	private static final float HORIZONTAL_CONTROL = 0.085F;
@@ -66,6 +67,15 @@ public class AerostatBalloonItem extends Item {
 			|| ModDimensions.isEdgeworld(dimension);
 	}
 
+	/** Gas/ice-giant rate, or half of that in Nearworld. */
+	private static double liftRate(ResourceKey<Level> dimension) {
+		double lift = NATURAL_LIFT;
+		if (ModDimensions.isNearworld(dimension)) {
+			lift *= NEARWORLD_LIFT_SCALE;
+		}
+		return lift;
+	}
+
 	public static boolean isBlockedByLiquidHelium(LivingEntity entity) {
 		return entity.getFluidHeight(ModTags.LIQUID_HELIUM) > 0.0;
 	}
@@ -77,6 +87,9 @@ public class AerostatBalloonItem extends Item {
 		if (!(entity instanceof Player player) || player.isSpectator()) {
 			return;
 		}
+		if (player instanceof ServerPlayer serverPlayer) {
+			com.theouterworld.advancement.ModAdvancements.tickBalloon(serverPlayer);
+		}
 		if (!isActive(player)) {
 			return;
 		}
@@ -84,11 +97,11 @@ public class AerostatBalloonItem extends Item {
 			return;
 		}
 
-		double lift = NATURAL_LIFT;
+		double lift = liftRate(player.level().dimension());
 		if (player.isShiftKeyDown()) {
-			lift = -NATURAL_LIFT;
+			lift = -lift;
 		} else if (((LivingEntityAccessor) player).theouterworlds$isJumping()) {
-			lift = NATURAL_LIFT * 2.0;
+			lift *= 2.0;
 		}
 
 		double ceiling = player.level().getMaxY() - BUILD_HEIGHT_STOP_MARGIN;
@@ -127,7 +140,7 @@ public class AerostatBalloonItem extends Item {
 		if (player.getAbilities().instabuild || player.isSpectator()) {
 			return;
 		}
-		if (isBlockedByLiquidHelium(player)) {
+		if (!isActive(player)) {
 			return;
 		}
 		if (player.tickCount % DURABILITY_INTERVAL_TICKS != 0) {

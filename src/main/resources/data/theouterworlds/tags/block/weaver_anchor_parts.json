@@ -7,6 +7,8 @@
 		"theouterworlds:weaver_net",
 		"minecraft:straw_bed",
 		"minecraft:iron_chain",
-		"minecraft:lantern"
+		"minecraft:lantern",
+		"theouterworlds:tholin_thread",
+		"theouterworlds:tholin_opal_reflector"
 	]
 }

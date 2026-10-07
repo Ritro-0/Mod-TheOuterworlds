@@ -62,6 +62,11 @@ public final class MercuryFluidInteractions {
 				baseBehavior.onFluidExited(fluid, entity);
 				removeMercuryNausea(entity);
 			}
+
+			@Override
+			public boolean canDrownInFluid(net.minecraft.tags.TagKey<net.minecraft.world.level.material.Fluid> fluid, LivingEntity entity) {
+				return true;
+			}
 		});
 	}
 

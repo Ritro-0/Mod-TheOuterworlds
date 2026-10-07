@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
-		"theouterworlds:reinforced_tinted_glass_pane"
+		"theouterworlds:reinforced_tinted_glass_pane",
+		"theouterworlds:trimmed_glass"
 	]
 }

@@ -1,5 +1,6 @@
 package com.theouterworld.util;
 
+import com.theouterworld.block.TrimmedGlassBlock;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
@@ -32,7 +33,7 @@ public final class GlassHelmetUtil {
 		if (item == null) {
 			return false;
 		}
-		if (item == Items.GLASS || item == Items.TINTED_GLASS) {
+		if (item == Items.GLASS || item == Items.TINTED_GLASS || item == TrimmedGlassBlock.ITEM) {
 			return true;
 		}
 		return Items.STAINED_GLASS.asList().contains(item);
@@ -67,6 +68,10 @@ public final class GlassHelmetUtil {
 	public static Identifier getGlassTextureId(ItemStack stack) {
 		if (stack == null || stack.isEmpty()) {
 			return null;
+		}
+		TrimmedGlassBlock.Kind trimmed = TrimmedGlassBlock.kindOf(stack);
+		if (stack.is(TrimmedGlassBlock.ITEM) && trimmed != null) {
+			return trimmed.overlayTexture();
 		}
 		if (stack.is(Items.GLASS)) {
 			return Identifier.fromNamespaceAndPath("minecraft", "textures/block/glass.png");

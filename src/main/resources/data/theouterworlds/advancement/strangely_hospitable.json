@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "amberworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:amberworld"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:tholin_fiber"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.strangely_hospitable.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.strangely_hospitable.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

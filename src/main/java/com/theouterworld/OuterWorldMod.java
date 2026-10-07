@@ -57,7 +57,6 @@ public class OuterWorldMod implements ModInitializer {
 		com.theouterworld.registry.ModSounds.registerModSounds();
 		com.theouterworld.registry.ModEntities.registerModEntities();
 		com.theouterworld.entity.StrandHydraEntity.register();
-		com.theouterworld.world.FrostworldFaunaSpawner.register();
 		VanillaIronReplacementListener.register();
 		com.theouterworld.world.PlantFreeze.register();
 		com.theouterworld.world.ColdDimensionLights.register();
@@ -77,6 +76,10 @@ public class OuterWorldMod implements ModInitializer {
 		);
 		PayloadTypeRegistry.serverboundPlay().register(ProcessorModeTogglePacket.ID, ProcessorModeTogglePacket.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(RiftPadVisitPacket.ID, RiftPadVisitPacket.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(
+			com.theouterworld.network.SunVisitCancelledPacket.ID,
+			com.theouterworld.network.SunVisitCancelledPacket.CODEC
+		);
 
 		ServerPlayNetworking.registerGlobalReceiver(ProcessorModeTogglePacket.ID, (packet, context) -> {
 			context.server().execute(() -> {
@@ -134,6 +137,18 @@ public class OuterWorldMod implements ModInitializer {
 				pad.beginVisit(player, dest);
 			});
 		});
+
+		com.theouterworld.advancement.ModAdvancements.register();
+
+		ServerPlayNetworking.registerGlobalReceiver(
+			com.theouterworld.network.SunVisitCancelledPacket.ID,
+			(packet, context) -> context.server().execute(() -> {
+				var player = context.player();
+				if (player.containerMenu instanceof com.theouterworld.screen.RiftPadMenu) {
+					com.theouterworld.advancement.ModAdvancements.onSunVisitCancelled(player);
+				}
+			})
+		);
 
 		DustStormTicker.register();
 		com.theouterworld.weather.NearworldStormTicker.register();

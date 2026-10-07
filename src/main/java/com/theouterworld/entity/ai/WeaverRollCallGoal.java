@@ -6,13 +6,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.goal.Goal;
 
-/** Home-plate leap to the morning meeting. Landing short does not cost the Weaver its pad. */
+/** One leap to the morning meeting, then stand there until the meeting is over. */
 public class WeaverRollCallGoal extends Goal {
 	private static final double ARRIVED_SQR = 6.0 * 6.0;
 
 	private final WeaverEntity weaver;
 	private boolean leftGround;
-	private int leaps;
+	private int launchTicks;
 
 	public WeaverRollCallGoal(WeaverEntity weaver) {
 		this.weaver = weaver;
@@ -32,9 +32,8 @@ public class WeaverRollCallGoal extends Goal {
 			|| this.weaver.isSleeping()) {
 			return false;
 		}
-		return this.weaver.level() instanceof ServerLevel level
-			&& WeaverRollCall.isGathering(this.weaver.colonyId())
-			&& WeaverRollCall.meetingFor(level, this.weaver) != null;
+		return this.weaver.level() instanceof ServerLevel
+			&& WeaverRollCall.isGathering(this.weaver.colonyId());
 	}
 
 	@Override
@@ -54,7 +53,7 @@ public class WeaverRollCallGoal extends Goal {
 	@Override
 	public void start() {
 		this.leftGround = false;
-		this.leaps = 0;
+		this.launchTicks = 0;
 	}
 
 	@Override
@@ -72,41 +71,54 @@ public class WeaverRollCallGoal extends Goal {
 
 	@Override
 	public void tick() {
-		BlockPos spot = this.weaver.level() instanceof ServerLevel level
-			? WeaverRollCall.meetingFor(level, this.weaver)
-			: this.weaver.getGatherLanding();
-		if (spot == null) {
-			if (this.weaver.leapKind() == WeaverEntity.LeapKind.GATHER) {
-				this.weaver.endGatherLeap();
-			}
+		if (!(this.weaver.level() instanceof ServerLevel level)) {
 			return;
 		}
-		if (!WeaverLeapSpot.isDry(this.weaver.level(), spot)) {
-			this.weaver.endGatherLeap();
-			return;
-		}
+		BlockPos spot = WeaverRollCall.meetingFor(level, this.weaver);
 		if (this.weaver.isHomeLeaping() && this.weaver.leapKind() == WeaverEntity.LeapKind.GATHER) {
-			this.weaver.steerHomeLeap(spot);
+			if (spot != null) {
+				this.weaver.steerHomeLeap(spot);
+			}
 			if (!this.weaver.onGround()) {
 				this.leftGround = true;
 			}
 			if (this.leftGround && this.weaver.onGround()) {
 				this.weaver.endGatherLeap();
 				this.leftGround = false;
+				this.launchTicks = 0;
+				return;
+			}
+			int limit = this.leftGround ? 400 : 20;
+			if (++this.launchTicks > limit) {
+				this.weaver.endGatherLeap();
+				this.leftGround = false;
+				this.launchTicks = 0;
 			}
 			return;
 		}
+		if (!WeaverRollCall.hasLeaped(this.weaver)) {
+			if (spot != null && !arrived(spot)) {
+				this.leftGround = false;
+				this.launchTicks = 0;
+				this.weaver.beginGatherLeap(spot);
+			}
+			WeaverRollCall.markLeaped(this.weaver);
+			if (this.weaver.isHomeLeaping()) {
+				return;
+			}
+		}
+		this.weaver.getNavigation().stop();
+		this.weaver.setZza(0.0F);
+		BlockPos center = WeaverRollCall.center(this.weaver.colonyId());
+		if (center != null) {
+			this.weaver.getLookControl().setLookAt(center.getX() + 0.5, center.getY() + 1.0, center.getZ() + 0.5, 30.0F, 30.0F);
+		}
+	}
+
+	private boolean arrived(BlockPos spot) {
 		double dx = spot.getX() + 0.5 - this.weaver.getX();
 		double dz = spot.getZ() + 0.5 - this.weaver.getZ();
 		double dy = spot.getY() + 1.0 - this.weaver.getY();
-		if (this.weaver.onGround() && dx * dx + dz * dz <= ARRIVED_SQR && Math.abs(dy) <= 4.0) {
-			this.weaver.getNavigation().stop();
-			return;
-		}
-		if (this.leaps < 2) {
-			this.leaps++;
-			this.leftGround = false;
-			this.weaver.beginGatherLeap(spot);
-		}
+		return this.weaver.onGround() && dx * dx + dz * dz <= ARRIVED_SQR && Math.abs(dy) <= 4.0;
 	}
 }

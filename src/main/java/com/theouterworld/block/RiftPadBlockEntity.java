@@ -146,7 +146,19 @@ public class RiftPadBlockEntity extends BlockEntity {
 			// Stand on the pad itself so survival players are never left floating in clouds.
 			landing = Vec3.atBottomCenterOf(destPadPos).add(0.0, 1.01, 0.0);
 		} else {
-			landing = Vec3.atBottomCenterOf(destPadPos).add(facing.getStepX() * 1.5, 0.0, facing.getStepZ() * 1.5);
+			BlockPos beside = destPadPos.relative(facing);
+			if (com.theouterworld.world.ArrivalLanding.isStandOpen(destWorld, beside)) {
+				landing = Vec3.atBottomCenterOf(beside);
+			} else {
+				BlockPos onPad = destPadPos.above();
+				if (!destWorld.getBlockState(onPad).canBeReplaced()) {
+					destWorld.setBlock(onPad, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+				}
+				if (!destWorld.getBlockState(onPad.above()).canBeReplaced()) {
+					destWorld.setBlock(onPad.above(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+				}
+				landing = Vec3.atBottomCenterOf(onPad);
+			}
 		}
 
 		// Link both pads.
@@ -236,65 +248,7 @@ public class RiftPadBlockEntity extends BlockEntity {
 	}
 
 	private static BlockPos findSurface(ServerLevel world, int x, int z) {
-		if (ModDimensions.isHighworld(world.dimension())) {
-			return findGasGiantCloudPadPos(
-				world, x, z,
-				ModBlocks.AMMONIA_CLOUD,
-				HighworldLayers.AMMONIA_BOTTOM_Y,
-				HighworldLayers.AMMONIA_TOP_Y
-			);
-		}
-		if (ModDimensions.isDeepworld(world.dimension())) {
-			return findGasGiantCloudPadPos(
-				world, x, z,
-				ModBlocks.METHANE_CLOUD,
-				DeepworldLayers.METHANE_BOTTOM_Y,
-				DeepworldLayers.METHANE_TOP_Y
-			);
-		}
-		if (ModDimensions.isFarworld(world.dimension())) {
-			return findGasGiantCloudPadPos(
-				world, x, z,
-				ModBlocks.METHANE_CLOUD,
-				FarworldLayers.METHANE_UPPER_BOTTOM_Y,
-				FarworldLayers.METHANE_UPPER_TOP_Y
-			);
-		}
-		if (ModDimensions.isEdgeworld(world.dimension())) {
-			return findGasGiantCloudPadPos(
-				world, x, z,
-				ModBlocks.METHANE_CLOUD,
-				EdgeworldLayers.METHANE_UPPER_BOTTOM_Y,
-				EdgeworldLayers.METHANE_UPPER_TOP_Y
-			);
-		}
-		if (ModDimensions.isEmberworld(world.dimension())) {
-			return findEmberworldSafePadPos(world, x, z);
-		}
-		if (ModDimensions.isAmberworld(world.dimension())) {
-			return findAmberworldSafePadPos(world, x, z);
-		}
-		if (ModDimensions.isSpongeworld(world.dimension())) {
-			return findSpongeworldSafePadPos(world, x, z);
-		}
-		if (ModDimensions.isPotatoworlds(world.dimension())) {
-			return findPotatoworldsSafePadPos(world, x, z);
-		}
-
-		int top = world.getMaxY();
-		int bottom = world.getMinY();
-		for (int y = top; y >= bottom; y--) {
-			BlockPos ground = new BlockPos(x, y, z);
-			BlockState groundState = world.getBlockState(ground);
-			if (groundState.isAir() || !groundState.isCollisionShapeFullBlock(world, ground)) {
-				continue;
-			}
-			BlockPos above = ground.above();
-			if (world.getBlockState(above).canBeReplaced()) {
-				return above;
-			}
-		}
-		return new BlockPos(x, Math.max(bottom + 64, 64), z);
+		return com.theouterworld.world.ArrivalLanding.structureCell(world, x, z);
 	}
 
 	/**

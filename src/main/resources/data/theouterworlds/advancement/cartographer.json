@@ -1,0 +1,136 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "outerworld": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:outerworld"
+      }
+    },
+    "moon": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:moon"
+      }
+    },
+    "innerworld": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:innerworld"
+      }
+    },
+    "nearworld": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:nearworld"
+      }
+    },
+    "highworld": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:highworld"
+      }
+    },
+    "deepworld": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:deepworld"
+      }
+    },
+    "farworld": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:farworld"
+      }
+    },
+    "edgeworld": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:edgeworld"
+      }
+    },
+    "emberworld": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:emberworld"
+      }
+    },
+    "frostworld": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:frostworld"
+      }
+    },
+    "amberworld": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:amberworld"
+      }
+    },
+    "spongeworld": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:spongeworld"
+      }
+    },
+    "potatoworlds": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:potatoworlds"
+      }
+    },
+    "wanderlands": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:wanderlands"
+      }
+    },
+    "beyondlands": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:beyondlands"
+      }
+    },
+    "beyondlands_ii": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:beyondlands_ii"
+      }
+    },
+    "spinlands": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:spinlands"
+      }
+    },
+    "scarletlands": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:scarletlands"
+      }
+    },
+    "lonelands": {
+      "trigger": "theouterworlds:visit_body",
+      "conditions": {
+        "dimension": "theouterworlds:lonelands"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:innerworld_sun"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.cartographer.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.cartographer.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "rewards": {
+    "experience": 100
+  }
+}

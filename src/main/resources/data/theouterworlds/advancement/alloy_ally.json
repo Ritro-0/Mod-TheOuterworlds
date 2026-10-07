@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:oxidized_foundations",
+  "criteria": {
+    "crafted": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipes": "theouterworlds:opaline_nickel"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:opaline_nickel"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.alloy_ally.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.alloy_ally.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

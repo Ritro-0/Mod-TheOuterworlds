@@ -2,6 +2,8 @@ package com.theouterworld.registry;
 
 import com.theouterworld.OuterWorldMod;
 import com.theouterworld.block.AstralTelescopeBlockEntity;
+import com.theouterworld.block.TrimmedGlassBlock;
+import com.theouterworld.block.TrimmedGlassBlockEntity;
 import com.theouterworld.block.BeaconConcentratorBlockEntity;
 import com.theouterworld.block.IronGolemStatueBlockEntity;
 import com.theouterworld.block.ModBlocks;
@@ -9,6 +11,7 @@ import com.theouterworld.block.ProcessorBlockEntity;
 import com.theouterworld.block.RiftBlockEntity;
 import com.theouterworld.block.RiftChargeBlockEntity;
 import com.theouterworld.block.RiftPadBlockEntity;
+import com.theouterworld.block.VentCloveBlockEntity;
 import com.theouterworld.block.WeaverNetBlockEntity;
 import com.theouterworld.block.WeaverPadBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityType;
@@ -98,12 +101,30 @@ public class ModBlockEntities {
 		).build()
 	);
 
+	public static final BlockEntityType<VentCloveBlockEntity> VENT_CLOVE = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE,
+		OuterWorldMod.id("vent_clove"),
+		net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.<VentCloveBlockEntity>create(
+			VentCloveBlockEntity::new,
+			ModBlocks.VENT_CLOVE
+		).build()
+	);
+
 	public static final BlockEntityType<AstralTelescopeBlockEntity> ASTRAL_TELESCOPE = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE,
 		OuterWorldMod.id("astral_telescope"),
 		net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.<AstralTelescopeBlockEntity>create(
 			AstralTelescopeBlockEntity::new,
 			ModBlocks.ASTRAL_TELESCOPE
+		).build()
+	);
+
+	public static final BlockEntityType<TrimmedGlassBlockEntity> TRIMMED_GLASS = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE,
+		OuterWorldMod.id("trimmed_glass"),
+		net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.<TrimmedGlassBlockEntity>create(
+			TrimmedGlassBlockEntity::new,
+			TrimmedGlassBlock.BLOCK
 		).build()
 	);
 

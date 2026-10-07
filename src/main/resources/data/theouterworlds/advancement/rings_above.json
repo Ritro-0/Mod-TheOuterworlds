@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "deepworld": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:deepworld"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:liquid_helium"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.rings_above.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.rings_above.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

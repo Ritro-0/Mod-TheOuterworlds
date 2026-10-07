@@ -17,12 +17,11 @@ import com.theouterworld.entity.ai.WeaverMoveControl;
 import com.theouterworld.entity.ai.WeaverPathNavigation;
 import com.theouterworld.entity.ai.WeaverRetreatGoal;
 import com.theouterworld.entity.ai.WeaverReturnHomeGoal;
-import com.theouterworld.entity.ai.WeaverRollCall;
-import com.theouterworld.entity.ai.WeaverRollCallGoal;
 import com.theouterworld.entity.ai.WeaverSchedule;
 import com.theouterworld.entity.ai.WeaverSleepGoal;
 import com.theouterworld.entity.ai.WeaverStalkPickupGoal;
 import com.theouterworld.entity.ai.WeaverVengeanceLeapGoal;
+import com.theouterworld.entity.ai.WeaverKharaxReceptionGoal;
 import com.theouterworld.entity.ai.WeaverWanderGoal;
 import com.theouterworld.registry.ModSounds;
 import com.theouterworld.world.WeaverAbsence;
@@ -69,6 +68,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractBedBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.level.storage.ValueInput;
@@ -186,6 +186,14 @@ public class WeaverEntity extends PathfinderMob {
 	private final Map<UUID, Integer> regard = new HashMap<>();
 	private boolean vengeanceLeap;
 	private @Nullable UUID vengeancePlayer;
+	/** Neutral Weavers flinch this long before a hit they can still forgive. */
+	private int panicTicks;
+	private @Nullable UUID receptionKharax;
+	private @Nullable BlockPos receptionStand;
+	private boolean receptionRecoiling;
+	private boolean receptionPunched;
+	private boolean receptionStruck;
+	private int suppressPackAlertTicks;
 
 	public WeaverEntity(EntityType<? extends WeaverEntity> type, Level level) {
 		super(type, level);
@@ -224,12 +232,12 @@ public class WeaverEntity extends PathfinderMob {
 	@Override
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new FloatGoal(this));
+		this.goalSelector.addGoal(0, new WeaverKharaxReceptionGoal(this));
+		this.goalSelector.addGoal(1, new WeaverBreedGoal(this));
 		this.goalSelector.addGoal(1, new WeaverVengeanceLeapGoal(this));
 		this.goalSelector.addGoal(1, new WeaverLeapAttackGoal(this));
 		this.goalSelector.addGoal(2, new WeaverRetreatGoal(this));
 		this.goalSelector.addGoal(3, new WeaverGiftGoal(this));
-		this.goalSelector.addGoal(4, new WeaverRollCallGoal(this));
-		this.goalSelector.addGoal(4, new WeaverBreedGoal(this));
 		this.goalSelector.addGoal(4, new WeaverBabyHomeGoal(this));
 		this.goalSelector.addGoal(5, new WeaverSleepGoal(this));
 		this.goalSelector.addGoal(6, new WeaverHousekeepingGoal(this));
@@ -245,12 +253,17 @@ public class WeaverEntity extends PathfinderMob {
 	@Override
 	public void tick() {
 		if (this.level() instanceof ServerLevel serverLevel) {
+			if (this.suppressPackAlertTicks > 0) {
+				this.suppressPackAlertTicks--;
+			}
+			if (this.panicTicks > 0) {
+				this.panicTicks--;
+			}
 			this.catchUpFurnishings();
 			this.tickBloodFeud();
 			if ((this.tickCount + this.getId()) % 20 == 0) {
 				WeaverHomes.reconcile(serverLevel, this);
 			}
-			WeaverRollCall.tick(serverLevel, this);
 		}
 		super.tick();
 		if (!this.level().isClientSide()) {
@@ -447,8 +460,27 @@ public class WeaverEntity extends PathfinderMob {
 		return this.courtLanding;
 	}
 
+	/** Drops sleep, combat, and travel so a replacement courtship can start immediately. */
+	public void dropGoalsForBreeding() {
+		if (this.isSleeping()) {
+			this.stopSleeping();
+		}
+		this.retreating = false;
+		this.aggressive = false;
+		this.entityData.set(DATA_AGGRESSIVE, false);
+		this.vengeanceLeap = false;
+		this.vengeancePlayer = null;
+		this.setTarget(null);
+		this.setFlatApproach(true);
+		this.getNavigation().stop();
+		if (this.isHomeLeaping() && this.leapKind != LeapKind.COURT) {
+			this.endHomeLeap();
+		}
+	}
+
 	/** Walk to a wild stalk and harvest it, or wait there when the food is already in hand. */
 	public void beginStalkCourt(WeaverHomes.Vacancy vacancy, BlockPos stalk, boolean harvest) {
+		this.dropGoalsForBreeding();
 		this.breedPartner = null;
 		this.breedVacancy = vacancy;
 		this.breedLeader = true;
@@ -461,6 +493,7 @@ public class WeaverEntity extends PathfinderMob {
 
 	/** Home-plate leap onto a block beside the Weaver who is waiting at the stalks. */
 	public void beginCourtLeap(WeaverEntity leader, WeaverHomes.Vacancy vacancy, BlockPos landing) {
+		this.dropGoalsForBreeding();
 		this.breedPartner = leader;
 		this.breedVacancy = vacancy;
 		this.breedLeader = false;
@@ -476,6 +509,38 @@ public class WeaverEntity extends PathfinderMob {
 			return;
 		}
 		this.courtLanding = this.leapTarget;
+	}
+
+	/** Already within hopping range, so they walk the rest of the way. */
+	public void beginCourtApproach(WeaverEntity leader, WeaverHomes.Vacancy vacancy) {
+		this.dropGoalsForBreeding();
+		this.breedPartner = leader;
+		this.breedVacancy = vacancy;
+		this.breedLeader = false;
+		this.breedSpin = -1.0F;
+		this.courtStalk = leader.courtStalk == null ? null : leader.courtStalk.immutable();
+		this.courtLanding = null;
+		this.setFlipProgress(0.0F);
+		this.setBreedPhase(BREED_LEAP);
+		leader.breedPartner = this;
+		this.getNavigation().stop();
+	}
+
+	/** Already standing near the harvester, so the courtship skips the leap. */
+	public void beginCourtBeside(WeaverEntity leader, WeaverHomes.Vacancy vacancy) {
+		this.dropGoalsForBreeding();
+		this.breedPartner = leader;
+		this.breedVacancy = vacancy;
+		this.breedLeader = false;
+		this.breedSpin = -1.0F;
+		this.courtStalk = leader.courtStalk == null ? null : leader.courtStalk.immutable();
+		this.courtLanding = null;
+		this.setFlipProgress(0.0F);
+		this.setBreedPhase(BREED_SHARE);
+		leader.breedPartner = this;
+		leader.setBreedPhase(BREED_SHARE);
+		this.getNavigation().stop();
+		leader.getNavigation().stop();
 	}
 
 	public void launchBackflip() {
@@ -506,6 +571,7 @@ public class WeaverEntity extends PathfinderMob {
 		this.breedPartner = null;
 		this.courtStalk = null;
 		this.courtLanding = null;
+		this.setFlatApproach(false);
 		this.setBreedPhase(0);
 		this.setFlipProgress(0.0F);
 	}
@@ -665,6 +731,121 @@ public class WeaverEntity extends PathfinderMob {
 		}
 	}
 
+	public boolean hasKharaxReception() {
+		return this.receptionKharax != null;
+	}
+
+	public @Nullable UUID getReceptionKharaxId() {
+		return this.receptionKharax;
+	}
+
+	public @Nullable BlockPos getReceptionStand() {
+		return this.receptionStand;
+	}
+
+	public boolean isReceptionRecoiling() {
+		return this.receptionRecoiling;
+	}
+
+	public boolean hasReceptionPunched() {
+		return this.receptionPunched;
+	}
+
+	public boolean wasReceptionStruck() {
+		return this.receptionStruck;
+	}
+
+	public void markReceptionPunched() {
+		this.receptionPunched = true;
+	}
+
+	/** Leave the current chore and come stand off to one side of this Kharax. */
+	public void joinKharaxReception(KharaxEntity kharax, BlockPos stand) {
+		if (this.isSleeping()) {
+			this.stopSleeping();
+		}
+		if (this.isBreeding()) {
+			WeaverEntity partner = this.getBreedPartner();
+			this.abortBreeding();
+			if (partner != null && partner.isBreeding()) {
+				partner.abortBreeding();
+			}
+		}
+		this.releaseDeck();
+		this.setFlatApproach(false);
+		this.retreating = false;
+		this.aggressive = false;
+		this.setTarget(null);
+		this.entityData.set(DATA_AGGRESSIVE, false);
+		this.vengeanceLeap = false;
+		this.vengeancePlayer = null;
+		this.setInspecting(false);
+		this.getNavigation().stop();
+		if (this.isHomeLeaping() && !this.isHomePlateLeap()) {
+			this.endHomeLeap();
+		}
+		this.receptionKharax = kharax.getUUID();
+		this.receptionStand = stand.immutable();
+		this.receptionRecoiling = false;
+		this.receptionPunched = false;
+		this.receptionStruck = false;
+		this.suppressPackAlertTicks = 400;
+		this.launchReceptionLeap(stand);
+	}
+
+	/**
+	 * One home-style arc to the stand. A night return already in the air is left alone;
+	 * this flight is a gather leap, so fibre floors and the home plate still catch a Weaver.
+	 */
+	public void launchReceptionLeap(BlockPos stand) {
+		if (this.isHomePlateLeap()) {
+			return;
+		}
+		if (this.distanceToSqr(Vec3.atBottomCenterOf(stand)) <= 6.0) {
+			return;
+		}
+		if (this.isHomeLeaping()) {
+			this.endHomeLeap();
+		}
+		this.beginGatherLeap(stand.below());
+	}
+
+	/** Keep steering whatever leap is already in the air, without changing its target. */
+	public void steerCurrentLeap() {
+		if (this.leapTarget != null) {
+			this.steerHomeLeap(this.leapTarget);
+		}
+	}
+
+	public void beginReceptionRecoil() {
+		this.receptionRecoiling = true;
+		this.receptionPunched = false;
+		this.suppressPackAlertTicks = 200;
+		this.setInspecting(false);
+		this.getNavigation().stop();
+	}
+
+	/** Back on the inspection mark. The circle is still gathered. */
+	public void resumeReceptionInspect() {
+		this.receptionRecoiling = false;
+		this.receptionPunched = false;
+		this.receptionStruck = false;
+		this.setInspecting(true);
+		this.getNavigation().stop();
+	}
+
+	public void clearKharaxReception() {
+		if (this.leapKind == LeapKind.GATHER) {
+			this.endGatherLeap();
+		}
+		this.receptionKharax = null;
+		this.receptionStand = null;
+		this.receptionRecoiling = false;
+		this.receptionPunched = false;
+		this.receptionStruck = false;
+		this.setInspecting(false);
+	}
+
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (!this.isOfferingGift() || this.getCarriedItem().isEmpty()) {
@@ -683,6 +864,9 @@ public class WeaverEntity extends PathfinderMob {
 		this.setOfferingGift(false);
 		if (!giveGift(player, hand, gift) && this.level() instanceof ServerLevel server) {
 			this.spawnAtLocation(server, gift);
+		}
+		if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
+			com.theouterworld.advancement.ModAdvancements.onWeaverGift(serverPlayer);
 		}
 		if (this.isBaby()) {
 			this.addRegard(player.getUUID(), FOND_REGARD);
@@ -737,6 +921,16 @@ public class WeaverEntity extends PathfinderMob {
 		this.setHomeTo(bed.immutable(), WANDER_RADIUS);
 		this.homePlate = plate == null ? null : plate.immutable();
 		return true;
+	}
+
+	/** A home on open ground. Does not claim a Weaver pad. */
+	public void assignSurfaceHome(BlockPos stand, BlockPos plate) {
+		if (this.hasHome()) {
+			WeaverPadBlock.release(this.level(), this.getHomePosition(), this.getUUID());
+		}
+		this.homeDimension = this.level().dimension();
+		this.setHomeTo(stand.immutable(), WANDER_RADIUS);
+		this.homePlate = plate.immutable();
 	}
 
 	public @Nullable BlockPos getHomePlate() {
@@ -798,11 +992,12 @@ public class WeaverEntity extends PathfinderMob {
 		return this.deckTarget;
 	}
 
-	public void beginGatherLeap(BlockPos landing) {
+	public boolean beginGatherLeap(BlockPos landing) {
 		if (!this.launchLeap(LeapKind.GATHER, landing)) {
-			return;
+			return false;
 		}
 		this.gatherLanding = this.leapTarget;
+		return true;
 	}
 
 	public void endGatherLeap() {
@@ -945,7 +1140,13 @@ public class WeaverEntity extends PathfinderMob {
 			return;
 		}
 		BlockPos feet = this.blockPosition();
-		if (!(this.level().getBlockState(feet).getBlock() instanceof AbstractBedBlock)) {
+		BlockState bed = this.level().getBlockState(feet);
+		if (!(bed.getBlock() instanceof AbstractBedBlock)) {
+			return;
+		}
+		// Standing on top of a pad also rounds down into the bed block; only feet below the mattress are stuck.
+		VoxelShape mattress = bed.getCollisionShape(this.level(), feet);
+		if (mattress.isEmpty() || this.getY() >= feet.getY() + mattress.max(Direction.Axis.Y) - 1.0E-3) {
 			return;
 		}
 		for (Direction dir : Direction.Plane.HORIZONTAL) {
@@ -975,7 +1176,7 @@ public class WeaverEntity extends PathfinderMob {
 		}
 	}
 
-	/** The pad stays theirs until morning confirms they are still gone. */
+	/** Records the loss and frees the pad so another Weaver can be born. */
 	private void noteGone() {
 		if (!(this.level() instanceof ServerLevel here)) {
 			return;
@@ -998,7 +1199,9 @@ public class WeaverEntity extends PathfinderMob {
 		if (colony == 0L) {
 			return;
 		}
-		WeaverAbsence.get(homeLevel).mark(colony, this.getUUID());
+		if (WeaverAbsence.get(homeLevel).mark(colony, this.getUUID()) && this.hasHome()) {
+			this.releaseHome();
+		}
 	}
 
 	public static boolean isBedClaimed(Level level, BlockPos pos, @Nullable WeaverEntity except) {
@@ -1141,11 +1344,19 @@ public class WeaverEntity extends PathfinderMob {
 		return this.lastThreat;
 	}
 
+	public boolean isPanicking() {
+		return this.panicTicks > 0;
+	}
+
 	public void beginAggression(LivingEntity target) {
 		if (target instanceof Player player
 			&& this.personallyTrusts(player.getUUID())
 			&& !this.bloodFeud.contains(player.getUUID())) {
 			return;
+		}
+		// Already fighting, or a grudge they will not drop: no flinch.
+		if (!this.aggressive && !this.holdsBloodFeud(target)) {
+			this.panicTicks = 10;
 		}
 		this.aggressive = true;
 		this.retreating = false;
@@ -1313,6 +1524,12 @@ public class WeaverEntity extends PathfinderMob {
 				WeaverColonySavedData.get(level).notePlayerDamage(id, player.getUUID(), level.getGameTime(), !this.isAlive());
 			}
 		}
+		boolean ceremonyHit = this.receptionKharax != null
+			&& source.getEntity() instanceof KharaxEntity kharax
+			&& this.receptionKharax.equals(kharax.getUUID());
+		if (ceremonyHit) {
+			this.receptionStruck = true;
+		}
 		if (!hurt || !this.isAlive()) {
 			return hurt;
 		}
@@ -1329,6 +1546,8 @@ public class WeaverEntity extends PathfinderMob {
 		if (source.getEntity() instanceof LivingEntity attacker
 			&& attacker != this
 			&& !(attacker instanceof WeaverEntity)
+			&& !ceremonyHit
+			&& this.suppressPackAlertTicks <= 0
 			&& isThreatening(attacker)) {
 			if (!(attacker instanceof Player fond && this.personallyTrusts(fond.getUUID()))) {
 				alertPack(level, attacker);

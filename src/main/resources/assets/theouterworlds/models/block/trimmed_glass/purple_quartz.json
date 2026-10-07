@@ -1,0 +1,14 @@
+{
+  "parent": "theouterworlds:block/trimmed_glass_base",
+  "textures": {
+    "particle": "minecraft:block/purple_stained_glass",
+    "glass": {
+      "force_translucent": true,
+      "sprite": "minecraft:block/purple_stained_glass"
+    },
+    "trim": {
+      "force_translucent": true,
+      "sprite": "theouterworlds:trims/entity/humanoid/glass/glass_grayscale_quartz"
+    }
+  }
+}

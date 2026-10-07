@@ -1,0 +1,2659 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:block_state",
+    "block_state_property": "kind",
+    "cases": [
+      {
+        "when": "glass",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/glass_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/glass_quartz"
+          }
+        }
+      },
+      {
+        "when": "tinted",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/tinted_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/tinted_quartz"
+          }
+        }
+      },
+      {
+        "when": "white",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/white_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/white_quartz"
+          }
+        }
+      },
+      {
+        "when": "orange",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/orange_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/orange_quartz"
+          }
+        }
+      },
+      {
+        "when": "magenta",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/magenta_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/magenta_quartz"
+          }
+        }
+      },
+      {
+        "when": "light_blue",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_blue_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/light_blue_quartz"
+          }
+        }
+      },
+      {
+        "when": "yellow",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/yellow_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/yellow_quartz"
+          }
+        }
+      },
+      {
+        "when": "lime",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/lime_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/lime_quartz"
+          }
+        }
+      },
+      {
+        "when": "pink",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/pink_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/pink_quartz"
+          }
+        }
+      },
+      {
+        "when": "gray",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/gray_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/gray_quartz"
+          }
+        }
+      },
+      {
+        "when": "light_gray",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/light_gray_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/light_gray_quartz"
+          }
+        }
+      },
+      {
+        "when": "cyan",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/cyan_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/cyan_quartz"
+          }
+        }
+      },
+      {
+        "when": "purple",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/purple_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/purple_quartz"
+          }
+        }
+      },
+      {
+        "when": "blue",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/blue_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/blue_quartz"
+          }
+        }
+      },
+      {
+        "when": "brown",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/brown_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/brown_quartz"
+          }
+        }
+      },
+      {
+        "when": "green",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/green_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/green_quartz"
+          }
+        }
+      },
+      {
+        "when": "red",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/red_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/red_quartz"
+          }
+        }
+      },
+      {
+        "when": "black",
+        "model": {
+          "type": "minecraft:select",
+          "property": "minecraft:block_state",
+          "block_state_property": "material",
+          "cases": [
+          {
+            "when": "quartz",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_quartz"
+            }
+          },
+          {
+            "when": "iron",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_iron"
+            }
+          },
+          {
+            "when": "netherite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_netherite"
+            }
+          },
+          {
+            "when": "redstone",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_redstone"
+            }
+          },
+          {
+            "when": "copper",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_copper"
+            }
+          },
+          {
+            "when": "gold",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_gold"
+            }
+          },
+          {
+            "when": "emerald",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_emerald"
+            }
+          },
+          {
+            "when": "diamond",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_diamond"
+            }
+          },
+          {
+            "when": "lapis",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_lapis"
+            }
+          },
+          {
+            "when": "amethyst",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_amethyst"
+            }
+          },
+          {
+            "when": "resin",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_resin"
+            }
+          },
+          {
+            "when": "olivine",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_olivine"
+            }
+          },
+          {
+            "when": "opal",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_opal"
+            }
+          },
+          {
+            "when": "jarosite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_jarosite"
+            }
+          },
+          {
+            "when": "graphite",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_graphite"
+            }
+          },
+          {
+            "when": "nickel",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_nickel"
+            }
+          },
+          {
+            "when": "osmium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_osmium"
+            }
+          },
+          {
+            "when": "iridium",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_iridium"
+            }
+          },
+          {
+            "when": "acid",
+            "model": {
+              "type": "minecraft:model",
+              "model": "theouterworlds:block/trimmed_glass/black_acid"
+            }
+          }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "theouterworlds:block/trimmed_glass/black_quartz"
+          }
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "minecraft:block/glass"
+    }
+  }
+}

@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
@@ -278,6 +279,71 @@ public class TholinStalkBlock extends Block implements BonemealableBlock {
 					if (state.getValue(MATURE) && level.getBlockState(cursor.above()).isAir() && dist < ripeDist) {
 						ripeDist = dist;
 						ripe = cursor.immutable();
+					}
+				}
+			}
+		}
+		if (ripe != null) {
+			return new WildStand(ripe, true);
+		}
+		return any == null ? null : new WildStand(any, false);
+	}
+
+	/**
+	 * Wild stalks on the surface within {@code radius}, and only in chunks that are
+	 * already loaded. Unloaded ground is left alone.
+	 */
+	public static @Nullable WildStand nearestLoadedWildSurface(ServerLevel level, BlockPos origin, int radius) {
+		BlockPos ripe = null;
+		BlockPos any = null;
+		double ripeDist = (double) radius * radius;
+		double anyDist = ripeDist;
+		int radiusSqr = radius * radius;
+		int centerX = origin.getX() >> 4;
+		int centerZ = origin.getZ() >> 4;
+		int chunkRadius = (radius >> 4) + 1;
+		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
+		for (int cx = centerX - chunkRadius; cx <= centerX + chunkRadius; cx++) {
+			for (int cz = centerZ - chunkRadius; cz <= centerZ + chunkRadius; cz++) {
+				LevelChunk chunk = level.getChunkSource().getChunkNow(cx, cz);
+				if (chunk == null) {
+					continue;
+				}
+				int x0 = cx << 4;
+				int z0 = cz << 4;
+				for (int lx = 0; lx < 16; lx++) {
+					for (int lz = 0; lz < 16; lz++) {
+						int x = x0 + lx;
+						int z = z0 + lz;
+						int dx = x - origin.getX();
+						int dz = z - origin.getZ();
+						if (dx * dx + dz * dz > radiusSqr) {
+							continue;
+						}
+						int top = chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, x, z);
+						int bottom = Math.max(level.getMinY(), top - 8);
+						for (int y = top + 4; y >= bottom; y--) {
+							cursor.set(x, y, z);
+							BlockState state = chunk.getBlockState(cursor);
+							if (!state.is(ModBlocks.THOLIN_STALK)) {
+								if (y < top && !state.isAir()) {
+									break;
+								}
+								continue;
+							}
+							if (!state.getValue(WILD)) {
+								continue;
+							}
+							double dist = origin.distSqr(cursor);
+							if (dist < anyDist) {
+								anyDist = dist;
+								any = cursor.immutable();
+							}
+							if (state.getValue(MATURE) && chunk.getBlockState(cursor.above()).isAir() && dist < ripeDist) {
+								ripeDist = dist;
+								ripe = cursor.immutable();
+							}
+						}
 					}
 				}
 			}

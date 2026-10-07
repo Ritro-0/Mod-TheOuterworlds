@@ -1,0 +1,22 @@
+{
+  "parent": "theouterworlds:processing",
+  "criteria": {
+    "done": {
+      "trigger": "theouterworlds:extract_processor_iron"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "minecraft:iron_nugget"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.ashes_to_ashes.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.ashes_to_ashes.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

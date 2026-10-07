@@ -1,11 +1,11 @@
 package com.theouterworld.entity;
 
-import com.theouterworld.world.FrostworldFaunaSpawner;
 import java.util.List;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import com.theouterworld.registry.ModDamageTypes;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -102,10 +102,7 @@ public class OceanVentEntity extends Entity {
 		}
 		if (!this.started) {
 			this.started = true;
-			if (!this.seeded) {
-				this.seeded = true;
-				FrostworldFaunaSpawner.spawnFeederSchool(server, this.position(), 8 + this.random.nextInt(4));
-			}
+			this.seeded = true;
 			if (this.charge <= 0 && this.cooldown <= 0) {
 				if (!this.fromSave && this.random.nextFloat() < 0.55F) {
 					this.charge = FULL_CHARGE;
@@ -142,7 +139,7 @@ public class OceanVentEntity extends Entity {
 				continue;
 			}
 			if (damageTick) {
-				entity.hurtServer(server, server.damageSources().magic(), CLOUD_DAMAGE);
+				entity.hurtServer(server, server.damageSources().source(ModDamageTypes.VENT_FUMES), CLOUD_DAMAGE);
 			}
 		}
 		this.charge -= feeders;

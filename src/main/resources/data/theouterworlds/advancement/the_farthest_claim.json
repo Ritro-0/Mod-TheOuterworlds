@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "lonelands": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:lonelands"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:dry_ice"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.the_farthest_claim.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.the_farthest_claim.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

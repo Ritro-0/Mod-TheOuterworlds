@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"theouterworlds:iridium_helmet",
 		"theouterworlds:redsteel_helmet",
 		"theouterworlds:nickel_helmet",
 		"theouterworlds:opal_lens"

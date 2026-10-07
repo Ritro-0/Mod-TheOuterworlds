@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DID",
+    "DSD",
+    "DDD"
+  ],
+  "key": {
+    "D": "minecraft:diamond",
+    "I": "theouterworlds:iridium_upgrade_smithing_template",
+    "S": "theouterworlds:sulfuric_basalt"
+  },
+  "result": {
+    "id": "theouterworlds:iridium_upgrade_smithing_template",
+    "count": 2
+  }
+}

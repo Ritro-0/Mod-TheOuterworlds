@@ -31,8 +31,7 @@
     ],
     [],
     [
-      "theouterworlds:basalt_boulder_cluster",
-      "theouterworlds:oxidized_basalt_pebble"
+      "theouterworlds:basalt_boulder_cluster"
     ],
     [],
     [],
@@ -60,7 +59,9 @@
       "theouterworlds:lava_tube"
     ],
     [],
-    [],
+    [
+      "theouterworlds:oxidized_basalt_pebble"
+    ],
     []
   ],
   "has_precipitation": false,

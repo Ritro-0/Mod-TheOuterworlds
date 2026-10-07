@@ -31,6 +31,7 @@ import com.theouterworld.worldgen.MetallicHeliumDepositFeature;
 import com.theouterworld.worldgen.MetallicHydrogenDepositFeature;
 import com.theouterworld.worldgen.MoonCraterFeature;
 import com.theouterworld.worldgen.NearworldCaveLavaPoolFeature;
+import com.theouterworld.worldgen.NearworldCloudDeckFeature;
 import com.theouterworld.worldgen.NearworldLavaLakeFeature;
 import com.theouterworld.worldgen.NearworldLavaTubeFeature;
 import com.theouterworld.worldgen.NearworldOsmiumUnderLavaFeature;
@@ -69,6 +70,7 @@ public class ModFeatures {
 	public static final MapCodec<NearworldOsmiumUnderLavaFeature> NEARWORLD_OSMIUM_UNDER_LAVA = register("nearworld_osmium_under_lava", NearworldOsmiumUnderLavaFeature.CODEC);
 	public static final MapCodec<AnhydriteCavePaintFeature> ANHYDRITE_CAVE_PAINT = register("anhydrite_cave_paint", AnhydriteCavePaintFeature.CODEC);
 	public static final MapCodec<NearworldUnderVolcanoOlivineGeodeFeature> NEARWORLD_UNDER_VOLCANO_OLIVINE_GEODE = register("nearworld_under_volcano_olivine_geode", NearworldUnderVolcanoOlivineGeodeFeature.CODEC);
+	public static final MapCodec<NearworldCloudDeckFeature> NEARWORLD_CLOUD_DECK = register("nearworld_cloud_deck", NearworldCloudDeckFeature.CODEC);
 	public static final MapCodec<HighworldCloudDeckFeature> HIGHWORLD_CLOUD_DECK = register("highworld_cloud_deck", HighworldCloudDeckFeature.CODEC);
 	public static final MapCodec<MetallicHydrogenDepositFeature> METALLIC_HYDROGEN_DEPOSIT = register("metallic_hydrogen_deposit", MetallicHydrogenDepositFeature.CODEC);
 	public static final MapCodec<DeepworldCloudDeckFeature> DEEPWORLD_CLOUD_DECK = register("deepworld_cloud_deck", DeepworldCloudDeckFeature.CODEC);

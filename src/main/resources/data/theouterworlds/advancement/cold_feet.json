@@ -1,0 +1,22 @@
+{
+  "parent": "theouterworlds:tear_in_spacetime",
+  "criteria": {
+    "done": {
+      "trigger": "theouterworlds:cancel_sun_visit"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:solar_plasma"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.cold_feet.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.cold_feet.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

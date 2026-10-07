@@ -1,0 +1,22 @@
+{
+  "parent": "theouterworlds:oxidized_foundations",
+  "criteria": {
+    "done": {
+      "trigger": "theouterworlds:start_processor"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:processor"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.processing.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.processing.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

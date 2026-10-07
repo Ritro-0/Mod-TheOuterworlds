@@ -57,6 +57,7 @@ public final class PotatoworldsVoidFall {
 		if (outerworld == null) {
 			return;
 		}
+		com.theouterworld.advancement.ModAdvancements.onMoonVoidFall(player);
 
 		double minY = outerworld.getMinY() + 1.0;
 		double maxY = outerworld.getMaxY() - 1.0;

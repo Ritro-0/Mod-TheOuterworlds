@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"theouterworlds:iridium_block",
 		"theouterworlds:oxidized_basalt",
 		"theouterworlds:sulfuric_basalt",
 		"theouterworlds:anorthosite",

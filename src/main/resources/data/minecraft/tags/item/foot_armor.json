@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"theouterworlds:iridium_boots",
 		"theouterworlds:redsteel_boots",
 		"theouterworlds:nickel_boots"
 	]

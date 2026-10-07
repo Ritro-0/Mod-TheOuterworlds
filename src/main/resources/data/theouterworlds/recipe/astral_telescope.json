@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " O ",
+    "GSG",
+    " G "
+  ],
+  "key": {
+    "G": [
+      "theouterworlds:gabbro",
+      "theouterworlds:norite"
+    ],
+    "O": "theouterworlds:opal",
+    "S": "minecraft:spyglass"
+  },
+  "result": {
+    "id": "theouterworlds:astral_telescope",
+    "count": 1
+  }
+}

@@ -106,6 +106,34 @@
           "model": "minecraft:item/copper_boots_graphite_trim"
         },
         "when": "theouterworlds:graphite"
+      },
+{
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/copper_boots_nickel_trim"
+        },
+        "when": "theouterworlds:nickel"
+      },
+{
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/copper_boots_osmium_trim"
+        },
+        "when": "theouterworlds:osmium"
+      },
+{
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/copper_boots_iridium_trim"
+        },
+        "when": "theouterworlds:iridium"
+      },
+{
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/copper_boots_acid_trim"
+        },
+        "when": "theouterworlds:acid"
       }
     ],
     "fallback": {

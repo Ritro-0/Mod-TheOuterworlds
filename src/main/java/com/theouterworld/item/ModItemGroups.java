@@ -32,6 +32,8 @@ public class ModItemGroups {
 				entries.accept(ModBlocks.THOLINIC_REGOLITH);
 				entries.accept(ModBlocks.THOLIN_FIBER);
 				entries.accept(ModBlocks.THOLIN_FIBER_HOME_PLATE);
+				entries.accept(ModBlocks.THOLIN_THREAD);
+				entries.accept(ModBlocks.THOLIN_OPAL_REFLECTOR);
 				entries.accept(ModBlocks.WEAVER_PAD);
 				entries.accept(ModBlocks.WEAVER_NET);
 				entries.accept(ModBlocks.OXIDIZED_BASALT_PEBBLE);
@@ -74,6 +76,8 @@ public class ModItemGroups {
 				entries.accept(ModItems.OSMIUM_FLAKE);
 				entries.accept(ModItems.IRIDIUM_INGOT);
 				entries.accept(ModItems.IRIDIUM_NUGGET);
+				entries.accept(ModBlocks.IRIDIUM_BLOCK);
+				entries.accept(ModItems.IRIDIUM_UPGRADE_SMITHING_TEMPLATE);
 				entries.accept(ModItems.IRIDIUM_HELMET);
 				entries.accept(ModItems.IRIDIUM_CHESTPLATE);
 				entries.accept(ModItems.IRIDIUM_LEGGINGS);
@@ -144,6 +148,7 @@ public class ModItemGroups {
 				entries.accept(ModBlocks.MAGNESIAN_REGOLITH);
 				entries.accept(ModBlocks.GRAPHITE);
 				entries.accept(ModItems.GRAPHITE_SHARD);
+				entries.accept(ModItems.ACIDIC_MEMBRANE);
 				entries.accept(ModBlocks.OPAL_BLOCK);
 				entries.accept(ModBlocks.RAW_OLIVINE);
 				entries.accept(ModBlocks.RAW_OLIVINE_BUD);
@@ -186,6 +191,7 @@ public class ModItemGroups {
 				entries.accept(ModBlocks.ICE);
 				entries.accept(ModBlocks.PACKED_ICE);
 				entries.accept(ModBlocks.BLUE_ICE);
+				entries.accept(ModBlocks.VENT_CLOVE);
 				entries.accept(ModBlocks.GYPSUM_BLOCK);
 				entries.accept(ModBlocks.GYPSUM_SPIKE);
 				entries.accept(ModBlocks.KHARAX_SHED);
@@ -193,6 +199,7 @@ public class ModItemGroups {
 				entries.accept(ModBlocks.MERCURY_BLOCK);
 				entries.accept(ModItems.MERCURY_BUCKET);
 				entries.accept(ModItems.METHANE_BUCKET);
+				entries.accept(ModItems.SULFURIC_ACID_BUCKET);
 				entries.accept(ModItems.KHARAX_CHITIN);
 				entries.accept(ModItems.KHARAX_BELT);
 				entries.accept(ModItems.KHARAX_SPAWN_EGG);

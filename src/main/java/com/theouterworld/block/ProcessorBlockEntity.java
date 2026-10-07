@@ -187,7 +187,7 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
     }
 
     private static boolean tickHeatMode(Level world, ProcessorBlockEntity entity) {
-        boolean hasRecipe = hasHeatRecipe(world, entity);
+        boolean hasRecipe = hasHeatRecipe(world, entity) && canCollectSun(world, entity.getBlockPos());
 
         if (!hasRecipe) {
             if (entity.progress > 0 || entity.heat > 0) {
@@ -252,6 +252,14 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
             && canAcceptOutput(entity, new ItemStack(ModItems.OSMIUM_FLAKE));
     }
 
+    /** Heat mode is solar: open sky above the block, and the local sun has to be up. */
+    private static boolean canCollectSun(Level world, BlockPos pos) {
+        if (!world.canSeeSky(pos.above())) {
+            return false;
+        }
+        return com.theouterworld.world.DimensionClocks.isSunUp(world);
+    }
+
     private static boolean hasHeatRecipe(Level world, ProcessorBlockEntity entity) {
         ItemStack primary = entity.getItem(PRIMARY_INPUT_SLOT);
         ItemStack secondary = entity.getItem(SECONDARY_INPUT_SLOT);
@@ -267,12 +275,24 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
     }
 
     private static boolean hasPressurizeRecipe(ProcessorBlockEntity entity) {
+        if (hasAcidMembraneRecipe(entity)) {
+            return true;
+        }
         ItemStack primary = entity.getItem(PRIMARY_INPUT_SLOT);
         ItemStack secondary = entity.getItem(SECONDARY_INPUT_SLOT);
         boolean primaryValid = !primary.isEmpty() && primary.is(ModItems.OPALINE_NICKEL);
         boolean secondaryValid = !secondary.isEmpty() && secondary.is(ModItems.OSMIUM_FLAKE);
         return primaryValid && secondaryValid
             && canAcceptOutput(entity, new ItemStack(ModItems.IRIDIUM_INGOT));
+    }
+
+    /** Sulfuric acid bucket alone, in the primary slot, becomes an acidic membrane. */
+    private static boolean hasAcidMembraneRecipe(ProcessorBlockEntity entity) {
+        ItemStack primary = entity.getItem(PRIMARY_INPUT_SLOT);
+        ItemStack secondary = entity.getItem(SECONDARY_INPUT_SLOT);
+        return secondary.isEmpty()
+            && primary.is(ModItems.SULFURIC_ACID_BUCKET)
+            && canAcceptOutput(entity, new ItemStack(ModItems.ACIDIC_MEMBRANE));
     }
 
     private static void processRecipe(ProcessorBlockEntity entity) {
@@ -329,6 +349,11 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
     private static void processPressurizeRecipe(ProcessorBlockEntity entity) {
         ItemStack primary = entity.getItem(PRIMARY_INPUT_SLOT);
         ItemStack secondary = entity.getItem(SECONDARY_INPUT_SLOT);
+        if (primary.is(ModItems.SULFURIC_ACID_BUCKET) && secondary.isEmpty()) {
+            primary.shrink(1);
+            insertOutput(entity, new ItemStack(ModItems.ACIDIC_MEMBRANE));
+            return;
+        }
         if (!primary.is(ModItems.OPALINE_NICKEL) || !secondary.is(ModItems.OSMIUM_FLAKE)) {
             return;
         }
@@ -370,6 +395,17 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
             && output.getCount() < output.getMaxStackSize()) {
             output.grow(Math.min(result.getCount(), output.getMaxStackSize() - output.getCount()));
         }
+    }
+
+    public boolean hasActiveRecipe() {
+        if (this.level == null) {
+            return false;
+        }
+        return switch (this.mode) {
+            case MODE_HEAT -> hasHeatRecipe(this.level, this) && canCollectSun(this.level, this.getBlockPos());
+            case MODE_PRESSURIZE -> hasPressurizeRecipe(this);
+            default -> hasProcessingRecipe(this);
+        };
     }
 
     /** Cycles Process → Heat → (Pressurize if Nearworld) → Process. */

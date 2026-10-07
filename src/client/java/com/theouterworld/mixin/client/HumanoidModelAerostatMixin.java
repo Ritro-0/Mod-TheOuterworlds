@@ -1,7 +1,9 @@
 package com.theouterworld.mixin.client;
 
 import com.theouterworld.item.AerostatBalloonItem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.util.Mth;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Hold the aerostat balloon arm straight overhead.
+ * Hold the aerostat balloon arm straight overhead, only in worlds where it lifts.
  */
 @Mixin(HumanoidModel.class)
 public class HumanoidModelAerostatMixin<T extends HumanoidRenderState> {
@@ -18,6 +20,10 @@ public class HumanoidModelAerostatMixin<T extends HumanoidRenderState> {
 
 	@Inject(method = "setupAnim(Lnet/minecraft/client/renderer/entity/state/HumanoidRenderState;)V", at = @At("TAIL"))
 	private void theouterworlds$raiseBalloonArm(T state, CallbackInfo ci) {
+		ClientLevel level = Minecraft.getInstance().level;
+		if (level == null || !AerostatBalloonItem.isUsableDimension(level.dimension())) {
+			return;
+		}
 		HumanoidModel<?> self = (HumanoidModel<?>) (Object) this;
 		if (state.rightHandItemStack.getItem() instanceof AerostatBalloonItem) {
 			self.rightArm.xRot = ARM_STRAIGHT_UP;

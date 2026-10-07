@@ -1,0 +1,30 @@
+{
+  "parent": "theouterworlds:ashes_to_ashes",
+  "criteria": {
+    "pickaxe": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipes": "minecraft:iron_pickaxe",
+        "ingredients": [
+          {
+            "items": "theouterworlds:rust_splint"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "minecraft:iron_pickaxe"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.rust_and_steel.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.rust_and_steel.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

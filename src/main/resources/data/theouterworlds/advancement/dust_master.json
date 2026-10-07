@@ -1,0 +1,22 @@
+{
+  "parent": "theouterworlds:dusty_lungs",
+  "criteria": {
+    "done": {
+      "trigger": "theouterworlds:dust_storm_negated"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:opal_lens"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.dust_master.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.dust_master.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

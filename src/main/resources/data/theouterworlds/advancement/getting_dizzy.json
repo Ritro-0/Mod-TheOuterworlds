@@ -1,0 +1,25 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "spinlands": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:spinlands"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:packed_ice"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.getting_dizzy.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.getting_dizzy.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

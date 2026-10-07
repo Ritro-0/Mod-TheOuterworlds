@@ -25,7 +25,7 @@ public class KharaxSpookGoal extends Goal {
 
 	@Override
 	public boolean canUse() {
-		if (kharax.isWarning() || kharax.isAggressive() || kharax.isRetreating()) {
+		if (kharax.isLeashCalm() || kharax.isReceiving() || kharax.isWarning() || kharax.isAggressive() || kharax.isRetreating()) {
 			return false;
 		}
 		if (kharax.getHomePos() == null) {
@@ -40,7 +40,7 @@ public class KharaxSpookGoal extends Goal {
 
 	@Override
 	public boolean canContinueToUse() {
-		if (kharax.isWarning() || kharax.isAggressive() || kharax.isRetreating()) {
+		if (kharax.isLeashCalm() || kharax.isReceiving() || kharax.isWarning() || kharax.isAggressive() || kharax.isRetreating()) {
 			return false;
 		}
 		return phase != Phase.IDLE && phaseTicks < 400;

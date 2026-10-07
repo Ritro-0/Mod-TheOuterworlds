@@ -1,0 +1,22 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "done": {
+      "trigger": "theouterworlds:aerostat_ascent"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:aerostat_balloon"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.balloonist.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.balloonist.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

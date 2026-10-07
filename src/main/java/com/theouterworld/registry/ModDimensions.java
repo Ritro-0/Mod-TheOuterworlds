@@ -310,6 +310,32 @@ public class ModDimensions {
 		return SUN_WORLD_KEY.equals(dimension);
 	}
 
+	/**
+	 * Planets, dwarf planets, and moons added by this mod.
+	 * The Sun is a star, and vanilla dimensions are not included.
+	 */
+	public static boolean isChartedBody(ResourceKey<Level> dimension) {
+		return isOuterworld(dimension)
+			|| isMoon(dimension)
+			|| isInnerworld(dimension)
+			|| isNearworld(dimension)
+			|| isHighworld(dimension)
+			|| isDeepworld(dimension)
+			|| isFarworld(dimension)
+			|| isEdgeworld(dimension)
+			|| isEmberworld(dimension)
+			|| isFrostworld(dimension)
+			|| isAmberworld(dimension)
+			|| isSpongeworld(dimension)
+			|| isPotatoworlds(dimension)
+			|| isWanderlands(dimension)
+			|| isBeyondlands(dimension)
+			|| isBeyondlandsIi(dimension)
+			|| isSpinlands(dimension)
+			|| isScarletlands(dimension)
+			|| isLonelands(dimension);
+	}
+
 	/** Pluto / Charon pair used for high-altitude crossover. */
 	public static boolean isBeyondlandsPair(ResourceKey<Level> dimension) {
 		return isBeyondlands(dimension) || isBeyondlandsIi(dimension);

@@ -28,7 +28,11 @@
         "olivine": "theouterworlds:trim/olivine",
         "opal": "theouterworlds:trim/opal",
         "jarosite": "theouterworlds:trim/jarosite",
-        "graphite": "theouterworlds:trim/graphite"
+        "graphite": "theouterworlds:trim/graphite",
+        "nickel": "theouterworlds:trim/nickel",
+        "osmium": "theouterworlds:trim/osmium",
+        "iridium": "theouterworlds:trim/iridium",
+        "acid": "theouterworlds:trim/acid"
       },
       "textures": [
         "minecraft:trims/items/helmet_trim",

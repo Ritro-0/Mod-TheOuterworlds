@@ -27,7 +27,8 @@
   },
   "features": [
     [
-      "theouterworlds:nearworld_lava_lake"
+      "theouterworlds:nearworld_lava_lake",
+      "theouterworlds:nearworld_cloud_deck"
     ],
     [],
     [],

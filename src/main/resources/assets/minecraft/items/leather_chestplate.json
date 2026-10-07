@@ -196,6 +196,58 @@
           ]
         },
         "when": "theouterworlds:graphite"
+      },
+{
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/leather_chestplate_nickel_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -6265536
+            }
+          ]
+        },
+        "when": "theouterworlds:nickel"
+      },
+{
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/leather_chestplate_osmium_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -6265536
+            }
+          ]
+        },
+        "when": "theouterworlds:osmium"
+      },
+{
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/leather_chestplate_iridium_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -6265536
+            }
+          ]
+        },
+        "when": "theouterworlds:iridium"
+      },
+{
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/leather_chestplate_acid_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -6265536
+            }
+          ]
+        },
+        "when": "theouterworlds:acid"
       }
     ],
     "fallback": {

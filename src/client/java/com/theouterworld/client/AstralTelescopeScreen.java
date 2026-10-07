@@ -502,7 +502,7 @@ public class AstralTelescopeScreen extends Screen implements MenuAccess<AstralTe
 				plain("Gravity: 0.37g"),
 				plain("Surface Conditions: Extreme heat"),
 				plain(""),
-				Component.empty().append(bold("SURVIVAL")).append(plain(": Redsteel or Graphite trim resists heat. Glass helmet required."))
+				Component.empty().append(bold("SURVIVAL")).append(plain(": Redsteel with one Graphite trim, or any Iridium trim resists heat. Glass helmet required."))
 			)
 		),
 		VENUS(
@@ -514,7 +514,7 @@ public class AstralTelescopeScreen extends Screen implements MenuAccess<AstralTe
 				plain("Gravity: 0.90g"),
 				plain("Surface Conditions: Extreme pressure and heat"),
 				plain(""),
-				Component.empty().append(bold("SURVIVAL")).append(plain(": Glass helmet + 3 Redsteel pieces (or 1 Graphite trim) required."))
+				Component.empty().append(bold("SURVIVAL")).append(plain(": Glass helmet + 3 Redsteel pieces (or 1 Graphite/Iridium trim) required."))
 			)
 		),
 		OVERWORLD(
@@ -682,7 +682,7 @@ public class AstralTelescopeScreen extends Screen implements MenuAccess<AstralTe
 				plain("Gravity: 0.18g"),
 				plain("Surface Conditions: Sulfur, lava oceans"),
 				plain(""),
-				Component.empty().append(bold("SURVIVAL")).append(plain(": Glass helmet + 3 Graphite-trimmed Redsteel pieces required."))
+				Component.empty().append(bold("SURVIVAL")).append(plain(": Glass helmet. Pressure: Graphite-trimmed Redsteel chest, legs, and boots, or Iridium trim on those three."))
 			)
 		),
 		FROSTWORLD(

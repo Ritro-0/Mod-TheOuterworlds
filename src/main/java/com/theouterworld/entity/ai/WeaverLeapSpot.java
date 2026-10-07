@@ -11,14 +11,14 @@ public final class WeaverLeapSpot {
 
 	/**
 	 * {@code ground} is the block they fall onto. The three blocks above it are the body.
-	 * Any methane in that column is not a landing.
+	 * Methane, water, and any other liquid in that column is not a landing.
 	 */
 	public static boolean isDry(BlockGetter level, BlockPos ground) {
-		if (methane(level, ground)) {
+		if (!level.getFluidState(ground).isEmpty()) {
 			return false;
 		}
 		for (int up = 1; up <= 3; up++) {
-			if (methane(level, ground.above(up))) {
+			if (!level.getFluidState(ground.above(up)).isEmpty()) {
 				return false;
 			}
 		}

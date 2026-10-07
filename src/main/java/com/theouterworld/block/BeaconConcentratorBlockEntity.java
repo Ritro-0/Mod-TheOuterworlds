@@ -6,6 +6,7 @@ import com.theouterworld.world.BeaconConcentratorPortals;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.WeakHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
@@ -49,6 +50,12 @@ public class BeaconConcentratorBlockEntity extends BlockEntity {
 	};
 
 	private int chargeTicks;
+	private @org.jspecify.annotations.Nullable UUID placedBy;
+
+	public void setPlacedBy(UUID playerId) {
+		this.placedBy = playerId;
+		this.setChanged();
+	}
 
 	public BeaconConcentratorBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlockEntities.BEACON_CONCENTRATOR, pos, state);
@@ -95,8 +102,13 @@ public class BeaconConcentratorBlockEntity extends BlockEntity {
 			serverWorld.setBlock(pos, state.setValue(BeaconConcentratorBlock.ACTIVE, true), Block.UPDATE_CLIENTS);
 			BeaconConcentratorPortals.activate(serverWorld, pos);
 			serverWorld.playSound(null, pos, SoundEvents.BEACON_ACTIVATE, SoundSource.BLOCKS, 1.0F, 1.15F);
+			com.theouterworld.advancement.ModAdvancements.onBeaconConcentratorPowered(serverWorld, pos, entity.placedBy);
 		}
 
+		// The beam stays lit, but it only carries a player to the Moon after dark.
+		if (com.theouterworld.entity.ai.WeaverSchedule.timeOfDay(serverWorld) < com.theouterworld.entity.ai.WeaverSchedule.BEDTIME) {
+			return;
+		}
 		launchAndTeleport(serverWorld, pos, false);
 	}
 
@@ -254,6 +266,9 @@ public class BeaconConcentratorBlockEntity extends BlockEntity {
 	@Override
 	protected void saveAdditional(ValueOutput output) {
 		output.putInt("ChargeTicks", chargeTicks);
+		if (this.placedBy != null) {
+			output.store("PlacedBy", net.minecraft.core.UUIDUtil.CODEC, this.placedBy);
+		}
 		super.saveAdditional(output);
 	}
 
@@ -261,6 +276,7 @@ public class BeaconConcentratorBlockEntity extends BlockEntity {
 	protected void loadAdditional(ValueInput input) {
 		super.loadAdditional(input);
 		this.chargeTicks = Math.max(0, input.getIntOr("ChargeTicks", 0));
+		this.placedBy = input.read("PlacedBy", net.minecraft.core.UUIDUtil.CODEC).orElse(null);
 	}
 
 	private record BeamRide(long portalKey, double entryY, boolean highEntry) {

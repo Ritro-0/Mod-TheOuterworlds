@@ -1,0 +1,22 @@
+{
+  "parent": "theouterworlds:red_horizon",
+  "criteria": {
+    "done": {
+      "trigger": "theouterworlds:emergency_return"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "theouterworlds:emergency_return_pod"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.emergency_egress.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.emergency_egress.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  }
+}

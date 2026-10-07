@@ -179,6 +179,37 @@ public class ModBlocks {
 		)
 	);
 
+	/** Chain-like tholin cord. Arms reach sideways threads and opal reflectors. */
+	public static final Block THOLIN_THREAD = registerBlock(
+		"tholin_thread",
+		key -> new TholinThreadBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_ORANGE)
+				.strength(0.7f)
+				.sound(SoundType.MANGROVE_ROOTS)
+				.noOcclusion()
+				.isSuffocating((state, level, pos) -> false)
+				.ignitedByLava()
+		)
+	);
+
+	/** Opal lantern. Hangs, sits, or mounts sideways, and shines at full brightness. */
+	public static final Block THOLIN_OPAL_REFLECTOR = registerBlock(
+		"tholin_opal_reflector",
+		key -> new TholinOpalReflectorBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_ORANGE)
+				.strength(0.7f)
+				.sound(SoundType.MANGROVE_ROOTS)
+				.lightLevel(state -> 15)
+				.noOcclusion()
+				.isSuffocating((state, level, pos) -> false)
+				.ignitedByLava()
+		)
+	);
+
 	/**
 	 * A Weaver's own bunk. Players may sleep here, but it never sets their spawn,
 	 * never breaks, and remembers which Weaver it belongs to.
@@ -209,6 +240,29 @@ public class ModBlocks {
 				.strength(1.2f)
 				.pushReaction(PushReaction.POPPED)
 		)
+	);
+
+	/** Swaying growth that rings the Frostworld sea vents. Shears only, like seagrass. */
+	public static final Block VENT_CLOVE = registerBlock(
+		"vent_clove",
+		key -> new VentCloveBlock(
+			BlockBehaviour.Properties.ofFullCopy(Blocks.SEAGRASS)
+				.setId(key)
+				.mapColor(MapColor.COLOR_CYAN)
+		)
+	);
+
+	public static final Block IRIDIUM_BLOCK = registerBlock(
+		"iridium_block",
+		key -> new Block(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.METAL)
+				.strength(50.0f, 1200.0f)
+				.sound(SoundType.METAL)
+				.requiresCorrectToolForDrops()
+		),
+		properties -> properties.fireResistant()
 	);
 
 	public static final Block OXIDIZED_BASALT_PEBBLE = registerBlock(
@@ -676,7 +730,7 @@ public class ModBlocks {
 
 	public static final Block KHARAX_SHED = registerBlock(
 		"kharax_shed",
-		key -> new Block(
+		key -> new KharaxShellBlock(
 			BlockBehaviour.Properties.of()
 				.setId(key)
 				.mapColor(MapColor.COLOR_RED)
@@ -688,7 +742,7 @@ public class ModBlocks {
 
 	public static final Block KHARAX_SPORE = registerBlock(
 		"kharax_spore",
-		key -> new Block(
+		key -> new KharaxShellBlock(
 			BlockBehaviour.Properties.of()
 				.setId(key)
 				.mapColor(MapColor.GOLD)
@@ -985,6 +1039,48 @@ public class ModBlocks {
 			0.86F,
 			0.04,
 			0.065,
+			1
+		)
+	);
+
+	/** Nearworld sky deck: same slow sink and nausea as sulfide clouds. */
+	public static final Block SULFURIC_CLOUD = registerBlockOnly(
+		"sulfuric_cloud",
+		key -> new AerogelCloudBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_PURPLE)
+				.strength(0.2f, 0.2f)
+				.sound(SoundType.WOOL)
+				.noCollision()
+				.noOcclusion()
+				.noLootTable()
+				.isViewBlocking((state, level, pos, nearPlane) -> false)
+				.isSuffocating((state, level, pos) -> false),
+			0.88F,
+			0.028,
+			0.07,
+			1
+		)
+	);
+
+	/** Air-facing sulfuric cloud that can be scooped with an empty bucket. */
+	public static final Block SULFURIC_CLOUD_DEPOSIT = registerBlockOnly(
+		"sulfuric_cloud_deposit",
+		key -> new SulfuricCloudDepositBlock(
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_PURPLE)
+				.strength(0.2f, 0.2f)
+				.sound(SoundType.WOOL)
+				.noCollision()
+				.noOcclusion()
+				.noLootTable()
+				.isViewBlocking((state, level, pos, nearPlane) -> false)
+				.isSuffocating((state, level, pos) -> false),
+			0.88F,
+			0.028,
+			0.07,
 			1
 		)
 	);
@@ -2527,6 +2623,7 @@ public class ModBlocks {
 
 	public static void registerModBlocks() {
 		OuterWorldMod.LOGGER.info("Registering blocks for {}", OuterWorldMod.MOD_ID);
+		TrimmedGlassBlock.register();
 
 		BlockTransformerHelper.registerTilling(REGOLITH, REGOLITH_FARMLAND);
 

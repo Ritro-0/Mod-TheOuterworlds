@@ -16,8 +16,9 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Surface pressure: Nearworld needs Iridium (any 1) or 3 graphite-trimmed pieces;
- * Emberworld needs Iridium (any 1) or 3 graphite-trimmed Redsteel body pieces.
+ * Surface pressure: Nearworld needs Iridium (any 1) or 3 graphite / iridium trims;
+ * Emberworld needs Iridium (any 1), 3 graphite-trimmed Redsteel body pieces, or iridium
+ * trim on chest, legs, and boots.
  * Stronger and faster than Innerworld solar burn.
  */
 public final class ExtremePressure {

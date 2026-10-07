@@ -1,0 +1,26 @@
+{
+  "parent": "theouterworlds:into_the_infinite",
+  "criteria": {
+    "sun": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "theouterworlds:sun"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "minecraft:skeleton_skull"
+    },
+    "title": {
+      "translate": "advancements.theouterworlds.icarus_was_an_amateur.title"
+    },
+    "description": {
+      "translate": "advancements.theouterworlds.icarus_was_an_amateur.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  }
+}

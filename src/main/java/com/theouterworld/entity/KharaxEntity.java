@@ -2,6 +2,10 @@ package com.theouterworld.entity;
 
 import com.theouterworld.entity.ai.KharaxHopAttackGoal;
 import com.theouterworld.entity.ai.KharaxHopMoveControl;
+import com.theouterworld.entity.ai.KharaxLeadIdleGoal;
+import com.theouterworld.entity.ai.KharaxLeadNipGoal;
+import com.theouterworld.entity.ai.KharaxReception;
+import com.theouterworld.entity.ai.KharaxReceptionGoal;
 import com.theouterworld.entity.ai.KharaxRetreatGoal;
 import com.theouterworld.entity.ai.KharaxReturnHomeGoal;
 import com.theouterworld.entity.ai.KharaxSpookGoal;
@@ -75,6 +79,10 @@ public class KharaxEntity extends PathfinderMob {
 		KharaxEntity.class,
 		EntityDataSerializers.BOOLEAN
 	);
+	private static final EntityDataAccessor<Boolean> DATA_SCARED = SynchedEntityData.defineId(
+		KharaxEntity.class,
+		EntityDataSerializers.BOOLEAN
+	);
 
 	private @Nullable BlockPos homePos;
 	private boolean aggressive;
@@ -82,6 +90,11 @@ public class KharaxEntity extends PathfinderMob {
 	private boolean provoked;
 	private boolean warningSoundPlaying;
 	private @Nullable LivingEntity lastThreat;
+	/** One scripted swing at a Weaver after a failed adoption, even while the lead is still on. */
+	private boolean committedFight;
+	private int committedTicks;
+	public int receptionCooldown;
+	public int receptionScanCooldown;
 
 	private float hopPose;
 	private float hopPoseO;
@@ -108,13 +121,17 @@ public class KharaxEntity extends PathfinderMob {
 		super.defineSynchedData(builder);
 		builder.define(DATA_WARNING, false);
 		builder.define(DATA_SPOOKING, false);
+		builder.define(DATA_SCARED, false);
 	}
 
 	@Override
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new FloatGoal(this));
+		this.goalSelector.addGoal(1, new KharaxReceptionGoal(this));
 		this.goalSelector.addGoal(1, new KharaxWarnGoal(this));
+		this.goalSelector.addGoal(2, new KharaxLeadNipGoal(this));
 		this.goalSelector.addGoal(2, new KharaxHopAttackGoal(this));
+		this.goalSelector.addGoal(3, new KharaxLeadIdleGoal(this));
 		this.goalSelector.addGoal(3, new KharaxRetreatGoal(this));
 		this.goalSelector.addGoal(4, new KharaxSpookGoal(this));
 		this.goalSelector.addGoal(5, new KharaxReturnHomeGoal(this, 1.15, 40.0F));
@@ -125,6 +142,31 @@ public class KharaxEntity extends PathfinderMob {
 
 	@Override
 	public void tick() {
+		if (!this.level().isClientSide()) {
+			if (this.committedFight) {
+				this.committedTicks++;
+				LivingEntity target = this.getTarget();
+				if (this.committedTicks > 300 || (!this.isRetreating() && (target == null || !target.isAlive()))) {
+					this.finishRetreat();
+				}
+			}
+			if (this.isLeashCalm()) {
+				if (this.isWarning()) {
+					this.setWarning(false);
+					this.stopWarningSound();
+				}
+				if (this.isAggressive() || this.isRetreating()) {
+					this.finishRetreat();
+				}
+				if (this.isSpooking()) {
+					this.setSpooking(false);
+				}
+			}
+			KharaxReception.tick(this);
+			if (this.isRemoved()) {
+				return;
+			}
+		}
 		super.tick();
 		if (!this.level().isClientSide() && this.homePos == null && this.tickCount == 1) {
 			this.homePos = this.blockPosition();
@@ -179,6 +221,30 @@ public class KharaxEntity extends PathfinderMob {
 
 	public void setSpooking(boolean spooking) {
 		this.entityData.set(DATA_SPOOKING, spooking);
+	}
+
+	public boolean isScared() {
+		return this.entityData.get(DATA_SCARED);
+	}
+
+	public void setScared(boolean scared) {
+		this.entityData.set(DATA_SCARED, scared);
+	}
+
+	public boolean isReceiving() {
+		return KharaxReception.isReceiving(this);
+	}
+
+	/** On a lead, and not in the middle of the one swing a failed adoption allows. */
+	public boolean isLeashCalm() {
+		return this.isLeashed() && !this.committedFight && !this.isReceiving();
+	}
+
+	/** Hop-attack this Weaver even if a lead is still attached. */
+	public void beginCommittedFight(LivingEntity target) {
+		this.committedFight = true;
+		this.committedTicks = 0;
+		this.beginAggression(target);
 	}
 
 	public boolean isAggressive() {
@@ -246,6 +312,9 @@ public class KharaxEntity extends PathfinderMob {
 		if (!hurt || !this.isAlive()) {
 			return hurt;
 		}
+		if (this.isLeashCalm() || this.isReceiving()) {
+			return hurt;
+		}
 		if (source.getEntity() instanceof LivingEntity attacker && attacker != this) {
 			// Once struck it stops bluffing for good: the posture stays, the retreat stays,
 			// but walking away no longer calls it off.
@@ -276,6 +345,8 @@ public class KharaxEntity extends PathfinderMob {
 	public void finishRetreat() {
 		this.retreating = false;
 		this.aggressive = false;
+		this.committedFight = false;
+		this.committedTicks = 0;
 		this.setTarget(null);
 	}
 
@@ -372,12 +443,14 @@ public class KharaxEntity extends PathfinderMob {
 	@Override
 	public void die(DamageSource source) {
 		stopWarningSound();
+		KharaxReception.cancel(this);
 		super.die(source);
 	}
 
 	@Override
 	public void remove(RemovalReason reason) {
 		stopWarningSound();
+		KharaxReception.cancel(this);
 		super.remove(reason);
 	}
 }

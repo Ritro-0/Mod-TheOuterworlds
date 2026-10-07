@@ -5,7 +5,10 @@ import com.theouterworld.registry.ModBlockEntities;
 import com.theouterworld.world.BeaconConcentratorPortals;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -65,6 +68,14 @@ public class BeaconConcentratorBlock extends FallingBlock implements EntityBlock
 	@Override
 	protected float getShadeBrightness(BlockState state, BlockGetter world, BlockPos pos) {
 		return 1.0F;
+	}
+
+	@Override
+	public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+		super.setPlacedBy(level, pos, state, placer, stack);
+		if (placer instanceof Player player && level.getBlockEntity(pos) instanceof BeaconConcentratorBlockEntity concentrator) {
+			concentrator.setPlacedBy(player.getUUID());
+		}
 	}
 
 	@Override

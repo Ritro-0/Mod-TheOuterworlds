@@ -23,6 +23,7 @@
 		"ArmorSlotGlassMixin",
 		"LivingEntityJarositeMixin",
 		"LivingEntityVacuumAirMixin",
+		"LivingEntityAcidBreathMixin",
 		"ItemEntityJarositeMixin",
 		"EntityJarositeFireMixin",
 		"AxeItemCorrosionMixin",
@@ -46,7 +47,10 @@
 		"BucketItemAnchorMixin",
 		"FlowingFluidAnchorMixin",
 		"ServerExplosionAnchorMixin",
-		"WeaverFurnitureMixin"
+		"WeaverFurnitureMixin",
+		"BrushableBlockEntityMixin",
+		"SmithingTrimRecipeMixin",
+		"CombatTrackerDeathMessageMixin"
 	],
 	"injectors": {
 		"defaultRequire": 0

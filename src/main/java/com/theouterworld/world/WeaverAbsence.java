@@ -82,6 +82,24 @@ public class WeaverAbsence extends SavedData {
 		return ids != null && weaver != null && ids.contains(weaver);
 	}
 
+	public boolean hasAny(long colony) {
+		Set<UUID> ids = absent.get(colony);
+		return ids != null && !ids.isEmpty();
+	}
+
+	/** Drops one recorded absence after a replacement has been born. */
+	public void pollOne(long colony) {
+		Set<UUID> ids = absent.get(colony);
+		if (ids == null || ids.isEmpty()) {
+			return;
+		}
+		ids.remove(ids.iterator().next());
+		if (ids.isEmpty()) {
+			absent.remove(colony);
+		}
+		setDirty();
+	}
+
 	public record Entry(long colony, List<UUID> weavers) {
 		public static final Codec<Entry> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			Codec.LONG.fieldOf("colony").forGetter(Entry::colony),

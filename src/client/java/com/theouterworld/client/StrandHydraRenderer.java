@@ -13,7 +13,9 @@ import net.minecraft.resources.Identifier;
 
 public class StrandHydraRenderer extends OceanCreatureRenderer<StrandHydraEntity> {
 	private static final Identifier TEXTURE = OuterWorldMod.id("textures/entity/strand_hydra.png");
+	private static final Identifier BEDROCK = Identifier.withDefaultNamespace("textures/block/bedrock.png");
 	private static final RenderType CUTOUT = RenderTypes.entityCutout(TEXTURE);
+	private static final RenderType BEDROCK_CUTOUT = RenderTypes.entitySolid(BEDROCK);
 	private final StrandHydraModel model = new StrandHydraModel();
 
 	public StrandHydraRenderer(EntityRendererProvider.Context context) {
@@ -36,6 +38,7 @@ public class StrandHydraRenderer extends OceanCreatureRenderer<StrandHydraEntity
 			tentacles[i].zRot = StrandHydraEntity.swayZ(i, state.ageInTicks);
 			tentacles[i].yRot = 0.0F;
 		}
+		queue.submitModelPart(this.model.baseTop, poseStack, BEDROCK_CUTOUT, state.lightCoords, overlay(state), null);
 		queue.submitModelPart(this.model.root, poseStack, CUTOUT, state.lightCoords, overlay(state), null);
 		poseStack.popPose();
 		super.submit(state, poseStack, queue, camera);
