@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:green_stained_glass",
+  "result": {
+    "id": "theouterworlds:doggy_glass",
+    "count": 1,
+    "components": {
+      "theouterworlds:glass_kind": "green"
+    }
+  }
+}

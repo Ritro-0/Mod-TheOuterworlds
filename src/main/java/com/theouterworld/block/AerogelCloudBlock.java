@@ -36,6 +36,7 @@ public class AerogelCloudBlock extends Block {
 	private final double sinkSpeed;
 	private final double climbSpeed;
 	private final int nauseaAmplifier;
+	private final boolean passesLight;
 
 	public AerogelCloudBlock(
 		Properties properties,
@@ -44,11 +45,38 @@ public class AerogelCloudBlock extends Block {
 		double climbSpeed,
 		int nauseaAmplifier
 	) {
+		this(properties, horizontalDrag, sinkSpeed, climbSpeed, nauseaAmplifier, false);
+	}
+
+	public AerogelCloudBlock(
+		Properties properties,
+		float horizontalDrag,
+		double sinkSpeed,
+		double climbSpeed,
+		int nauseaAmplifier,
+		boolean passesLight
+	) {
 		super(properties);
 		this.horizontalDrag = horizontalDrag;
 		this.sinkSpeed = sinkSpeed;
 		this.climbSpeed = climbSpeed;
 		this.nauseaAmplifier = nauseaAmplifier;
+		this.passesLight = passesLight;
+	}
+
+	@Override
+	protected boolean propagatesSkylightDown(BlockState state) {
+		return this.passesLight || super.propagatesSkylightDown(state);
+	}
+
+	@Override
+	protected int getLightDampening(BlockState state) {
+		return this.passesLight ? 0 : super.getLightDampening(state);
+	}
+
+	@Override
+	protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
+		return this.passesLight ? 1.0F : super.getShadeBrightness(state, level, pos);
 	}
 
 	public static boolean isInCloud(Entity entity) {

@@ -27,7 +27,7 @@ public class SulfuricCloudDepositBlock extends AerogelCloudBlock {
 		double climbSpeed,
 		int nauseaAmplifier
 	) {
-		super(properties, horizontalDrag, sinkSpeed, climbSpeed, nauseaAmplifier);
+		super(properties, horizontalDrag, sinkSpeed, climbSpeed, nauseaAmplifier, true);
 	}
 
 	@Override

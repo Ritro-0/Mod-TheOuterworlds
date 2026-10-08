@@ -98,6 +98,7 @@ public class ModItemGroups {
 				entries.accept(ModBlocks.METHANE_CRYSTAL);
 				entries.accept(ModItems.OPALINE_NICKEL_FLAIL);
 				entries.accept(ModItems.OPAL_LENS);
+				DoggyGlassItem.fillCreative(stack -> entries.accept(stack));
 				entries.accept(ModBlocks.NICKEL_BLOCK);
 				entries.accept(ModBlocks.CUT_NICKEL);
 				entries.accept(ModBlocks.CUT_NICKEL_STAIRS);

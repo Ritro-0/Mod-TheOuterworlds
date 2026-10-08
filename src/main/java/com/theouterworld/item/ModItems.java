@@ -665,6 +665,7 @@ public class ModItems {
 
 	public static void registerModItems() {
 		OuterWorldMod.LOGGER.info("Registering items for {}", OuterWorldMod.MOD_ID);
+		DoggyGlassItem.register();
 		Item.BY_BLOCK.put(ModBlocks.FROZEN_ATTACHED_PUMPKIN_STEM, FROZEN_PUMPKIN_SEEDS);
 		Item.BY_BLOCK.put(ModBlocks.FROZEN_ATTACHED_MELON_STEM, FROZEN_MELON_SEEDS);
 		Item.BY_BLOCK.put(ModBlocks.METALLIC_HYDROGEN, METALLIC_HYDROGEN);

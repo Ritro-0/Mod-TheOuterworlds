@@ -19,9 +19,10 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Feet position for every arrival in a mod world.
- * Solid worlds use the sky heightmap. Gas giants land on their arrival cloud deck
- * near the source column. Spongeworld and Potatoworlds use that surface, or 0, 0
- * when the column has none.
+ * Solid worlds use the sky heightmap. Nearworld skips sulfuric clouds and deposits
+ * so arrivals stand on the ground beneath them. Gas giants land on their arrival
+ * cloud deck near the source column. Spongeworld and Potatoworlds use that surface,
+ * or 0, 0 when the column has none.
  */
 public final class ArrivalLanding {
 	private static final int PIT_DROP = 12;
@@ -108,8 +109,7 @@ public final class ArrivalLanding {
 
 	@Nullable
 	private static BlockPos columnFeet(ServerLevel world, int x, int z) {
-		world.getChunk(x >> 4, z >> 4);
-		int solid = world.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
+		int solid = surfaceColumn(world, x, z);
 		if (solid <= world.getMinY()) {
 			return null;
 		}
@@ -149,8 +149,7 @@ public final class ArrivalLanding {
 				}
 				int nx = x + dx;
 				int nz = z + dz;
-				world.getChunk(nx >> 4, nz >> 4);
-				int ny = world.getHeight(Heightmap.Types.WORLD_SURFACE, nx, nz);
+				int ny = surfaceColumn(world, nx, nz);
 				if (ny > bestY) {
 					bestY = ny;
 					bestX = nx;
@@ -174,8 +173,7 @@ public final class ArrivalLanding {
 					}
 					int nx = x + dx;
 					int nz = z + dz;
-					world.getChunk(nx >> 4, nz >> 4);
-					int solid = world.getHeight(Heightmap.Types.WORLD_SURFACE, nx, nz);
+					int solid = surfaceColumn(world, nx, nz);
 					if (solid <= world.getMinY()) {
 						continue;
 					}
@@ -197,6 +195,34 @@ public final class ArrivalLanding {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Same Y as {@link ServerLevel#getHeight}: the air cell above the highest surface block.
+	 * Nearworld cloud banks sit above the terrain and would otherwise win that search.
+	 */
+	private static int surfaceColumn(ServerLevel world, int x, int z) {
+		world.getChunk(x >> 4, z >> 4);
+		int airY = world.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
+		if (!ModDimensions.isNearworld(world.dimension()) || airY <= world.getMinY()) {
+			return airY;
+		}
+		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos(x, airY - 1, z);
+		if (cursor.getY() < world.getMinY() || !isSulfuricSky(world.getBlockState(cursor))) {
+			return airY;
+		}
+		while (cursor.getY() > world.getMinY()) {
+			BlockState state = world.getBlockState(cursor);
+			if (!state.isAir() && !isSulfuricSky(state)) {
+				break;
+			}
+			cursor.move(Direction.DOWN);
+		}
+		return cursor.getY() + 1;
+	}
+
+	private static boolean isSulfuricSky(BlockState state) {
+		return state.is(ModBlocks.SULFURIC_CLOUD) || state.is(ModBlocks.SULFURIC_CLOUD_DEPOSIT);
 	}
 
 	private static boolean unsafeFluid(BlockState state) {

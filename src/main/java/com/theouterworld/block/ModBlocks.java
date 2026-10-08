@@ -1060,7 +1060,8 @@ public class ModBlocks {
 			0.88F,
 			0.028,
 			0.07,
-			1
+			1,
+			true
 		)
 	);
 

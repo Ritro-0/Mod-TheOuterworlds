@@ -36,6 +36,7 @@ public final class AcidBreath {
 
 	private static boolean hasAcidTrimmedGlassHelmet(LivingEntity entity) {
 		ItemStack head = entity.getItemBySlot(EquipmentSlot.HEAD);
-		return GlassHelmetUtil.isGlassHelmetItem(head) && hasAcidTrim(head);
+		return (GlassHelmetUtil.isGlassHelmetItem(head) || com.theouterworld.item.DoggyGlassItem.isDoggyGlass(head))
+			&& hasAcidTrim(head);
 	}
 }

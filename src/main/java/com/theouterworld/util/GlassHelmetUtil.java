@@ -53,7 +53,9 @@ public final class GlassHelmetUtil {
 			return false;
 		}
 		ItemStack head = entity.getItemBySlot(EquipmentSlot.HEAD);
-		return isGlassHelmetItem(head) || head.is(com.theouterworld.item.ModItems.OPAL_LENS);
+		return isGlassHelmetItem(head)
+			|| head.is(com.theouterworld.item.ModItems.OPAL_LENS)
+			|| com.theouterworld.item.DoggyGlassItem.isDoggyGlass(head);
 	}
 
 	/** Dust storm overlay and status effects are blocked only by the Opal Lens. */

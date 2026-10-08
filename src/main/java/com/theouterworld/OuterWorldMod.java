@@ -150,6 +150,7 @@ public class OuterWorldMod implements ModInitializer {
 			})
 		);
 
+		com.theouterworld.world.PlanetaryHazards.register();
 		DustStormTicker.register();
 		com.theouterworld.weather.NearworldStormTicker.register();
 		com.theouterworld.weather.HighworldStormTicker.register();
@@ -158,15 +159,11 @@ public class OuterWorldMod implements ModInitializer {
 		com.theouterworld.weather.EdgeworldStormTicker.register();
 		com.theouterworld.weather.InteriorShelterTracker.register();
 		DustStormEffects.register();
-		com.theouterworld.world.VacuumSuffocation.register();
 		com.theouterworld.world.SpongeworldVoidFall.register();
 		com.theouterworld.world.PotatoworldsVoidFall.register();
 		com.theouterworld.world.BeyondlandsAltitudeCrossing.register();
-		com.theouterworld.world.SolarIrradiation.register();
 		com.theouterworld.world.SunDeathSequence.register();
 		com.theouterworld.world.SunExistenceGuard.register();
-		com.theouterworld.world.ExtremePressure.register();
-		com.theouterworld.world.HighworldCrush.register();
 		com.theouterworld.world.MercuryFluidInteractions.register();
 		com.theouterworld.world.LiquidHydrogenFluidInteractions.register();
 		com.theouterworld.world.LiquidHeliumFluidInteractions.register();

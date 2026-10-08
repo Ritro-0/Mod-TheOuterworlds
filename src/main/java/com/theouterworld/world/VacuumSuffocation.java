@@ -3,12 +3,10 @@ package com.theouterworld.world;
 import com.theouterworld.registry.ModDamageTypes;
 import com.theouterworld.registry.ModDimensions;
 import com.theouterworld.util.GlassHelmetUtil;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
@@ -26,63 +24,52 @@ public final class VacuumSuffocation {
 	private VacuumSuffocation() {
 	}
 
-	public static void register() {
-		ServerTickEvents.END_SERVER_TICK.register(server -> {
-			for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-				tickPlayer(player);
-			}
-		});
-	}
-
 	public static boolean shouldSuffocate(LivingEntity entity) {
-		if (!(entity instanceof Player player) || !player.isAlive()) {
+		if (entity == null || !entity.isAlive()) {
 			return false;
 		}
 
-		Level level = player.level();
-		if (level == null) {
+		Level level = entity.level();
+		if (level == null || !ModDimensions.isVacuum(level.dimension())) {
 			return false;
 		}
 
-		ResourceKey<Level> dimension = level.dimension();
-		if (!ModDimensions.isVacuum(dimension)) {
+		if (entity instanceof Player player) {
+			GameType mode = player.gameMode();
+			if (mode == null || !mode.isSurvival() || player.getAbilities().invulnerable) {
+				return false;
+			}
+		} else if (!(entity instanceof Mob) || !PlanetaryMobRules.isVanillaMob(entity) || entity.isInvulnerable()) {
 			return false;
 		}
 
-		GameType mode = player.gameMode();
-		if (mode == null || !mode.isSurvival()) {
+		if (GlassHelmetUtil.isWearingAirProtection(entity) || PlanetaryMobRules.ignoresVacuum(entity)) {
 			return false;
 		}
-
-		if (player.getAbilities().invulnerable) {
+		if (entity.isEyeInFluid(FluidTags.WATER) || PlanetaryMobRules.breathesFrostworldOcean(entity)) {
 			return false;
 		}
-
-		if (GlassHelmetUtil.isWearingAirProtection(player)) {
-			return false;
-		}
-
-		return !player.isEyeInFluid(FluidTags.WATER);
+		return true;
 	}
 
-	private static void tickPlayer(ServerPlayer player) {
-		if (!shouldSuffocate(player)) {
+	static void tick(LivingEntity entity) {
+		if (!shouldSuffocate(entity)) {
 			return;
 		}
-		if (!(player.level() instanceof ServerLevel level)) {
+		if (!(entity.level() instanceof ServerLevel level)) {
 			return;
 		}
-		if (player.tickCount % AIR_DRAIN_INTERVAL != 0) {
-			return;
-		}
-
-		player.setAirSupply(player.getAirSupply() - 1);
-		if (player.getAirSupply() > -20) {
+		if (entity.tickCount % AIR_DRAIN_INTERVAL != 0) {
 			return;
 		}
 
-		player.setAirSupply(0);
-		level.broadcastEntityEvent(player, DROWN_PARTICLE_EVENT);
-		player.hurtServer(level, player.damageSources().source(ModDamageTypes.VACUUM), DROWN_DAMAGE);
+		entity.setAirSupply(entity.getAirSupply() - 1);
+		if (entity.getAirSupply() > -20) {
+			return;
+		}
+
+		entity.setAirSupply(0);
+		level.broadcastEntityEvent(entity, DROWN_PARTICLE_EVENT);
+		entity.hurtServer(level, entity.damageSources().source(ModDamageTypes.VACUUM), DROWN_DAMAGE);
 	}
 }

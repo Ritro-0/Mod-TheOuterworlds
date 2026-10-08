@@ -1,0 +1,10 @@
+{
+	"layers": {
+		"wolf_body": [
+			{
+				"texture": "theouterworlds:doggy_helmet",
+				"dyeable": {}
+			}
+		]
+	}
+}

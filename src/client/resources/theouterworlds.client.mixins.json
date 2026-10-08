@@ -16,7 +16,10 @@
 		"LivingEntityRendererHydrogenSwimMixin",
 		"HumanoidModelAerostatMixin",
 		"CreateWorldScreenOuterworldPresetMixin",
-		"ClockTimeMixin"
+		"ClockTimeMixin",
+		"WolfRendererMixin",
+		"WolfRenderStateMixin",
+		"DoggyGlassTrimTextureMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

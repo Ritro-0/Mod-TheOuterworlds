@@ -50,6 +50,7 @@
 		"WeaverFurnitureMixin",
 		"BrushableBlockEntityMixin",
 		"SmithingTrimRecipeMixin",
+		"WolfDoggyGlassMixin",
 		"CombatTrackerDeathMessageMixin"
 	],
 	"injectors": {

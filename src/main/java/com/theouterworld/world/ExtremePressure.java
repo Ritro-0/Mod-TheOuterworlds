@@ -4,14 +4,14 @@ import com.theouterworld.registry.ModDamageTypes;
 import com.theouterworld.registry.ModDimensions;
 import com.theouterworld.util.GraphiteProtection;
 import com.theouterworld.util.IridiumProtection;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
@@ -32,22 +32,11 @@ public final class ExtremePressure {
 	private ExtremePressure() {
 	}
 
-	public static void register() {
-		ServerTickEvents.END_SERVER_TICK.register(server -> {
-			for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-				tickPlayer(player);
-			}
-			Iterator<Map.Entry<UUID, Integer>> it = EXPOSURE_TICKS.entrySet().iterator();
-			while (it.hasNext()) {
-				UUID id = it.next().getKey();
-				if (server.getPlayerList().getPlayer(id) == null) {
-					it.remove();
-				}
-			}
-		});
+	static void prune(java.util.Set<UUID> present) {
+		EXPOSURE_TICKS.keySet().removeIf(id -> !present.contains(id));
 	}
 
-	private static void tickPlayer(ServerPlayer player) {
+	static void tick(LivingEntity player) {
 		if (!(player.level() instanceof ServerLevel level)) {
 			return;
 		}
@@ -58,15 +47,21 @@ public final class ExtremePressure {
 			return;
 		}
 
-		GameType mode = player.gameMode();
-		if (mode == null || !mode.isSurvival() || player.getAbilities().invulnerable || !player.isAlive()) {
+		if (player instanceof Player human) {
+			GameType mode = human.gameMode();
+			if (mode == null || !mode.isSurvival() || human.getAbilities().invulnerable || !player.isAlive()) {
+				EXPOSURE_TICKS.remove(player.getUUID());
+				return;
+			}
+		} else if (!player.isAlive() || player.isInvulnerable()) {
 			EXPOSURE_TICKS.remove(player.getUUID());
 			return;
 		}
 
 		boolean protectedNow = IridiumProtection.hasIridiumArmor(player)
 			|| (near && GraphiteProtection.hasPressureResistance(player))
-			|| (ember && GraphiteProtection.hasEmberworldPressureResistance(player));
+			|| (ember && GraphiteProtection.hasEmberworldPressureResistance(player))
+			|| PlanetaryMobRules.ignoresPressure(player);
 		if (protectedNow) {
 			EXPOSURE_TICKS.remove(player.getUUID());
 			return;
