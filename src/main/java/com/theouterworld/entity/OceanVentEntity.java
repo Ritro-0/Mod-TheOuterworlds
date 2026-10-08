@@ -1,7 +1,11 @@
 package com.theouterworld.entity;
 
+import com.theouterworld.registry.ModEntities;
 import java.util.List;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -27,6 +31,10 @@ public class OceanVentEntity extends Entity {
 	public static final double CLOUD_HEIGHT = 10.0;
 	private static final int FULL_CHARGE = 2400;
 	private static final float CLOUD_DAMAGE = 1.0F;
+	private static final int SCHOOL_SIZE = 3;
+	private static final double SCHOOL_RANGE = 24.0;
+	private static final double SCHOOL_PLAYER_RANGE = 48.0;
+	private static final int SCHOOL_CHECK_INTERVAL = 200;
 
 	private int charge;
 	private int cooldown;
@@ -115,6 +123,42 @@ public class OceanVentEntity extends Entity {
 			this.erupt(server);
 		} else if (--this.cooldown <= 0) {
 			this.charge = FULL_CHARGE;
+		}
+		if (this.tickCount % SCHOOL_CHECK_INTERVAL == 0) {
+			this.tendSchool(server);
+		}
+	}
+
+	/**
+	 * Vanilla water spawning rarely lands this close to a vent, and jellies thin the school out,
+	 * so a vent with a player nearby keeps its own feeders topped up.
+	 */
+	private void tendSchool(ServerLevel server) {
+		if (server.getNearestPlayer(this, SCHOOL_PLAYER_RANGE) == null) {
+			return;
+		}
+		AABB around = this.getBoundingBox().inflate(SCHOOL_RANGE, CLOUD_HEIGHT, SCHOOL_RANGE);
+		int present = server.getEntitiesOfClass(FeederEntity.class, around, LivingEntity::isAlive).size();
+		for (int i = present; i < SCHOOL_SIZE; i++) {
+			this.spawnFeeder(server);
+		}
+	}
+
+	private void spawnFeeder(ServerLevel server) {
+		for (int attempt = 0; attempt < 8; attempt++) {
+			Vec3 point = this.randomPointInside(this.random);
+			BlockPos pos = BlockPos.containing(point);
+			if (!server.getFluidState(pos).is(FluidTags.WATER)
+				|| !server.getBlockState(pos).getCollisionShape(server, pos).isEmpty()) {
+				continue;
+			}
+			FeederEntity feeder = ModEntities.FEEDER.create(server, EntitySpawnReason.NATURAL);
+			if (feeder == null) {
+				return;
+			}
+			feeder.snapTo(point.x, point.y, point.z, this.random.nextFloat() * 360.0F, 0.0F);
+			server.addFreshEntity(feeder);
+			return;
 		}
 	}
 

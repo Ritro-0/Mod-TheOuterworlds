@@ -284,6 +284,9 @@ public class WeaverGiftGoal extends Goal {
 			if (!player.isAlive() || player.isSpectator()) {
 				continue;
 			}
+			if (data.isUntrusted(id, player.getUUID())) {
+				continue;
+			}
 			if (data.isWary(id, player.getUUID()) && !weaver.personallyTrusts(player.getUUID())) {
 				continue;
 			}

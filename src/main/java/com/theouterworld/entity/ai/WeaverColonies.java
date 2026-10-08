@@ -3,6 +3,7 @@ package com.theouterworld.entity.ai;
 import com.theouterworld.block.ModBlocks;
 import com.theouterworld.block.WeaverNetBlockEntity;
 import com.theouterworld.world.WeaverColonySavedData;
+import com.theouterworld.world.WeaverReputationDebug;
 import com.theouterworld.worldgen.WorldgenNoise;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -149,6 +150,14 @@ public final class WeaverColonies {
 			id = idAt(server, pos);
 		}
 		WeaverColonySavedData.get(server).noteHarm(id, server.getGameTime(), severe);
+		String block = level.getBlockState(pos).getBlock().getName().getString();
+		if (severe) {
+			WeaverReputationDebug.report(server, player.getUUID(), id, pos,
+				"destroyed " + block + ". The whole colony is hostile now, and any gift it was holding is gone");
+		} else {
+			WeaverReputationDebug.report(server, player.getUUID(), id, pos,
+				"broke " + block + ". Gifts from this colony pause for 10 seconds");
+		}
 	}
 
 	/** Nets of this colony within housekeeping reach. Untagged nets inside that reach are adopted. */

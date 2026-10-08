@@ -1,145 +1,3749 @@
 {
 	"model": {
 		"type": "minecraft:select",
+		"property": "minecraft:component",
+		"component": "theouterworlds:glass_kind",
 		"cases": [
-			{
+{
+		"when": "glass",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_quartz_trim"
-				},
-				"when": "minecraft:quartz"
+				}
 			},
-			{
+{
+				"when": "minecraft:iron",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_iron_trim"
-				},
-				"when": "minecraft:iron"
+				}
 			},
-			{
+{
+				"when": "minecraft:netherite",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_netherite_trim"
-				},
-				"when": "minecraft:netherite"
+				}
 			},
-			{
+{
+				"when": "minecraft:redstone",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_redstone_trim"
-				},
-				"when": "minecraft:redstone"
+				}
 			},
-			{
+{
+				"when": "minecraft:copper",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_copper_trim"
-				},
-				"when": "minecraft:copper"
+				}
 			},
-			{
+{
+				"when": "minecraft:gold",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_gold_trim"
-				},
-				"when": "minecraft:gold"
+				}
 			},
-			{
+{
+				"when": "minecraft:emerald",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_emerald_trim"
-				},
-				"when": "minecraft:emerald"
+				}
 			},
-			{
+{
+				"when": "minecraft:diamond",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_diamond_trim"
-				},
-				"when": "minecraft:diamond"
+				}
 			},
-			{
+{
+				"when": "minecraft:lapis",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_lapis_trim"
-				},
-				"when": "minecraft:lapis"
+				}
 			},
-			{
+{
+				"when": "minecraft:amethyst",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_amethyst_trim"
-				},
-				"when": "minecraft:amethyst"
+				}
 			},
-			{
+{
+				"when": "minecraft:resin",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_resin_trim"
-				},
-				"when": "minecraft:resin"
+				}
 			},
-			{
+{
+				"when": "theouterworlds:olivine",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_olivine_trim"
-				},
-				"when": "theouterworlds:olivine"
+				}
 			},
-			{
+{
+				"when": "theouterworlds:opal",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_opal_trim"
-				},
-				"when": "theouterworlds:opal"
+				}
 			},
-			{
+{
+				"when": "theouterworlds:jarosite",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_jarosite_trim"
-				},
-				"when": "theouterworlds:jarosite"
+				}
 			},
-			{
+{
+				"when": "theouterworlds:graphite",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_graphite_trim"
-				},
-				"when": "theouterworlds:graphite"
+				}
 			},
 {
+				"when": "theouterworlds:nickel",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_nickel_trim"
-				},
-				"when": "theouterworlds:nickel"
+				}
 			},
 {
+				"when": "theouterworlds:osmium",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_osmium_trim"
-				},
-				"when": "theouterworlds:osmium"
+				}
 			},
 {
+				"when": "theouterworlds:iridium",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_iridium_trim"
-				},
-				"when": "theouterworlds:iridium"
+				}
 			},
 {
+				"when": "theouterworlds:acid",
 				"model": {
 					"type": "minecraft:model",
 					"model": "theouterworlds:item/doggy_glass_acid_trim"
-				},
-				"when": "theouterworlds:acid"
+				}
 			}
 		],
 		"fallback": {
 			"type": "minecraft:model",
 			"model": "theouterworlds:item/doggy_glass"
-		},
-		"property": "minecraft:trim_material"
+		}
+	}
+	},
+{
+		"when": "tinted",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_tinted" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_tinted"
+		}
+	}
+	},
+{
+		"when": "white",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_white" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_white"
+		}
+	}
+	},
+{
+		"when": "orange",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_orange" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_orange"
+		}
+	}
+	},
+{
+		"when": "magenta",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_magenta" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_magenta"
+		}
+	}
+	},
+{
+		"when": "light_blue",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_light_blue"
+		}
+	}
+	},
+{
+		"when": "yellow",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_yellow" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_yellow"
+		}
+	}
+	},
+{
+		"when": "lime",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_lime" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_lime"
+		}
+	}
+	},
+{
+		"when": "pink",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_pink" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_pink"
+		}
+	}
+	},
+{
+		"when": "gray",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_gray"
+		}
+	}
+	},
+{
+		"when": "light_gray",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_light_gray" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_light_gray"
+		}
+	}
+	},
+{
+		"when": "cyan",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_cyan" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_cyan"
+		}
+	}
+	},
+{
+		"when": "purple",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_purple" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_purple"
+		}
+	}
+	},
+{
+		"when": "blue",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_blue" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_blue"
+		}
+	}
+	},
+{
+		"when": "brown",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_brown" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_brown"
+		}
+	}
+	},
+{
+		"when": "green",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_green" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_green"
+		}
+	}
+	},
+{
+		"when": "red",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_red" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_red"
+		}
+	}
+	},
+{
+		"when": "black",
+		"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_quartz" }
+					]
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iron" }
+					]
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_netherite" }
+					]
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_redstone" }
+					]
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_copper" }
+					]
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_gold" }
+					]
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_emerald" }
+					]
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_diamond" }
+					]
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_lapis" }
+					]
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_amethyst" }
+					]
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_resin" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_olivine" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_opal" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_jarosite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_graphite" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_nickel" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_osmium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_iridium" }
+					]
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:composite",
+					"models": [
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_black" },
+						{ "type": "minecraft:model", "model": "theouterworlds:item/doggy_glass_trim_acid" }
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass_black"
+		}
+	}
+	}
+		],
+		"fallback": {
+		"type": "minecraft:select",
+		"property": "minecraft:trim_material",
+		"cases": [
+{
+				"when": "minecraft:quartz",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_quartz_trim"
+				}
+			},
+{
+				"when": "minecraft:iron",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_iron_trim"
+				}
+			},
+{
+				"when": "minecraft:netherite",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_netherite_trim"
+				}
+			},
+{
+				"when": "minecraft:redstone",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_redstone_trim"
+				}
+			},
+{
+				"when": "minecraft:copper",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_copper_trim"
+				}
+			},
+{
+				"when": "minecraft:gold",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_gold_trim"
+				}
+			},
+{
+				"when": "minecraft:emerald",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_emerald_trim"
+				}
+			},
+{
+				"when": "minecraft:diamond",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_diamond_trim"
+				}
+			},
+{
+				"when": "minecraft:lapis",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_lapis_trim"
+				}
+			},
+{
+				"when": "minecraft:amethyst",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_amethyst_trim"
+				}
+			},
+{
+				"when": "minecraft:resin",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_resin_trim"
+				}
+			},
+{
+				"when": "theouterworlds:olivine",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_olivine_trim"
+				}
+			},
+{
+				"when": "theouterworlds:opal",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_opal_trim"
+				}
+			},
+{
+				"when": "theouterworlds:jarosite",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_jarosite_trim"
+				}
+			},
+{
+				"when": "theouterworlds:graphite",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_graphite_trim"
+				}
+			},
+{
+				"when": "theouterworlds:nickel",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_nickel_trim"
+				}
+			},
+{
+				"when": "theouterworlds:osmium",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_osmium_trim"
+				}
+			},
+{
+				"when": "theouterworlds:iridium",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_iridium_trim"
+				}
+			},
+{
+				"when": "theouterworlds:acid",
+				"model": {
+					"type": "minecraft:model",
+					"model": "theouterworlds:item/doggy_glass_acid_trim"
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "theouterworlds:item/doggy_glass"
+		}
+	}
 	}
 }

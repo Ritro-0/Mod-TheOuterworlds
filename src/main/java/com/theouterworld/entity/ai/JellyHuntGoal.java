@@ -10,9 +10,10 @@ import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.phys.AABB;
 
 /**
- * Sometimes a driftmite commits to a jelly, bites once, twice, or three times, then wanders off.
+ * Now and then a swimmer commits to a jelly. A driftmite bites it once, twice, or three times,
+ * then wanders off. A feeder does not bite; it swims in, and the jelly eats it on contact.
  */
-public class DriftmiteJellyHuntGoal extends Goal {
+public class JellyHuntGoal extends Goal {
 	private static final double RANGE = 20.0;
 	private static final double BITE_RANGE = 2.4;
 	private static final float BITE_DAMAGE = 4.0F;
@@ -20,6 +21,7 @@ public class DriftmiteJellyHuntGoal extends Goal {
 	private static final int CHECK_INTERVAL = 100;
 
 	private final WaterAnimal mob;
+	private final boolean bites;
 	private FrostworldJellyEntity target;
 	private int bitesLeft;
 	private int biteCooldown;
@@ -27,8 +29,9 @@ public class DriftmiteJellyHuntGoal extends Goal {
 	private int nextCheck;
 	private int restTicks;
 
-	public DriftmiteJellyHuntGoal(WaterAnimal mob) {
+	public JellyHuntGoal(WaterAnimal mob, boolean bites) {
 		this.mob = mob;
+		this.bites = bites;
 		this.setFlags(EnumSet.of(Flag.MOVE));
 	}
 
@@ -88,6 +91,9 @@ public class DriftmiteJellyHuntGoal extends Goal {
 			this.target.getZ(),
 			1.25
 		);
+		if (!this.bites) {
+			return;
+		}
 		if (this.biteCooldown > 0) {
 			this.biteCooldown--;
 			return;

@@ -57,7 +57,8 @@ public final class WeaverColonyHarm {
 		if (id == 0L) {
 			return;
 		}
-		WeaverColonySavedData.get(level).noteStructureBreak(id, player.getUUID());
+		String block = state.getBlock().getName().getString();
+		WeaverColonySavedData.get(level).noteStructureBreak(level, id, player.getUUID(), pos, block);
 	}
 
 	public static void notePlaced(ServerLevel level, BlockPos pos, Player player) {
@@ -87,7 +88,13 @@ public final class WeaverColonyHarm {
 		}
 		long id = WeaverColonies.colonyOwning(level, pos);
 		if (id != 0L) {
-			WeaverColonySavedData.get(level).markPlayerHostile(id, player.getUUID());
+			WeaverColonySavedData.get(level).markPlayerHostile(
+				level,
+				id,
+				player.getUUID(),
+				pos,
+				"put " + fluidName(kind(fluid)) + " on the Anchor. You are now hostile"
+			);
 		}
 	}
 
@@ -108,7 +115,13 @@ public final class WeaverColonyHarm {
 			id = WeaverColonies.colonyOwning(level, dest.relative(from.getOpposite()));
 		}
 		if (id != 0L) {
-			WeaverColonySavedData.get(level).markPlayerHostile(id, player);
+			WeaverColonySavedData.get(level).markPlayerHostile(
+				level,
+				id,
+				player,
+				dest,
+				fluidName(fluidKind) + " reached the Anchor. You are now hostile"
+			);
 		}
 	}
 
@@ -119,6 +132,7 @@ public final class WeaverColonyHarm {
 		WeaverColonySavedData data = WeaverColonySavedData.get(level);
 		UUID uuid = player.getUUID();
 		Map<Long, Integer> ruined = new HashMap<>();
+		Map<Long, BlockPos> where = new HashMap<>();
 		for (BlockPos pos : blocks) {
 			BlockState state = level.getBlockState(pos);
 			if (!state.is(ModTags.WEAVER_ANCHOR_PARTS)) {
@@ -127,15 +141,17 @@ public final class WeaverColonyHarm {
 			long id = WeaverColonies.colonyOwning(level, pos);
 			if (id != 0L) {
 				ruined.merge(id, 1, Integer::sum);
+				where.putIfAbsent(id, pos);
 			}
 		}
 		for (Map.Entry<Long, Integer> entry : ruined.entrySet()) {
-			data.noteExplosion(entry.getKey(), uuid, entry.getValue());
+			data.noteExplosion(level, entry.getKey(), uuid, entry.getValue(), where.get(entry.getKey()));
 		}
 		if (center != null) {
-			long id = colonyAtBlast(level, BlockPos.containing(center));
+			BlockPos at = BlockPos.containing(center);
+			long id = colonyAtBlast(level, at);
 			if (id != 0L) {
-				data.markPlayerHostile(id, uuid);
+				data.markPlayerHostile(level, id, uuid, at, "detonated inside the Anchor. You are now hostile");
 			}
 		}
 	}
@@ -190,6 +206,15 @@ public final class WeaverColonyHarm {
 		}
 		BlockState state = level.getBlockState(pos);
 		return state.is(ModBlocks.MERCURY) || state.is(ModBlocks.MERCURY_BLOCK);
+	}
+
+	private static String fluidName(int fluidKind) {
+		return switch (fluidKind) {
+			case 1 -> "water";
+			case 2 -> "lava";
+			case 3 -> "mercury";
+			default -> "fluid";
+		};
 	}
 
 	private static int kind(Fluid fluid) {

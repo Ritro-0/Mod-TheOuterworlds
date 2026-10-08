@@ -852,8 +852,7 @@ public class WeaverEntity extends PathfinderMob {
 			return InteractionResult.PASS;
 		}
 		if (this.level() instanceof ServerLevel server
-			&& WeaverColonySavedData.get(server).isUntrusted(this.colonyId(), player.getUUID())
-			&& !this.personallyTrusts(player.getUUID())) {
+			&& WeaverColonySavedData.get(server).isUntrusted(this.colonyId(), player.getUUID())) {
 			return InteractionResult.PASS;
 		}
 		if (this.level().isClientSide()) {
@@ -1521,7 +1520,14 @@ public class WeaverEntity extends PathfinderMob {
 			}
 			long id = this.colonyId();
 			if (id != 0L) {
-				WeaverColonySavedData.get(level).notePlayerDamage(id, player.getUUID(), level.getGameTime(), !this.isAlive());
+				WeaverColonySavedData.get(level).notePlayerDamage(
+					level,
+					id,
+					player.getUUID(),
+					level.getGameTime(),
+					!this.isAlive(),
+					this.blockPosition()
+				);
 			}
 		}
 		boolean ceremonyHit = this.receptionKharax != null

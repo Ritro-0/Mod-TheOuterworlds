@@ -4,6 +4,7 @@ import com.theouterworld.block.ModBlocks;
 import com.theouterworld.block.CorrodedBlocks;
 import com.theouterworld.block.ProcessorBlockEntity;
 import com.theouterworld.command.DustStormCommand;
+import com.theouterworld.command.WeaverReputationCommand;
 import com.theouterworld.config.OuterworldConfig;
 import com.theouterworld.event.VanillaIronReplacementListener;
 import com.theouterworld.item.ModItemGroups;
@@ -188,6 +189,7 @@ public class OuterWorldMod implements ModInitializer {
 		});
 
 		CommandRegistrationCallback.EVENT.register(DustStormCommand::register);
+		CommandRegistrationCallback.EVENT.register(WeaverReputationCommand::register);
 	}
 
 	public static Identifier id(String path) {

@@ -65,6 +65,7 @@ public class WeaverHousekeepingGoal extends Goal {
 	private int inspectTicks = INSPECT_TICKS;
 	private boolean finished;
 	private boolean keep;
+	private @Nullable UUID creditedPlayer;
 	private boolean remembered;
 	private boolean triedExpand;
 	private @Nullable String inspectKey;
@@ -144,6 +145,7 @@ public class WeaverHousekeepingGoal extends Goal {
 		litter = null;
 		net = null;
 		furnishAt = null;
+		creditedPlayer = null;
 		phase = Phase.APPROACH;
 	}
 
@@ -222,9 +224,7 @@ public class WeaverHousekeepingGoal extends Goal {
 		if (level instanceof ServerLevel server) {
 			data = WeaverColonySavedData.get(server);
 			UUID placer = data.placementAt(weaver.colonyId(), pos);
-			shunned = placer != null
-				&& data.isUntrusted(weaver.colonyId(), placer)
-				&& !weaver.personallyTrusts(placer);
+			shunned = placer != null && data.isUntrusted(weaver.colonyId(), placer);
 		}
 		boolean alreadyFurnished = false;
 		if (shunned) {
@@ -251,7 +251,7 @@ public class WeaverHousekeepingGoal extends Goal {
 		}
 
 		if (data != null) {
-			data.takePlacement(weaver.colonyId(), pos);
+			creditedPlayer = data.takePlacement(weaver.colonyId(), pos);
 		}
 		ItemStack carried = new ItemStack(state.getBlock());
 		level.destroyBlock(pos, false);
@@ -529,7 +529,16 @@ public class WeaverHousekeepingGoal extends Goal {
 		if (stored > 0 && keep && WeaverAnchors.isCuriosity(stack)) {
 			ItemStack scored = stack.copy();
 			scored.setCount(stored);
-			WeaverColonySavedData.get(level).addContribution(level, weaver.colonyId(), WeaverColonyGifts.valueOf(scored));
+			int points = WeaverColonyGifts.valueOf(scored);
+			String name = scored.getItem().getName(scored).getString();
+			WeaverColonySavedData.get(level).addContribution(
+				level,
+				weaver.colonyId(),
+				points,
+				creditedPlayer,
+				netPos,
+				"stored " + stored + " " + name + " (+" + points + ")"
+			);
 		} else if (stored > 0 && keep) {
 			Block block = Block.byItem(stack.getItem());
 			if (block != Blocks.AIR && WeaverAnchors.isSpecimen(block.defaultBlockState())) {

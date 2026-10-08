@@ -32,7 +32,7 @@ public final class StrandHydraModel {
 		root.addOrReplaceChild(
 			"body",
 			CubeListBuilder.create().texOffs(0, 0).addBox(
-				-8.0F, -9.0F, -8.0F, 16.0F, 9.0F, 16.0F, EnumSet.complementOf(EnumSet.of(Direction.UP))
+				-8.0F, -9.0F, -8.0F, 16.0F, 9.0F, 16.0F, EnumSet.complementOf(EnumSet.of(Direction.UP, Direction.DOWN))
 			),
 			PartPose.offset(0.0F, 24.0F, 0.0F)
 		);
@@ -49,15 +49,18 @@ public final class StrandHydraModel {
 	}
 
 	/**
-	 * The lid under the tentacles. UVs are shifted so that face fills a 16×16 bedrock texture.
+	 * Top and bottom of the body. UVs are shifted so each face fills a 16×16 bedrock texture.
+	 * After the renderer Y flip, model UP is the world bottom and model DOWN is the world top.
 	 */
 	public static LayerDefinition createTopLayer() {
 		MeshDefinition mesh = new MeshDefinition();
 		mesh.getRoot().addOrReplaceChild(
 			"top",
-			CubeListBuilder.create().texOffs(-32, 0).addBox(
-				-8.0F, -9.0F, -8.0F, 16.0F, 9.0F, 16.0F, EnumSet.of(Direction.UP)
-			),
+			CubeListBuilder.create()
+				.texOffs(-32, 0)
+				.addBox(-8.0F, -9.0F, -8.0F, 16.0F, 9.0F, 16.0F, EnumSet.of(Direction.UP))
+				.texOffs(-16, 0)
+				.addBox(-8.0F, -9.0F, -8.0F, 16.0F, 9.0F, 16.0F, EnumSet.of(Direction.DOWN)),
 			PartPose.offset(0.0F, 24.0F, 0.0F)
 		);
 		return LayerDefinition.create(mesh, 16, 16);

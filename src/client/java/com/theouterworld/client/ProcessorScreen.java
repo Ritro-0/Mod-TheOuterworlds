@@ -23,7 +23,7 @@ public class ProcessorScreen extends AbstractContainerScreen<ProcessorScreenHand
     private static final int PROGRESS_BAR_HEIGHT = 28;
 
     private static final int HEAT_BAR_X = 17;
-    private static final int HEAT_BAR_Y = 34;
+    private static final int HEAT_BAR_Y = 32;
     private static final int HEAT_BAR_WIDTH = 16;
 
     private static final int HEAT_COLOR = 0xFFFF6600;
@@ -41,7 +41,7 @@ public class ProcessorScreen extends AbstractContainerScreen<ProcessorScreenHand
         titleLabelX = (imageWidth - font.width(title)) / 2;
 
         int buttonX = this.leftPos + 7;
-        int buttonY = this.topPos + 56;
+        int buttonY = this.topPos + 55;
         modeButton = Button.builder(getModeButtonText(), button -> {
             net.minecraft.core.BlockPos pos = menu.getBlockPos();
             if (pos.equals(net.minecraft.core.BlockPos.ZERO) && this.minecraft != null && this.minecraft.player != null) {

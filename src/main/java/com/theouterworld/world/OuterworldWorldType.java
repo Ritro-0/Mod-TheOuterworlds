@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.BlockPos;
@@ -41,6 +42,38 @@ public final class OuterworldWorldType {
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
 			server.execute(() -> onPlayerJoin(handler.player));
 		});
+		ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> onPlayerRespawn(newPlayer, alive));
+	}
+
+	/**
+	 * Vanilla's respawn search can land players in buried lava tubes. World-spawn respawns
+	 * use the same surface finder as first arrival instead. Bed respawns keep the respawn
+	 * config and are left alone.
+	 */
+	private static void onPlayerRespawn(ServerPlayer player, boolean alive) {
+		if (alive || player.getRespawnConfig() != null) {
+			return;
+		}
+		if (!(player.level() instanceof ServerLevel level) || !ModDimensions.OUTERWORLD_WORLD_KEY.equals(level.dimension())) {
+			return;
+		}
+		OuterworldWorldTypeSavedData data = OuterworldWorldTypeSavedData.get(level.getServer());
+		if (data == null || !data.isActive()) {
+			return;
+		}
+		BlockPos current = player.blockPosition();
+		BlockPos surface = ArrivalLanding.playerFeet(level, current.getX(), current.getZ());
+		if (surface.equals(current)) {
+			return;
+		}
+		player.teleport(new TeleportTransition(
+			level,
+			Vec3.atBottomCenterOf(surface),
+			Vec3.ZERO,
+			player.getYRot(),
+			player.getXRot(),
+			TeleportTransition.DO_NOTHING
+		));
 	}
 
 	public static void writePresetMarker(Path worldRoot) {

@@ -1,6 +1,6 @@
 package com.theouterworld.entity;
 
-import com.theouterworld.entity.ai.DriftmiteJellyHuntGoal;
+import com.theouterworld.entity.ai.JellyHuntGoal;
 import com.theouterworld.entity.ai.SwimToPreyGoal;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -35,7 +35,7 @@ public class DriftmiteEntity extends OceanFishEntity {
 	@Override
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new PanicGoal(this, 1.25));
-		this.goalSelector.addGoal(1, new DriftmiteJellyHuntGoal(this));
+		this.goalSelector.addGoal(1, new JellyHuntGoal(this, true));
 		this.goalSelector.addGoal(2, new SwimToPreyGoal(
 			this,
 			FeederEntity.class,

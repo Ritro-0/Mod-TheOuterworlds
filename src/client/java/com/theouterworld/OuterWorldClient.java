@@ -80,6 +80,10 @@ public class OuterWorldClient implements ClientModInitializer {
 			com.theouterworld.client.WeaverNetRenderer::new
 		);
 		net.minecraft.client.renderer.blockentity.BlockEntityRenderers.register(
+			com.theouterworld.registry.ModBlockEntities.PROCESSOR,
+			com.theouterworld.client.ProcessorRenderer::new
+		);
+		net.minecraft.client.renderer.blockentity.BlockEntityRenderers.register(
 			com.theouterworld.registry.ModBlockEntities.BEACON_CONCENTRATOR,
 			com.theouterworld.client.BeaconConcentratorRenderer::new
 		);

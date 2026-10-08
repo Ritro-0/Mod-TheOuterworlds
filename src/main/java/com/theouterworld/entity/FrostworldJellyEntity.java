@@ -17,8 +17,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 
 /**
- * Gelatinous mushroom that stays on its block. Feeders within 10 blocks swim to it
- * and are eaten, with an eating sound, once they touch it.
+ * Gelatinous mushroom that stays on its block. Any feeder that touches it is eaten,
+ * with an eating sound.
  */
 public class FrostworldJellyEntity extends PlantedOceanEntity {
 	public FrostworldJellyEntity(EntityType<? extends FrostworldJellyEntity> type, Level level) {

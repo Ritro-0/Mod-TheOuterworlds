@@ -1,7 +1,7 @@
 package com.theouterworld.entity;
 
 import com.theouterworld.entity.ai.FeedOnVentGoal;
-import com.theouterworld.entity.ai.SwimToPreyGoal;
+import com.theouterworld.entity.ai.JellyHuntGoal;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -15,12 +15,10 @@ import net.minecraft.world.level.Level;
 
 /**
  * Worm-like swimmer. The glowing segment is rendered fullbright, like a glow squid's body,
- * and the rest of the worm stays normally lit. An erupting vent is preferred food. Otherwise a
- * Frostworld Jelly within 10 blocks is eaten on contact.
+ * and the rest of the worm stays normally lit. An erupting vent is preferred food. Now and
+ * then, on the driftmite's schedule, it swims up to a Frostworld Jelly and is eaten on contact.
  */
 public class FeederEntity extends OceanFishEntity {
-	public static final double JELLY_RANGE = 10.0;
-
 	public FeederEntity(EntityType<? extends FeederEntity> type, Level level) {
 		super(type, level);
 	}
@@ -36,7 +34,7 @@ public class FeederEntity extends OceanFishEntity {
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new PanicGoal(this, 1.3));
 		this.goalSelector.addGoal(1, new FeedOnVentGoal(this));
-		this.goalSelector.addGoal(2, new SwimToPreyGoal(this, FrostworldJellyEntity.class, JELLY_RANGE, 1.35));
+		this.goalSelector.addGoal(2, new JellyHuntGoal(this, false));
 		this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 1.0, 40));
 	}
 

@@ -1,22 +1,32 @@
 package com.theouterworld.block;
 
+import com.theouterworld.advancement.ModAdvancements;
 import com.theouterworld.item.ModItems;
 import com.theouterworld.registry.ModBlockEntities;
 import com.theouterworld.registry.ModDimensions;
 import com.theouterworld.screen.ProcessorScreenHandler;
 import java.util.Random;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -24,8 +34,13 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import org.jetbrains.annotations.Nullable;
 
 public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, Container {
     public static final int PRIMARY_INPUT_SLOT = 0;
@@ -47,6 +62,10 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
     private int progress = 0;
     private int heat = 0;
     private int mode = MODE_PROCESS;
+    private boolean wasLoaded = false;
+
+    private static final BlockParticleOption RED_SAND_DUST =
+        new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.RED_SAND.defaultBlockState());
 
     private final Random random = new Random();
 
@@ -92,55 +111,54 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
         return new ProcessorScreenHandler(syncId, playerInventory, this, this.propertyDelegate, this.worldPosition);
     }
 
-    protected void writeNbt(CompoundTag nbt) {
-        nbt.putInt("Progress", progress);
-        nbt.putInt("Heat", heat);
-        nbt.putInt("Mode", mode);
-        // Legacy key for older saves
-        nbt.putBoolean("HeatMode", mode == MODE_HEAT);
-
-        ListTag items = new ListTag();
-        for (int i = 0; i < inventory.size(); i++) {
-            ItemStack stack = inventory.get(i);
-            if (!stack.isEmpty()) {
-                CompoundTag itemNbt = new CompoundTag();
-                itemNbt.putInt("Slot", i);
-                itemNbt.putString("id", BuiltInRegistries.ITEM.getKey(stack.getItem()).toString());
-                itemNbt.putInt("Count", stack.getCount());
-                items.add(itemNbt);
-            }
-        }
-        nbt.put("Items", items);
+    @Override
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        output.putInt("Progress", progress);
+        output.putInt("Heat", heat);
+        output.putInt("Mode", mode);
+        ContainerHelper.saveAllItems(output, inventory, true);
     }
 
-    protected void readNbt(CompoundTag nbt) {
-        nbt.getInt("Progress").ifPresent(val -> this.progress = val);
-        nbt.getInt("Heat").ifPresent(val -> this.heat = val);
-        if (nbt.contains("Mode")) {
-            nbt.getInt("Mode").ifPresent(val -> this.mode = val);
-        } else {
-            nbt.getBoolean("HeatMode").ifPresent(val -> this.mode = val ? MODE_HEAT : MODE_PROCESS);
-        }
+    @Override
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        this.progress = Math.max(0, input.getIntOr("Progress", 0));
+        this.heat = Math.max(0, input.getIntOr("Heat", 0));
+        this.mode = input.getIntOr("Mode", MODE_PROCESS);
+        this.inventory.clear();
+        ContainerHelper.loadAllItems(input, this.inventory);
+    }
 
-        for (int i = 0; i < inventory.size(); i++) {
-            inventory.set(i, ItemStack.EMPTY);
-        }
-        if (nbt.contains("Items")) {
-            ListTag items = nbt.getListOrEmpty("Items");
-            for (int i = 0; i < items.size(); i++) {
-                CompoundTag itemNbt = items.getCompoundOrEmpty(i);
-                int slot = itemNbt.getInt("Slot").orElse(-1);
-                if (slot >= 0 && slot < inventory.size()) {
-                    itemNbt.getString("id").ifPresent(idStr -> {
-                        var itemId = net.minecraft.resources.Identifier.tryParse(idStr);
-                        if (itemId != null) {
-                            var item = BuiltInRegistries.ITEM.getValue(itemId);
-                            int count = itemNbt.getInt("Count").orElse(1);
-                            inventory.set(slot, new ItemStack(item, count));
-                        }
-                    });
-                }
+    @Override
+    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return this.saveCustomOnly(registries);
+    }
+
+    /**
+     * What sits in the tip: the primary input while there is one, then the secondary,
+     * then the finished output once every recipe slot has been used up.
+     */
+    public ItemStack getDisplayedStack() {
+        for (int slot : new int[] {PRIMARY_INPUT_SLOT, SECONDARY_INPUT_SLOT, OUTPUT_SLOT}) {
+            ItemStack stack = inventory.get(slot);
+            if (!stack.isEmpty()) {
+                return stack;
             }
+        }
+        return ItemStack.EMPTY;
+    }
+
+    private void syncToClients() {
+        this.setChanged();
+        if (this.level != null && !this.level.isClientSide()) {
+            BlockState state = this.getBlockState();
+            this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_CLIENTS);
         }
     }
 
@@ -156,14 +174,67 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
             return;
         }
 
+        boolean loaded = entity.hasLoadedRecipe();
+        if (loaded && !entity.wasLoaded && world instanceof ServerLevel serverLevel) {
+            entity.creditViewers(serverLevel);
+        }
+        entity.wasLoaded = loaded;
+
+        Item displayedBefore = entity.getDisplayedStack().getItem();
+
         boolean dirty = switch (entity.mode) {
             case MODE_HEAT -> tickHeatMode(world, entity);
             case MODE_PRESSURIZE -> tickPressurizeMode(entity);
             default -> tickProcessingMode(entity);
         };
 
-        if (dirty) {
+        if (entity.getDisplayedStack().getItem() != displayedBefore) {
+            entity.syncToClients();
+        } else if (dirty) {
             entity.setChanged();
+        }
+
+        if (world instanceof ServerLevel serverLevel && entity.isWorking()) {
+            spawnWorkingParticles(serverLevel, pos, entity.mode);
+        }
+    }
+
+    /** A recipe is sitting in the slots for the current mode, whether or not it can run right now. */
+    private boolean hasLoadedRecipe() {
+        if (this.level == null) {
+            return false;
+        }
+        return switch (this.mode) {
+            case MODE_HEAT -> hasHeatRecipe(this.level, this);
+            case MODE_PRESSURIZE -> hasPressurizeRecipe(this);
+            default -> hasProcessingRecipe(this);
+        };
+    }
+
+    private void creditViewers(ServerLevel world) {
+        for (ServerPlayer player : world.players()) {
+            if (player.containerMenu instanceof ProcessorScreenHandler menu && menu.isFor(this)) {
+                ModAdvancements.onProcessorStarted(player);
+            }
+        }
+    }
+
+    private boolean isWorking() {
+        return this.progress > 0 || this.heat > 0;
+    }
+
+    private static void spawnWorkingParticles(ServerLevel world, BlockPos pos, int mode) {
+        RandomSource random = world.getRandom();
+        if (random.nextInt(6) != 0) {
+            return;
+        }
+        double x = pos.getX() + 0.5 + (random.nextDouble() - 0.5) * 0.5;
+        double y = pos.getY() + 0.8 + random.nextDouble() * 0.15;
+        double z = pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * 0.5;
+        switch (mode) {
+            case MODE_HEAT -> world.sendParticles(ParticleTypes.SMALL_FLAME, x, y, z, 1, 0.0, 0.0, 0.0, 0.005);
+            case MODE_PRESSURIZE -> world.sendParticles(ParticleTypes.DRIPPING_OBSIDIAN_TEAR, x, y, z, 1, 0.0, 0.0, 0.0, 0.0);
+            default -> world.sendParticles(RED_SAND_DUST, x, y, z, 1, 0.0, 0.0, 0.0, 0.0);
         }
     }
 
@@ -397,17 +468,6 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
         }
     }
 
-    public boolean hasActiveRecipe() {
-        if (this.level == null) {
-            return false;
-        }
-        return switch (this.mode) {
-            case MODE_HEAT -> hasHeatRecipe(this.level, this) && canCollectSun(this.level, this.getBlockPos());
-            case MODE_PRESSURIZE -> hasPressurizeRecipe(this);
-            default -> hasProcessingRecipe(this);
-        };
-    }
-
     /** Cycles Process → Heat → (Pressurize if Nearworld) → Process. */
     public void toggleMode() {
         boolean nearworld = this.level != null && ModDimensions.isNearworld(this.level.dimension());
@@ -468,7 +528,7 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
         } else {
             result = stack.split(amount);
         }
-        setChanged();
+        syncToClients();
         return result;
     }
 
@@ -476,7 +536,7 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
     public ItemStack removeItemNoUpdate(int slot) {
         ItemStack stack = inventory.get(slot);
         inventory.set(slot, ItemStack.EMPTY);
-        setChanged();
+        syncToClients();
         return stack;
     }
 
@@ -486,7 +546,7 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
         if (stack.getCount() > getMaxStackSize()) {
             stack.setCount(getMaxStackSize());
         }
-        setChanged();
+        syncToClients();
     }
 
     @Override
@@ -497,6 +557,6 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
     @Override
     public void clearContent() {
         inventory.clear();
-        setChanged();
+        syncToClients();
     }
 }

@@ -45,10 +45,10 @@ public class ProcessorScreenHandler extends AbstractContainerMenu {
 
         // Add processor slots (positioned like brewing stand)
         // Primary input slot (ingredient slot - top center area)
-        this.addSlot(new InputSlot(inventory, ProcessorBlockEntity.PRIMARY_INPUT_SLOT, 79, 17, playerInventory.player));
+        this.addSlot(new Slot(inventory, ProcessorBlockEntity.PRIMARY_INPUT_SLOT, 79, 17));
         
         // Secondary input slot (fuel/catalyst slot - left side)
-        this.addSlot(new InputSlot(inventory, ProcessorBlockEntity.SECONDARY_INPUT_SLOT, 17, 17, playerInventory.player));
+        this.addSlot(new Slot(inventory, ProcessorBlockEntity.SECONDARY_INPUT_SLOT, 17, 15));
         
         // Output slot (bottom center)
         this.addSlot(new OutputSlot(inventory, ProcessorBlockEntity.OUTPUT_SLOT, 79, 58));
@@ -116,6 +116,10 @@ public class ProcessorScreenHandler extends AbstractContainerMenu {
         return pos;
     }
 
+    public boolean isFor(Container container) {
+        return this.inventory == container;
+    }
+
     @Override
     public boolean stillValid(Player player) {
         return this.inventory.stillValid(player);
@@ -159,29 +163,6 @@ public class ProcessorScreenHandler extends AbstractContainerMenu {
         }
 
         return newStack;
-    }
-
-    private final class InputSlot extends Slot {
-        private final Player player;
-
-        private InputSlot(Container inventory, int index, int x, int y, Player player) {
-            super(inventory, index, x, y);
-            this.player = player;
-        }
-
-        @Override
-        public void set(ItemStack stack) {
-            boolean wasRunning = recipeRunning();
-            super.set(stack);
-            if (!wasRunning && recipeRunning() && !stack.isEmpty() && this.player instanceof ServerPlayer serverPlayer) {
-                ModAdvancements.onProcessorStarted(serverPlayer);
-            }
-        }
-
-        private boolean recipeRunning() {
-            return ProcessorScreenHandler.this.inventory instanceof ProcessorBlockEntity processor
-                && processor.hasActiveRecipe();
-        }
     }
 
     // Output slot that doesn't accept items

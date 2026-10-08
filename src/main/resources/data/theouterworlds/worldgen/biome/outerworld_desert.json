@@ -50,13 +50,23 @@
       "theouterworlds:anorthosite_opal_ore",
       "theouterworlds:anorthosite_nickel_ore",
       "theouterworlds:anorthosite_nickel_ore_buried",
-      "theouterworlds:raw_jarosite"
+      "theouterworlds:raw_jarosite",
+      "theouterworlds:raw_hematite_cave_exposed",
+      "theouterworlds:anorthosite_oxidized_iron_ore_cave_exposed",
+      "theouterworlds:anorthosite_copper_ore_cave_exposed",
+      "theouterworlds:anorthosite_gold_ore_cave_exposed",
+      "theouterworlds:anorthosite_redstone_ore_cave_exposed",
+      "theouterworlds:anorthosite_nickel_ore_cave_exposed",
+      "theouterworlds:raw_perchlorate_cave_exposed",
+      "theouterworlds:oxidized_basalt_opal_ore_cave_exposed",
+      "theouterworlds:anorthosite_opal_ore_cave_exposed"
     ],
     [
       "theouterworlds:lava_tube"
     ],
     [],
     [
+      "theouterworlds:raw_jarosite_surface",
       "theouterworlds:oxidized_basalt_pebble"
     ],
     []

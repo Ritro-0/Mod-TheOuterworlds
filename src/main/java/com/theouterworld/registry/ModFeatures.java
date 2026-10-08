@@ -41,6 +41,7 @@ import com.theouterworld.worldgen.NearworldVolcanoFeature;
 import com.theouterworld.worldgen.OuterworldOlivineGeodeFeature;
 import com.theouterworld.worldgen.OxidizedBasaltPebbleFeature;
 import com.theouterworld.worldgen.PotatoworldsBodyFeature;
+import com.theouterworld.worldgen.RawJarositeSurfaceFeature;
 import com.theouterworld.worldgen.ScarletlandsCraterFeature;
 import com.theouterworld.worldgen.ScarletlandsTholinBlobFeature;
 import com.theouterworld.worldgen.SpongeworldBodyFeature;
@@ -61,6 +62,7 @@ public class ModFeatures {
 	public static final MapCodec<CalderaFeature> CALDERA = register("caldera", CalderaFeature.CODEC);
 	public static final MapCodec<LavaTubeFeature> LAVA_TUBE = register("lava_tube", LavaTubeFeature.CODEC);
 	public static final MapCodec<OxidizedBasaltPebbleFeature> OXIDIZED_BASALT_PEBBLE = register("oxidized_basalt_pebble", OxidizedBasaltPebbleFeature.CODEC);
+	public static final MapCodec<RawJarositeSurfaceFeature> RAW_JAROSITE_SURFACE = register("raw_jarosite_surface", RawJarositeSurfaceFeature.CODEC);
 	public static final MapCodec<KharaxPillarFeature> KHARAX_PILLAR = register("kharax_pillar", KharaxPillarFeature.CODEC);
 	public static final MapCodec<NearworldVolcanoFeature> NEARWORLD_VOLCANO = register("nearworld_volcano", NearworldVolcanoFeature.CODEC);
 	public static final MapCodec<NearworldLavaLakeFeature> NEARWORLD_LAVA_LAKE = register("nearworld_lava_lake", NearworldLavaLakeFeature.CODEC);

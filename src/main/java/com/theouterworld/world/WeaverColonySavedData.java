@@ -87,13 +87,26 @@ public class WeaverColonySavedData extends SavedData {
 	}
 
 	public void addContribution(ServerLevel level, long id, int amount) {
+		addContribution(level, id, amount, null, BlockPos.ZERO, "");
+	}
+
+	public void addContribution(
+		ServerLevel level,
+		long id,
+		int amount,
+		@Nullable UUID player,
+		BlockPos hint,
+		String reason
+	) {
 		if (amount <= 0 || id == 0L) {
 			return;
 		}
 		Colony colony = colony(id);
+		int before = colony.contribution;
 		colony.contribution += amount;
 		long now = level.getGameTime();
 		boolean babyHere = now - colony.babySeenAt < 200L;
+		boolean gifted = false;
 		if (!colony.hostile
 			&& colony.pendingGift.isEmpty()
 			&& (babyHere || now >= colony.giftReadyAt)
@@ -102,6 +115,7 @@ public class WeaverColonySavedData extends SavedData {
 			ItemStack gift = WeaverColonyGifts.roll(level);
 			if (!gift.isEmpty()) {
 				colony.pendingGift = gift;
+				gifted = true;
 				int threshold = colony.nextThreshold;
 				while (threshold <= colony.contribution) {
 					threshold += Math.max(FIRST_THRESHOLD, threshold / 2);
@@ -111,6 +125,52 @@ public class WeaverColonySavedData extends SavedData {
 			}
 		}
 		setDirty();
+		if (!reason.isEmpty()) {
+			String line = contributionLine(colony, before, now, babyHere, gifted, reason);
+			if (player != null && isUntrusted(id, player)) {
+				line += " They will not hand a gift to you.";
+			}
+			WeaverReputationDebug.report(level, player, id, hint, line);
+		}
+	}
+
+	public String describePlayer(long id, UUID player) {
+		Colony colony = colonies.get(id);
+		if (colony == null) {
+			return "no record yet. First gift at " + FIRST_THRESHOLD + ".";
+		}
+		Grudge grudge = player == null ? null : colony.grudges.get(player);
+		int broken = grudge == null ? 0 : grudge.broken;
+		int suspicion = grudge == null ? 0 : grudge.suspicion;
+		boolean you = grudge != null && grudge.hostile;
+		String gift = colony.pendingGift.isEmpty() ? "no gift waiting" : "a gift is waiting to be handed over";
+		return "score " + colony.contribution + ", next gift at " + colony.nextThreshold
+			+ ", " + gift
+			+ ", colony hostile " + colony.hostile
+			+ ", you hostile " + you
+			+ ", anchor blocks broken " + broken + "/" + STRUCTURE_RUIN
+			+ ", suspicion " + suspicion + "/8";
+	}
+
+	private static String contributionLine(Colony colony, int before, long now, boolean babyHere, boolean gifted, String reason) {
+		String line = "score " + before + " -> " + colony.contribution + ". " + reason + ".";
+		if (gifted) {
+			return line + " Gift offered. Next gift at " + colony.nextThreshold + ", after the wait.";
+		}
+		if (colony.hostile) {
+			return line + " No gift: this colony is hostile.";
+		}
+		if (!colony.pendingGift.isEmpty()) {
+			return line + " No new gift: one is already waiting. Next gift at " + colony.nextThreshold + ".";
+		}
+		if (!babyHere && now < colony.giftReadyAt) {
+			long seconds = Math.max(1L, (colony.giftReadyAt - now + 19L) / 20L);
+			return line + " No gift yet: " + seconds + "s left on the wait. Next gift at " + colony.nextThreshold + ".";
+		}
+		if (now < colony.lastHarm + HARM_PAUSE) {
+			return line + " No gift yet: they were just harmed. Next gift at " + colony.nextThreshold + ".";
+		}
+		return line + " Next gift at " + colony.nextThreshold + ".";
 	}
 
 	public void noteBaby(long id, long gameTime) {
@@ -185,34 +245,47 @@ public class WeaverColonySavedData extends SavedData {
 		return grudge != null && grudge.suspicion > 0;
 	}
 
-	public void noteSuspicion(long id, UUID player) {
+	public int noteSuspicion(long id, UUID player) {
 		if (id == 0L || player == null) {
-			return;
+			return -1;
 		}
 		Grudge grudge = grudge(id, player);
 		if (grudge.hostile || grudge.suspicion >= 8) {
-			return;
+			return -1;
 		}
 		grudge.suspicion++;
 		setDirty();
+		return grudge.suspicion;
 	}
 
 	/** @return the player's lifetime break count after this block, or 0 when it was not recorded */
-	public int noteStructureBreak(long id, UUID player) {
+	public int noteStructureBreak(ServerLevel level, long id, UUID player, BlockPos pos, String blockName) {
 		if (id == 0L || player == null) {
 			return 0;
 		}
 		Grudge grudge = grudge(id, player);
+		int before = grudge.broken;
 		grudge.broken++;
+		boolean fresh = !grudge.hostile && grudge.broken >= STRUCTURE_RUIN;
 		if (grudge.broken >= STRUCTURE_RUIN) {
 			grudge.hostile = true;
 		}
 		setDirty();
+		String line = "broke " + blockName + ". Your anchor breaks " + before + " -> " + grudge.broken + "/" + STRUCTURE_RUIN;
+		if (fresh) {
+			line += ". That crosses the line. You are now hostile";
+		}
+		WeaverReputationDebug.report(level, player, id, pos, line);
 		return grudge.broken;
 	}
 
 	/** @return true the first time this player is marked hostile to the colony */
 	public boolean markPlayerHostile(long id, UUID player) {
+		return markPlayerHostile(null, id, player, BlockPos.ZERO, null);
+	}
+
+	/** @return true the first time this player is marked hostile to the colony */
+	public boolean markPlayerHostile(ServerLevel level, long id, UUID player, BlockPos hint, @Nullable String reason) {
 		if (id == 0L || player == null) {
 			return false;
 		}
@@ -222,19 +295,27 @@ public class WeaverColonySavedData extends SavedData {
 		}
 		grudge.hostile = true;
 		setDirty();
+		if (level != null && reason != null) {
+			WeaverReputationDebug.report(level, player, id, hint, reason);
+		}
 		return true;
 	}
 
 	/** @return true the first time this blast makes the player hostile to the colony */
-	public boolean noteExplosion(long id, UUID player, int blocks) {
+	public boolean noteExplosion(ServerLevel level, long id, UUID player, int blocks, BlockPos hint) {
 		if (id == 0L || player == null || blocks <= 0) {
 			return false;
 		}
 		Grudge grudge = grudge(id, player);
+		int before = grudge.broken;
 		boolean fresh = !grudge.hostile;
 		grudge.broken += blocks;
 		grudge.hostile = true;
 		setDirty();
+		String line = "explosion destroyed " + blocks + " anchor blocks. Your breaks "
+			+ before + " -> " + grudge.broken + "/" + STRUCTURE_RUIN
+			+ (fresh ? ". You are now hostile" : ". You were already hostile");
+		WeaverReputationDebug.report(level, player, id, hint, line);
 		return fresh;
 	}
 
@@ -254,15 +335,22 @@ public class WeaverColonySavedData extends SavedData {
 	}
 
 	/** A kill still turns the colony against this player. Any lesser hit only makes them suspicious. */
-	public void notePlayerDamage(long id, UUID player, long gameTime, boolean killed) {
+	public void notePlayerDamage(ServerLevel level, long id, UUID player, long gameTime, boolean killed, BlockPos hint) {
 		if (id == 0L || player == null) {
 			return;
 		}
 		noteHarm(id, gameTime, killed);
 		if (killed) {
-			markPlayerHostile(id, player);
+			boolean fresh = markPlayerHostile(id, player);
+			WeaverReputationDebug.report(level, player, id, hint, fresh
+				? "killed a Weaver. You are now hostile, and so is the whole colony. Its gift was cleared"
+				: "killed a Weaver. You were already hostile. The whole colony is hostile, and its gift was cleared");
 		} else {
-			noteSuspicion(id, player);
+			int suspicion = noteSuspicion(id, player);
+			String line = suspicion < 0
+				? "hit a Weaver. Suspicion unchanged. Gifts pause for 10 seconds"
+				: "hit a Weaver. Suspicion " + suspicion + "/8. Gifts pause for 10 seconds";
+			WeaverReputationDebug.report(level, player, id, hint, line);
 		}
 	}
 

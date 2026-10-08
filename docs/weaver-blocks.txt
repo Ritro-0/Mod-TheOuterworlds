@@ -1,0 +1,163 @@
+Weaver blocks
+=============
+
+A colony's gift score is one running total. It starts at 0 and never resets.
+The first gift is offered at 32. After a gift, the next bar is the old bar
+plus half of that bar, and never less than +32. With whole numbers that is:
+
+  gift 1 at 32
+  gift 2 at 64
+  gift 3 at 96
+  gift 4 at 144
+  gift 5 at 216
+  gift 6 at 324
+  gift 7 at 486
+  gift 8 at 729
+  gift 9 at 1093
+
+It is not double the previous score. Dumping a pile that jumps over several
+bars still offers only one gift; the extra points count toward the bar after
+that. There is a 15 minute wait between gifts (skipped if a baby was seen in
+the last 10 seconds), and any harm pauses gifts for 10 seconds. A hostile
+colony offers nothing. A player the colony does not trust is not handed a
+gift even if the score is high enough.
+
+Each stored block counts as one item. Points below are per block.
+
+
+1. Blocks they value
+--------------------
+
+Only blocks in data/theouterworlds/tags/block/weaver_curiosities.json add
+score, and only once a Weaver has put them in a colony net. Every copy is
+kept and scored. The colony remembers the verdict, so later copies only get
+a glance.
+
+Precious, 8 points (item tag weaver_curiosity_precious):
+  minecraft:beacon
+  minecraft:budding_amethyst
+  minecraft:diamond_block
+  minecraft:emerald_block
+  minecraft:netherite_block
+
+Fine, 3 points (item tag weaver_curiosity_fine):
+  every block in #minecraft:diamond_ores
+  every block in #minecraft:emerald_ores
+  minecraft:amethyst_block
+  minecraft:amethyst_cluster
+  minecraft:gold_block
+  minecraft:lapis_block
+
+Everything else in the curiosity tag, 1 point:
+  every block in #minecraft:coal_ores
+  every block in #minecraft:copper_ores
+  every block in #minecraft:gold_ores
+  every block in #minecraft:iron_ores
+  every block in #minecraft:lapis_ores
+  every block in #minecraft:redstone_ores
+  every block in #minecraft:candles
+  every block in #minecraft:flowers
+  minecraft:copper_block
+  minecraft:glowstone
+  minecraft:iron_block
+  minecraft:redstone_block
+  minecraft:sea_lantern
+  minecraft:shroomlight
+  minecraft:soul_lantern
+  minecraft:torch
+
+A block that is on both the fine list and the precious list scores 8.
+Outerworld ores are not in this tag, so they are not worth points.
+
+
+2. Blocks they find interesting and keep once
+----------------------------------------------
+
+These are specimens. The colony keeps one of each block, in a net, and
+leaves further copies of that same block where they are. They add no score.
+If that one copy is no longer in a loaded net, they may pick up another.
+
+A specimen is a block whose id path is exactly one of these:
+  dirt
+  coarse_dirt
+  rooted_dirt
+  podzol
+  mycelium
+  mud
+  clay
+  gravel
+  sand
+  red_sand
+  sandstone
+  red_sandstone
+  stone
+  cobblestone
+  deepslate
+  cobbled_deepslate
+  tuff
+  calcite
+  dripstone_block
+  andesite
+  diorite
+  granite
+  netherrack
+  blackstone
+  basalt
+  smooth_basalt
+  end_stone
+  soul_sand
+  soul_soil
+  anorthosite
+  norite
+  gabbro
+  enstatite
+  komatiite
+  pyroxenite
+  anhydrite
+  oxidized_basalt
+  sulfuric_basalt
+
+or any block whose id path ends in "_ore".
+
+Not specimens, even if the name looks close:
+  anything in the curiosity tag above (those are valued instead)
+  Anchor parts (tholin fibre, home plate, weaver pad, weaver net,
+    straw bed, iron chain, lantern, tholin thread, tholin opal reflector)
+  Amberworld ground they already live with (tholin, tholinic regolith,
+    liquid methane, packed ice, bedrock, air, any liquid)
+  a path containing tholin, stairs, slab, wall, brick, polished,
+    chiseled, farmland, or suspicious
+
+So vanilla diamond ore is worth 3, not a specimen. A block whose id ends in
+_ore, such as anorthosite_copper_ore or oxidized_basalt_opal_ore, is a
+specimen: kept once, 0 points. raw_hematite, raw_jarosite, and
+raw_perchlorate do not end in _ore and are not on the name list, so they
+are thrown and score nothing.
+Plain stone is kept once. Stone bricks, stairs, and slabs are not.
+
+
+3. Blocks they use to furnish their pods
+-----------------------------------------
+
+There is no fixed list. Any block that opens a screen counts: chests,
+barrels, furnaces, crafting tables, and anything else with a menu.
+
+One Weaver keeps one of each block type. They place it on a solid floor
+in their own pod, within 5 blocks of the bed, not on the bed, the home
+plate, a pad, or a net. A second copy of a type that Weaver already
+placed is thrown off the Anchor. Another Weaver in the same colony can
+still keep one of that type for their own pod.
+
+Screen blocks are not stored in nets and add no score. If that Weaver
+has no free spot in the pod, the block is thrown instead.
+
+
+What they ignore or throw
+--------------------------
+
+Anchor parts and Amberworld ground are left alone. Anything that is not
+a valued block, a specimen, or a screen block is thrown off the Anchor
+after the first look. Later copies of a thrown block only get a glance.
+
+Blocks placed by a player the colony does not trust are always thrown.
+They are not scored, kept, or furnished.

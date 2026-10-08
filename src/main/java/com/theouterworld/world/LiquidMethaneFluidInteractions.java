@@ -1,5 +1,6 @@
 package com.theouterworld.world;
 
+import com.theouterworld.registry.ModDimensions;
 import com.theouterworld.registry.ModTags;
 import com.theouterworld.util.IridiumProtection;
 import net.fabricmc.fabric.api.registry.fluid.EntityFluidInteractionRegistry;
@@ -15,11 +16,14 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Liquid methane: same swim / burn profile as liquid hydrogen.
+ * Liquid methane: same swim / burn profile as liquid hydrogen, except in Amberworld,
+ * where climbing is only slightly harder than in water.
  */
 public final class LiquidMethaneFluidInteractions {
 	private static final double ASCEND_VELOCITY_SCALE = 0.22;
 	private static final double ASCEND_VELOCITY_CAP = 0.035;
+	/** Applied every tick, so it compounds: settles near 85-90% of water's climb speed. */
+	private static final double AMBERWORLD_ASCEND_VELOCITY_SCALE = 0.95;
 
 	private LiquidMethaneFluidInteractions() {
 	}
@@ -60,7 +64,9 @@ public final class LiquidMethaneFluidInteractions {
 				baseBehavior.travelInFluid(fluid, entity, input, baseGravity, isFalling, oldY);
 				Vec3 motion = entity.getDeltaMovement();
 				if (motion.y > 0.0) {
-					double climb = Math.min(motion.y * ASCEND_VELOCITY_SCALE, ASCEND_VELOCITY_CAP);
+					double climb = ModDimensions.isAmberworld(entity.level().dimension())
+						? motion.y * AMBERWORLD_ASCEND_VELOCITY_SCALE
+						: Math.min(motion.y * ASCEND_VELOCITY_SCALE, ASCEND_VELOCITY_CAP);
 					entity.setDeltaMovement(motion.x, climb, motion.z);
 				}
 			}
@@ -103,7 +109,7 @@ public final class LiquidMethaneFluidInteractions {
 			return;
 		}
 		// Amberworld (Titan) methane is cold and non-flammable for players.
-		if (com.theouterworld.registry.ModDimensions.isAmberworld(entity.level().dimension())) {
+		if (ModDimensions.isAmberworld(entity.level().dimension())) {
 			return;
 		}
 		if (entity instanceof Player player && (player.isCreative() || player.isSpectator())) {
