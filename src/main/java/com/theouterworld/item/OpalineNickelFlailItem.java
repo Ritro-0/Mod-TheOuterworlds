@@ -29,6 +29,8 @@ public class OpalineNickelFlailItem extends Item {
 	public static final Identifier DEFAULT_MODEL = OuterWorldMod.id("opaline_nickel_flail");
 	public static final Identifier CASTED_MODEL = OuterWorldMod.id("opaline_nickel_flail_casted");
 	public static final int DURABILITY = 125;
+	/** Two seconds, shared by every flail in a player's inventory. */
+	public static final int THROW_COOLDOWN_TICKS = 40;
 	public static final float MELEE_DAMAGE = 8.0F;
 	public static final float MELEE_ATTACK_SPEED = -2.8F;
 
@@ -70,7 +72,7 @@ public class OpalineNickelFlailItem extends Item {
 	@Override
 	public InteractionResult use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
-		if (isCast(stack)) {
+		if (isCast(stack) || player.getCooldowns().isOnCooldown(stack)) {
 			return InteractionResult.FAIL;
 		}
 
@@ -79,6 +81,8 @@ public class OpalineNickelFlailItem extends Item {
 			flail.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, OpalineNickelFlailEntity.THROW_SPEED, 0.0F);
 			serverLevel.addFreshEntity(flail);
 			setCast(stack, true);
+			// Cooldowns are tracked per player and per item, so this covers every flail they own.
+			player.getCooldowns().addCooldown(stack, THROW_COOLDOWN_TICKS);
 			stack.hurtAndBreak(1, player, hand);
 			serverLevel.playSound(
 				null,

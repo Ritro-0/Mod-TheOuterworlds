@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:item/generated",
 	"textures": {
-		"layer0": "theouterworlds:item/orbit_smithing_template"
+		"layer0": "theouterworlds:item/orbit_armor_trim_smithing_template"
 	}
 }

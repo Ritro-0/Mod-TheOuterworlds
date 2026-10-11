@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/cube_column",
+	"textures": {
+		"end": "theouterworlds:block/oxidized_basalt",
+		"side": "theouterworlds:block/oxidized_basalt_pillar_side"
+	}
+}

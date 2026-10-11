@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "theouterworlds:oxidized_basalt",
+  "result": {
+    "id": "theouterworlds:oxidized_basalt_wall",
+    "count": 1
+  }
+}

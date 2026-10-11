@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 /**
- * Wolf armor has no trim patterns. Doggy Glass uses the humanoid helmet patterns,
- * and only the head of that mesh is drawn.
+ * Wolf armor has no trim patterns. Like trimmed glass blocks, Doggy Glass ignores the trim pattern
+ * and always shows the same grayscale glass overlay, recolored by the trim material.
  */
 @Mixin(targets = "net.minecraft.client.renderer.entity.layers.EquipmentLayerRenderer$TrimTextureKey")
 public abstract class DoggyGlassTrimTextureMixin {
@@ -24,9 +24,9 @@ public abstract class DoggyGlassTrimTextureMixin {
 			target = "Lnet/minecraft/resources/Identifier;withPath(Ljava/util/function/UnaryOperator;)Lnet/minecraft/resources/Identifier;"
 		)
 	)
-	private Identifier theouterworlds$humanoidTrimOnWolfHelmet(Identifier textureId, UnaryOperator<String> pathMapper) {
+	private Identifier theouterworlds$glassOverlayOnWolfHelmet(Identifier textureId, UnaryOperator<String> pathMapper) {
 		if (theouterworlds$isDoggyGlass()) {
-			return textureId.withPath(path -> "trims/entity/humanoid/" + path);
+			return Identifier.fromNamespaceAndPath("theouterworlds", "trims/entity/humanoid/glass/glass_grayscale_wolf");
 		}
 		return textureId.withPath(pathMapper);
 	}

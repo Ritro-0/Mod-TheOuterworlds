@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "theouterworlds:anorthosite",
+  "result": {
+    "id": "theouterworlds:anorthosite_bricks_slab",
+    "count": 2
+  }
+}

@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"type=bottom": {
+			"model": "theouterworlds:block/oxidized_basalt_slab"
+		},
+		"type=top": {
+			"model": "theouterworlds:block/oxidized_basalt_slab_top"
+		},
+		"type=double": {
+			"model": "theouterworlds:block/oxidized_basalt"
+		}
+	}
+}

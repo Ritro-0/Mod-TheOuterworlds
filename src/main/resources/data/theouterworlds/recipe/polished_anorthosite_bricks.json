@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": "theouterworlds:polished_anorthosite"
+  },
+  "result": {
+    "id": "theouterworlds:polished_anorthosite_bricks",
+    "count": 4
+  }
+}

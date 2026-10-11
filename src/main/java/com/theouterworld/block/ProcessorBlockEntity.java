@@ -7,6 +7,7 @@ import com.theouterworld.registry.ModDimensions;
 import com.theouterworld.screen.ProcessorScreenHandler;
 import java.util.Random;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -22,6 +23,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -42,7 +44,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
-public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, Container {
+public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, WorldlyContainer {
     public static final int PRIMARY_INPUT_SLOT = 0;
     public static final int SECONDARY_INPUT_SLOT = 1;
     public static final int OUTPUT_SLOT = 2;
@@ -549,6 +551,35 @@ public class ProcessorBlockEntity extends BlockEntity implements MenuProvider, C
         syncToClients();
     }
 
+    private static final int[] TOP_SLOTS = {PRIMARY_INPUT_SLOT};
+    private static final int[] SIDE_SLOTS = {SECONDARY_INPUT_SLOT};
+    private static final int[] BOTTOM_SLOTS = {OUTPUT_SLOT};
+
+    /**
+     * Hopper routing: from above feeds the primary slot, from the sides feeds the secondary
+     * slot, and from below only ever takes the output.
+     */
+    @Override
+    public int[] getSlotsForFace(Direction direction) {
+        return switch (direction) {
+            case UP -> TOP_SLOTS;
+            case DOWN -> BOTTOM_SLOTS;
+            default -> SIDE_SLOTS;
+        };
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction direction) {
+        if (direction == null || slot == OUTPUT_SLOT) {
+            return false;
+        }
+        return slot == getSlotsForFace(direction)[0] && this.canPlaceItem(slot, stack);
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction direction) {
+        return direction == Direction.DOWN && slot == OUTPUT_SLOT;
+    }
     @Override
     public boolean stillValid(Player player) {
         return Container.stillValidBlockEntity(this, player);

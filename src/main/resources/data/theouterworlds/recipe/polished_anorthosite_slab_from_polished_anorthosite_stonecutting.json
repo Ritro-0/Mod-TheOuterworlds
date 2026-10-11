@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "theouterworlds:polished_anorthosite",
+  "result": {
+    "id": "theouterworlds:polished_anorthosite_slab",
+    "count": 2
+  }
+}

@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/slab",
+	"textures": {
+		"bottom": "theouterworlds:block/oxidized_basalt",
+		"top": "theouterworlds:block/oxidized_basalt",
+		"side": "theouterworlds:block/oxidized_basalt"
+	}
+}

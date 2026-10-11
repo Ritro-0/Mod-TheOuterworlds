@@ -1,7 +1,12 @@
 package com.theouterworld.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.theouterworld.block.TrimmedGlassBlock;
 import com.theouterworld.item.DoggyGlassItem;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import net.minecraft.client.model.animal.wolf.AdultWolfModel;
 import net.minecraft.client.model.animal.wolf.WolfModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -18,16 +23,20 @@ import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.ARGB;
 import net.minecraft.world.item.ItemStack;
-import org.joml.Vector3fc;
 
 /** Glass helmet on the wolf's head. Wolf armor stays on the body and is not drawn here. */
 public class DoggyGlassWolfLayer extends RenderLayer<WolfRenderState, WolfModel> {
-	private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(
-		"theouterworlds",
-		"textures/entity/equipment/wolf_body/doggy_helmet.png"
-	);
+	/** Plain glass keeps the base texture; every other kind has its own doggy_helmet_<kind> texture. */
+	private static final Map<TrimmedGlassBlock.Kind, Identifier> TEXTURES = new EnumMap<>(TrimmedGlassBlock.Kind.class);
+
+	static {
+		for (TrimmedGlassBlock.Kind kind : TrimmedGlassBlock.Kind.values()) {
+			String name = kind == TrimmedGlassBlock.Kind.GLASS ? "doggy_helmet" : "doggy_helmet_" + kind.getSerializedName();
+			TEXTURES.put(kind, Identifier.fromNamespaceAndPath("theouterworlds", "textures/entity/equipment/wolf_body/" + name + ".png"));
+		}
+	}
+
 	private static final String[] BODY_PARTS = {
 		"body",
 		"upper_body",
@@ -37,6 +46,9 @@ public class DoggyGlassWolfLayer extends RenderLayer<WolfRenderState, WolfModel>
 		"left_front_leg",
 		"tail"
 	};
+	private static final String[] ROOT_PARTS = {"head", "body", "upper_body", "right_hind_leg", "left_hind_leg", "right_front_leg", "left_front_leg", "tail"};
+	/** The glass is the wolf head inflated by the same 0.4 the model is baked with. */
+	private static final float GROW = 0.4F;
 
 	private final AdultWolfModel model;
 	private final AdultWolfModel trimModel;
@@ -45,69 +57,43 @@ public class DoggyGlassWolfLayer extends RenderLayer<WolfRenderState, WolfModel>
 	public DoggyGlassWolfLayer(RenderLayerParent<WolfRenderState, WolfModel> renderer, EquipmentLayerRenderer equipmentRenderer) {
 		super(renderer);
 		this.equipmentRenderer = equipmentRenderer;
-		// Past the wolf armor shell (0.2) so this helmet does not share that mesh.
-		this.model = bakeHelmet();
-		this.trimModel = bakeHelmet();
-		// Trim sheets are laid out for a humanoid helmet. Sample each of those face tiles flat on the dog's glass.
-		layTrimFlat(this.trimModel.root().getChild("head"));
+		this.model = new AdultWolfModel(bakeHelmetRoot());
+		this.trimModel = bakeTrimModel();
 	}
 
-	private static AdultWolfModel bakeHelmet() {
-		AdultWolfModel model = new AdultWolfModel(
-			LayerDefinition.create(AdultWolfModel.createBodyLayer(new CubeDeformation(0.4F)), 64, 32).bakeRoot()
-		);
+	private static ModelPart bakeHelmetRoot() {
+		ModelPart root = LayerDefinition.create(AdultWolfModel.createBodyLayer(new CubeDeformation(GROW)), 64, 32).bakeRoot();
 		for (String part : BODY_PARTS) {
-			model.root().getChild(part).visible = false;
+			root.getChild(part).visible = false;
 		}
-		return model;
+		return root;
 	}
 
 	/**
-	 * Humanoid helmet trim faces on a 64x32 sheet, in the same order {@code ModelPart.Cube} writes them.
-	 * Each doggy-glass face shows that whole tile instead of a slice of the wolf unwrap.
+	 * The trim only exists on the front and back of the glass, each one a single 6x6 sheet that maps the whole
+	 * trim texture. It is built as real cubes with the right texture offsets (instead of editing the baked
+	 * polygons) so renderers that cache cube geometry, like Sodium, draw exactly the same thing.
 	 */
-	private static void layTrimFlat(ModelPart head) {
-		head.visit(new PoseStack(), (pose, path, index, cube) -> {
-			ModelPart.Polygon[] polygons = cube.polygons;
-			for (int i = 0; i < polygons.length; i++) {
-				ModelPart.Polygon polygon = polygons[i];
-				float[] uv = helmetFaceUv(facing(polygon.normal()));
-				ModelPart.Vertex[] source = polygon.vertices();
-				ModelPart.Vertex[] copy = new ModelPart.Vertex[source.length];
-				for (int vertex = 0; vertex < source.length; vertex++) {
-					ModelPart.Vertex from = source[vertex];
-					copy[vertex] = new ModelPart.Vertex(from.x(), from.y(), from.z(), 0.0F, 0.0F);
-				}
-				polygons[i] = new ModelPart.Polygon(copy, uv[0], uv[1], uv[2], uv[3], 64.0F, 32.0F, false, facing(polygon.normal()));
-			}
-		});
-	}
+	private static AdultWolfModel bakeTrimModel() {
+		ModelPart base = bakeHelmetRoot();
+		ModelPart baseHead = base.getChild("head");
 
-	private static float[] helmetFaceUv(Direction direction) {
-		return switch (direction) {
-			case DOWN -> new float[] {8.0F, 0.0F, 16.0F, 8.0F};
-			case UP -> new float[] {16.0F, 8.0F, 24.0F, 0.0F};
-			case NORTH -> new float[] {8.0F, 8.0F, 16.0F, 16.0F};
-			case SOUTH -> new float[] {24.0F, 8.0F, 32.0F, 16.0F};
-			case WEST -> new float[] {0.0F, 8.0F, 8.0F, 16.0F};
-			case EAST -> new float[] {16.0F, 8.0F, 24.0F, 16.0F};
-		};
-	}
+		// A cube's NORTH face reads u = xOff + 4 .. xOff + 10 and v = yOff + 4 .. yOff + 10 on a 6x6 sheet,
+		// so -4/-4 puts it on 0..6. The SOUTH face sits 10 further along, hence -14.
+		ModelPart.Cube front = new ModelPart.Cube(-4, -4, -2.0F, -3.0F, -2.0F, 6.0F, 6.0F, 4.0F, GROW, GROW, GROW, false, 6.0F, 6.0F, Set.of(Direction.NORTH));
+		ModelPart.Cube back = new ModelPart.Cube(-14, -4, -2.0F, -3.0F, -2.0F, 6.0F, 6.0F, 4.0F, GROW, GROW, GROW, false, 6.0F, 6.0F, Set.of(Direction.SOUTH));
+		ModelPart realHead = new ModelPart(List.of(front, back), Map.of());
+		ModelPart head = new ModelPart(List.of(), new HashMap<>(Map.of("real_head", realHead)));
+		head.loadPose(baseHead.storePose());
+		head.setInitialPose(baseHead.getInitialPose());
 
-	private static Direction facing(Vector3fc normal) {
-		Direction closest = Direction.NORTH;
-		float best = Float.NEGATIVE_INFINITY;
-		for (Direction direction : Direction.values()) {
-			Vector3fc unit = direction.getUnitVec3f();
-			float dot = unit.x() * normal.x() + unit.y() * normal.y() + unit.z() * normal.z();
-			if (dot > best) {
-				best = dot;
-				closest = direction;
-			}
+		Map<String, ModelPart> children = new HashMap<>();
+		for (String name : ROOT_PARTS) {
+			children.put(name, base.getChild(name));
 		}
-		return closest;
+		children.put("head", head);
+		return new AdultWolfModel(new ModelPart(List.of(), children));
 	}
-
 	@Override
 	public void submit(
 		com.mojang.blaze3d.vertex.PoseStack poseStack,
@@ -124,15 +110,16 @@ public class DoggyGlassWolfLayer extends RenderLayer<WolfRenderState, WolfModel>
 		if (!DoggyGlassItem.isDoggyGlass(stack)) {
 			return;
 		}
-		int tint = ARGB.opaque(DoggyGlassItem.tintRgb(DoggyGlassItem.kindOf(stack)));
+		// The per-kind textures already carry the glass color, so nothing is tinted on top.
+		Identifier texture = TEXTURES.get(DoggyGlassItem.kindOf(stack));
 		collector.order(1).submitModel(
 			this.model,
 			state,
 			poseStack,
-			RenderTypes.entityTranslucent(TEXTURE),
+			RenderTypes.entityTranslucent(texture),
 			lightCoords,
 			OverlayTexture.NO_OVERLAY,
-			tint,
+			-1,
 			null,
 			state.outlineColor
 		);

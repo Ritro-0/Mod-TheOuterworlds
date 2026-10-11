@@ -23,7 +23,10 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.PointedDripstoneBlock;
+import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -38,6 +41,7 @@ import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.effect.MobEffects;
@@ -90,6 +94,46 @@ public class ModBlocks {
 				.strength(1.25f, 4.2f)
 				.sound(SoundType.BASALT)
 				.requiresCorrectToolForDrops()
+		)
+	);
+	public static final Block OXIDIZED_BASALT_STAIRS = registerCopiedStairs("oxidized_basalt_stairs", OXIDIZED_BASALT);
+	public static final Block OXIDIZED_BASALT_SLAB = registerCopiedSlab("oxidized_basalt_slab", OXIDIZED_BASALT);
+	public static final Block OXIDIZED_BASALT_WALL = registerCopiedWall("oxidized_basalt_wall", OXIDIZED_BASALT);
+	/** Rotatable like vanilla basalt: end faces use the plain texture, the sides use the pillar texture. */
+	public static final Block OXIDIZED_BASALT_PILLAR = registerBlock(
+		"oxidized_basalt_pillar",
+		key -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(OXIDIZED_BASALT).setId(key))
+	);
+	public static final Block OXIDIZED_BASALT_VAULT = registerBlock(
+		"oxidized_basalt_vault",
+		key -> new OxidizedBasaltVaultBlock(BlockBehaviour.Properties.ofFullCopy(OXIDIZED_BASALT).setId(key).noOcclusion())
+	);
+	/** Behaves like the vanilla stone pressure plate and stone button. */
+	public static final Block OXIDIZED_BASALT_PRESSURE_PLATE = registerBlock(
+		"oxidized_basalt_pressure_plate",
+		key -> new PressurePlateBlock(
+			BlockSetType.STONE,
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_GRAY)
+				.forceSolidOn()
+				.instrument(NoteBlockInstrument.BASEDRUM)
+				.noCollision()
+				.strength(0.5f)
+				.pushReaction(PushReaction.POPPED)
+		)
+	);
+	public static final Block OXIDIZED_BASALT_BUTTON = registerBlock(
+		"oxidized_basalt_button",
+		key -> new ButtonBlock(
+			BlockSetType.STONE,
+			20,
+			BlockBehaviour.Properties.of()
+				.setId(key)
+				.mapColor(MapColor.COLOR_GRAY)
+				.noCollision()
+				.strength(0.5f)
+				.pushReaction(PushReaction.POPPED)
 		)
 	);
 
@@ -289,6 +333,41 @@ public class ModBlocks {
 				.requiresCorrectToolForDrops()
 		)
 	);
+	public static final Block ANORTHOSITE_STAIRS = registerCopiedStairs("anorthosite_stairs", ANORTHOSITE);
+	public static final Block ANORTHOSITE_SLAB = registerCopiedSlab("anorthosite_slab", ANORTHOSITE);
+	public static final Block ANORTHOSITE_WALL = registerCopiedWall("anorthosite_wall", ANORTHOSITE);
+
+	public static final Block POLISHED_ANORTHOSITE = registerBlock(
+		"polished_anorthosite",
+		key -> new Block(BlockBehaviour.Properties.ofFullCopy(ANORTHOSITE).setId(key))
+	);
+	public static final Block POLISHED_ANORTHOSITE_STAIRS = registerCopiedStairs("polished_anorthosite_stairs", POLISHED_ANORTHOSITE);
+	public static final Block POLISHED_ANORTHOSITE_SLAB = registerCopiedSlab("polished_anorthosite_slab", POLISHED_ANORTHOSITE);
+	public static final Block POLISHED_ANORTHOSITE_WALL = registerCopiedWall("polished_anorthosite_wall", POLISHED_ANORTHOSITE);
+
+	public static final Block POLISHED_ANORTHOSITE_BRICKS = registerBlock(
+		"polished_anorthosite_bricks",
+		key -> new Block(BlockBehaviour.Properties.ofFullCopy(ANORTHOSITE).setId(key))
+	);
+	public static final Block POLISHED_ANORTHOSITE_BRICKS_STAIRS = registerCopiedStairs("polished_anorthosite_bricks_stairs", POLISHED_ANORTHOSITE_BRICKS);
+	public static final Block POLISHED_ANORTHOSITE_BRICKS_SLAB = registerCopiedSlab("polished_anorthosite_bricks_slab", POLISHED_ANORTHOSITE_BRICKS);
+	public static final Block POLISHED_ANORTHOSITE_BRICKS_WALL = registerCopiedWall("polished_anorthosite_bricks_wall", POLISHED_ANORTHOSITE_BRICKS);
+
+	public static final Block ANORTHOSITE_BRICKS = registerBlock(
+		"anorthosite_bricks",
+		key -> new Block(BlockBehaviour.Properties.ofFullCopy(ANORTHOSITE).setId(key))
+	);
+	public static final Block ANORTHOSITE_BRICKS_STAIRS = registerCopiedStairs("anorthosite_bricks_stairs", ANORTHOSITE_BRICKS);
+	public static final Block ANORTHOSITE_BRICKS_SLAB = registerCopiedSlab("anorthosite_bricks_slab", ANORTHOSITE_BRICKS);
+	public static final Block ANORTHOSITE_BRICKS_WALL = registerCopiedWall("anorthosite_bricks_wall", ANORTHOSITE_BRICKS);
+
+	public static final Block ANORTHOSITE_TILES = registerBlock(
+		"anorthosite_tiles",
+		key -> new Block(BlockBehaviour.Properties.ofFullCopy(ANORTHOSITE).setId(key))
+	);
+	public static final Block ANORTHOSITE_TILES_STAIRS = registerCopiedStairs("anorthosite_tiles_stairs", ANORTHOSITE_TILES);
+	public static final Block ANORTHOSITE_TILES_SLAB = registerCopiedSlab("anorthosite_tiles_slab", ANORTHOSITE_TILES);
+	public static final Block ANORTHOSITE_TILES_WALL = registerCopiedWall("anorthosite_tiles_wall", ANORTHOSITE_TILES);
 
 	public static final Block ANORTHOSITE_COPPER_ORE = registerBlock(
 		"anorthosite_copper_ore",
@@ -2573,6 +2652,19 @@ public class ModBlocks {
 
 	private static Block registerSlab(String name, Block base) {
 		return registerBlock(name, key -> new SlabBlock(stoneProperties(key, base.defaultMapColor())));
+	}
+
+	/** Stairs that keep every property (hardness, sound, tool requirement) of the block they are cut from. */
+	private static Block registerCopiedStairs(String name, Block base) {
+		return registerBlock(name, key -> new StairBlock(base.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(base).setId(key)));
+	}
+
+	private static Block registerCopiedSlab(String name, Block base) {
+		return registerBlock(name, key -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(base).setId(key)));
+	}
+
+	private static Block registerCopiedWall(String name, Block base) {
+		return registerBlock(name, key -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(base).setId(key)));
 	}
 
 	private static Block registerWall(String name, Block base) {

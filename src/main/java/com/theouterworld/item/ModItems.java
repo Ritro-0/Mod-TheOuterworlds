@@ -551,8 +551,8 @@ public class ModItems {
 		key -> new Item(new Item.Properties().setId(key).rarity(Rarity.UNCOMMON).potPattern(com.theouterworld.registry.ModDecoratedPotPatterns.ROVER))
 	);
 
-	public static final Item ORBIT_SMITHING_TEMPLATE = registerItem(
-		"orbit_smithing_template",
+	public static final Item ORBIT_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem(
+		"orbit_armor_trim_smithing_template",
 		key -> SmithingTemplateItem.createArmorTrimTemplate(new Item.Properties().setId(key).rarity(Rarity.UNCOMMON))
 	);
 

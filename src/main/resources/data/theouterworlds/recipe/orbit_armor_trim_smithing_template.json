@@ -3,7 +3,7 @@
   "key": {
     "#": "minecraft:diamond",
     "C": "theouterworlds:anorthosite",
-    "S": "theouterworlds:orbit_smithing_template"
+    "S": "theouterworlds:orbit_armor_trim_smithing_template"
   },
   "pattern": [
     "#S#",
@@ -12,6 +12,6 @@
   ],
   "result": {
     "count": 2,
-    "id": "theouterworlds:orbit_smithing_template"
+    "id": "theouterworlds:orbit_armor_trim_smithing_template"
   }
 }

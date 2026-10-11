@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"powered=false": {
+			"model": "theouterworlds:block/oxidized_basalt_pressure_plate"
+		},
+		"powered=true": {
+			"model": "theouterworlds:block/oxidized_basalt_pressure_plate_down"
+		}
+	}
+}

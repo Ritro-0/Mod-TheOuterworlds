@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": [
+      "theouterworlds:oxidized_basalt",
+      "theouterworlds:oxidized_basalt_pillar"
+    ]
+  },
+  "result": {
+    "id": "theouterworlds:oxidized_basalt_vault"
+  }
+}

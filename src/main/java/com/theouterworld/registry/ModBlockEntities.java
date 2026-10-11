@@ -7,6 +7,7 @@ import com.theouterworld.block.TrimmedGlassBlockEntity;
 import com.theouterworld.block.BeaconConcentratorBlockEntity;
 import com.theouterworld.block.IronGolemStatueBlockEntity;
 import com.theouterworld.block.ModBlocks;
+import com.theouterworld.block.OxidizedBasaltVaultBlockEntity;
 import com.theouterworld.block.ProcessorBlockEntity;
 import com.theouterworld.block.RiftBlockEntity;
 import com.theouterworld.block.RiftChargeBlockEntity;
@@ -125,6 +126,15 @@ public class ModBlockEntities {
 		net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.<TrimmedGlassBlockEntity>create(
 			TrimmedGlassBlockEntity::new,
 			TrimmedGlassBlock.BLOCK
+		).build()
+	);
+
+	public static final BlockEntityType<OxidizedBasaltVaultBlockEntity> OXIDIZED_BASALT_VAULT = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE,
+		OuterWorldMod.id("oxidized_basalt_vault"),
+		net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.<OxidizedBasaltVaultBlockEntity>create(
+			OxidizedBasaltVaultBlockEntity::new,
+			ModBlocks.OXIDIZED_BASALT_VAULT
 		).build()
 	);
 

@@ -51,7 +51,9 @@
 		"BrushableBlockEntityMixin",
 		"SmithingTrimRecipeMixin",
 		"WolfDoggyGlassMixin",
-		"CombatTrackerDeathMessageMixin"
+		"CombatTrackerDeathMessageMixin",
+		"SlotCastFlailMixin",
+		"WallBlockPaneConnectionMixin"
 	],
 	"injectors": {
 		"defaultRequire": 0

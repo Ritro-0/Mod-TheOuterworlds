@@ -1,7 +1,6 @@
 package com.theouterworld.entity;
 
-import com.theouterworld.item.ModItems;
-import com.theouterworld.item.OpalineNickelFlailItem;
+import com.theouterworld.item.OpalineNickelFlailTracker;
 import com.theouterworld.registry.ModEntities;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +9,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -44,6 +44,10 @@ public class OpalineNickelFlailEntity extends ThrowableProjectile {
 	private boolean returning;
 	private ItemStack weapon = ItemStack.EMPTY;
 	private final Set<UUID> hitEntities = new HashSet<>();
+	/** Owner this flight is registered under in {@link OpalineNickelFlailTracker}, or null when untracked. */
+	private UUID trackedOwner;
+	/** Set once the owner has been seen holding a casted flail; losing it afterwards cancels the flight. */
+	private boolean castSeen;
 
 	public OpalineNickelFlailEntity(EntityType<OpalineNickelFlailEntity> type, Level level) {
 		super(type, level);
@@ -61,6 +65,10 @@ public class OpalineNickelFlailEntity extends ThrowableProjectile {
 		this.weapon = weapon.copy();
 		this.setThrownHand(hand);
 		this.setNoGravity(true);
+		if (!level.isClientSide()) {
+			this.trackedOwner = owner.getUUID();
+			OpalineNickelFlailTracker.flightStarted(this.trackedOwner);
+		}
 	}
 
 	@Override
@@ -103,6 +111,16 @@ public class OpalineNickelFlailEntity extends ThrowableProjectile {
 			return;
 		}
 
+		// If the flail item was dropped, stored away or otherwise taken from the owner, the throw is cancelled.
+		if (!this.level().isClientSide() && owner instanceof Player ownerPlayer) {
+			if (OpalineNickelFlailTracker.hasCastFlail(ownerPlayer)) {
+				this.castSeen = true;
+			} else if (this.castSeen) {
+				this.discard();
+				return;
+			}
+		}
+
 		if (this.returning) {
 			this.xo = this.getX();
 			this.yo = this.getY();
@@ -131,7 +149,6 @@ public class OpalineNickelFlailEntity extends ThrowableProjectile {
 		Vec3 delta = target.subtract(this.position());
 		double distance = delta.length();
 		if (distance < 1.0) {
-			this.uncastOwnerItem();
 			this.discard();
 			return;
 		}
@@ -217,28 +234,27 @@ public class OpalineNickelFlailEntity extends ThrowableProjectile {
 	protected void onHitEntity(EntityHitResult hitResult) {
 	}
 
+	/** Flails are never persisted: a flail that gets unloaded is a cancelled throw. */
 	@Override
-	public void remove(RemovalReason reason) {
-		if (!this.level().isClientSide()) {
-			this.uncastOwnerItem();
-		}
-		super.remove(reason);
+	public boolean shouldBeSaved() {
+		return false;
 	}
 
-	private void uncastOwnerItem() {
-		if (!(this.getOwner() instanceof Player player)) {
+	/** Runs for every way an entity can go away (discard, unload, death of owner, ...). */
+	@Override
+	public void onRemoval(RemovalReason reason) {
+		super.onRemoval(reason);
+		if (this.level().isClientSide() || this.trackedOwner == null) {
 			return;
 		}
-		uncastIfMatching(player.getMainHandItem());
-		uncastIfMatching(player.getOffhandItem());
-		for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-			uncastIfMatching(player.getInventory().getItem(i));
-		}
-	}
-
-	private static void uncastIfMatching(ItemStack stack) {
-		if (stack.is(ModItems.OPALINE_NICKEL_FLAIL) && OpalineNickelFlailItem.isCast(stack)) {
-			OpalineNickelFlailItem.setCast(stack, false);
+		UUID ownerId = this.trackedOwner;
+		this.trackedOwner = null;
+		OpalineNickelFlailTracker.flightEnded(ownerId);
+		if (this.level() instanceof ServerLevel serverLevel && !OpalineNickelFlailTracker.hasActiveFlight(ownerId)) {
+			ServerPlayer owner = serverLevel.getServer().getPlayerList().getPlayer(ownerId);
+			if (owner != null) {
+				OpalineNickelFlailTracker.uncastAll(owner);
+			}
 		}
 	}
 

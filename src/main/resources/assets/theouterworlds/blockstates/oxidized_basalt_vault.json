@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "theouterworlds:block/oxidized_basalt_vault_base"
+		},
+		"facing=east": {
+			"model": "theouterworlds:block/oxidized_basalt_vault_base",
+			"y": 90
+		},
+		"facing=south": {
+			"model": "theouterworlds:block/oxidized_basalt_vault_base",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "theouterworlds:block/oxidized_basalt_vault_base",
+			"y": 270
+		}
+	}
+}

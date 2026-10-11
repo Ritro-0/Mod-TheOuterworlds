@@ -6,7 +6,10 @@ import com.theouterworld.screen.ForgePlateMenu;
 import com.theouterworld.screen.KnappingTableScreenHandler;
 import com.theouterworld.screen.ProcessorScreenHandler;
 import com.theouterworld.screen.RiftPadMenu;
+import com.theouterworld.block.OxidizedBasaltVaultBlockEntity;
 import net.minecraft.core.Registry;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.flag.FeatureFlags;
@@ -47,6 +50,22 @@ public class ModScreenHandlers {
         BuiltInRegistries.MENU,
         Identifier.fromNamespaceAndPath(OuterWorldMod.MOD_ID, "quantum_pod"),
         new MenuType<>((id, inv) -> RiftPadMenu.quantumPod(id, inv), FeatureFlags.VANILLA_SET)
+    );
+
+    /** A plain 9x3 chest menu under its own type, so the client opens the vault screen with its custom texture. */
+    public static final MenuType<ChestMenu> OXIDIZED_BASALT_VAULT_MENU = Registry.register(
+        BuiltInRegistries.MENU,
+        Identifier.fromNamespaceAndPath(OuterWorldMod.MOD_ID, "oxidized_basalt_vault"),
+        new MenuType<>(
+            (id, inventory) -> new ChestMenu(
+                ModScreenHandlers.OXIDIZED_BASALT_VAULT_MENU,
+                id,
+                inventory,
+                new SimpleContainer(OxidizedBasaltVaultBlockEntity.ROWS * 9),
+                OxidizedBasaltVaultBlockEntity.ROWS
+            ),
+            FeatureFlags.VANILLA_SET
+        )
     );
 
     public static void registerModScreenHandlers() {

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": "theouterworlds:anorthosite_tiles"
+  },
+  "result": {
+    "id": "theouterworlds:anorthosite_tiles_slab",
+    "count": 6
+  }
+}

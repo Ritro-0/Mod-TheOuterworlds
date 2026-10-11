@@ -95,6 +95,11 @@ public class OuterWorldClient implements ClientModInitializer {
 			com.theouterworld.registry.ModBlockEntities.ASTRAL_TELESCOPE,
 			com.theouterworld.client.AstralTelescopeRenderer::new
 		);
+		net.minecraft.client.renderer.blockentity.BlockEntityRenderers.register(
+			com.theouterworld.registry.ModBlockEntities.OXIDIZED_BASALT_VAULT,
+			com.theouterworld.client.OxidizedBasaltVaultRenderer::new
+		);
+		MenuScreens.register(ModScreenHandlers.OXIDIZED_BASALT_VAULT_MENU, com.theouterworld.client.OxidizedBasaltVaultScreen::new);
 		MenuScreens.register(ModScreenHandlers.PROCESSOR_SCREEN_HANDLER, ProcessorScreen::new);
 		MenuScreens.register(ModScreenHandlers.KNAPPING_TABLE_SCREEN_HANDLER, KnappingTableScreen::new);
 		MenuScreens.register(ModScreenHandlers.FORGE_PLATE_SCREEN_HANDLER, ForgePlateScreen::new);

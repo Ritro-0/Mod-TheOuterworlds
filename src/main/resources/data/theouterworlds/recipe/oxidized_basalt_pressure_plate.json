@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "##"
+  ],
+  "key": {
+    "#": "theouterworlds:oxidized_basalt"
+  },
+  "result": {
+    "id": "theouterworlds:oxidized_basalt_pressure_plate"
+  }
+}

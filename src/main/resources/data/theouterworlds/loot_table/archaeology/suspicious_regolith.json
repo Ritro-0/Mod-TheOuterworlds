@@ -56,7 +56,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "theouterworlds:orbit_smithing_template",
+          "name": "theouterworlds:orbit_armor_trim_smithing_template",
           "weight": 3
         }
       ]

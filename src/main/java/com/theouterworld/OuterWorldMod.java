@@ -59,6 +59,7 @@ public class OuterWorldMod implements ModInitializer {
 		com.theouterworld.registry.ModEntities.registerModEntities();
 		com.theouterworld.entity.StrandHydraEntity.register();
 		VanillaIronReplacementListener.register();
+		com.theouterworld.item.OpalineNickelFlailTracker.register();
 		com.theouterworld.world.PlantFreeze.register();
 		com.theouterworld.world.ColdDimensionLights.register();
 		GlassHelmetUtil.register();

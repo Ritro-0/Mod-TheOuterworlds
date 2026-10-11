@@ -20,7 +20,8 @@ import net.minecraft.world.level.levelgen.feature.Feature;
  * Sits on the finished Outerworld surface. Dunes, craters and calderas reshape the ground after
  * the heightmap was primed, so the column is walked up out of buried ground before placing.
  * It never walks down, and needs open air above, so cave floors are rejected. A failed spot
- * retries elsewhere in the chunk so every chunk gets its share.
+ * retries elsewhere in the chunk so every chunk gets its share. A valid spot near other pebbles
+ * is thinned out (without retrying), so they scatter instead of forming huge patches.
  *
  * <p>Skipped: Cryocaps, the gypsum cave biomes, and gypsum floors.
  */
@@ -30,6 +31,11 @@ public class OxidizedBasaltPebbleFeature implements Feature {
 	private static final int ATTEMPTS = 4;
 	private static final int MAX_CLIMB = 96;
 	private static final int ROOF_CHECK = 12;
+	/** How far (horizontally) another pebble counts as nearby, and how far up or down. */
+	private static final int CROWD_RADIUS = 3;
+	private static final int CROWD_HEIGHT = 2;
+	/** Chance of keeping a pebble is this value raised to the number of pebbles nearby. */
+	private static final float CROWD_KEEP_CHANCE = 0.65F;
 	private static final ResourceKey<Biome> CRYOCAPS = ResourceKey.create(
 		Registries.BIOME,
 		OuterWorldMod.id("outerworld_cryocaps")
@@ -58,20 +64,39 @@ public class OxidizedBasaltPebbleFeature implements Feature {
 		for (int attempt = 0; attempt < ATTEMPTS; attempt++) {
 			int x = attempt == 0 ? origin.getX() : chunkX + random.nextInt(16);
 			int z = attempt == 0 ? origin.getZ() : chunkZ + random.nextInt(16);
-			if (tryPlace(world, x, z)) {
-				return true;
+			BlockPos cell = openSurface(world, x, z);
+			if (cell == null) {
+				continue;
 			}
+			// A good spot that is crowded by other pebbles is simply skipped; retrying would
+			// just move the same pebble next to a different cluster.
+			if (isCrowded(world, cell, random)) {
+				return false;
+			}
+			world.setBlock(cell, ModBlocks.OXIDIZED_BASALT_PEBBLE.defaultBlockState(), Block.UPDATE_CLIENTS);
+			return true;
 		}
 		return false;
 	}
 
-	private static boolean tryPlace(WorldGenLevel world, int x, int z) {
-		BlockPos cell = openSurface(world, x, z);
-		if (cell == null) {
+	/** Rolls against the number of pebbles near {@code cell}; each one makes another less likely. */
+	private static boolean isCrowded(WorldGenLevel world, BlockPos cell, RandomSource random) {
+		int nearby = 0;
+		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
+		for (int dx = -CROWD_RADIUS; dx <= CROWD_RADIUS; dx++) {
+			for (int dz = -CROWD_RADIUS; dz <= CROWD_RADIUS; dz++) {
+				for (int dy = -CROWD_HEIGHT; dy <= CROWD_HEIGHT; dy++) {
+					cursor.set(cell.getX() + dx, cell.getY() + dy, cell.getZ() + dz);
+					if (world.getBlockState(cursor).is(ModBlocks.OXIDIZED_BASALT_PEBBLE)) {
+						nearby++;
+					}
+				}
+			}
+		}
+		if (nearby == 0) {
 			return false;
 		}
-		world.setBlock(cell, ModBlocks.OXIDIZED_BASALT_PEBBLE.defaultBlockState(), Block.UPDATE_CLIENTS);
-		return true;
+		return random.nextFloat() >= (float) Math.pow(CROWD_KEEP_CHANCE, nearby);
 	}
 
 	/**

@@ -1,6 +1,6 @@
 {
 	"model": {
 		"type": "minecraft:model",
-		"model": "theouterworlds:item/orbit_smithing_template"
+		"model": "theouterworlds:item/orbit_armor_trim_smithing_template"
 	}
 }
